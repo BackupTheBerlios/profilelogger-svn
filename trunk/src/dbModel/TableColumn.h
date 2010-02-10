@@ -33,8 +33,6 @@ class TableColumn: public DbInterfacePartInTable
     return _sequence;
   }
 
-  virtual QString getCompleteName();
-
  private:
   Database::DataTypes _dataType;
   Sequence* _sequence;
