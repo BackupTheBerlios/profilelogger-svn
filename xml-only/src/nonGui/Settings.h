@@ -13,8 +13,6 @@
 #include <QString>
 #include <QDir>
 
-#include "DatabaseConnectionSettings.h"
-
 class Settings: public QObject {
     Q_OBJECT
 public:
@@ -57,9 +55,6 @@ public:
 
     void setLanguageFile(const QString& f);
     QString getLanguageFile();
-
-    void setDatabaseConnectionSettings(const DatabaseConnectionSettings& s);
-    DatabaseConnectionSettings getDatabaseConnectionSettings();
 };
 
 #endif	/* _SETTINGS_H */

@@ -28,7 +28,6 @@ MainWindow::MainWindow()
   _fileM = new QMenu(tr("&File"), this);
   _projectM = new QMenu(tr("&Project"), this);
   _helpM = new QMenu(tr("&Help"), this);
-  _dbM = new QMenu(tr("&Database"), this);
 
   _centralW = new QTabWidget(this);
 
@@ -36,9 +35,6 @@ MainWindow::MainWindow()
 
   _fileM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getSettingsAction());
   _fileM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getQuitAction());
-
-  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getOpenDatabaseAction());
-  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getCloseDatabaseAction());
 
   _projectM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getNewProjectAction());
   _projectM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getSaveProjectAction());
@@ -50,7 +46,6 @@ MainWindow::MainWindow()
   _helpM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getAboutQtAction());
 
   menuBar()->addMenu(_fileM);
-  menuBar()->addMenu(_dbM);
   menuBar()->addMenu(_projectM);
   menuBar()->addMenu(_helpM);
 
@@ -64,23 +59,5 @@ MainWindow::MainWindow()
 MainWindow::~MainWindow() {
 }
 
-void MainWindow::slotDatabaseConnectionEstablished(const QString& s) {
-  qDebug() << "bin da: " << s;
-  _centralW->setEnabled(true);
-  _dbStatusW->setText(tr("Online: %1").arg(s));
-}
-
-void MainWindow::slotDatabaseConnectionLost() {
-  _centralW->setEnabled(false);
-  _dbStatusW->setText("Database Connection Lost.");
-}
-
-void MainWindow::slotDatabaseConnectionClosed() {
-  _centralW->setEnabled(false);
-  _dbStatusW->setText("Not Connected To Any Database.");
-}
-
 void MainWindow::setupStatusBar() {
-  _dbStatusW = new QLabel(tr("Database Connection Status"), statusBar());
-  statusBar()->addWidget(_dbStatusW);
 }

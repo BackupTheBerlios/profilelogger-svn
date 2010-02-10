@@ -24,9 +24,6 @@ public:
     virtual ~MainWindow();
 
     public slots:
-    void slotDatabaseConnectionEstablished(const QString& s);
-    void slotDatabaseConnectionLost();
-    void slotDatabaseConnectionClosed();
 
 private:
     void setupStatusBar();
@@ -34,13 +31,10 @@ private:
     QMenu* _fileM;
     QMenu* _projectM;
     QMenu* _helpM;
-    QMenu* _dbM;
 
     QTabWidget* _centralW;
     WorkWidget* _workW;
     ProfileCorrelationWidget* _correlationW;
-
-    QLabel* _dbStatusW;
 };
 
 #endif	/* _MAINWINDOW_H */

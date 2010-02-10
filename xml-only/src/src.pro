@@ -3,23 +3,23 @@ TEMPLATE = app
 TARGET = profilelogger
 DESTDIR = ../bin
 
-QT += core gui svg xml sql
+QT += core gui svg xml 
 
 unix {
 message(building on unix)
-CONFIG += debug core gui svg xml sql
+CONFIG += debug core gui svg xml 
 QMAKE_CXXFLAGS += -Werror
 }
 
 win {
 message(Building on windows)
-CONFIG += release core gui svg xml sql
+CONFIG += release core gui svg xml 
 QMAKE_CXXFLAGS += -Werror
 }
 
 mac {
 message(Building on Mac)
-CONFIG += debug core gui svg xml sql
+CONFIG += debug core gui svg xml 
 QMAKE_CXXFLAGS += -Werror
 }
 
@@ -59,11 +59,8 @@ DEPENDPATH += . \
               nonGui \
               views \
               widgets \
-              correlationView \
-              dbInterface \
-              dbModel \
-              sqlFactory \
-              dataLogic
+              correlationView 
+              
 INCLUDEPATH += . \
                nonGui \
                items \
@@ -74,11 +71,7 @@ INCLUDEPATH += . \
                dialogs \
                models \
                fileInterfaces \
-               correlationView \
-               dbInterface \
-               dbModel \
-               sqlFactory \
-               dataLogic
+               correlationView
 
 # Input
 HEADERS +=            \
@@ -247,47 +240,14 @@ widgets/HostEdit.h \
            models/BedCorrelationItemModel.h \
            dialogs/BedCorrelationEditorDialog.h \
            correlationView/BedCorrelationView.h \
-           dbModel/DbInterfacepart.h \
-           dbModel/Database.h \
-           dbModel/Schema.h \
-           dbModel/DbInterfacePartInSchema.h \
-           dbModel/Sequence.h \
-           dbModel/Table.h \
-           dbModel/DbInterfacePartInTable.h \
-           dbModel/TableColumn.h \
-           dbModel/TableConstraint.h \
-           dbModel/PrimaryKey.h \
-           dbModel/UniqueConstraint.h \
-           dbModel/CheckConstraint.h \
-           dbModel/TextNotEmptyCheckConstraint.h \
-           dbModel/ForeignKey.h \
-           nonGui/ProfileLoggerDatabase.h \
-           sqlFactory/SqlFactory.h \
            widgets/LoginEdit.h \
-           widgets/PasswordEdit.h \
-           widgets/DatabaseConnectionDialog.h \
-           dbInterface/DatabaseConnectionSettings.h \
-           dbInterface/DatabaseConnection.h \
-           dbInterface/AbstractDatabaseError.h \
-           dbInterface/QueryError.h \
-           dbInterface/TransactionError.h \
-           dialogs/DatabaseErrorDialog.h \
-           dbInterface/ConnectionError.h \
-           dataLogic/DbDataset.h \
-           dataLogic/DbStandardDataset.h \
-           dataLogic/DbProject.h
+           widgets/PasswordEdit.h 
 
  SOURCES += main.cpp \
-dataLogic/DbProject.cpp \
-dataLogic/DbDataset.cpp \
-dataLogic/DbStandardDataset.cpp \
            items/BedCorrelationItem.cpp \
            widgets/HostEdit.cpp \
- widgets\DatabaseConnectionDialog.cpp \
  widgets\LoginEdit.cpp \
  widgets\PasswordEdit.cpp \
-dbInterface/ConnectionError.cpp \
-dbInterface\DatabaseConnectionSettings.cpp \
            views/BedCorrelationItemView.cpp \
            models/BedCorrelationItemModel.cpp \
            dialogs/BedCorrelationEditorDialog.cpp \
@@ -447,25 +407,4 @@ dbInterface\DatabaseConnectionSettings.cpp \
            widgets/ProfileWorkWidget.cpp \
            widgets/QtPatternSelectorWidget.cpp \
            widgets/WorkWidget.cpp \
-           correlationView/BedCorrelationView.cpp \
-           dbModel/DbInterfacePart.cpp \
-           dbModel/Database.cpp \
-           dbModel/Schema.cpp \
-           dbModel/DbInterfacePartInSchema.cpp \
-           dbModel/Sequence.cpp \
-           dbModel/Table.cpp \
-           dbModel/DbInterfacePartInTable.cpp \
-           dbModel/TableColumn.cpp \
-           dbModel/TableConstraint.cpp \
-           dbModel/PrimaryKey.cpp \
-           dbModel/UniqueConstraint.cpp \
-           dbModel/CheckConstraint.cpp \
-           dbModel/TextNotEmptyCheckConstraint.cpp \
-           nonGui/ProfileLoggerDatabase.cpp \
-           sqlFactory/SqlFactory.cpp \
-           dbModel/ForeignKey.cpp \
-           dbInterface/DatabaseConnection.cpp \
-           dbInterface/AbstractDatabaseError.cpp \
-           dbInterface/QueryError.cpp \
-           dbInterface/TransactionError.cpp \
-           dialogs/DatabaseErrorDialog.cpp 
+           correlationView/BedCorrelationView.cpp 
