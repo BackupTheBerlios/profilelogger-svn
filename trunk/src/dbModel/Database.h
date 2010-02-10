@@ -6,6 +6,8 @@
 #include <QList>
 
 class Schema;
+class Table;
+class Sequence;
 
 class Database: public DbInterfacePart {
   Q_OBJECT
@@ -31,6 +33,11 @@ class Database: public DbInterfacePart {
   Schema* createSchema(const QString& name);
   QList<Schema*>::iterator getFirstSchema();
   QList<Schema*>::iterator getLastSchema();
+
+  Schema* getSchema(const QString& n);
+  Sequence* getSequence(const QString& qualifiedName);
+  Table* getTable(const QString& qualifiedName);
+  
  private:
   QList<Schema*> _schemas;
 };

@@ -6,6 +6,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QMap>
 
 class DatabaseConnection: public QObject {
   Q_OBJECT
@@ -15,8 +16,14 @@ class DatabaseConnection: public QObject {
 
   QSqlQuery createQuery(const QString& sql);
   void prepare(QSqlQuery* q);
-  void exec(QSqlQuery* q);
-  void exec(QSqlQuery* q, QStringList placeholders, QList<QVariant> values);
+  void bindValue(QSqlQuery* q, const QString& placeholder, QVariant value);
+  void bindValues(QSqlQuery* q, QStringList placeholders, QList<QVariant> values);
+
+  void execSelect(QSqlQuery* q, int expectedSize = 0);
+  void execInsert(QSqlQuery* q, int expectedAffectedRows = 1);
+  void execUpdate(QSqlQuery* q, int expectedAffectedRows = 1);
+  void execDelete(QSqlQuery* q, int expectedAffectedRows = 1);
+
   void execDDL(const QString& sql);
 
   bool begin();
@@ -46,6 +53,8 @@ class DatabaseConnection: public QObject {
   void insertTemplateData();
 
   QSqlDatabase _defaultDb;
+
+  QMap<QString, QSqlQuery> _prepared;
 };
 
 #endif

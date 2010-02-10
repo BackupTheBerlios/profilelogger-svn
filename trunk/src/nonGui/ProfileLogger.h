@@ -210,6 +210,10 @@ public:
       return _db;
     }
 
+    DatabaseConnection* getDatabaseConnection() const {
+      return _dbConn;
+    }
+
 signals:
     void currentProjectChanged(Project* p);
 

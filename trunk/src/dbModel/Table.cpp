@@ -59,3 +59,22 @@ QList<ForeignKey*>::iterator Table::getFirstForeignKey() {
 QList<ForeignKey*>::iterator Table::getLastForeignKey() {
   return _foreignKeys.end();
 }
+
+TableColumn* Table::getIdColumn() {
+  if (!hasPrimaryKey()) {
+    return 0;
+  }
+
+  return *(getPrimaryKey()->getFirstColumn());
+}
+
+TableColumn* Table::getTableColumn(const QString& name) {
+  for (QList<TableColumn*>::iterator it = getFirstTableColumn(); it != getLastTableColumn(); it++) {
+    TableColumn* c = *it;
+    if (c->getName() == name) {
+      return c;
+    }
+  }
+  return 0;
+}
+

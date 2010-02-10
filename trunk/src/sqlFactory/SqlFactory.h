@@ -50,13 +50,18 @@ class SqlFactory: public QObject
   QString makeDefaultDouble(TableColumn* c);
   QString makeDefaultFromConstant(TableColumn* c);
 
-  QString makeNextval(Sequence* s);
+  QString makeNextval(Sequence* s, const QString& as);
 
   QString makeSelectAll(Table* t,
 			QList<TableColumn*> order = QList<TableColumn>());
 
+  QString makeSelectById(Table* t,
+			 QList<TableColumn*> colsToSelect,
+			 QStringList selectColsAs,
+			 TableColumn* idCol,
+			 const int id);
+
   QString makeDelete(Table* t, 
-		     TableColumn* idCol, 
 		     const QString& idPlaceholder = "id");
 
   QString makeInsert(Table* t, 
@@ -65,10 +70,9 @@ class SqlFactory: public QObject
 
   QString makeUpdate(Table* t, 
 		     QList<TableColumn*> valueCols, 
-		     QList<QString> valuePlaceholders, 
-		     TableColumn* idCol,
-		     const QString& idPlaceholder = "id");
-
+		     QStringList placeholders,
+		     const QString& idPlaceholder = ":id");
+  
  protected:
   QString quoteIdentifier(const QString& s);
 

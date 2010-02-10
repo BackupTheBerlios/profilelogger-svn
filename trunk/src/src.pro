@@ -62,7 +62,8 @@ DEPENDPATH += . \
               correlationView \
               dbInterface \
               dbModel \
-              sqlFactory
+              sqlFactory \
+              dataLogic
 INCLUDEPATH += . \
                nonGui \
                items \
@@ -76,15 +77,17 @@ INCLUDEPATH += . \
                correlationView \
                dbInterface \
                dbModel \
-               sqlFactory
+               sqlFactory \
+               dataLogic
 
 # Input
-HEADERS += widgets/HostEdit.h \
-columnView/BeddingTypeLegendItem.h \
-           columnView/BoundaryTypeLegendItem.h \
+HEADERS +=            \
+columnView/BoundaryTypeLegendItem.h \
            columnView/ColorLegendItem.h \
            columnView/CustomSymbolLegendItem.h \
            columnView/FaciesLegendItem.h \
+columnView/BeddingTypeLegendItem.h \
+widgets/HostEdit.h \
            columnView/FossilLegendItem.h \
            columnView/GraphicBedItem.h \
            columnView/GraphicColumnBody.h \
@@ -269,16 +272,22 @@ columnView/BeddingTypeLegendItem.h \
            dbInterface/QueryError.h \
            dbInterface/TransactionError.h \
            dialogs/DatabaseErrorDialog.h \
-           dbInterface/ConnectionError.h
+           dbInterface/ConnectionError.h \
+           dataLogic/DbDataset.h \
+           dataLogic/DbStandardDataset.h \
+           dataLogic/DbProject.h
 
  SOURCES += main.cpp \
-dbInterface/ConnectionError.cpp \
+dataLogic/DbProject.cpp \
+dataLogic/DbDataset.cpp \
+dataLogic/DbStandardDataset.cpp \
+           items/BedCorrelationItem.cpp \
+           widgets/HostEdit.cpp \
+ widgets\DatabaseConnectionDialog.cpp \
  widgets\LoginEdit.cpp \
  widgets\PasswordEdit.cpp \
- widgets\DatabaseConnectionDialog.cpp \
+dbInterface/ConnectionError.cpp \
 dbInterface\DatabaseConnectionSettings.cpp \
-           widgets/HostEdit.cpp \
-           items/BedCorrelationItem.cpp \
            views/BedCorrelationItemView.cpp \
            models/BedCorrelationItemModel.cpp \
            dialogs/BedCorrelationEditorDialog.cpp \
@@ -459,4 +468,4 @@ dbInterface\DatabaseConnectionSettings.cpp \
            dbInterface/AbstractDatabaseError.cpp \
            dbInterface/QueryError.cpp \
            dbInterface/TransactionError.cpp \
-           dialogs/DatabaseErrorDialog.cpp
+           dialogs/DatabaseErrorDialog.cpp 

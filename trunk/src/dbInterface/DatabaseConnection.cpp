@@ -14,6 +14,7 @@
 #include "QueryError.h"
 #include "TransactionError.h"
 #include "ConnectionError.h"
+#include "DatabaseErrorDialog.h"
 
 #include "Database.h"
 #include "Schema.h"
@@ -24,6 +25,7 @@
 #include "PrimaryKey.h"
 #include "TextNotEmptyCheckConstraint.h"
 
+#include "DbProject.h"
 
 DatabaseConnection::DatabaseConnection(QObject* p)
   : QObject(p)
@@ -92,35 +94,28 @@ void DatabaseConnection::prepare(QSqlQuery* q) {
   }
 }
 
-void DatabaseConnection::exec(QSqlQuery* q) {
+void DatabaseConnection::execSelect(QSqlQuery* q, int expectedSize) {
   if (!q->exec()) {
     throw QueryError(_defaultDb.lastError(),
 		     q->lastError(),
-		     tr("Could not exec query: %1").arg(q->lastQuery()));
-  }
-}
-
-void DatabaseConnection::exec(QSqlQuery* q, 
-			      QStringList placeholders, 
-			      QList<QVariant> values) {
-  if (!q) {
-    return;
+		     tr("Could not execute SELECT query: %1").arg(q->lastQuery()));
   }
 
-  if (placeholders.size() != values.size()) {
-    return;
-  }
-
-  for (int i = 0; i < placeholders.size(); i++) {
-    QString key = placeholders.at(i);
-    QVariant value = values.at(i);
-    q->bindValue(key, value);
+  if (expectedSize != 0) {
+    if (q->size() != expectedSize) {
+      throw QueryError(_defaultDb.lastError(),
+		       q->lastError(),
+		       tr("Expected Size %1, got size %2 for SELECT query: %3")
+		       .arg(expectedSize)
+		       .arg(q->size())
+		       .arg(q->lastQuery()));
+    }
   }
 }
 
 void DatabaseConnection::execDDL(const QString& sql) {
   QSqlQuery q = createQuery(sql);
-  exec(&q);
+  q.exec();
 }
 
 void DatabaseConnection::dropSchemas() {
@@ -231,6 +226,23 @@ void DatabaseConnection::createSchemas() {
 }
 
 void DatabaseConnection::insertTemplateData() {
+  try {
+    DbProject p;
+    p.setName("Test Project");
+    p.save();
+  }
+  catch(QueryError e) {
+    DatabaseErrorDialog dlg(QApplication::activeWindow(), e);
+    dlg.exec();
+  }
+  catch(ConnectionError e) {
+    DatabaseErrorDialog dlg(QApplication::activeWindow(), e);
+    dlg.exec();
+  }
+  catch(TransactionError e) {
+    DatabaseErrorDialog dlg(QApplication::activeWindow(), e);
+    dlg.exec();
+  }
 }
 
 bool DatabaseConnection::begin() {
@@ -281,5 +293,71 @@ bool DatabaseConnection::ping() {
 
     qDebug() << "ping result: " << r.value(idx).toString();
     return true;
+  }
+}
+
+void DatabaseConnection::execDelete(QSqlQuery* q, int expectedAffectedRows)
+{
+  if (!q->exec()) {
+    throw QueryError(_defaultDb.lastError(),
+		     q->lastError(),
+		     tr("DELETE query execution failed: %1")
+		     .arg(q->lastQuery()));
+  }
+
+  if (q->numRowsAffected() != expectedAffectedRows) {
+    throw QueryError(_defaultDb.lastError(),
+		     q->lastError(),
+		     tr("Expected to delete %1 rows, but database said %2 rows where affected: %3")
+		     .arg(expectedAffectedRows)
+		     .arg(q->numRowsAffected())
+		     .arg(q->lastQuery()));
+  }
+}
+
+void DatabaseConnection::bindValue(QSqlQuery* q, const QString& placeholder, QVariant value) {
+  q->bindValue(placeholder, value);
+}
+
+void DatabaseConnection::bindValues(QSqlQuery* q, QStringList placeholders, QList<QVariant> values) 
+{
+  for (int i = 0; i < placeholders.size(); i++) {
+    bindValue(q, placeholders.at(i), values.at(i));
+  }
+}
+
+void DatabaseConnection::execInsert(QSqlQuery* q, int expectedAffectedRows ) {
+  if (!q->exec()) {
+    throw QueryError(_defaultDb.lastError(),
+		     q->lastError(),
+		     tr("INSERT query execution failed: %1")
+		     .arg(q->lastQuery()));
+  }
+
+  if (q->numRowsAffected() != expectedAffectedRows) {
+    throw QueryError(_defaultDb.lastError(),
+		     q->lastError(),
+		     tr("Expected %1 affected rows after INSERT, but got %2: %3")
+		     .arg(expectedAffectedRows)
+		     .arg(q->numRowsAffected())
+		     .arg(q->lastQuery()));
+  }
+}
+
+void DatabaseConnection::execUpdate(QSqlQuery* q, int expectedAffectedRows) {
+  if (!q->exec()) {
+    throw QueryError(_defaultDb.lastError(),
+		     q->lastError(),
+		     tr("Could not execute UPDATE query: %1").
+		     arg(q->lastQuery()));
+  }
+
+  if (q->numRowsAffected() != expectedAffectedRows) {
+    throw QueryError(_defaultDb.lastError(),
+		     q->lastError(),
+		     tr("Expected %1 affected rows after UPDATE, but got %2: %3")
+		     .arg(expectedAffectedRows)
+		     .arg(q->numRowsAffected())
+		     .arg(q->lastQuery()));
   }
 }

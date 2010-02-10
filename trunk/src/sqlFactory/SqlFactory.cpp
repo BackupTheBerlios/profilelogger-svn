@@ -205,12 +205,10 @@ QString SqlFactory::makeSelectAll(Table* t,
   }
 }
 
-QString SqlFactory::makeDelete(Table* t, 
-			       TableColumn* idCol, 
-			       const QString& idPlaceholder) {
+QString SqlFactory::makeDelete(Table* t, const QString& idPlaceholder) {
   return QString("DELETE FROM %1 WHERE %2 = %3")
     .arg(t->getQualifiedName())
-    .arg(idCol->getName())
+    .arg(t->getIdColumn()->getName())
     .arg(idPlaceholder);
 }
 
@@ -232,25 +230,48 @@ QString SqlFactory::makeInsert(Table* t,
 }
 
 QString SqlFactory::makeUpdate(Table* t, 
-			       QList<TableColumn*> valueCols, 
-			       QList<QString> valuePlaceholders, 
-			       TableColumn* idCol,
+			       QList<TableColumn*> cols, 
+			       QStringList placeholders,
 			       const QString& idPlaceholder) {
   QStringList kv;
 
-  for (int i = 0; i < valueCols.size(); i++) {
+  for (int i = 0; i < cols.size(); i++) {
     kv << QString ("%1 = %2")
-      .arg(valueCols.at(i)->getName())
-      .arg(valuePlaceholders.at(i));
+      .arg(cols.at(i)->getName())
+      .arg(placeholders.at(i));
   }
 
   return QString("UPDATE %1 SET %2 WHERE %3 = %4")
     .arg(t->getQualifiedName())
     .arg(kv.join(", "))
-    .arg(idCol->getName())
+    .arg(t->getIdColumn()->getName())
     .arg(idPlaceholder);
 }
 
-QString SqlFactory::makeNextval(Sequence* s) {
-  return QString("SELECT NEXTVAL('%1')").arg(s->getQualifiedName());
+QString SqlFactory::makeNextval(Sequence* s, const QString& as) {
+  return QString("SELECT NEXTVAL('%1') as %2")
+    .arg(s->getQualifiedName())
+    .arg(as);
 }
+
+QString SqlFactory::makeSelectById(Table* t,
+				   QList<TableColumn*> colsToSelect,
+				   QStringList selectColsAs,
+				   TableColumn* idCol,
+				   const int id)
+{
+  QStringList colLblPairs;
+
+  for (int i = 0; i < colsToSelect.size(); i++) {
+    colLblPairs << QString("%1 AS %2")
+      .arg(colsToSelect.at(i)->getName())
+      .arg(selectColsAs.at(i));
+  }
+
+  return QString("SELECT %1 FROM %2 WHERE %3 = %4")
+    .arg(colLblPairs.join(", "))
+    .arg(t->getQualifiedName())
+    .arg(idCol->getName())
+    .arg(id);
+}
+

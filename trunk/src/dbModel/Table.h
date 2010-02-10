@@ -56,6 +56,9 @@ TextNotEmptyCheckConstraint* createTextNotEmptyCheckConstraint(const QString& na
 
   virtual QString getQualifiedName();
 
+  TableColumn* getIdColumn();
+  TableColumn* getTableColumn(const QString& name);
+
  private:
   QList<TableColumn*> _columns;
   QList<UniqueConstraint*> _uniqueConstraints;

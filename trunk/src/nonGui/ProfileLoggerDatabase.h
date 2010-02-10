@@ -16,6 +16,14 @@ class ProfileLoggerDatabase: public Database
   ProfileLoggerDatabase(QCoreApplication* p);
   virtual ~ProfileLoggerDatabase();
 
+  Sequence* getProjectsSequence() const {
+    return _seqProjects;
+  }
+
+  Table* getProjectsTable() const {
+    return _tProjects;
+  }
+
  private:
   void setupSchemas();
   void setupSequences();
