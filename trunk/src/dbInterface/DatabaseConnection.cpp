@@ -194,6 +194,26 @@ void DatabaseConnection::createSchemas() {
       for (QList<ForeignKey*>::iterator fkit = table->getFirstForeignKey(); fkit != table->getLastForeignKey(); fkit++) {
 	ddl << f->make(*fkit);
       }
+
+      for(QList<TableColumn*>::iterator cit = table->getFirstTableColumn(); cit != table->getLastTableColumn(); cit++) {
+	TableColumn* c = *cit;
+
+	if (c->hasSequence()) {
+	  ddl << f->makeDefaultFromSequence(c);
+	}
+	if (c->getHasDefaultText()) {
+	  ddl << f->makeDefaultText(c);
+	}
+	if (c->getHasDefaultInt()) {
+	  ddl << f->makeDefaultInt(c);
+	}
+	if (c->getHasDefaultDouble()) {
+	  ddl << f->makeDefaultDouble(c);
+	}
+	if (c->getDefaultConstant() != Database::NOTHING) {
+	  ddl << f->makeDefaultFromConstant(c);
+	}
+      }
     }
   }
 

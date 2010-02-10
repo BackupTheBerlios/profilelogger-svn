@@ -10,6 +10,13 @@ class Schema;
 class Database: public DbInterfacePart {
   Q_OBJECT
     public:
+  enum Constants {
+    NOTHING,
+    CURRENT_DATE,
+    CURRENT_TIMESTAMP,
+    CURRENT_USER
+  };
+
   enum DataTypes {
     DataTypeUnknown,
     DataTypeInt,

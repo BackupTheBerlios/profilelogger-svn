@@ -44,6 +44,11 @@ class SqlFactory: public QObject
   QStringList make(TextNotEmptyCheckConstraint* c);
   QStringList make(PrimaryKey* p);
   QStringList make(ForeignKey* f);
+  QString makeDefaultFromSequence(TableColumn* c);
+  QString makeDefaultText(TableColumn* c);
+  QString makeDefaultInt(TableColumn* c);
+  QString makeDefaultDouble(TableColumn* c);
+  QString makeDefaultFromConstant(TableColumn* c);
 
   QString makeSelectAll(Table* t,
 			QList<TableColumn*> order = QList<TableColumn>());

@@ -94,6 +94,7 @@ void ProfileLoggerDatabase::configureTableProjects()
   _projectsProjectId = _tProjects->createTableColumn("id", Database::DataTypeInt);
   _projectsProjectId->setSequence(_seqProjects);
   TableColumn* n = _tProjects->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Project"));
   (void) _tProjects->createTableColumn("description", Database::DataTypeText);
 
   PrimaryKey* pk = _tProjects->createPrimaryKey("pk_projects");
@@ -112,6 +113,7 @@ void ProfileLoggerDatabase::configureTableLithologies()
   _lithologiesLithologyId->setSequence(_seqLithologies);
 
   TableColumn* n = _tLithologies->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Lithology"));
   (void) _tLithologies->createTableColumn("description", Database::DataTypeText);
   (void) _tLithologies->createTableColumn("svg", Database::DataTypeText);
 
@@ -126,6 +128,7 @@ void ProfileLoggerDatabase::configureTableFossils()
   _fossilsFossilId->setSequence(_seqFossils);
 
   TableColumn* n = _tFossils->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Fossil"));
   (void) _tFossils->createTableColumn("description", Database::DataTypeText);
   (void) _tFossils->createTableColumn("svg", Database::DataTypeText);
 
@@ -140,6 +143,7 @@ void ProfileLoggerDatabase::configureTableGrainSizeModes()
   _grainSizeModesGrainSizeModeId->setSequence(_seqGrainSizeModes);
 
   TableColumn* n = _tGrainSizeModes->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Grain Size Mode"));
   (void) _tGrainSizeModes->createTableColumn("description", Database::DataTypeText);
   (void) _tGrainSizeModes->createTableColumn("c_enum_value", Database::DataTypeInt);
 
@@ -156,6 +160,7 @@ void ProfileLoggerDatabase::configureTableGrainSizes()
 							       Database::DataTypeInt);
 
   TableColumn* n = _tGrainSizes->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Grain Size"));
   (void) _tGrainSizes->createTableColumn("description", Database::DataTypeText); 
  
   _tGrainSizes->createPrimaryKey("pk_grain_size")->add(_grainSizesGrainSizeId);
@@ -169,6 +174,7 @@ void ProfileLoggerDatabase::configureTableLithologicalUnitTypes()
   _lithologicalUnitTypesLithologicalUnitTypeId->setSequence(_seqLithologicalUnitTypes);
 
   TableColumn* n = _tLithologicalUnitTypes->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Lithological Unit Type"));
   (void) _tLithologicalUnitTypes->createTableColumn("description", Database::DataTypeText);
 
   _tLithologicalUnitTypes->createPrimaryKey("pk_lithological_unit_types")->add(_lithologicalUnitTypesLithologicalUnitTypeId);
@@ -184,6 +190,7 @@ void ProfileLoggerDatabase::configureTableLithologicalUnits()
 										    Database::DataTypeInt);
 
   TableColumn* n = _tLithologicalUnits->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Lithological Unit"));
   (void) _tLithologicalUnits->createTableColumn("description", Database::DataTypeText);
   
   (void) _tLithologicalUnits->createTableColumn("svg", Database::DataTypeText);
@@ -199,6 +206,7 @@ void ProfileLoggerDatabase::configureTableFacies()
   _faciesFaciesId->setSequence(_seqFacies);
 
   TableColumn* n = _tFacies->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Facies"));
   (void) _tFacies->createTableColumn("description", Database::DataTypeText);
   (void) _tFacies->createTableColumn("svg", Database::DataTypeText);
 
@@ -213,6 +221,7 @@ void ProfileLoggerDatabase::configureTableOutcropQualities()
   _outcropQualitiesOutcropQualityId->setSequence(_seqOutcropQualities);
 
   TableColumn* n = _tOutcropQualities->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Outcrop Quality"));
   (void) _tOutcropQualities->createTableColumn("description", Database::DataTypeText);
   (void) _tOutcropQualities->createTableColumn("svg", Database::DataTypeText);
 
@@ -227,6 +236,7 @@ void ProfileLoggerDatabase::configureTableBeddingTypes()
   _beddingTypesBeddingTypeId->setSequence(_seqBeddingTypes);
 
   TableColumn* n = _tBeddingTypes->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Bedding Type"));
   (void) _tBeddingTypes->createTableColumn("description", Database::DataTypeText);
   (void) _tBeddingTypes->createTableColumn("svg", Database::DataTypeText);
 
@@ -241,6 +251,7 @@ void ProfileLoggerDatabase::configureTableBoundaryTypes()
   _boundaryTypesBoundaryTypeId->setSequence(_seqBoundaryTypes);
 
   TableColumn* n = _tBoundaryTypes->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Boundary Type"));
   (void) _tBoundaryTypes->createTableColumn("description", Database::DataTypeText);
   (void) _tBoundaryTypes->createTableColumn("svg", Database::DataTypeText);
 
@@ -255,6 +266,7 @@ void ProfileLoggerDatabase::configureTableColors()
   _colorsColorId->setSequence(_seqColors);
 
   TableColumn* n = _tColors->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Color"));
   (void) _tColors->createTableColumn("description", Database::DataTypeText);
   (void) _tColors->createTableColumn("qt_brush_pattern_id", Database::DataTypeInt);
 
@@ -269,6 +281,7 @@ void ProfileLoggerDatabase::configureTableCustomSymbols()
   _customSymbolsCustomSymbolId->setSequence(_seqCustomSymbols);
 
   TableColumn* n = _tCustomSymbols->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Custom Symbol"));
   (void) _tCustomSymbols->createTableColumn("description", Database::DataTypeText);
   (void) _tCustomSymbols->createTableColumn("svg", Database::DataTypeText);
 
@@ -283,6 +296,7 @@ void ProfileLoggerDatabase::configureTableSedimentStructures()
   _sedimentStructuresSedimentStructureId->setSequence(_seqSedimentStructures);
 
   TableColumn* n = _tSedimentStructures->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Sediment Structure"));
   (void) _tSedimentStructures->createTableColumn("description", Database::DataTypeText);
   (void) _tSedimentStructures->createTableColumn("svg", Database::DataTypeText);
 
@@ -297,6 +311,7 @@ void ProfileLoggerDatabase::configureTableProfiles()
   _profilesProfileId->setSequence(_seqProfiles);
 
   TableColumn* n = _tProfiles->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Profile"));
   (void) _tProfiles->createTableColumn("description", Database::DataTypeText);
   _profilesProjectId = _tProfiles->createTableColumn("project_id", Database::DataTypeInt);
 
@@ -323,6 +338,7 @@ void ProfileLoggerDatabase::configureTableBeds()
   _bedsLithologicalUnitId = _tBeds->createTableColumn("lithological_unit_id", Database::DataTypeInt);
 
   TableColumn* n = _tBeds->createTableColumn("name", Database::DataTypeText);
+  n->setDefaultText(tr("New Bed"));
   (void) _tBeds->createTableColumn("description", Database::DataTypeText);
   (void) _tBeds->createTableColumn("svg", Database::DataTypeText);
 
@@ -355,5 +371,4 @@ void ProfileLoggerDatabase::setupForeignKeys()
 								_faciesFaciesId);
   _tBeds->createForeignKey("fk_beds_lithological_unit_exists")->setColumns(_bedsLithologicalUnitId,
 									   _lithologicalUnitsLithologicalUnitId);
-
 }

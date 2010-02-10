@@ -129,6 +129,54 @@ QStringList SqlFactory::make(ForeignKey* f) {
   return ret;
 }
 
+QString SqlFactory::makeDefaultFromSequence(TableColumn* c) {
+  if (!c->hasSequence()) {
+    return tr("-- column %1 has no sequence").arg(c->getQualifiedName());
+  }
+
+  return QString("ALTER TABLE %1 ALTER COLUMN %2 SET DEFAULT nextval('%3')")
+    .arg(c->getTable()->getQualifiedName())
+    .arg(c->getName())
+    .arg(c->getSequence()->getQualifiedName());
+}
+
+QString SqlFactory::makeDefaultText(TableColumn* c) {
+  return QString("ALTER TABLE %1 ALTER COLUMN %2 SET DEFAULT '%3'")
+    .arg(c->getTable()->getQualifiedName())
+    .arg(c->getName())
+    .arg(c->getDefaultText());
+}
+
+QString SqlFactory::makeDefaultInt(TableColumn* c) {
+  return QString("ALTER TABLE %1 ALTER COLUMN %2 SET DEFAULT %3")
+    .arg(c->getTable()->getQualifiedName())
+    .arg(c->getName())
+    .arg(c->getDefaultInt());
+}
+
+QString SqlFactory::makeDefaultDouble(TableColumn* c) {
+  return QString("ALTER TABLE %1 ALTER COLUMN %2 SET DEFAULT %3")
+    .arg(c->getTable()->getQualifiedName())
+    .arg(c->getName())
+    .arg(c->getDefaultDouble());
+}
+
+QString SqlFactory::makeDefaultFromConstant(TableColumn* c) {
+  QString k = tr("CONSTANT_MISSING_IN_SqlFactory::makeDefaultFromConstant");
+
+  switch(c->getDefaultConstant()) {
+  case(Database::CURRENT_DATE): k = "CURRENT_DATE"; break;
+  case(Database::CURRENT_TIMESTAMP): k = "CURRENT_TIMESTAMP"; break;
+  case(Database::CURRENT_USER): k = "CURRENT_USER"; break;
+  default: break;
+  }
+
+  return QString("ALTER TABLE %1 ALTER COLUMN %2 SET DEFAULT %3")
+    .arg(c->getTable()->getQualifiedName())
+    .arg(c->getName())
+    .arg(k);
+}
+
 QString SqlFactory::makeSelectAll(Table* t,
 				  QList<TableColumn*> order) {
   QStringList cols;
