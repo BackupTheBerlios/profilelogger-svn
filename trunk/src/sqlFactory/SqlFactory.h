@@ -50,6 +50,8 @@ class SqlFactory: public QObject
   QString makeDefaultDouble(TableColumn* c);
   QString makeDefaultFromConstant(TableColumn* c);
 
+  QString makeNextval(Sequence* s);
+
   QString makeSelectAll(Table* t,
 			QList<TableColumn*> order = QList<TableColumn>());
 

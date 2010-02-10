@@ -251,3 +251,6 @@ QString SqlFactory::makeUpdate(Table* t,
     .arg(idPlaceholder);
 }
 
+QString SqlFactory::makeNextval(Sequence* s) {
+  return QString("SELECT NEXTVAL('%1')").arg(s->getQualifiedName());
+}
