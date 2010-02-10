@@ -4,6 +4,9 @@
 #include "DbInterfacePartInTable.h"
 
 #include "Database.h"
+#include "Schema.h"
+#include "Sequence.h"
+#include "Table.h"
 
 class Sequence;
 
@@ -29,6 +32,8 @@ class TableColumn: public DbInterfacePartInTable
   Sequence* getSequence() const {
     return _sequence;
   }
+
+  virtual QString getCompleteName();
 
  private:
   Database::DataTypes _dataType;

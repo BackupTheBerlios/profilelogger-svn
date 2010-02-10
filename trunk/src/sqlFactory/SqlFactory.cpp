@@ -47,7 +47,7 @@ QStringList SqlFactory::make(Sequence* s) {
 
 QStringList SqlFactory::make(Table* t) {
   QStringList ret;
-  ret << QString("CREATE TABLE %1").arg(quoteIdentifier(t->getQualifiedName()));
+  ret << QString("CREATE TABLE %1()").arg(quoteIdentifier(t->getQualifiedName()));
 
   for (QList<TableColumn*>::iterator it = t->getFirstTableColumn(); it != t->getLastTableColumn(); it++) {
     TableColumn* c = *it;
@@ -120,11 +120,12 @@ QStringList SqlFactory::make(PrimaryKey* p) {
 
 QStringList SqlFactory::make(ForeignKey* f) {
   QStringList ret;
-  ret << QString("ALTER TABLE %1 ADD CONSTRAINT %2 FOREIGN KEY (%3) REFERENCES %4")
+  ret << QString("ALTER TABLE %1 ADD CONSTRAINT %2 FOREIGN KEY (%3) REFERENCES %4 (%5)")
     .arg(quoteIdentifier(f->getTable()->getQualifiedName()))
     .arg(quoteIdentifier(f->getName()))
     .arg(quoteIdentifier(f->getLocalColumn()->getName()))
-    .arg(quoteIdentifier(f->getReferencedColumn()->getQualifiedName()));
+    .arg(quoteIdentifier(f->getReferencedColumn()->getTable()->getQualifiedName()))
+    .arg(quoteIdentifier(f->getReferencedColumn()->getName()));
   return ret;
 }
 

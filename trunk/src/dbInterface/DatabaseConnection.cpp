@@ -15,6 +15,16 @@
 #include "TransactionError.h"
 #include "ConnectionError.h"
 
+#include "Database.h"
+#include "Schema.h"
+#include "Sequence.h"
+#include "Table.h"
+#include "TableColumn.h"
+#include "UniqueConstraint.h"
+#include "PrimaryKey.h"
+#include "TextNotEmptyCheckConstraint.h"
+
+
 DatabaseConnection::DatabaseConnection(QObject* p)
   : QObject(p)
 {}
@@ -146,8 +156,45 @@ void DatabaseConnection::createSchemas() {
   ProfileLoggerDatabase* db = (static_cast<ProfileLogger*>(QApplication::instance()))->getProfileLoggerDatabase();
 
   for (QList<Schema*>::iterator it = db->getFirstSchema(); it != db->getLastSchema(); it++) {
-    QStringList buf = f->make(*it);
+    Schema* schema = *it;
+
+    QStringList buf = f->make(schema);
     ddl << buf;
+
+    for (QList<Sequence*>::iterator seqIt = schema->getFirstSequence(); seqIt != schema->getLastSequence(); seqIt++) {
+      ddl << f->make(*seqIt);
+    }
+  }
+
+  for (QList<Schema*>::iterator sit = db->getFirstSchema(); sit != db->getLastSchema(); sit++) {
+    Schema* schema = *sit;
+
+    for (QList<Table*>::iterator tit = schema->getFirstTable(); tit != schema->getLastTable(); tit++) {
+      Table* table = *tit;
+      ddl << f->make(table);
+
+      for (QList<UniqueConstraint*>::iterator ucit = table->getFirstUniqueConstraint(); ucit != table->getLastUniqueConstraint(); ucit++) {
+	ddl << f->make(*ucit);
+      }
+      for (QList<TextNotEmptyCheckConstraint*>::iterator cit = table->getFirstTextNotEmptyCheckConstraint(); cit != table->getLastTextNotEmptyCheckConstraint(); cit++) {
+	ddl << f->make(*cit);
+      }
+      if (table->hasPrimaryKey()) {
+	ddl << f->make(table->getPrimaryKey());
+      }
+    }
+  }
+
+  for (QList<Schema*>::iterator sit = db->getFirstSchema(); sit != db->getLastSchema(); sit++) {
+    Schema* schema = *sit;
+
+    for (QList<Table*>::iterator tit = schema->getFirstTable(); tit != schema->getLastTable(); tit++) {
+      Table* table = *tit;
+
+      for (QList<ForeignKey*>::iterator fkit = table->getFirstForeignKey(); fkit != table->getLastForeignKey(); fkit++) {
+	ddl << f->make(*fkit);
+      }
+    }
   }
 
   begin();

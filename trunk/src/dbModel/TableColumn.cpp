@@ -8,3 +8,10 @@ TableColumn::TableColumn(Table* t, const QString& name, Database::DataTypes dt)
 
 TableColumn::~TableColumn()
 {}
+
+QString TableColumn::getCompleteName() {
+  return QString("%1.%2.%3")
+    .arg(getTable()->getSchema()->getName())
+    .arg(getTable()->getName())
+    .arg(getName());
+}
