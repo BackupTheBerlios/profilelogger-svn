@@ -1,0 +1,517 @@
+<!DOCTYPE ProfileLogger>
+<ProfileLogger>
+    <Metadata>
+        <OutcropQualities>
+            <OutcropQuality patternFileName="pessimum.svg" description="" id="1" name="schlecht"/>
+            <OutcropQuality patternFileName="optimum.svg" description="" id="2" name="optimal"/>
+            <OutcropQuality patternFileName="medium.svg" description="" id="3" name="gut"/>
+        </OutcropQualities>
+        <Colors>
+            <Color QtBrushStyle="0" description="" id="1" name="grau"/>
+            <Color QtBrushStyle="9" description="" id="2" name="rot"/>
+            <Color QtBrushStyle="12" description="" id="3" name="gelb"/>
+            <Color QtBrushStyle="1" description="" id="5" name="schwarz"/>
+            <Color QtBrushStyle="13" description="" id="6" name="blau/grün"/>
+        </Colors>
+        <Facies>
+            <Facies patternFileName="marin.svg" description="" id="1" name="marin"/>
+            <Facies patternFileName="" description="" id="1" name="New Facies"/>
+            <Facies patternFileName="continental.svg" description="" id="2" name="kontinental"/>
+        </Facies>
+        <Lithologies>
+            <Lithology patternFileName="sandstone_607.svg" defaultGrainSizeMode="1" description="" id="6" name="Sandstein"/>
+            <Lithology patternFileName="argillaceous_or_shaly_sandstone_612.svg" defaultGrainSizeMode="1" description="" id="10" name="Sandstein, tonig"/>
+            <Lithology patternFileName="sandy_limestone_636.svg" defaultGrainSizeMode="1" description="" id="11" name="Sandstein, kalkig"/>
+            <Lithology patternFileName="dolomitic_sandstone_614.svg" defaultGrainSizeMode="1" description="" id="12" name="Sandstein, dolomitisch"/>
+            <Lithology patternFileName="silt_siltstone_or_shaly_silt_616.svg" defaultGrainSizeMode="1" description="" id="13" name="Siltstein"/>
+            <Lithology patternFileName="calcareous_siltstone_617.svg" defaultGrainSizeMode="1" description="" id="14" name="Siltstein, kalkig"/>
+            <Lithology patternFileName="dolomitic_siltstone_618.svg" defaultGrainSizeMode="1" description="" id="15" name="Siltstein, dolomitisch"/>
+            <Lithology patternFileName="clay_or_clay_shale_620.svg" defaultGrainSizeMode="1" description="" id="17" name="Tonstein"/>
+            <Lithology patternFileName="marl.svg" defaultGrainSizeMode="1" description="" id="20" name="Mergel"/>
+            <Lithology patternFileName="calcareous_shale_or_marl_623.svg" defaultGrainSizeMode="1" description="" id="21" name="Tonstein, mergelig"/>
+            <Lithology patternFileName="limestone_627.svg" defaultGrainSizeMode="1" description="" id="24" name="Kalkstein"/>
+            <Lithology patternFileName="oolitic_limestone_635.svg" defaultGrainSizeMode="1" description="" id="32" name="Kalkstein, oolitisch"/>
+            <Lithology patternFileName="sandy_limestone_636.svg" defaultGrainSizeMode="1" description="" id="33" name="Kalkstein, sandig"/>
+            <Lithology patternFileName="silty_limestone_637.svg" defaultGrainSizeMode="1" description="" id="34" name="Kalkstein, siltig"/>
+            <Lithology patternFileName="argillaceous_or_shaly_limestone_638.svg" defaultGrainSizeMode="1" description="" id="35" name="Kalkstein, mergelig"/>
+            <Lithology patternFileName="dolomitic_limestone_or_limy_dolostone_or_limy_dolomite_641.svg" defaultGrainSizeMode="1" description="" id="38" name="Kalkstein, dolomitisch (dolomitscher Kalkstein)"/>
+            <Lithology defaultCarbonateGrainSizeId="1" patternFileName="dolostone_or_dolomite_642.svg" defaultGrainSizeMode="2" description="" id="39" name="Dolomit"/>
+            <Lithology patternFileName="oolitic_dolostone_or_dolomite_644.svg" defaultGrainSizeMode="1" description="" id="41" name="Dolomit, oolitisch"/>
+            <Lithology patternFileName="sandy_dolostone_or_dolomite_645.svg" defaultGrainSizeMode="1" description="" id="42" name="Dolomit, sandig"/>
+            <Lithology patternFileName="silty_dolostone_or_dolomite_646.svg" defaultGrainSizeMode="1" description="" id="43" name="Dolomit, siltig"/>
+            <Lithology patternFileName="argillaceous_or_shaly_dolostone_or_dolomite_647.svg" defaultGrainSizeMode="1" description="" id="44" name="Dolomit, tonig"/>
+            <Lithology patternFileName="coal.svg" defaultGrainSizeMode="1" defaultClasticGrainSizeId="1" description="" id="55" name="Kohle"/>
+            <Lithology patternFileName="gypsum.svg" defaultGrainSizeMode="1" description="" id="64" name="Gips"/>
+            <Lithology patternFileName="sparytic_limestone.svg" defaultGrainSizeMode="1" description="" id="72" name="Kalkstein, sparitisch"/>
+            <Lithology patternFileName="silty_marl.svg" defaultGrainSizeMode="1" description="" id="73" name="Mergel, siltig"/>
+            <Lithology patternFileName="limestone_mudstone.svg" defaultGrainSizeMode="1" description="" id="74" name="Mudstone, kalkig"/>
+            <Lithology patternFileName="limestone_wackestone.svg" defaultGrainSizeMode="1" description="" id="76" name="Wackestone, kalkig"/>
+            <Lithology patternFileName="dolostone_or_dolomite_mudstone.svg" defaultGrainSizeMode="1" description="" id="77" name="Mudstone, dolomitisch"/>
+            <Lithology patternFileName="dolostone_or_dolomite_wackestone.svg" defaultGrainSizeMode="1" description="" id="78" name="Wackestone, dolomitisch"/>
+            <Lithology patternFileName="limestone_grainstone.svg" defaultGrainSizeMode="1" description="" id="79" name="Grainstone, kalkig"/>
+            <Lithology patternFileName="limestone_packstone.svg" defaultGrainSizeMode="1" description="" id="80" name="Packstone, kalkig"/>
+            <Lithology patternFileName="sandy_marl.svg" defaultGrainSizeMode="1" description="" id="81" name="Mergel, sandig"/>
+        </Lithologies>
+        <LengthUnits>
+            <LengthUnit mm="1" description="" id="1" name="mm"/>
+            <LengthUnit mm="10" description="" id="2" name="cm"/>
+            <LengthUnit mm="100" description="" id="3" name="dm"/>
+            <LengthUnit mm="1000" description="" id="4" name="m"/>
+            <LengthUnit mm="1000000" description="" id="5" name="km"/>
+        </LengthUnits>
+        <ClasticGrainSizes>
+            <ClasticGrainSize description="" positionInColumnView="8" id="1" name="No Grains Visible"/>
+            <ClasticGrainSize description="" positionInColumnView="10" id="2" name="Clay"/>
+            <ClasticGrainSize description="" positionInColumnView="13" id="3" name="Fine Silt"/>
+            <ClasticGrainSize description="" positionInColumnView="15" id="4" name="Medium Silt"/>
+            <ClasticGrainSize description="" positionInColumnView="17" id="5" name="Coarse Silt"/>
+            <ClasticGrainSize description="" positionInColumnView="21" id="6" name="Fine Sand"/>
+            <ClasticGrainSize description="" positionInColumnView="26" id="7" name="Medium Sand"/>
+            <ClasticGrainSize description="" positionInColumnView="25" id="8" name="Coarse Sand"/>
+            <ClasticGrainSize description="" positionInColumnView="29" id="9" name="Fine Gravel"/>
+            <ClasticGrainSize description="" positionInColumnView="34" id="10" name="Medium Gravel"/>
+            <ClasticGrainSize description="" positionInColumnView="33" id="11" name="Coarse Gravel"/>
+            <ClasticGrainSize description="" positionInColumnView="36" id="12" name="Cobbles"/>
+            <ClasticGrainSize description="" positionInColumnView="38" id="13" name="Blocks"/>
+        </ClasticGrainSizes>
+        <CarbonateGrainSizes>
+            <CarbonateGrainSize description="" positionInColumnView="40" id="1" name="Evaporite"/>
+            <CarbonateGrainSize description="" positionInColumnView="42" id="2" name="Mudstone"/>
+            <CarbonateGrainSize description="" positionInColumnView="44" id="3" name="Wackestone"/>
+            <CarbonateGrainSize description="" positionInColumnView="46" id="4" name="Packstone"/>
+            <CarbonateGrainSize description="" positionInColumnView="48" id="5" name="Grainstone"/>
+            <CarbonateGrainSize description="" positionInColumnView="50" id="6" name="Rudstone"/>
+        </CarbonateGrainSizes>
+        <BeddingTypes>
+            <BeddingType patternFileName="planar_lamination.svg" description="" id="1" name="planar laminiert"/>
+            <BeddingType patternFileName="massive_bedding.svg" description="" id="2" name="massig"/>
+            <BeddingType patternFileName="hummocky_cross_stratification.svg" description="" id="3" name="Hummocky Cross Stratification"/>
+            <BeddingType patternFileName="intraclast_breccie.svg" description="" id="4" name="Intraklast Breccie"/>
+            <BeddingType patternFileName="knollig.svg" description="" id="5" name="knollig"/>
+            <BeddingType patternFileName="unsure_planar_layered.svg" description="" id="6" name="undeutlich planar geschichtet"/>
+            <BeddingType patternFileName="rippled.svg" description="" id="7" name="gerippelt"/>
+            <BeddingType patternFileName="planar_layered.svg" description="" id="8" name="planar geschichtet"/>
+            <BeddingType patternFileName="unsure_rippled.svg" description="" id="9" name="undeutlich gerippelt"/>
+            <BeddingType patternFileName="schraegschichtung.svg" description="" id="10" name="Schrägschichtung"/>
+            <BeddingType patternFileName="unsure_planar_lamination.svg" description="" id="11" name="undeutlich laminiert"/>
+        </BeddingTypes>
+        <BoundaryTypes>
+            <BoundaryType description="" id="1" name="planar, scharf" fileName="planar_sharp.svg"/>
+            <BoundaryType description="" id="2" name="gerippelt, scharf" fileName="rippled_sharp.svg"/>
+            <BoundaryType description="" id="3" name="graduell" fileName="graduell.svg"/>
+            <BoundaryType description="" id="4" name="nicht aufgeschlossen" fileName="nicht_aufgeschlossen.svg"/>
+            <BoundaryType description="" id="5" name="planar, unsure" fileName="planar_unsure.svg"/>
+            <BoundaryType description="" id="6" name="gerippelt, undeutlich" fileName="rippled_unsure.svg"/>
+            <BoundaryType description="" id="7" name="erosiv" fileName="erosiv.svg"/>
+        </BoundaryTypes>
+        <Fossils>
+            <Fossil pictureFileName="wurzeln.svg" description="" id="1" name="Wurzeln"/>
+            <Fossil pictureFileName="bioturbation.svg" description="" id="2" name="Bioturbation"/>
+            <Fossil pictureFileName="pflanzen.svg" description="" id="3" name="Pflanzenreste"/>
+            <Fossil pictureFileName="foraminiferen.svg" description="" id="4" name="Forams"/>
+            <Fossil pictureFileName="mollusken.svg" description="" id="5" name="Muscheln"/>
+        </Fossils>
+        <SedimentStructures>
+            <SedimentStructure pictureFileName="gipsknolle.svg" description="" id="1" name="Gipsknollen"/>
+            <SedimentStructure pictureFileName="gipsknollen_leer.svg" description="" id="2" name="Gipsknollen, leer"/>
+            <SedimentStructure pictureFileName="gipsknollen_kalzitgefuellt.svg" description="" id="3" name="Gipsknollen, kalzitgefüllt"/>
+            <SedimentStructure pictureFileName="gipslagen.svg" description="" id="4" name="Gipslagen"/>
+            <SedimentStructure pictureFileName="sandsteinschnuere.svg" description="" id="5" name="Sandsteinschnüre"/>
+            <SedimentStructure pictureFileName="trogfuellungen.svg" description="" id="6" name="Trogfüllungen"/>
+            <SedimentStructure pictureFileName="kalksteinlinsen.svg" description="" id="7" name="Kalksteinlinsen"/>
+            <SedimentStructure pictureFileName="slumps.svg" description="" id="8" name="Slumps"/>
+            <SedimentStructure pictureFileName="arenitlinsen.svg" description="" id="9" name="Arenitlinsen"/>
+            <SedimentStructure pictureFileName="sandsteinlinsen.svg" description="" id="10" name="Sandsteinlinsen"/>
+            <SedimentStructure pictureFileName="konkretionen.svg" description="" id="11" name="Konkretionen"/>
+        </SedimentStructures>
+        <CustomSymbols>
+            <CustomSymbol pictureFileName="sampling_possible.svg" description="" id="1" name="Sampling possible"/>
+        </CustomSymbols>
+        <LithologicalUnitTypes>
+            <LithologicalUnitType description="" id="1" name="Member"/>
+            <LithologicalUnitType description="" id="2" name="Formal Group"/>
+            <LithologicalUnitType description="" id="3" name="Informal Group"/>
+            <LithologicalUnitType description="" id="4" name="Formation"/>
+        </LithologicalUnitTypes>
+        <LithologicalUnits>
+            <LithologicalUnit description="" id="1" name="Werfen Fmt." lithologicalUnitTypeId="4"/>
+        </LithologicalUnits>
+    </Metadata>
+    <Data>
+        <Profile showHeight="0" showNotes="0" showOutcropQuality="0" scale="5" id="1" showHeightMarks="0" maxSymbolSize="40" description="Profil am Taleingang von links vom Stausee bis zum Top des Schuttkegels rechts der Talsperre&#xa;" cellSize="10" bigMarksDistanceLengthUnitId="2" legendColumns="16" bigMarksDistanceValue="50" name="Tesero Mb." showGrainSize="1" showBeddingType="0" showFossils="0" showTopBoundaryType="0" smallMarksDistanceLengthUnitId="2" showColor="0" smallMarksDistanceValue="2" showFacies="0" showSedimentStructures="1" showLithologicalUnit="0" showLithology="1" showBedNumbers="0" showCustomSymbols="0">
+            <Samples>
+                <Sample description="Top der Bank 22, ?Wurzelboden" id="1" name="jolo/HG/B22/1/1"/>
+                <Sample description="gesamte Bank 26, sind gewellte, dunkel laminierte Strukturen flachgedrückte Wurzelkanäle?" id="2" name="jolo/HG/B26/1/1"/>
+                <Sample description="sind dunkle Schmitze Bodenbildungsreste?" id="3" name="jolo/HG/B28/1/1a"/>
+                <Sample description="Sind dunkle Schmitze Bodenbildungsreste?" id="4" name="jolo/HG/B28/1/1b"/>
+                <Sample description="gewellte Laminae, ?interne Bodenoberfläche oder flachgedrückter Wurzelgang" id="5" name="jolo/HG/B32/1/1"/>
+                <Sample description="Top der Bank. ?Wurzeln" id="6" name="jolo/HG/B34/1/1"/>
+                <Sample description="2 Stücke. Top der Bank. ?Wurzeln" id="7" name="jolo/HG/B34/2/1a"/>
+                <Sample description="2 Stücke. ?Wurzelboden" id="8" name="jolo/HG/B36/2/1"/>
+                <Sample description="Top der Bank. ?Wurzelboden" id="9" name="jolo/HG/B39/2/1"/>
+                <Sample description="Paket mit internen Grenzflächen. Gibs ist liegendste Schicht. Gewellte Laminae." id="10" name="jolo/HG/B41/2/1"/>
+                <Sample description="dunkle basale Schicht ist Top der Bank 42. ?Wurzelboden" id="11" name="jolo/HG/B43/2/1"/>
+                <Sample description="Basis der Bank. Konkretionen." id="12" name="jolo/HG/B46/2/1a"/>
+                <Sample description="über jolo/HG/B46/2/1a (bei der Bergung zerbrochen). ?Konkretionen ?undeutlich gewellte Schichten" id="13" name="jolo/HG/B46/2/1"/>
+                <Sample description="Wurzelboden. ?Durchwachsen Wurzeln die Schichtgrenze?" id="14" name="jolo/HG/B38+B39/2/1"/>
+                <Sample description="Gips" id="15" name="jolo/HG/B41/2/2"/>
+                <Sample description="bröselige dunkle Zwischenlage. Wahrscheinlich nicht präparierbar." id="16" name="jolo/HG/B41/2/3"/>
+                <Sample description="?dunkle Laminae?" id="17" name="jolo/HG/B41/2/4"/>
+                <Sample description="Grenze zu Bank 41. ?Wurzeln" id="18" name="jolo/HG/B43/2/5"/>
+                <Sample description="?Konkretionen ?Intraclast Breccie?" id="19" name="jolo/HG/B44+B45/2/7"/>
+                <Sample description="?Konkretionen" id="20" name="jolo/HG/B45+B46/2/8"/>
+                <Sample description="Konkretionen" id="21" name="jolo/HG/B46/2/9"/>
+                <Sample description="Konkretionen aus Top 5 cm der Bank." id="22" name="jolo/HG/B46/2/9a"/>
+                <Sample description="praktisch gesamte Bank. ?Konkretionen" id="23" name="jolo/HG/B47/2/10"/>
+                <Sample description="praktisch gesamte Bank. ?Konkretionen" id="24" name="jolo/HG/B48/2/11"/>
+                <Sample description="cm große Konkretionen aus der Bankmitte" id="25" name="jolo/HG/B46/3/1"/>
+                <Sample description="gesamte Bank. ?Konkretionen" id="26" name="jolo/HG/B47/3/1"/>
+            </Samples>
+            <Images>
+                <Image description="" id="1" name="Internet Werfen" fileName="werfen.jpg"/>
+            </Images>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="1" heightValue="4" colorId="1" faciesId="1" lithologyId="73" outcropQualityId="1" id="1" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="2" heightValue="2" colorId="5" lithologyId="14" outcropQualityId="1" id="2" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="3" heightValue="5" colorId="1" lithologyId="73" outcropQualityId="1" id="3" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="4" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="1" id="4" topBoundaryTypeId="2" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="5" heightValue="4" colorId="1" lithologyId="74" outcropQualityId="1" id="5" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="6" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="1" id="6" topBoundaryTypeId="2" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="7" heightValue="145" colorId="1" lithologyId="74" outcropQualityId="1" id="8" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="8" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="1" id="9" topBoundaryTypeId="2" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="9" heightValue="185" colorId="1" lithologyId="74" outcropQualityId="1" id="10" topBoundaryTypeId="2" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="10" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="1" id="11" topBoundaryTypeId="2" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="11" heightValue="195" colorId="1" lithologyId="74" outcropQualityId="1" id="12" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="12" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="1" id="13" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="13" heightValue="105" colorId="1" lithologyId="74" outcropQualityId="1" id="14" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="5" description="" position="14" heightValue="2" colorId="5" lithologyId="14" outcropQualityId="1" id="15" topBoundaryTypeId="1" topClasticGrainSizeId="5">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="Gesamte Bank tektonisch zerlegt" position="15" heightValue="108" colorId="1" lithologyId="43" outcropQualityId="2" id="16" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="3" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="16" heightValue="1" colorId="5" lithologyId="14" outcropQualityId="2" id="17" topBoundaryTypeId="2" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="17" heightValue="104" colorId="1" lithologyId="34" outcropQualityId="2" id="18" topBoundaryTypeId="1" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="18" heightValue="2" colorId="5" lithologyId="14" outcropQualityId="2" id="19" topBoundaryTypeId="1" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="6" description="" position="19" heightValue="27" colorId="1" lithologyId="42" outcropQualityId="2" id="20" topBoundaryTypeId="1" topClasticGrainSizeId="6">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="5" description="" position="20" heightValue="7" colorId="5" lithologyId="14" outcropQualityId="2" id="21" topBoundaryTypeId="1" topClasticGrainSizeId="5">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="6" description="" position="21" heightValue="13" colorId="1" lithologyId="42" outcropQualityId="2" id="22" topBoundaryTypeId="1" topClasticGrainSizeId="6">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="1" description="Top 5 cm Wurzelboden" position="22" heightValue="30" colorId="1" lithologyId="34" outcropQualityId="2" id="23" topBoundaryTypeId="1" topClasticGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="23" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="2" id="24" topBoundaryTypeId="1" topClasticGrainSizeId="2">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="24" heightValue="35" colorId="1" lithologyId="39" outcropQualityId="2" id="25" topBoundaryTypeId="7" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="11" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="25" heightValue="2" colorId="5" lithologyId="14" outcropQualityId="3" id="26" topBoundaryTypeId="7" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="26" heightValue="3" colorId="1" lithologyId="43" outcropQualityId="3" id="27" topBoundaryTypeId="7" topClasticGrainSizeId="3">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed>
+                    <SedimentStructureInBed sedimentStructureName="Gipslagen" sedimentStructureId="4"/>
+                </SedimentStructuresInBed>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="27" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="2" id="28" topBoundaryTypeId="7" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" description="" position="28" heightValue="4" colorId="1" lithologyId="39" outcropQualityId="2" id="29" topBoundaryTypeId="7">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="29" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="3" id="30" topBoundaryTypeId="2" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" description="" position="30" heightValue="35" colorId="1" lithologyId="39" outcropQualityId="2" id="31" topBoundaryTypeId="2">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" description="" position="31" heightValue="2" colorId="1" lithologyId="39" outcropQualityId="2" id="32" topBoundaryTypeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="Top 2 cm Wurzeln" position="32" heightValue="95" colorId="1" lithologyId="39" outcropQualityId="2" id="34" topBoundaryTypeId="2" baseCarbonateGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="33" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="2" id="35" topBoundaryTypeId="2" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="5" grainSizeMode="1" baseClasticGrainSizeId="2" description="" position="34" heightValue="165" colorId="1" lithologyId="35" outcropQualityId="2" id="36" topBoundaryTypeId="1" topClasticGrainSizeId="2">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="35" heightValue="1" colorId="5" lithologyId="14" outcropQualityId="2" id="37" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="6" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="36" heightValue="49" colorId="1" lithologyId="38" outcropQualityId="2" id="38" topBoundaryTypeId="1" topClasticGrainSizeId="3">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="37" heightValue="1" colorId="5" lithologyId="14" outcropQualityId="2" id="39" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="5" grainSizeMode="2" topCarbonateGrainSizeId="1" description="vollständig durchwurzelt" position="38" heightValue="40" colorId="1" lithologyId="76" outcropQualityId="2" id="40" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="5" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="39" heightValue="38" colorId="1" lithologyId="76" outcropQualityId="2" id="41" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                    <FossilInBed fossilId="2" fossilName="Bioturbation"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="40" heightValue="2" colorId="5" lithologyId="14" outcropQualityId="2" id="42" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed>
+                    <SedimentStructureInBed sedimentStructureName="Gipslagen" sedimentStructureId="4"/>
+                    <SedimentStructureInBed sedimentStructureName="Konkretionen" sedimentStructureId="11"/>
+                </SedimentStructuresInBed>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="41" heightValue="3" colorId="1" lithologyId="77" outcropQualityId="2" id="43" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed>
+                    <SedimentStructureInBed sedimentStructureName="Sandsteinschnüre" sedimentStructureId="5"/>
+                    <SedimentStructureInBed sedimentStructureName="Gipslagen" sedimentStructureId="4"/>
+                </SedimentStructuresInBed>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="42" heightValue="5" colorId="5" lithologyId="34" outcropQualityId="2" id="44" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="43" heightValue="5" colorId="1" lithologyId="77" outcropQualityId="2" id="45" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="1" fossilName="Wurzeln"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="7" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="44" heightValue="8" colorId="5" lithologyId="38" outcropQualityId="2" id="46" topBoundaryTypeId="2" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="45" heightValue="9" colorId="6" lithologyId="77" outcropQualityId="2" id="47" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="46" heightValue="50" colorId="2" lithologyId="38" outcropQualityId="2" id="48" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed>
+                    <SedimentStructureInBed sedimentStructureName="Konkretionen" sedimentStructureId="11"/>
+                </SedimentStructuresInBed>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="47" heightValue="25" colorId="1" lithologyId="38" outcropQualityId="2" id="49" topBoundaryTypeId="3" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="48" heightValue="5" colorId="1" lithologyId="43" outcropQualityId="2" id="50" topBoundaryTypeId="1" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="1" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="49" heightValue="4" colorId="5" lithologyId="14" outcropQualityId="2" id="51" topBoundaryTypeId="2" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="5" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="50" heightValue="10" colorId="1" lithologyId="24" outcropQualityId="3" id="52" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="2" fossilName="Bioturbation"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="51" heightValue="5" colorId="1" lithologyId="74" outcropQualityId="2" id="53" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="6" description="" position="52" heightValue="4" colorId="5" lithologyId="14" outcropQualityId="2" id="54" topBoundaryTypeId="1" topClasticGrainSizeId="6">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="53" heightValue="20" colorId="1" lithologyId="34" outcropQualityId="2" id="55" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="9" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="54" heightValue="2" colorId="5" lithologyId="14" outcropQualityId="2" id="56" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="55" heightValue="2" colorId="1" lithologyId="34" outcropQualityId="2" id="57" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="56" heightValue="5" colorId="5" lithologyId="34" outcropQualityId="2" id="58" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="2" grainSizeMode="2" topCarbonateGrainSizeId="1" description="" position="57" heightValue="12" colorId="1" lithologyId="78" outcropQualityId="2" id="59" topBoundaryTypeId="1" baseCarbonateGrainSizeId="1">
+                <FossilsInBed>
+                    <FossilInBed fossilId="3" fossilName="Pflanzenreste"/>
+                </FossilsInBed>
+                <SedimentStructuresInBed>
+                    <SedimentStructureInBed sedimentStructureName="Gipsknollen" sedimentStructureId="1"/>
+                </SedimentStructuresInBed>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="58" heightValue="2" colorId="5" lithologyId="35" outcropQualityId="2" id="60" topBoundaryTypeId="1" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="2" beddingTypeId="7" grainSizeMode="1" baseClasticGrainSizeId="3" description="" position="59" heightValue="3" colorId="1" lithologyId="34" outcropQualityId="2" id="61" topBoundaryTypeId="1" topClasticGrainSizeId="3">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+            <Bed heightLengthUnitId="1" beddingTypeId="2" grainSizeMode="1" baseClasticGrainSizeId="4" description="" position="60" heightValue="5" colorId="5" lithologyId="14" outcropQualityId="2" id="62" topBoundaryTypeId="1" topClasticGrainSizeId="4">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+        </Profile>
+        <Profile showHeight="0" showNotes="0" showOutcropQuality="0" scale="20" id="2" showHeightMarks="0" maxSymbolSize="50" description="" cellSize="30" bigMarksDistanceLengthUnitId="1" legendColumns="8" bigMarksDistanceValue="1000" name="test" showGrainSize="1" showBeddingType="0" showFossils="0" showTopBoundaryType="0" smallMarksDistanceLengthUnitId="1" showColor="0" smallMarksDistanceValue="100" showFacies="0" showSedimentStructures="1" showLithologicalUnit="0" showLithology="1" showBedNumbers="0" showCustomSymbols="0">
+            <Samples/>
+            <Images/>
+            <Bed heightLengthUnitId="3" grainSizeMode="1" baseClasticGrainSizeId="1" description="" position="1" heightValue="2" lithologyId="55" id="1" topClasticGrainSizeId="1">
+                <FossilsInBed/>
+                <SedimentStructuresInBed/>
+                <CustomSymbolsInBed/>
+            </Bed>
+        </Profile>
+    </Data>
+</ProfileLogger>
