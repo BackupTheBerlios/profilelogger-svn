@@ -1,6 +1,6 @@
 <!DOCTYPE ProfileLogger>
 <ProfileLogger>
-    <Metadata>
+    <Metadata ProgramVersion="1.0">
         <OutcropQualities>
             <OutcropQuality patternFileName="pessimum.svg" description="" id="1" name="schlecht"/>
             <OutcropQuality patternFileName="optimum.svg" description="" id="2" name="optimal"/>
@@ -14,7 +14,8 @@
             <Color QtBrushStyle="13" description="" id="6" name="blau/grün"/>
         </Colors>
         <Facies>
-            <Facies patternFileName="marin.svg" description="" id="1" name="marin"/>
+            <Facies patternFileName="" description="" id="1" name="New Facies"/>
+            <Facies patternFileName="" description="" id="1" name="New Facies"/>
             <Facies patternFileName="" description="" id="1" name="New Facies"/>
             <Facies patternFileName="continental.svg" description="" id="2" name="kontinental"/>
         </Facies>
@@ -138,7 +139,7 @@
         </LithologicalUnits>
     </Metadata>
     <Data>
-        <Profile showHeight="0" showNotes="0" showOutcropQuality="0" scale="5" id="1" showHeightMarks="0" maxSymbolSize="40" description="Profil am Taleingang von links vom Stausee bis zum Top des Schuttkegels rechts der Talsperre&#xa;" cellSize="10" bigMarksDistanceLengthUnitId="2" legendColumns="16" bigMarksDistanceValue="50" name="Tesero Mb." showGrainSize="1" showBeddingType="0" showFossils="0" showTopBoundaryType="0" smallMarksDistanceLengthUnitId="2" showColor="0" smallMarksDistanceValue="2" showFacies="0" showSedimentStructures="1" showLithologicalUnit="0" showLithology="1" showBedNumbers="0" showCustomSymbols="0">
+        <Profile showHeight="0" showNotes="0" showOutcropQuality="0" scale="5" id="1" showHeightMarks="1" maxSymbolSize="40" description="Profil am Taleingang von links vom Stausee bis zum Top des Schuttkegels rechts der Talsperre&#xa;" cellSize="10" bigMarksDistanceLengthUnitId="2" legendColumns="16" bigMarksDistanceValue="50" name="Tesero Mb." showGrainSize="1" showBeddingType="1" showFossils="1" showTopBoundaryType="1" smallMarksDistanceLengthUnitId="2" showColor="1" smallMarksDistanceValue="2" showFacies="0" showSedimentStructures="1" showLithologicalUnit="0" showLithology="1" showBedNumbers="1" showCustomSymbols="0">
             <Samples>
                 <Sample description="Top der Bank 22, ?Wurzelboden" id="1" name="jolo/HG/B22/1/1"/>
                 <Sample description="gesamte Bank 26, sind gewellte, dunkel laminierte Strukturen flachgedrückte Wurzelkanäle?" id="2" name="jolo/HG/B26/1/1"/>
@@ -513,5 +514,6 @@
                 <CustomSymbolsInBed/>
             </Bed>
         </Profile>
+        <ProfileCorrelations/>
     </Data>
 </ProfileLogger>
