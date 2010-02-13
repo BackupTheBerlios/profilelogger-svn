@@ -35,9 +35,12 @@ class Facies;
 class LithologicalUnitType;
 class LithologicalUnit;
 
-class Project {
+class Project: public Dataset {
  public:
-  Project(const QString& path = QString::null);
+  Project(const int id = 0,
+	  const QString& name = tr("New Project"),
+	  const QString& description = QString::null,
+	  const QString& path = QString::null);
   virtual ~Project();
 
   void setPath(const QString& p) {

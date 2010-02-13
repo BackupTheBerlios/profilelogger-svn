@@ -25,7 +25,7 @@ class QTranslator;
 class MainWindow;
 class ProfileLoggerDatabase;
 class XMLInterface;
-class DatabaseConnection;
+class Postgres;
 class Project;
 class ProfileItemModel;
 class BedItemModel;
@@ -210,7 +210,7 @@ public:
       return _db;
     }
 
-    DatabaseConnection* getDatabaseConnection() const {
+    Postgres* getPostgres() const {
       return _dbConn;
     }
 
@@ -307,7 +307,7 @@ private:
     MainWindow* _mainW;
 
     ProfileLoggerDatabase* _db;
-    DatabaseConnection* _dbConn;
+    Postgres* _dbConn;
 };
 
 #endif	/* _PROFILELOGGER_H */

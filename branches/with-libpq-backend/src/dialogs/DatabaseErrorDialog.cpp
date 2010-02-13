@@ -4,7 +4,7 @@
 #include <QLabel>
 #include <QDialogButtonBox>
 
-DatabaseErrorDialog::DatabaseErrorDialog(QWidget* p, const QueryError& e)
+DatabaseErrorDialog::DatabaseErrorDialog(QWidget* p, const DatabaseError& e)
   : QMessageBox(QMessageBox::Critical,
 		tr("Query Failed"),
 		"",
@@ -12,30 +12,8 @@ DatabaseErrorDialog::DatabaseErrorDialog(QWidget* p, const QueryError& e)
 		p)
 
 {
-  setText(tr("Query Failed"));
-  setDetailedText(e.text());
-}
-
-DatabaseErrorDialog::DatabaseErrorDialog(QWidget* p, const TransactionError& e)
-  : QMessageBox(QMessageBox::Critical,
-		tr("Transaction Failed"),
-		"",
-		QMessageBox::Ok,
-		p)
-
-{
-  setText(tr("Transaction Failed"));
-  setDetailedText(e.text());
-}
-
-DatabaseErrorDialog::DatabaseErrorDialog(QWidget* p, const ConnectionError& e)
-  : QMessageBox(QMessageBox::Critical,
-		tr("Connection Failed"),
-		"",
-		QMessageBox::Ok,
-		p)
-
-{
-  setText(tr("Connection Failed"));
-  setDetailedText(e.text());
+  setText(e.getMessage());
+  setDetailedText(tr("Query: %1\n\n%2")
+		  .arg(e.getSql())
+		  .arg(e.getDatabaseMessage()));
 }

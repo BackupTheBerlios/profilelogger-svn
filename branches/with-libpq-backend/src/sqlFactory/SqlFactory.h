@@ -7,7 +7,8 @@
 
 #include "TableColumn.h"
 
-class Database;
+#include "Database.h"
+
 class Schema;
 class Sequence;
 class Table;
@@ -34,6 +35,8 @@ class SqlFactory: public QObject
   const bool hasDatabase() {
     return 0 != _database;
   }
+
+  QString typeToString(Database::DataTypes t);
 
   QStringList make(Database* db);
   QStringList drop(Schema* s);

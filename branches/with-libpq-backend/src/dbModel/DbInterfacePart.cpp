@@ -1,7 +1,5 @@
 #include "DbInterfacePart.h"
 
-#include "SqlFactory.h"
-
 #include <QStringList>
 
 DbInterfacePart::DbInterfacePart(QObject* p,

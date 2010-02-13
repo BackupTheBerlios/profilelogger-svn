@@ -45,28 +45,28 @@ QStringList SqlFactory::make(Sequence* s) {
   return ret;
 }
 
+QString SqlFactory::typeToString(Database::DataTypes t) {
+  QString typeName = "ERROR_TYPE_NAME_NOT_SET_IN_CODE";
+  switch(t) {
+  case(Database::DataTypeInt): typeName = "INTEGER"; break;
+  case(Database::DataTypeText): typeName = "TEXT"; break;
+  case(Database::DataTypeDouble): typeName = "DOUBLE"; break;
+  case(Database::DataTypeBool): typeName = "BOOLEAN"; break;
+  default: break;
+  };
+  return typeName;
+}
+
 QStringList SqlFactory::make(Table* t) {
   QStringList ret;
   ret << QString("CREATE TABLE %1()").arg(quoteIdentifier(t->getQualifiedName()));
 
   for (QList<TableColumn*>::iterator it = t->getFirstTableColumn(); it != t->getLastTableColumn(); it++) {
     TableColumn* c = *it;
-
-    if (c) {
-      QString typeName = "ERROR_TYPE_NAME_NOT_SET_IN_CODE";
-      switch(c->getDataType()) {
-      case(Database::DataTypeInt): typeName = "INTEGER"; break;
-      case(Database::DataTypeText): typeName = "TEXT"; break;
-      case(Database::DataTypeDouble): typeName = "DOUBLE"; break;
-      case(Database::DataTypeBool): typeName = "BOOLEAN"; break;
-      default: break;
-      };
-
-      ret << QString("ALTER TABLE %1 ADD COLUMN %2 %3")
-	.arg(quoteIdentifier(c->getTable()->getQualifiedName()))
-	.arg(quoteIdentifier(c->getName()))
-	.arg(typeName);
-    }
+    ret << QString("ALTER TABLE %1 ADD COLUMN %2 %3")
+      .arg(quoteIdentifier(c->getTable()->getQualifiedName()))
+      .arg(quoteIdentifier(c->getName()))
+      .arg(typeToString(c->getDataType()));
   }
   return ret;
 }

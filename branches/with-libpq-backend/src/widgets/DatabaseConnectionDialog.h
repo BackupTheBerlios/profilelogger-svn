@@ -37,6 +37,10 @@ class DatabaseConnectionDialog: public QDialog {
   void slotCreateSchemaToggled(bool b);
   void slotInsertTemplateDataToggled(bool b);
 
+  DatabaseConnectionSettings getDatabaseConnectionSettings() const {
+    return _s;
+  }
+
  private:
   HostEdit* _hostW;
   QSpinBox* _portsW;

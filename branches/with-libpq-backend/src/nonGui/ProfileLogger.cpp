@@ -19,13 +19,12 @@
 #include <QDebug>
 
 #include "MainWindow.h"
-#include "ConnectionError.h"
-#include "QueryError.h"
-#include "TransactionError.h"
+
+#include "DatabaseError.h"
 #include "DatabaseErrorDialog.h"
 
 #include "ProfileLoggerDatabase.h"
-#include "DatabaseConnection.h"
+#include "Postgres.h"
 #include "DatabaseConnectionDialog.h"
 
 #include "Version.h"
@@ -69,7 +68,7 @@ ProfileLogger::ProfileLogger(int & argc, char** argv)
   _translator = new QTranslator(this);
   _xif = new XMLInterface(this);
   _db = new ProfileLoggerDatabase(this);
-  _dbConn = new DatabaseConnection(this);
+  _dbConn = new Postgres(this);
   setupModels();
   setupActions();
 }
@@ -501,17 +500,9 @@ void ProfileLogger::slotOpenDatabase()
   }
 
   try {
-    _dbConn->slotOpen(dlg->getPassword());
+    _dbConn->open(dlg->getDatabaseConnectionSettings());
   }
-  catch(ConnectionError e) {
-    DatabaseErrorDialog dlg(activeWindow(), e);
-    dlg.exec();
-  }  
-  catch(TransactionError e) {
-    DatabaseErrorDialog dlg(activeWindow(), e);
-    dlg.exec();
-  }
-  catch(QueryError e) {
+  catch(DatabaseError e) {
     DatabaseErrorDialog dlg(activeWindow(), e);
     dlg.exec();
   }
@@ -519,7 +510,7 @@ void ProfileLogger::slotOpenDatabase()
 
 void ProfileLogger::slotCloseDatabase()
 {
-  _dbConn->slotClose();
+  _dbConn->close();
 }
 
 void ProfileLogger::setMainWindow(MainWindow* w) {

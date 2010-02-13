@@ -5,6 +5,10 @@ DESTDIR = ../bin
 
 QT += core gui svg xml sql
 
+# include postgres stuff
+INCLUDEPATH += /usr/local/postgres/include
+LIBS += -L/usr/local/postgres/lib -lpq
+
 unix {
 message(building on unix)
 CONFIG += debug core gui svg xml sql
@@ -51,19 +55,20 @@ message(Demonstrations: $$[QT_INSTALL_DEMOS])
 
 DEPENDPATH += . \
               columnView \
+              correlationView \
+              dataManager \
               dataModel \
+              dbModel \
               dialogs \
-              interfaces \
+              fileInterfaces \
+              i18n \
               items \
               models \
               nonGui \
-              views \
-              widgets \
-              correlationView \
-              dbInterface \
-              dbModel \
+              pgInterface \
               sqlFactory \
-              dataLogic
+              views \
+              widgets
 INCLUDEPATH += . \
                nonGui \
                items \
@@ -73,21 +78,19 @@ INCLUDEPATH += . \
                widgets \
                dialogs \
                models \
-               fileInterfaces \
                correlationView \
-               dbInterface \
                dbModel \
                sqlFactory \
-               dataLogic
+               dataManager \
+               pgInterface \
+               fileInterfaces
 
 # Input
-HEADERS +=            \
-columnView/BoundaryTypeLegendItem.h \
+HEADERS += columnView/BeddingTypeLegendItem.h \
+           columnView/BoundaryTypeLegendItem.h \
            columnView/ColorLegendItem.h \
            columnView/CustomSymbolLegendItem.h \
            columnView/FaciesLegendItem.h \
-columnView/BeddingTypeLegendItem.h \
-widgets/HostEdit.h \
            columnView/FossilLegendItem.h \
            columnView/GraphicBedItem.h \
            columnView/GraphicColumnBody.h \
@@ -101,17 +104,17 @@ widgets/HostEdit.h \
            columnView/PatternLegendItem.h \
            columnView/SedimentStructureLegendItem.h \
            columnView/SymbolLegendItem.h \
-           dataModel/ProfileInCorrelation.h \
-           dataModel/ProfileCorrelation.h \
-           dataModel/BedCorrelation.h \
+           correlationView/BedCorrelationView.h \
+           dataManager/DataManager.h \
+           dataManager/ProjectManager.h \
            dataModel/Bed.h \
+           dataModel/BedCorrelation.h \
            dataModel/BeddingType.h \
            dataModel/BoundaryType.h \
            dataModel/CarbonateGrainSize.h \
            dataModel/ClasticGrainSize.h \
            dataModel/Color.h \
            dataModel/CustomSymbol.h \
-           dataModel/PrimitiveDataset.h \
            dataModel/Dataset.h \
            dataModel/DatasetWithFileName.h \
            dataModel/Facies.h \
@@ -124,17 +127,35 @@ widgets/HostEdit.h \
            dataModel/LithologicalUnitType.h \
            dataModel/Lithology.h \
            dataModel/OutcropQuality.h \
+           dataModel/PrimitiveDataset.h \
            dataModel/Profile.h \
+           dataModel/ProfileCorrelation.h \
+           dataModel/ProfileInCorrelation.h \
            dataModel/Project.h \
            dataModel/Sample.h \
            dataModel/SedimentStructure.h \
-           dialogs/ProfileCorrelationEditorDialog.h \
+           dbModel/CheckConstraint.h \
+           dbModel/Database.h \
+           dbModel/DbInterfacePart.h \
+           dbModel/DbInterfacePartInSchema.h \
+           dbModel/DbInterfacePartInTable.h \
+           dbModel/ForeignKey.h \
+           dbModel/PrimaryKey.h \
+           dbModel/Schema.h \
+           dbModel/Sequence.h \
+           dbModel/Table.h \
+           dbModel/TableColumn.h \
+           dbModel/TableConstraint.h \
+           dbModel/TextNotEmptyCheckConstraint.h \
+           dbModel/UniqueConstraint.h \
+           dialogs/BedCorrelationEditorDialog.h \
            dialogs/BeddingTypeEditorDialog.h \
            dialogs/BedEditorDialog.h \
            dialogs/BoundaryTypeEditorDialog.h \
            dialogs/ColorEditorDialog.h \
            dialogs/CsvProfileImportSettingsDialog.h \
            dialogs/CustomSymbolEditorDialog.h \
+           dialogs/DatabaseErrorDialog.h \
            dialogs/DatasetEditorDialog.h \
            dialogs/DatasetWithFileNameEditorDialog.h \
            dialogs/FaciesEditorDialog.h \
@@ -145,6 +166,7 @@ widgets/HostEdit.h \
            dialogs/LithologicalUnitTypeEditorDialog.h \
            dialogs/LithologyEditorDialog.h \
            dialogs/OutcropQualityEditorDialog.h \
+           dialogs/ProfileCorrelationEditorDialog.h \
            dialogs/ProfileEditorDialog.h \
            dialogs/ProfileSelectorDialog.h \
            dialogs/SampleEditorDialog.h \
@@ -154,6 +176,7 @@ widgets/HostEdit.h \
            fileInterfaces/CsvProfileImportSettings.h \
            fileInterfaces/ProfileImportSettings.h \
            fileInterfaces/XMLInterface.h \
+           items/BedCorrelationItem.h \
            items/BeddingTypeItem.h \
            items/BedItem.h \
            items/BoundaryTypeItem.h \
@@ -169,12 +192,12 @@ widgets/HostEdit.h \
            items/LithologicalUnitTypeItem.h \
            items/LithologyItem.h \
            items/OutcropQualityItem.h \
+           items/ProfileCorrelationItem.h \
            items/ProfileItem.h \
            items/SampleItem.h \
            items/SedimentStructureItem.h \
            items/StandardItem.h \
-           items/ProfileCorrelationItem.h \
-           models/ProfileCorrelationItemModel.h \
+           models/BedCorrelationItemModel.h \
            models/BeddingTypeItemModel.h \
            models/BedItemModel.h \
            models/BoundaryTypeItemModel.h \
@@ -192,17 +215,25 @@ widgets/HostEdit.h \
            models/LithologicalUnitTypeItemModel.h \
            models/LithologyItemModel.h \
            models/OutcropQualityItemModel.h \
+           models/ProfileCorrelationItemModel.h \
            models/ProfileItemModel.h \
            models/SampleItemModel.h \
            models/SedimentStructureInBedItemModel.h \
            models/SedimentStructureItemModel.h \
            models/StandardItemModel.h \
+           nonGui/AppDatabase.h \
            nonGui/Image.h \
            nonGui/ProfileLogger.h \
+           nonGui/ProfileLoggerDatabase.h \
            nonGui/Settings.h \
            nonGui/SymbolFactory.h \
            nonGui/Version.h \
-           views/ProfileCorrelationItemView.h \
+           pgInterface/AbstractDatabaseError.h \
+           pgInterface/DatabaseError.h \
+           pgInterface/Postgres.h \
+           pgInterface/DatabaseConnectionSettings.h \
+           sqlFactory/SqlFactory.h \
+           views/BedCorrelationItemView.h \
            views/BeddingTypeView.h \
            views/BedItemView.h \
            views/BoundaryTypeView.h \
@@ -221,76 +252,33 @@ widgets/HostEdit.h \
            views/LithologicalUnitView.h \
            views/LithologyView.h \
            views/OutcropQualityView.h \
+           views/ProfileCorrelationItemView.h \
            views/ProfileItemView.h \
            views/SampleItemView.h \
            views/SedimentStructureInBedView.h \
            views/SedimentStructureView.h \
            views/TreeView.h \
-           widgets/ProfileCorrelationWidget.h \
            widgets/BedPropertyPage.h \
+           widgets/DatabaseConnectionDialog.h \
            widgets/DescriptionEdit.h \
            widgets/FileNameBrowserWidget.h \
            widgets/GrainSizeModeSelectorWidget.h \
            widgets/GrainSizeSelectorWidget.h \
+           widgets/HostEdit.h \
            widgets/IdLabel.h \
            widgets/ImageFileNameBrowserWidget.h \
            widgets/LengthMeasurementWidget.h \
            widgets/LengthUnitsComboBox.h \
+           widgets/LoginEdit.h \
            widgets/MainWindow.h \
            widgets/ManagementToolBox.h \
            widgets/NameEdit.h \
+           widgets/PasswordEdit.h \
+           widgets/ProfileCorrelationWidget.h \
            widgets/ProfileWorkWidget.h \
            widgets/QtPatternSelectorWidget.h \
-           widgets/WorkWidget.h \
-           items/BedCorrelationItem.h \
-           views/BedCorrelationItemView.h \
-           models/BedCorrelationItemModel.h \
-           dialogs/BedCorrelationEditorDialog.h \
-           correlationView/BedCorrelationView.h \
-           dbModel/DbInterfacepart.h \
-           dbModel/Database.h \
-           dbModel/Schema.h \
-           dbModel/DbInterfacePartInSchema.h \
-           dbModel/Sequence.h \
-           dbModel/Table.h \
-           dbModel/DbInterfacePartInTable.h \
-           dbModel/TableColumn.h \
-           dbModel/TableConstraint.h \
-           dbModel/PrimaryKey.h \
-           dbModel/UniqueConstraint.h \
-           dbModel/CheckConstraint.h \
-           dbModel/TextNotEmptyCheckConstraint.h \
-           dbModel/ForeignKey.h \
-           nonGui/ProfileLoggerDatabase.h \
-           sqlFactory/SqlFactory.h \
-           widgets/LoginEdit.h \
-           widgets/PasswordEdit.h \
-           widgets/DatabaseConnectionDialog.h \
-           dbInterface/DatabaseConnectionSettings.h \
-           dbInterface/DatabaseConnection.h \
-           dbInterface/AbstractDatabaseError.h \
-           dbInterface/QueryError.h \
-           dbInterface/TransactionError.h \
-           dialogs/DatabaseErrorDialog.h \
-           dbInterface/ConnectionError.h \
-           dataLogic/DbDataset.h \
-           dataLogic/DbStandardDataset.h \
-           dataLogic/DbProject.h
-
- SOURCES += main.cpp \
-dataLogic/DbProject.cpp \
-dataLogic/DbDataset.cpp \
-dataLogic/DbStandardDataset.cpp \
-           items/BedCorrelationItem.cpp \
-           widgets/HostEdit.cpp \
- widgets\DatabaseConnectionDialog.cpp \
- widgets\LoginEdit.cpp \
- widgets\PasswordEdit.cpp \
-dbInterface/ConnectionError.cpp \
-dbInterface\DatabaseConnectionSettings.cpp \
-           views/BedCorrelationItemView.cpp \
-           models/BedCorrelationItemModel.cpp \
-           dialogs/BedCorrelationEditorDialog.cpp \
+           widgets/WorkWidget.h
+SOURCES += main.cpp \
            columnView/BeddingTypeLegendItem.cpp \
            columnView/BoundaryTypeLegendItem.cpp \
            columnView/ColorLegendItem.cpp \
@@ -309,17 +297,17 @@ dbInterface\DatabaseConnectionSettings.cpp \
            columnView/PatternLegendItem.cpp \
            columnView/SedimentStructureLegendItem.cpp \
            columnView/SymbolLegendItem.cpp \
-           dataModel/ProfileInCorrelation.cpp \
-           dataModel/BedCorrelation.cpp \
-           dataModel/ProfileCorrelation.cpp \
+           correlationView/BedCorrelationView.cpp \
+           dataManager/DataManager.cpp \
+           dataManager/ProjectManager.cpp \
            dataModel/Bed.cpp \
+           dataModel/BedCorrelation.cpp \
            dataModel/BeddingType.cpp \
            dataModel/BoundaryType.cpp \
            dataModel/CarbonateGrainSize.cpp \
            dataModel/ClasticGrainSize.cpp \
            dataModel/Color.cpp \
            dataModel/CustomSymbol.cpp \
-           dataModel/PrimitiveDataset.cpp \
            dataModel/Dataset.cpp \
            dataModel/DatasetWithFileName.cpp \
            dataModel/Facies.cpp \
@@ -331,17 +319,35 @@ dbInterface\DatabaseConnectionSettings.cpp \
            dataModel/LithologicalUnitType.cpp \
            dataModel/Lithology.cpp \
            dataModel/OutcropQuality.cpp \
+           dataModel/PrimitiveDataset.cpp \
            dataModel/Profile.cpp \
+           dataModel/ProfileCorrelation.cpp \
+           dataModel/ProfileInCorrelation.cpp \
            dataModel/Project.cpp \
            dataModel/Sample.cpp \
            dataModel/SedimentStructure.cpp \
-           dialogs/ProfileCorrelationEditorDialog.cpp \
+           dbModel/CheckConstraint.cpp \
+           dbModel/Database.cpp \
+           dbModel/DbInterfacePart.cpp \
+           dbModel/DbInterfacePartInSchema.cpp \
+           dbModel/DbInterfacePartInTable.cpp \
+           dbModel/ForeignKey.cpp \
+           dbModel/PrimaryKey.cpp \
+           dbModel/Schema.cpp \
+           dbModel/Sequence.cpp \
+           dbModel/Table.cpp \
+           dbModel/TableColumn.cpp \
+           dbModel/TableConstraint.cpp \
+           dbModel/TextNotEmptyCheckConstraint.cpp \
+           dbModel/UniqueConstraint.cpp \
+           dialogs/BedCorrelationEditorDialog.cpp \
            dialogs/BeddingTypeEditorDialog.cpp \
            dialogs/BedEditorDialog.cpp \
            dialogs/BoundaryTypeEditorDialog.cpp \
            dialogs/ColorEditorDialog.cpp \
            dialogs/CsvProfileImportSettingsDialog.cpp \
            dialogs/CustomSymbolEditorDialog.cpp \
+           dialogs/DatabaseErrorDialog.cpp \
            dialogs/DatasetEditorDialog.cpp \
            dialogs/DatasetWithFileNameEditorDialog.cpp \
            dialogs/FaciesEditorDialog.cpp \
@@ -352,6 +358,7 @@ dbInterface\DatabaseConnectionSettings.cpp \
            dialogs/LithologicalUnitTypeEditorDialog.cpp \
            dialogs/LithologyEditorDialog.cpp \
            dialogs/OutcropQualityEditorDialog.cpp \
+           dialogs/ProfileCorrelationEditorDialog.cpp \
            dialogs/ProfileEditorDialog.cpp \
            dialogs/ProfileSelectorDialog.cpp \
            dialogs/SampleEditorDialog.cpp \
@@ -361,7 +368,7 @@ dbInterface\DatabaseConnectionSettings.cpp \
            fileInterfaces/CsvProfileImportSettings.cpp \
            fileInterfaces/ProfileImportSettings.cpp \
            fileInterfaces/XMLInterface.cpp \
-           items/ProfileCorrelationItem.cpp \
+           items/BedCorrelationItem.cpp \
            items/BeddingTypeItem.cpp \
            items/BedItem.cpp \
            items/BoundaryTypeItem.cpp \
@@ -377,11 +384,12 @@ dbInterface\DatabaseConnectionSettings.cpp \
            items/LithologicalUnitTypeItem.cpp \
            items/LithologyItem.cpp \
            items/OutcropQualityItem.cpp \
+           items/ProfileCorrelationItem.cpp \
            items/ProfileItem.cpp \
            items/SampleItem.cpp \
            items/SedimentStructureItem.cpp \
            items/StandardItem.cpp \
-           models/ProfileCorrelationItemModel.cpp \
+           models/BedCorrelationItemModel.cpp \
            models/BeddingTypeItemModel.cpp \
            models/BedItemModel.cpp \
            models/BoundaryTypeItemModel.cpp \
@@ -399,16 +407,24 @@ dbInterface\DatabaseConnectionSettings.cpp \
            models/LithologicalUnitTypeItemModel.cpp \
            models/LithologyItemModel.cpp \
            models/OutcropQualityItemModel.cpp \
+           models/ProfileCorrelationItemModel.cpp \
            models/ProfileItemModel.cpp \
            models/SampleItemModel.cpp \
            models/SedimentStructureInBedItemModel.cpp \
            models/SedimentStructureItemModel.cpp \
            models/StandardItemModel.cpp \
+           nonGui/AppDatabase.cpp \
            nonGui/Image.cpp \
            nonGui/ProfileLogger.cpp \
+           nonGui/ProfileLoggerDatabase.cpp \
            nonGui/Settings.cpp \
            nonGui/SymbolFactory.cpp \
-           views/ProfileCorrelationItemView.cpp \
+           pgInterface/AbstractDatabaseError.cpp \
+           pgInterface/DatabaseError.cpp \
+           pgInterface/Postgres.cpp \
+           pgInterface/DatabaseConnectionSettings.cpp \
+           sqlFactory/SqlFactory.cpp \
+           views/BedCorrelationItemView.cpp \
            views/BeddingTypeView.cpp \
            views/BedItemView.cpp \
            views/BoundaryTypeView.cpp \
@@ -426,46 +442,30 @@ dbInterface\DatabaseConnectionSettings.cpp \
            views/LithologicalUnitView.cpp \
            views/LithologyView.cpp \
            views/OutcropQualityView.cpp \
+           views/ProfileCorrelationItemView.cpp \
            views/ProfileItemView.cpp \
            views/SampleItemView.cpp \
            views/SedimentStructureInBedView.cpp \
            views/SedimentStructureView.cpp \
            views/TreeView.cpp \
-           widgets/ProfileCorrelationWidget.cpp \
            widgets/BedPropertyPage.cpp \
+           widgets/DatabaseConnectionDialog.cpp \
            widgets/DescriptionEdit.cpp \
            widgets/FileNameBrowserWidget.cpp \
            widgets/GrainSizeModeSelectorWidget.cpp \
            widgets/GrainSizeSelectorWidget.cpp \
+           widgets/HostEdit.cpp \
            widgets/IdLabel.cpp \
            widgets/ImageFileNameBrowserWidget.cpp \
            widgets/LengthMeasurementWidget.cpp \
            widgets/LengthUnitsComboBox.cpp \
+           widgets/LoginEdit.cpp \
            widgets/MainWindow.cpp \
            widgets/ManagementToolBox.cpp \
            widgets/NameEdit.cpp \
+           widgets/PasswordEdit.cpp \
+           widgets/ProfileCorrelationWidget.cpp \
            widgets/ProfileWorkWidget.cpp \
            widgets/QtPatternSelectorWidget.cpp \
-           widgets/WorkWidget.cpp \
-           correlationView/BedCorrelationView.cpp \
-           dbModel/DbInterfacePart.cpp \
-           dbModel/Database.cpp \
-           dbModel/Schema.cpp \
-           dbModel/DbInterfacePartInSchema.cpp \
-           dbModel/Sequence.cpp \
-           dbModel/Table.cpp \
-           dbModel/DbInterfacePartInTable.cpp \
-           dbModel/TableColumn.cpp \
-           dbModel/TableConstraint.cpp \
-           dbModel/PrimaryKey.cpp \
-           dbModel/UniqueConstraint.cpp \
-           dbModel/CheckConstraint.cpp \
-           dbModel/TextNotEmptyCheckConstraint.cpp \
-           nonGui/ProfileLoggerDatabase.cpp \
-           sqlFactory/SqlFactory.cpp \
-           dbModel/ForeignKey.cpp \
-           dbInterface/DatabaseConnection.cpp \
-           dbInterface/AbstractDatabaseError.cpp \
-           dbInterface/QueryError.cpp \
-           dbInterface/TransactionError.cpp \
-           dialogs/DatabaseErrorDialog.cpp 
+           widgets/WorkWidget.cpp
+TRANSLATIONS += i18n/profilelogger_de.ts i18n/profilelogger_en.ts

@@ -26,8 +26,14 @@
 #include "LithologicalUnit.h"
 #include "LithologicalUnitTypeEditorDialog.h"
 
-Project::Project(const QString& path)
-: _path(path),
+Project::Project(const int id,
+		 const QString& name,
+		 const QString& description,
+		 const QString& path)
+  : Dataset(id,
+	    name,
+	    description),
+_path(path),
 _lastProfileId(0),
 _lastOutcropQualityId(0),
 _lastColorId(0),
