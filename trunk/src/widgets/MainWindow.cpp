@@ -28,7 +28,6 @@ MainWindow::MainWindow()
   _fileM = new QMenu(tr("&File"), this);
   _projectM = new QMenu(tr("&Project"), this);
   _helpM = new QMenu(tr("&Help"), this);
-  _dbM = new QMenu(tr("&Database"), this);
 
   _centralW = new QTabWidget(this);
 
@@ -36,9 +35,6 @@ MainWindow::MainWindow()
 
   _fileM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getSettingsAction());
   _fileM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getQuitAction());
-
-  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getOpenDatabaseAction());
-  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getCloseDatabaseAction());
 
   _projectM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getNewProjectAction());
   _projectM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getSaveProjectAction());
@@ -50,7 +46,6 @@ MainWindow::MainWindow()
   _helpM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getAboutQtAction());
 
   menuBar()->addMenu(_fileM);
-  menuBar()->addMenu(_dbM);
   menuBar()->addMenu(_projectM);
   menuBar()->addMenu(_helpM);
 

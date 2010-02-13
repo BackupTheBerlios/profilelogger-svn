@@ -34,7 +34,6 @@ private:
     QMenu* _fileM;
     QMenu* _projectM;
     QMenu* _helpM;
-    QMenu* _dbM;
 
     QTabWidget* _centralW;
     WorkWidget* _workW;

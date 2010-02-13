@@ -19,14 +19,6 @@
 #include <QDebug>
 
 #include "MainWindow.h"
-#include "ConnectionError.h"
-#include "QueryError.h"
-#include "TransactionError.h"
-#include "DatabaseErrorDialog.h"
-
-#include "ProfileLoggerDatabase.h"
-#include "DatabaseConnection.h"
-#include "DatabaseConnectionDialog.h"
 
 #include "Version.h"
 #include "Project.h"
@@ -62,14 +54,10 @@ ProfileLogger::ProfileLogger(int & argc, char** argv)
     _xif(0),
     _project(Project()),
     _translator(0),
-    _mainW(0),
-    _db(0),
-    _dbConn(0) {
+    _mainW(0) {
   _settings = new Settings(this);
   _translator = new QTranslator(this);
   _xif = new XMLInterface(this);
-  _db = new ProfileLoggerDatabase(this);
-  _dbConn = new DatabaseConnection(this);
   setupModels();
   setupActions();
 }
@@ -118,9 +106,7 @@ void ProfileLogger::setupActions() {
   _aboutA = new QAction(tr("About this Program..."), this);
   _aboutQtA = new QAction(tr("About Qt..."), this);
   _quitA = new QAction(tr("Quit"), this);
-  _openDatabaseA = new QAction(tr("Open Database..."), this);
-  _closeDatabaseA = new QAction(tr("Close Database"), this);
-
+  
   _reloadBedsA = new QAction(tr("Reload Beds"), this);
   _createBedOnTopA = new QAction(tr("Create Bed On Top..."), this);
   _createBedAboveCurrentBedA = new QAction(tr("Create Bed Above Current Bed..."), this);
@@ -151,8 +137,6 @@ void ProfileLogger::setupActions() {
   connect(_aboutA, SIGNAL(activated()), this, SLOT(slotAbout()));
   connect(_aboutQtA, SIGNAL(activated()), this, SLOT(slotAboutQt()));
   connect(_quitA, SIGNAL(activated()), this, SLOT(slotQuit()));
-  connect(_openDatabaseA, SIGNAL(activated()), this, SLOT(slotOpenDatabase()));
-  connect(_closeDatabaseA, SIGNAL(activated()), this, SLOT(slotCloseDatabase()));
   connect(_reloadBedsA, SIGNAL(activated()), _bedItemModel, SLOT(reload()));
   connect(_createBedOnTopA, SIGNAL(activated()), _bedItemModel, SLOT(slotCreateBedOnTop()));
   connect(_createBedAboveCurrentBedA, SIGNAL(activated()), _bedItemModel, SLOT(slotCreateBedAboveCurrentBed()));
@@ -493,49 +477,8 @@ BedCorrelationItemModel* ProfileLogger::getBedCorrelationItemModel() {
   return _bedCorrelationItemModel;
 }
 
-void ProfileLogger::slotOpenDatabase()
-{
-  DatabaseConnectionDialog* dlg = new DatabaseConnectionDialog(getMainWindow());
-  if (QDialog::Accepted != dlg->exec()) {
-    return;
-  }
-
-  try {
-    _dbConn->slotOpen(dlg->getPassword());
-  }
-  catch(ConnectionError e) {
-    DatabaseErrorDialog dlg(activeWindow(), e);
-    dlg.exec();
-  }  
-  catch(TransactionError e) {
-    DatabaseErrorDialog dlg(activeWindow(), e);
-    dlg.exec();
-  }
-  catch(QueryError e) {
-    DatabaseErrorDialog dlg(activeWindow(), e);
-    dlg.exec();
-  }
-}
-
-void ProfileLogger::slotCloseDatabase()
-{
-  _dbConn->slotClose();
-}
-
 void ProfileLogger::setMainWindow(MainWindow* w) {
   _mainW = w;
-
-  connect(_dbConn, SIGNAL(connectionEstablished(const QString&)), _mainW, SLOT(slotDatabaseConnectionEstablished(const QString&)));
-  connect(_dbConn, SIGNAL(connectionLost()), _mainW, SLOT(slotDatabaseConnectionLost()));
-  connect(_dbConn, SIGNAL(connectionClosed()), _mainW, SLOT(slotDatabaseConnectionClosed()));
-}
-
-QAction* ProfileLogger::getCloseDatabaseAction() {
-  return _closeDatabaseA;
-}
-
-QAction* ProfileLogger::getOpenDatabaseAction() {
-  return _openDatabaseA;
 }
 
 void ProfileLogger::slotQuit() {

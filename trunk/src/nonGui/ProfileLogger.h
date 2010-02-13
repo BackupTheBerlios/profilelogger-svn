@@ -23,9 +23,7 @@ class QGraphicsScene;
 class QTranslator;
 
 class MainWindow;
-class ProfileLoggerDatabase;
 class XMLInterface;
-class DatabaseConnection;
 class Project;
 class ProfileItemModel;
 class BedItemModel;
@@ -105,8 +103,6 @@ public:
     QAction* getInsertProfileAboveBedAction();
     QAction* getDeleteBedsAboveBedAction();
     QAction* getDeleteBedsBelowBelowAction();
-    QAction* getOpenDatabaseAction();
-    QAction* getCloseDatabaseAction();
 
     QAction* getExportProfileToSvgAction();
     QAction* getExportProfileToPdfAction();
@@ -206,14 +202,6 @@ public:
     ProfileCorrelationItemModel* getProfileCorrelationItemModel();
     BedCorrelationItemModel* getBedCorrelationItemModel();
 
-    ProfileLoggerDatabase* getProfileLoggerDatabase() const {
-      return _db;
-    }
-
-    DatabaseConnection* getDatabaseConnection() const {
-      return _dbConn;
-    }
-
 signals:
     void currentProjectChanged(Project* p);
 
@@ -232,8 +220,6 @@ public slots:
     void registerProfileItemModel(Profile* b, ProfileItemModel* m);
     void unregisterBedItemModel(Bed* b);
     void unregisterProfileItemModel(Profile* p);
-    void slotOpenDatabase();
-    void slotCloseDatabase();
 
 private:
     void loadTranslation(const QString& fileName);
@@ -278,8 +264,6 @@ private:
     QAction* _aboutA;
     QAction* _aboutQtA;
     QAction* _quitA;
-    QAction* _openDatabaseA;
-    QAction* _closeDatabaseA;
     QAction* _reloadBedsA;
     QAction* _createBedOnTopA;
     QAction* _createBedAboveCurrentBedA;
@@ -305,9 +289,6 @@ private:
     QMap<QString, QPixmap> _pixmaps;
 
     MainWindow* _mainW;
-
-    ProfileLoggerDatabase* _db;
-    DatabaseConnection* _dbConn;
 };
 
 #endif	/* _PROFILELOGGER_H */
