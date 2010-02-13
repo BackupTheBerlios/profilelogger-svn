@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <QStringList>
+#include <QVariant>
 
 class Postgres;
 class AppDatabase;
@@ -28,24 +29,24 @@ class DataManager: public QObject
     return QStringList();
   }
 
-  virtual QStringList getInsertColumns() const {
-    return QStringList();
+  virtual QList<TableColumn*> getInsertColumns() const {
+    return QList<TableColumn*>();
   }
 
-  virtual QStringList getUpdateColumns() const {
-    return QStringList();
+  virtual QList<TableColumn*> getUpdateColumns() const {
+    return QList<TableColumn*>();
   }
 
-  virtual QStringList getSelectColumns() const {
-    return QStringList();
+  virtual QList<TableColumn*> getSelectColumns() const {
+    return QList<TableColumn*>();
   }
 
-  virtual QStringList getGroupByColumns() const {
-    return QStringList();
+  virtual QList<TableColumn*> getGroupByColumns() const {
+    return QList<TableColumn*>();
   }
 
-  virtual QStringList getOrderByColumns() const {
-    return QStringList();
+  virtual QList<TableColumn*> getOrderByColumns() const {
+    return QList<TableColumn*>();
   }
 
   AppDatabase* getDbModel() const {

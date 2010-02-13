@@ -128,10 +128,11 @@ void testExecParamsWithInsert(Postgres* pg) {
   pg->exec("CREATE SCHEMA test");
   pg->exec("CREATE SEQUENCE test.seq_test");
   pg->exec("CREATE TABLE test.test(id int not null default nextval('test.seq_test'), name text)");
-  char* values[2];
-  values[0] = "test name";
-  values[1] = "test description";
-  pg->execParams("INSERT INTO test.test(name) VALUES ($1::text)", 1, values);
+  QVariantList values;
+  values << QString("test name")
+	 << QString("test description");
+
+  pg->execParams("INSERT INTO test.test(name) VALUES ($1::text)", values);
 
   pg->declareCursor("tests", "select * from test.test");
   PGresult* res = pg->fetchAllInCursor("tests");
@@ -154,31 +155,41 @@ void loadProjects(ProjectManager* m) {
 
 void testProjectModel(ProjectManager* m) {
   Project p1;
+  Project p2;
+  Project p3;
 
   p1.setName("Project A");
   p1.setDescription("Description for project a");
 
+  p2.setName("foo");
+  p3.setName("modify me");
+
   m->save(&p1);
-  //m->save(&p2);
-  //  m->save(&p3);
+  m->save(&p2);
+  m->save(&p3);
 
   loadProjects(m);
 
-  /* QList<Project*> projects = m->loadProjects();
+  QList<Project*> projects = m->loadProjects();
   int i = 0;
   for (QList<Project*>::iterator it = projects.begin(); it != projects.end(); it++) {
     (*it)->setDescription(QString("Description #%1").arg(i++));
-    }*/
+  }
 
-  /* for (QList<Project*>::iterator it = projects.begin(); it != projects.end(); it++) {
+  loadProjects(m);
+
+  for (QList<Project*>::iterator it = projects.begin(); it != projects.end(); it++) {
     m->save(*it);
-    }*/
+  }
 
-  /*  loadProjects(m);
+  loadProjects(m);
 
-  m->remove(&p3);
+  projects.at(2)->setName("changed!");
+  m->save(projects.at(2));
+  loadProjects(m);
+  m->remove(projects.at(2));
 
-  loadProjects(m);*/
+  loadProjects(m);
 }
 
 int main(int argc, char** argv) {

@@ -12,6 +12,8 @@
 
 #include "DatabaseError.h"
 
+class Table;
+class TableColumn;
 class Sequence;
 
 class Postgres: public QObject {
@@ -24,11 +26,27 @@ class Postgres: public QObject {
   PGresult* exec(const QString& cmd);
   void declareCursor(const QString& cursorName,
 		     const QString& sql);
+  void declareSelectCursor(const QString& cursorName,
+			   QList<TableColumn*> cols,
+			   Table* t,
+			   QList<TableColumn*> orderCols);
+
   PGresult* fetchAllInCursor(const QString& cursorName);
   void closeCursor(const QString& cursorName);
   PGresult* execParams(const QString& sql, 
-		       int paramCount, 
-		       const char* const *paramValues);
+		       const QVariantList& values);
+
+  void execInsert(Table* t,
+		  QList<TableColumn*> cols,
+		  const QStringList& placeholders,
+		  const QVariantList& values);
+  void execUpdate(Table* t,
+		  QList<TableColumn*> updateCols,
+		  const QStringList& updatePlaceholders,
+		  const QVariantList& updateValues,
+		  TableColumn* idCol,
+		  const QString& idValuePlaceholder,
+		  const int id);
 
   QStringList getFieldNames(PGresult* res);
   int getFieldCount(PGresult* res);

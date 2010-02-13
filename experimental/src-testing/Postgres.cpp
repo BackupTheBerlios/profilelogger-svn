@@ -3,6 +3,9 @@
 #include <QDebug>
 
 #include "Project.h"
+
+#include "Table.h"
+#include "TableColumn.h"
 #include "Sequence.h"
 
 Postgres::Postgres(QObject* p)
@@ -133,17 +136,26 @@ QMap<QString, QVariant> Postgres::getRow(PGresult* res, int r) {
   return ret;
 }
 
-PGresult* Postgres::execParams(const QString& sql, 
-			       int paramCount,
-			       const char* const *paramValues) {
-  return PQexecParams(_psql,
+PGresult* Postgres::execParams(const QString& sql,
+			       const QVariantList& values) {
+  char** paramValues;
+  paramValues = new char*[values.size()];
+
+  for (int i = 0; i < values.size(); i++) {
+    paramValues[i] = qstrdup(values.at(i).toString().toUtf8());
+  }
+
+  PGresult* ret = PQexecParams(_psql,
 		      sql.toAscii().constData(),
-		      paramCount,
+		      values.size(),
 		      NULL, // backend deduces param types
 		      paramValues,
 		      NULL, // params are text, no lengths required
 		      NULL, // all params default to text
 		      0); // ask for text
+
+  delete[] paramValues;
+  return ret;
 }
 
 int Postgres::nextval(Sequence* s) {
@@ -162,4 +174,106 @@ int Postgres::nextval(Sequence* s) {
 
   QMap<QString, QVariant> r = getRow(res, 0);
   return r["nv"].toInt();
+}
+
+void Postgres::execInsert(Table* t,
+			  QList<TableColumn*> cols,
+			  const QStringList& placeholders,
+			  const QVariantList& values) {
+  QStringList colNames;
+  for (QList<TableColumn*>::iterator it = cols.begin(); it != cols.end(); it++) {
+    colNames << (*it)->getName();
+  }
+
+    QString sql = QString("INSERT INTO %1(%2) VALUES(%3)")
+    .arg(t->getQualifiedName())
+    .arg(colNames.join(", "))
+    .arg(placeholders.join(", "));
+
+    PGresult* res = execParams(sql, values);
+
+  if (PGRES_COMMAND_OK != PQresultStatus(res)) {
+    QStringList params;
+    for (int i = 0; i < values.size(); i++) {
+      params << values.at(i).toString();
+    }
+    
+    DatabaseError e(tr("Could not execute insert.\nParameters: \n\t%1")
+		    .arg(params.join("\n\t")),
+		    sql,
+		    qstrdup(PQresultErrorMessage(res)));
+    PQclear(res);
+    throw e;
+  }
+}
+
+void Postgres::execUpdate(Table* t,
+			  QList<TableColumn*> updateCols,
+			  const QStringList& updatePlaceholders,
+			  const QVariantList& updateValues,
+			  TableColumn* idCol,
+			  const QString& idValuePlaceholder,
+			  const int id) {
+  QStringList kv;
+  QVariantList values = updateValues;
+  values << QVariant(id);
+
+  for (int i = 0; i < updatePlaceholders.size(); i++) {
+    kv << QString("%1 = %2")
+      .arg(updateCols.at(i)->getName())
+      .arg(updatePlaceholders.at(i));
+  }
+
+    QString sql = QString("UPDATE %1 SET %2 WHERE %3 = %4")
+    .arg(t->getQualifiedName())
+    .arg(kv.join(", "))
+    .arg(idCol->getName())
+    .arg(idValuePlaceholder);
+
+    PGresult* res = execParams(sql, values);
+
+  if (PGRES_COMMAND_OK != PQresultStatus(res)) {
+    QStringList params;
+    for (int i = 0; i < updateValues.size(); i++) {
+      params << updateValues.at(i).toString();
+    }
+    
+    DatabaseError e(tr("Could not execute update.\nParameters: \n\t%1\nValues:\n\t%2\nDataset ID: %3")
+		    .arg(kv.join("\n\t"))
+		    .arg(params.join("\n\t"))
+		    .arg(id),
+		    sql,
+		    qstrdup(PQresultErrorMessage(res)));
+    PQclear(res);
+    throw e;
+  }
+}
+
+void Postgres::declareSelectCursor(const QString& cursorName,
+				   QList<TableColumn*> cols,
+				   Table* t,
+				   QList<TableColumn*> orderCols) {
+  QStringList selectColNames;
+  QStringList orderColNames;
+
+  for (int i = 0; i < cols.size(); i++) {
+    selectColNames << cols.at(i)->getName();
+  }
+
+  for (int i = 0; i < orderCols.size(); i++) {
+    orderColNames << orderCols.at(i)->getName();
+  }
+
+  if (orderColNames.size() > 0) {
+    declareCursor(cursorName, 
+		  QString("SELECT %1 from %2 order by %3")
+		  .arg(selectColNames.join(", "))
+		  .arg(t->getQualifiedName())
+		  .arg(orderColNames.join(", ")));
+  } else {
+    declareCursor(cursorName, 
+		  QString("SELECT %1 from %2")
+		  .arg(selectColNames.join(", "))
+		  .arg(t->getQualifiedName()));
+  }
 }

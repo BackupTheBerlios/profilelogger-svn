@@ -11,13 +11,19 @@ class ProjectManager: public DataManager {
   ProjectManager(QObject* p, Postgres* pg, AppDatabase* dm);
   virtual ~ProjectManager() {}
 
-  QStringList getInsertColumns() const;
-  QStringList getUpdateColumns() const;
-  QStringList getSelectColumns() const;
-  QStringList getGroupByColumns() const;
-  QStringList getOrderByColumns() const;
+  QList<TableColumn*> getInsertColumns() const;
+  QList<TableColumn*> getUpdateColumns() const;
+  QList<TableColumn*> getSelectColumns() const;
+  QList<TableColumn*> getGroupByColumns() const;
+  QList<TableColumn*> getOrderByColumns() const;
+
   QStringList getInsertPlaceholders() const;
-  QList<QVariant> getInsertValues(Project* p) const;
+  QStringList getUpdatePlaceholders() const;
+  QStringList getDeletePlaceholders() const;
+
+  QVariantList getInsertValues(Project* p) const;
+  QVariantList getUpdateValues(Project* p) const;
+  QVariantList getDeleteValues(Project* p) const;
 
   virtual void save(Project* p);
   QList<Project*> loadProjects();

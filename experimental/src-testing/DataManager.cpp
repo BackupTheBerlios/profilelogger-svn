@@ -25,10 +25,10 @@ void DataManager::remove(Dataset* d) {
     .arg(getTable()->getIdColumn()->getName())
     .arg(getSqlFactory()->typeToString(getTable()->getIdColumn()->getDataType()));
 
-  char* params[1];
-  params[0] = QString(d->getId()).toUtf8().data();
+  QVariantList params;
+  params << d->getId();
 
-  PGresult* res = getPostgres()->execParams(sql, 1, params);
+  PGresult* res = getPostgres()->execParams(sql, params);
   
   if (PGRES_COMMAND_OK != PQresultStatus(res)) {
     throw DatabaseError(tr("Could not delete project '%1'.").arg(d->toString()),
