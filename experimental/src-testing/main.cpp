@@ -32,79 +32,6 @@ void printData(QList< QMap<QString, QVariant> > d) {
   }
 }
 
-void crebas(Postgres* pg, AppDatabase* db) {
-  SqlFactory f(0);
-  QStringList sql;
-
-  sql << "DROP SCHEMA data CASCADE";
-
-  for (QList<Schema*>::iterator it = db->getFirstSchema(); it != db->getLastSchema(); it++) {
-    Schema* schema = *it;
-
-    QStringList buf = f.make(schema);
-    sql << buf;
-
-    for (QList<Sequence*>::iterator seqIt = schema->getFirstSequence(); seqIt != schema->getLastSequence(); seqIt++) {
-      sql << f.make(*seqIt);
-    }
-  }
-
-  for (QList<Schema*>::iterator sit = db->getFirstSchema(); sit != db->getLastSchema(); sit++) {
-    Schema* schema = *sit;
-
-    for (QList<Table*>::iterator tit = schema->getFirstTable(); tit != schema->getLastTable(); tit++) {
-      Table* table = *tit;
-      sql << f.make(table);
-
-      for (QList<UniqueConstraint*>::iterator ucit = table->getFirstUniqueConstraint(); ucit != table->getLastUniqueConstraint(); ucit++) {
-        sql << f.make(*ucit);
-      }
-      for (QList<TextNotEmptyCheckConstraint*>::iterator cit = table->getFirstTextNotEmptyCheckConstraint(); cit != table->getLastTextNotEmptyCheckConstraint(); cit++
-	   ) {
-        sql << f.make(*cit);
-      }
-      if (table->hasPrimaryKey()) {
-        sql << f.make(table->getPrimaryKey());
-      }
-    }
-  }
-
-  for (QList<Schema*>::iterator sit = db->getFirstSchema(); sit != db->getLastSchema(); sit++) {
-    Schema* schema = *sit;
-
-    for (QList<Table*>::iterator tit = schema->getFirstTable(); tit != schema->getLastTable(); tit++) {
-      Table* table = *tit;
-
-      for (QList<ForeignKey*>::iterator fkit = table->getFirstForeignKey(); fkit != table->getLastForeignKey(); fkit++) {
-        sql << f.make(*fkit);
-      }
-
-      for(QList<TableColumn*>::iterator cit = table->getFirstTableColumn(); cit != table->getLastTableColumn(); cit++) {
-        TableColumn* c = *cit;
-
-        if (c->hasSequence()) {
-          sql << f.makeDefaultFromSequence(c);
-        }
-        if (c->getHasDefaultText()) {
-          sql << f.makeDefaultText(c);
-        }
-        if (c->getHasDefaultInt()) {
-          sql << f.makeDefaultInt(c);
-        }
-        if (c->getHasDefaultDouble()) {
-          sql << f.makeDefaultDouble(c);
-        }
-        if (c->getDefaultConstant() != Database::NOTHING) {
-          sql << f.makeDefaultFromConstant(c);
-        }
-      }
-    }
-  }
-
-  for (QStringList::iterator it = sql.begin(); it != sql.end(); it++) {
-    pg->exec(*it);
-  }
-}
 void testCursor(Postgres* pg) {
   pg->declareCursor("databases", "select * from pg_database");
   PGresult* res = pg->fetchAllInCursor("databases");
@@ -176,7 +103,7 @@ int main(int argc, char** argv) {
   try {
     pg.connect();
     pg.begin();
-    crebas(&pg, &db);
+    pg.createSchema(&db);
     pg.commit();
 
     pg.begin();

@@ -2,11 +2,10 @@
 
 #include <QDebug>
 
-#include "Project.h"
-
 #include "Table.h"
 #include "TableColumn.h"
 #include "Sequence.h"
+#include "SqlFactory.h"
 
 Postgres::Postgres(QObject* p)
   : QObject(p)
@@ -146,13 +145,13 @@ PGresult* Postgres::execParams(const QString& sql,
   }
 
   PGresult* ret = PQexecParams(_psql,
-		      sql.toAscii().constData(),
-		      values.size(),
-		      NULL, // backend deduces param types
-		      paramValues,
-		      NULL, // params are text, no lengths required
-		      NULL, // all params default to text
-		      0); // ask for text
+			       sql.toAscii().constData(),
+			       values.size(),
+			       NULL, // backend deduces param types
+			       paramValues,
+			       NULL, // params are text, no lengths required
+			       NULL, // all params default to text
+			       0); // ask for text
 
   delete[] paramValues;
   return ret;
@@ -185,12 +184,12 @@ void Postgres::execInsert(Table* t,
     colNames << (*it)->getName();
   }
 
-    QString sql = QString("INSERT INTO %1(%2) VALUES(%3)")
+  QString sql = QString("INSERT INTO %1(%2) VALUES(%3)")
     .arg(t->getQualifiedName())
     .arg(colNames.join(", "))
     .arg(placeholders.join(", "));
 
-    PGresult* res = execParams(sql, values);
+  PGresult* res = execParams(sql, values);
 
   if (PGRES_COMMAND_OK != PQresultStatus(res)) {
     QStringList params;
@@ -224,13 +223,13 @@ void Postgres::execUpdate(Table* t,
       .arg(updatePlaceholders.at(i));
   }
 
-    QString sql = QString("UPDATE %1 SET %2 WHERE %3 = %4")
+  QString sql = QString("UPDATE %1 SET %2 WHERE %3 = %4")
     .arg(t->getQualifiedName())
     .arg(kv.join(", "))
     .arg(idCol->getName())
     .arg(idValuePlaceholder);
 
-    PGresult* res = execParams(sql, values);
+  PGresult* res = execParams(sql, values);
 
   if (PGRES_COMMAND_OK != PQresultStatus(res)) {
     QStringList params;
@@ -275,5 +274,80 @@ void Postgres::declareSelectCursor(const QString& cursorName,
 		  QString("SELECT %1 from %2")
 		  .arg(selectColNames.join(", "))
 		  .arg(t->getQualifiedName()));
+  }
+}
+
+void Postgres::createSchema(Database* db) {
+  SqlFactory f(0);
+  QStringList sql;
+
+  sql << "DROP SCHEMA data CASCADE";
+
+  for (QList<Schema*>::iterator it = db->getFirstSchema(); it != db->getLastSchema(); it++) {
+    Schema* schema = *it;
+
+    QStringList buf = f.make(schema);
+    sql << buf;
+
+    for (QList<Sequence*>::iterator seqIt = schema->getFirstSequence(); seqIt != schema->getLastSequence(); seqIt++) {
+      sql << f.make(*seqIt);
+    }
+  }
+
+  for (QList<Schema*>::iterator sit = db->getFirstSchema(); sit != db->getLastSchema(); sit++) {
+    Schema* schema = *sit;
+
+    for (QList<Table*>::iterator tit = schema->getFirstTable(); tit != schema->getLastTable(); tit++) {
+      Table* table = *tit;
+      sql << f.make(table);
+
+      for (QList<UniqueConstraint*>::iterator ucit = table->getFirstUniqueConstraint(); ucit != table->getLastUniqueConstraint(); ucit++) {
+        sql << f.make(*ucit);
+      }
+      for (QList<TextNotEmptyCheckConstraint*>::iterator cit = table->getFirstTextNotEmptyCheckConstraint(); cit != table->getLastTextNotEmptyCheckConstraint(); cit++
+	   ) {
+        sql << f.make(*cit);
+      }
+      if (table->hasPrimaryKey()) {
+        sql << f.make(table->getPrimaryKey());
+      }
+    }
+  }
+
+  for (QList<Schema*>::iterator sit = db->getFirstSchema(); sit != db->getLastSchema(); sit++) {
+    Schema* schema = *sit;
+
+    for (QList<Table*>::iterator tit = schema->getFirstTable(); tit != schema->getLastTable(); tit++) {
+      Table* table = *tit;
+
+      for (QList<ForeignKey*>::iterator fkit = table->getFirstForeignKey(); fkit != table->getLastForeignKey(); fkit++) {
+        sql << f.make(*fkit);
+      }
+      for(QList<TableColumn*>::iterator cit = table->getFirstTableColumn(); cit != table->getLastTableColumn(); cit++) {
+        TableColumn* c = *cit;
+
+        if (c->hasSequence()) {
+          sql << f.makeDefaultFromSequence(c);
+        }
+        if (c->getHasDefaultText()) {
+          sql << f.makeDefaultText(c);
+        }
+        if (c->getHasDefaultInt()) {
+          sql << f.makeDefaultInt(c);
+        }
+        if (c->getHasDefaultDouble()) {
+          sql << f.makeDefaultDouble(c);
+        }
+
+    
+        if (c->getDefaultConstant() != Database::NOTHING) {
+          sql << f.makeDefaultFromConstant(c);
+        }
+      }
+    }
+  }
+
+  for (QStringList::iterator it = sql.begin(); it != sql.end(); it++) {
+    exec(*it);
   }
 }
