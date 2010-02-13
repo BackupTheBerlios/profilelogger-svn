@@ -124,14 +124,11 @@ void ProjectManager::save(Project* p) {
 
 QList<Project*> ProjectManager::loadProjects() {
   QList<Project*> ret;
-  getPostgres()->declareSelectCursor("projects", 
-				     getSelectColumns(),
-				     getTable(),
-				     getOrderByColumns());
-
-  PGresult* res = getPostgres()->fetchAllInCursor("projects");
-
-  QList< QMap<QString, QVariant> > d = getPostgres()->getData(res);
+  
+  QList< QMap<QString, QVariant> > d = loadDataWithCursor("load_all_projects",
+							  getSelectColumns(),
+							  getTable(),
+							  getOrderByColumns());
 
   for (QList< QMap<QString, QVariant> >::iterator it = d.begin(); it != d.end(); it++) {
     QMap<QString, QVariant> row = *it;
@@ -141,7 +138,5 @@ QList<Project*> ProjectManager::loadProjects() {
 		       row["description"].toString());
   }
 
-  getPostgres()->closeCursor("projects");
-  getPostgres()->clearResult(res);
   return ret;
 }

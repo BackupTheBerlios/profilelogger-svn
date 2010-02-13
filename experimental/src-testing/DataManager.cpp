@@ -69,3 +69,22 @@ void DataManager::performUpdate(Table* t,
 			    idPlaceholder,
 			    id);
 }
+
+QList< QMap<QString, QVariant> > DataManager::loadDataWithCursor(const QString& cursorName,
+								 QList<TableColumn*> cols,
+								 Table* t,
+								 QList<TableColumn*> sortCols) {
+  getPostgres()->declareSelectCursor(cursorName, 
+				     cols,
+				     t,
+				     sortCols);
+
+  PGresult* res = getPostgres()->fetchAllInCursor(cursorName);
+
+  QList< QMap<QString, QVariant> > ret = getPostgres()->getData(res);
+
+  getPostgres()->closeCursor(cursorName);
+  getPostgres()->clearResult(res);
+
+  return ret;
+}

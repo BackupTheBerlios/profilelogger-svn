@@ -80,6 +80,10 @@ class DataManager: public QObject
 		     TableColumn* idCol,
 		     const QString& idPlaceholder,
 		     const int id);
+  QList< QMap<QString, QVariant> > loadDataWithCursor(const QString& cursorName,
+						      QList<TableColumn*> cols,
+						      Table* t,
+						      QList<TableColumn*> sortCols);
     private:
   Postgres* _pg;
   AppDatabase* _dm;
