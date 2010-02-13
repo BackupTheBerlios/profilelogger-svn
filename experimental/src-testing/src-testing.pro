@@ -6,7 +6,7 @@ OBJECTS_DIR = .obj
 INCLUDEPATH += /usr/local/postgres/include
 LIBS += -L/usr/local/postgres/lib -lpq
 DEPENDPATH += dbModel sqlFactory dataModel
-INCLUDEPATH += dbModel sqlFactory dataModel
+INCLUDEPATH += dbModel sqlFactory dataModel dataManager pgInterface
 QMAKE_CXXFLAGS += -Werror -ansi -Wall -pedantic -Wnon-virtual-dtor -Wno-long-long
 
 SOURCES += main.cpp \
@@ -14,8 +14,8 @@ dbModel/AbstractDatabaseError.cpp \
 sqlFactory/SqlFactory.cpp \
 dbModel/DatabaseError.cpp \
 pgInterface/Postgres.cpp \
-DataManager.cpp \
-ProjectManager.cpp \
+dataManager/DataManager.cpp \
+dataManager/ProjectManager.cpp \
 dataModel/Dataset.cpp \
 dbModel/CheckConstraint.cpp \
 dbModel/Database.cpp \
@@ -39,8 +39,8 @@ dbModel/AbstractDatabaseError.h \
 dataModel/Project.h \
 sqlFactory/SqlFactory.h \
 pgInterface/Postgres.h \
-DataManager.h \
-ProjectManager.h \
+dataManager/DataManager.h \
+dataManager/ProjectManager.h \
 dataModel/Dataset.h \
 dbModel/CheckConstraint.h \
 dbModel/Database.h \
