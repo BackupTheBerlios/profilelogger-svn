@@ -13,7 +13,7 @@ SOURCES += main.cpp \
 dbModel/AbstractDatabaseError.cpp \
 sqlFactory/SqlFactory.cpp \
 dbModel/DatabaseError.cpp \
-Postgres.cpp \
+pgInterface/Postgres.cpp \
 DataManager.cpp \
 ProjectManager.cpp \
 dataModel/Dataset.cpp \
@@ -38,7 +38,7 @@ HEADERS += dbModel/DatabaseError.h \
 dbModel/AbstractDatabaseError.h \
 dataModel/Project.h \
 sqlFactory/SqlFactory.h \
-Postgres.h \
+pgInterface/Postgres.h \
 DataManager.h \
 ProjectManager.h \
 dataModel/Dataset.h \
