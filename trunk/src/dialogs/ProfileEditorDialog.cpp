@@ -39,6 +39,7 @@ void ProfileEditorDialog::showData() {
     _maxSymbolSizeW->setValue(getProfile()->getMaxSymbolSize());
 
     _showHeightW->setChecked(getProfile()->getShowHeight());
+    _showBedNumbersW->setChecked(getProfile()->getShowBedNumbers());
     _showLithologyW->setChecked(getProfile()->getShowLithology());
     _showBeddingTypeW->setChecked(getProfile()->getShowBeddingType());
     _showTopBoundaryTypeW->setChecked(getProfile()->getShowTopBoundaryType());
@@ -119,6 +120,7 @@ void ProfileEditorDialog::setupVisibilityPage() {
     QBoxLayout* l = new QVBoxLayout(w);
 
     _showHeightW = new QCheckBox(tr("Show Height"), w);
+    _showBedNumbersW = new QCheckBox(tr("Show Bed Numbers"), w);
     _showLithologyW = new QCheckBox(tr("Show Lithology"), w);
     _showBeddingTypeW = new QCheckBox(tr("Show Bedding Type"), w);
     _showTopBoundaryTypeW = new QCheckBox(tr("Show Top Boundary Type"), w);
@@ -134,6 +136,7 @@ void ProfileEditorDialog::setupVisibilityPage() {
     _showHeightMarksW = new QCheckBox(tr("Show Height Marks"), w);
 
     l->addWidget(_showHeightW);
+    l->addWidget(_showBedNumbersW);
     l->addWidget(_showLithologyW);
     l->addWidget(_showBeddingTypeW);
     l->addWidget(_showTopBoundaryTypeW);
@@ -149,6 +152,7 @@ void ProfileEditorDialog::setupVisibilityPage() {
     l->addWidget(_showCustomSymbolsW);
     l->addWidget(_showNotesW);
 
+    connect(_showBedNumbersW, SIGNAL(toggled(bool)), this, SLOT(slotShowBedNumbersToggled(bool)));
     connect(_showHeightW, SIGNAL(toggled(bool)), this, SLOT(slotShowHeightToggled(bool)));
     connect(_showLithologyW, SIGNAL(toggled(bool)), this, SLOT(slotShowLithologyToggled(bool)));
     connect(_showBeddingTypeW, SIGNAL(toggled(bool)), this, SLOT(slotShowBeddingTypeToggled(bool)));
@@ -220,7 +224,7 @@ void ProfileEditorDialog::slotShowHeightToggled(bool toggled) {
     getProfile()->setShowHeight(toggled);
 }
 
-void ProfileEditorDialog::slotShowBedNumberToggled(bool toggled) {
+void ProfileEditorDialog::slotShowBedNumbersToggled(bool toggled) {
     getProfile()->setShowBedNumbers(toggled);
 }
 

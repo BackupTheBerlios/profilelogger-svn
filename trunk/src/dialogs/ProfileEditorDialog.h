@@ -35,7 +35,7 @@ public slots:
     void slotDefaultLengthUnitChanged(LengthUnit* u);
 
     void slotShowHeightToggled(bool toggled);
-    void slotShowBedNumberToggled(bool toggled);
+    void slotShowBedNumbersToggled(bool toggled);
     void slotShowLithologyToggled(bool toggled);
     void slotShowBeddingTypeToggled(bool toggled);
     void slotShowTopBoundaryTypeToggled(bool toggled);
