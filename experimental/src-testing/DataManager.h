@@ -67,9 +67,20 @@ class DataManager: public QObject
     return _sqlF;
   }
 
+ protected:
   QString makePlaceholder(const int placeholderNumber, TableColumn* col) const;
-
- private:
+  void performInsert(Table* t,
+		     QList<TableColumn*> cols,
+		     const QStringList& placeholders,
+		     const QVariantList& values);
+  void performUpdate(Table* t,
+		     QList<TableColumn*> updateCols,
+		     const QStringList& updatePlaceholders,
+		     const QVariantList& updateValues,
+		     TableColumn* idCol,
+		     const QString& idPlaceholder,
+		     const int id);
+    private:
   Postgres* _pg;
   AppDatabase* _dm;
   Table* _table;

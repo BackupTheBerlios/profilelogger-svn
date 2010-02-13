@@ -43,3 +43,29 @@ QString DataManager::makePlaceholder(const int placeholderNumber, TableColumn* c
     .arg(placeholderNumber)
     .arg(getSqlFactory()->typeToString(col->getDataType()));
 }
+
+void DataManager::performInsert(Table* t,
+				QList<TableColumn*> cols,
+				const QStringList& placeholders,
+				const QVariantList& values) {
+  getPostgres()->execInsert(t, 
+			    cols, 
+			    placeholders,
+			    values);
+}
+
+void DataManager::performUpdate(Table* t,
+				QList<TableColumn*> updateCols,
+				const QStringList& updatePlaceholders,
+				const QVariantList& updateValues,
+				TableColumn* idCol,
+				const QString& idPlaceholder,
+				const int id) {
+  getPostgres()->execUpdate(t,
+			    updateCols,
+			    updatePlaceholders,
+			    updateValues,
+			    idCol,
+			    idPlaceholder,
+			    id);
+}

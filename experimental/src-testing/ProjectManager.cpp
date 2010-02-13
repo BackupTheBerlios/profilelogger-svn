@@ -94,23 +94,23 @@ QList<TableColumn*> ProjectManager::getOrderByColumns() const
 }
 
 void ProjectManager::insert(Project* p) {
-  getPostgres()->execInsert(getTable(), 
-			    getInsertColumns(), 
-			    getInsertPlaceholders(),
-			    getInsertValues(p));
+  performInsert(getTable(), 
+		getInsertColumns(), 
+		getInsertPlaceholders(),
+		getInsertValues(p));
 }
 
 void ProjectManager::update(Project* p) {
   TableColumn* idCol = getTable()->getIdColumn();
   QVariantList values = getUpdateValues(p);
 
-  getPostgres()->execUpdate(getTable(),
-			    getUpdateColumns(),
-			    getUpdatePlaceholders(),
-			    values,
-			    idCol,
-			    makePlaceholder(values.size() + 1, idCol),
-			    p->getId());
+  performUpdate(getTable(),
+		getUpdateColumns(),
+		getUpdatePlaceholders(),
+		values,
+		idCol,
+		makePlaceholder(values.size() + 1, idCol),
+		p->getId());
 }
 
 void ProjectManager::save(Project* p) {
