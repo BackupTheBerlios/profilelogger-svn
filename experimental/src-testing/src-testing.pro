@@ -10,6 +10,7 @@ INCLUDEPATH += dbModel sqlFactory dataModel
 QMAKE_CXXFLAGS += -Werror -ansi -Wall -pedantic -Wnon-virtual-dtor -Wno-long-long
 
 SOURCES += main.cpp \
+AbstractDatabaseError.cpp \
 sqlFactory/SqlFactory.cpp \
 DatabaseError.cpp \
 Postgres.cpp \
@@ -34,6 +35,7 @@ dbModel/AppDatabase.cpp \
 dataModel/Project.cpp
 
 HEADERS += DatabaseError.h \
+AbstractDatabaseError.h \
 dataModel/Project.h \
 sqlFactory/SqlFactory.h \
 Postgres.h \

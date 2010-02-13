@@ -3,7 +3,10 @@
 DatabaseError::DatabaseError(const QString& msg,
 			     const QString& sql,
 			     const QString& dbMsg)
-  : _msg(msg),
+  : AbstractDatabaseError(dbMsg),
     _sql(sql),
-    _dbMsg(dbMsg)
+    _msg(msg)
+{}
+
+DatabaseError::~DatabaseError() throw()
 {}

@@ -8,22 +8,25 @@
 
 #include "libpq-fe.h"
 
-class DatabaseError {
+#include "AbstractDatabaseError.h"
+
+class DatabaseError: public AbstractDatabaseError {
  public:
   DatabaseError(const QString& msg,
 		const QString& sql = QString::null,
 		const QString& dbMsg = QString::null);
-  QString text() {
 
+  virtual ~DatabaseError() throw();
+
+  QString text() const {
     return QString("Message: %1\nSQL: \n\t%2\nDatabase Message: %3")
       .arg(_msg)
       .arg(_sql)
-      .arg(_dbMsg);
+      .arg(getDatabaseMessage());
   }
  private:
-  QString _msg;
   QString _sql;
-  QString _dbMsg;
+  QString _msg;
 };
 
 #endif
