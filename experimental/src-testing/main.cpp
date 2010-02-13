@@ -106,41 +106,16 @@ void crebas(Postgres* pg, AppDatabase* db) {
   }
 }
 void testCursor(Postgres* pg) {
-  pg->begin();
   pg->declareCursor("databases", "select * from pg_database");
   PGresult* res = pg->fetchAllInCursor("databases");
   printData(pg->getData(res));
   pg->closeCursor("databases");
   pg->clearResult(res);
-
-  pg->commit();
 }
 
 void testExecDDL(Postgres* pg) {
-  pg->begin();
   pg->exec("CREATE SCHEMA foo");
   pg->exec("DROP SCHEMA foo");
-  pg->commit();
-}
-
-void testExecParamsWithInsert(Postgres* pg) {
-  pg->begin();
-  pg->exec("CREATE SCHEMA test");
-  pg->exec("CREATE SEQUENCE test.seq_test");
-  pg->exec("CREATE TABLE test.test(id int not null default nextval('test.seq_test'), name text)");
-  QVariantList values;
-  values << QString("test name")
-	 << QString("test description");
-
-  pg->execParams("INSERT INTO test.test(name) VALUES ($1::text)", values);
-
-  pg->declareCursor("tests", "select * from test.test");
-  PGresult* res = pg->fetchAllInCursor("tests");
-  printData(pg->getData(res));
-  pg->closeCursor("tests");
-  pg->clearResult(res);
-
-  pg->commit();
 }
 
 void loadProjects(ProjectManager* m) {
@@ -207,15 +182,12 @@ int main(int argc, char** argv) {
     pg.begin();
     testProjectModel(&pm);
     pg.commit();
-    /*
+
     pg.begin();
-    loadProjects(&pg);
-    */
-    /*    testCursor(&pg);
-	  testExecDDL(&pg);
-	  testExecParamsWithInsert(&pg);
-    */
-    //    pg.commit();
+    loadProjects(&pm);
+    testCursor(&pg);
+    pg.commit();
+
     pg.close();
   } catch(DatabaseError e) {
     qDebug() << e.text();
