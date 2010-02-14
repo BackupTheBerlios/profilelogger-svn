@@ -85,8 +85,8 @@ INCLUDEPATH += . \
                pgInterface \
                fileInterfaces
 
-# Input
-HEADERS += columnView/BeddingTypeLegendItem.h \
+COLUMN_VIEW_HEADERS = \
+           columnView/BeddingTypeLegendItem.h \
            columnView/BoundaryTypeLegendItem.h \
            columnView/ColorLegendItem.h \
            columnView/CustomSymbolLegendItem.h \
@@ -103,10 +103,16 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            columnView/OutcropQualityLegendItem.h \
            columnView/PatternLegendItem.h \
            columnView/SedimentStructureLegendItem.h \
-           columnView/SymbolLegendItem.h \
-           correlationView/BedCorrelationView.h \
+           columnView/SymbolLegendItem.h 
+
+CORRELATION_VIEW_HEADERS = \
+           correlationView/BedCorrelationView.h 
+
+DATA_MANAGER_HEADERS = \
            dataManager/DataManager.h \
-           dataManager/ProjectManager.h \
+           dataManager/ProjectManager.h 
+
+DATA_MODEL_HEADERS = \
            dataModel/Bed.h \
            dataModel/BedCorrelation.h \
            dataModel/BeddingType.h \
@@ -133,7 +139,9 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            dataModel/ProfileInCorrelation.h \
            dataModel/Project.h \
            dataModel/Sample.h \
-           dataModel/SedimentStructure.h \
+           dataModel/SedimentStructure.h 
+
+DB_MODEL_HEADERS = \
            dbModel/CheckConstraint.h \
            dbModel/Database.h \
            dbModel/DbInterfacePart.h \
@@ -147,7 +155,9 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            dbModel/TableColumn.h \
            dbModel/TableConstraint.h \
            dbModel/TextNotEmptyCheckConstraint.h \
-           dbModel/UniqueConstraint.h \
+           dbModel/UniqueConstraint.h 
+
+DIALOG_HEADERS = \
            dialogs/BedCorrelationEditorDialog.h \
            dialogs/BeddingTypeEditorDialog.h \
            dialogs/BedEditorDialog.h \
@@ -172,11 +182,15 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            dialogs/SampleEditorDialog.h \
            dialogs/SedimentStructureEditorDialog.h \
            dialogs/SettingsDialog.h \
-           dialogs/ProjectEditorDialog.h \
+           dialogs/ProjectEditorDialog.h 
+
+FILE_INTERFACE_HEADERS = \
            fileInterfaces/CsvInterface.h \
            fileInterfaces/CsvProfileImportSettings.h \
            fileInterfaces/ProfileImportSettings.h \
-           fileInterfaces/XMLInterface.h \
+           fileInterfaces/XMLInterface.h 
+
+ITEM_HEADERS = \
            items/BedCorrelationItem.h \
            items/BeddingTypeItem.h \
            items/BedItem.h \
@@ -198,7 +212,9 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            items/SampleItem.h \
            items/SedimentStructureItem.h \
            items/StandardItem.h \
-           items/ProjectItem.h \
+           items/ProjectItem.h 
+
+MODEL_HEADERS = \
            models/ProjectItemModel.h \
            models/BedCorrelationItemModel.h \
            models/BeddingTypeItemModel.h \
@@ -223,19 +239,27 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            models/SampleItemModel.h \
            models/SedimentStructureInBedItemModel.h \
            models/SedimentStructureItemModel.h \
-           models/StandardItemModel.h \
+           models/StandardItemModel.h 
+
+NON_GUI_HEADERS = \
            nonGui/AppDatabase.h \
            nonGui/Image.h \
            nonGui/ProfileLogger.h \
            nonGui/ProfileLoggerDatabase.h \
            nonGui/Settings.h \
            nonGui/SymbolFactory.h \
-           nonGui/Version.h \
+           nonGui/Version.h 
+
+PG_INTERFACE_HEADERS = \
            pgInterface/AbstractDatabaseError.h \
            pgInterface/DatabaseError.h \
            pgInterface/Postgres.h \
-           pgInterface/DatabaseConnectionSettings.h \
-           sqlFactory/SqlFactory.h \
+           pgInterface/DatabaseConnectionSettings.h 
+
+SQL_FACTORY_HEADERS = \
+           sqlFactory/SqlFactory.h 
+
+VIEW_HEADERS = \
            views/BedCorrelationItemView.h \
            views/BeddingTypeView.h \
            views/BedItemView.h \
@@ -261,7 +285,9 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            views/SedimentStructureInBedView.h \
            views/SedimentStructureView.h \
            views/TreeView.h \
-           views/ProjectView.h \
+           views/ProjectView.h 
+
+WIDGET_HEADERS = \
            widgets/BedPropertyPage.h \
            widgets/DatabaseConnectionDialog.h \
            widgets/DescriptionEdit.h \
@@ -283,7 +309,23 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            widgets/QtPatternSelectorWidget.h \
            widgets/WorkWidget.h \
            widgets/DbWorkWidget.h
-SOURCES += main.cpp \
+
+HEADERS += $$COLUMN_VIEW_HEADERS \
+           $$CORRELATION_VIEW_HEADERS \
+           $$DATA_MANAGER_HEADERS \
+           $$DATA_MODEL_HEADERS \
+           $$DB_MODEL_HEADERS \
+           $$DIALOG_HEADERS \
+           $$FILE_INTERFACE_HEADERS \
+           $$ITEM_HEADERS \
+           $$MODEL_HEADERS \
+           $$NON_GUI_HEADERS \
+           $$PG_INTERFACE_HEADERS \
+           $$SQL_FACTORY_HEADERS \
+           $$VIEW_HEADERS \
+           $$WIDGET_HEADERS
+
+COLUMN_VIEW_SRC = \
            columnView/BeddingTypeLegendItem.cpp \
            columnView/BoundaryTypeLegendItem.cpp \
            columnView/ColorLegendItem.cpp \
@@ -301,10 +343,16 @@ SOURCES += main.cpp \
            columnView/OutcropQualityLegendItem.cpp \
            columnView/PatternLegendItem.cpp \
            columnView/SedimentStructureLegendItem.cpp \
-           columnView/SymbolLegendItem.cpp \
-           correlationView/BedCorrelationView.cpp \
+           columnView/SymbolLegendItem.cpp 
+
+CORRELATION_VIEW_SRC = \
+           correlationView/BedCorrelationView.cpp 
+
+DATA_MANAGER_SRC = \
            dataManager/DataManager.cpp \
-           dataManager/ProjectManager.cpp \
+           dataManager/ProjectManager.cpp 
+
+DATA_MODEL_SRC = \
            dataModel/Bed.cpp \
            dataModel/BedCorrelation.cpp \
            dataModel/BeddingType.cpp \
@@ -330,7 +378,9 @@ SOURCES += main.cpp \
            dataModel/ProfileInCorrelation.cpp \
            dataModel/Project.cpp \
            dataModel/Sample.cpp \
-           dataModel/SedimentStructure.cpp \
+           dataModel/SedimentStructure.cpp
+
+DB_MODEL_SRC = \
            dbModel/CheckConstraint.cpp \
            dbModel/Database.cpp \
            dbModel/DbInterfacePart.cpp \
@@ -344,7 +394,9 @@ SOURCES += main.cpp \
            dbModel/TableColumn.cpp \
            dbModel/TableConstraint.cpp \
            dbModel/TextNotEmptyCheckConstraint.cpp \
-           dbModel/UniqueConstraint.cpp \
+           dbModel/UniqueConstraint.cpp 
+
+DIALOGS_SRC = \
            dialogs/BedCorrelationEditorDialog.cpp \
            dialogs/BeddingTypeEditorDialog.cpp \
            dialogs/BedEditorDialog.cpp \
@@ -369,11 +421,15 @@ SOURCES += main.cpp \
            dialogs/SampleEditorDialog.cpp \
            dialogs/SedimentStructureEditorDialog.cpp \
            dialogs/SettingsDialog.cpp \
-           dialogs/ProjectEditorDialog.cpp \
+           dialogs/ProjectEditorDialog.cpp 
+
+FILE_INTERFACES_SRC = \
            fileInterfaces/CsvInterface.cpp \
            fileInterfaces/CsvProfileImportSettings.cpp \
            fileInterfaces/ProfileImportSettings.cpp \
-           fileInterfaces/XMLInterface.cpp \
+           fileInterfaces/XMLInterface.cpp 
+
+ITEMS_SRC = \
            items/BedCorrelationItem.cpp \
            items/BeddingTypeItem.cpp \
            items/BedItem.cpp \
@@ -395,7 +451,9 @@ SOURCES += main.cpp \
            items/SampleItem.cpp \
            items/SedimentStructureItem.cpp \
            items/StandardItem.cpp \
-           items/ProjectItem.cpp \
+           items/ProjectItem.cpp 
+
+MODELS_SRC = \
            models/ProjectItemModel.cpp \
            models/BedCorrelationItemModel.cpp \
            models/BeddingTypeItemModel.cpp \
@@ -420,18 +478,26 @@ SOURCES += main.cpp \
            models/SampleItemModel.cpp \
            models/SedimentStructureInBedItemModel.cpp \
            models/SedimentStructureItemModel.cpp \
-           models/StandardItemModel.cpp \
+           models/StandardItemModel.cpp 
+
+NON_GUI_SRC = \
            nonGui/AppDatabase.cpp \
            nonGui/Image.cpp \
            nonGui/ProfileLogger.cpp \
            nonGui/ProfileLoggerDatabase.cpp \
            nonGui/Settings.cpp \
-           nonGui/SymbolFactory.cpp \
+           nonGui/SymbolFactory.cpp 
+
+PG_INTERFACE_SRC = \
            pgInterface/AbstractDatabaseError.cpp \
            pgInterface/DatabaseError.cpp \
            pgInterface/Postgres.cpp \
-           pgInterface/DatabaseConnectionSettings.cpp \
-           sqlFactory/SqlFactory.cpp \
+           pgInterface/DatabaseConnectionSettings.cpp 
+
+SQL_FACTORY_SRC = \
+           sqlFactory/SqlFactory.cpp 
+
+VIEW_SRC = \
            views/BedCorrelationItemView.cpp \
            views/BeddingTypeView.cpp \
            views/BedItemView.cpp \
@@ -456,7 +522,9 @@ SOURCES += main.cpp \
            views/SedimentStructureInBedView.cpp \
            views/SedimentStructureView.cpp \
            views/TreeView.cpp \
-           views/ProjectView.cpp \
+           views/ProjectView.cpp 
+
+WIDGETS_SRC = \
            widgets/BedPropertyPage.cpp \
            widgets/DatabaseConnectionDialog.cpp \
            widgets/DescriptionEdit.cpp \
@@ -478,4 +546,21 @@ SOURCES += main.cpp \
            widgets/QtPatternSelectorWidget.cpp \
            widgets/WorkWidget.cpp \
            widgets/DbWorkWidget.cpp
+
+SOURCES += main.cpp \
+           $$COLUMN_VIEW_SRC \
+              $$DATA_MANAGER_SRC \
+              $$DATA_MODEL_SRC \
+              $$DB_MODEL_SRC \
+              $$DIALOGS_SRC \
+              $$FILE_INTERFACES_SRC \
+              $$ITEMS_SRC \
+              $$MODELS_SRC \
+              $$NON_GUI_SRC \
+              $$PG_INTERFACE_SRC \
+              $$SQL_FACTORY_SRC \
+              $$VIEW_SRC \
+              $$WIDGETS_SRC \
+              $$CORRELATION_VIEW_SRC 
+
 TRANSLATIONS += i18n/profilelogger_de.ts i18n/profilelogger_en.ts
