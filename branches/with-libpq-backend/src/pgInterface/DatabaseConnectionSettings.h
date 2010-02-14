@@ -80,6 +80,7 @@ class DatabaseConnectionSettings {
   }
 
   QString makeConnectionString() const;
+  QString makeInfoString() const;
 
  private:
   QString _host;

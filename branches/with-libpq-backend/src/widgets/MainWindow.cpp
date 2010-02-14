@@ -21,6 +21,7 @@
 
 #include "WorkWidget.h"
 #include "ProfileCorrelationWidget.h"
+#include "DbWorkWidget.h"
 
 MainWindow::MainWindow()
   : QMainWindow() {
@@ -54,9 +55,11 @@ MainWindow::MainWindow()
   menuBar()->addMenu(_projectM);
   menuBar()->addMenu(_helpM);
 
+  _dbWorkW = new DbWorkWidget(centralWidget());
   _workW = new WorkWidget(centralWidget());
   _correlationW = new ProfileCorrelationWidget(centralWidget());
 
+  (static_cast<QTabWidget*>(centralWidget()))->addTab(_dbWorkW, tr("Database Profile Management"));
   (static_cast<QTabWidget*>(centralWidget()))->addTab(_workW, tr("Profile Management"));
   (static_cast<QTabWidget*>(centralWidget()))->addTab(_correlationW, tr("Profile Correlation"));
 }
@@ -65,7 +68,6 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::slotDatabaseConnectionEstablished(const QString& s) {
-  qDebug() << "bin da: " << s;
   _centralW->setEnabled(true);
   _dbStatusW->setText(tr("Online: %1").arg(s));
 }

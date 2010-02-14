@@ -26,3 +26,11 @@ QString DatabaseConnectionSettings::makeConnectionString() const {
     .arg(getUser())
     .arg(getPassword());
 }
+
+QString DatabaseConnectionSettings::makeInfoString() const {
+  return QString("%1@%2:%3/%4")
+    .arg(getUser())
+    .arg(getHost())
+    .arg(getPort())
+    .arg(getDatabase());
+}

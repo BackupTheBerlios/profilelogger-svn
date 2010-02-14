@@ -172,6 +172,7 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            dialogs/SampleEditorDialog.h \
            dialogs/SedimentStructureEditorDialog.h \
            dialogs/SettingsDialog.h \
+           dialogs/ProjectEditorDialog.h \
            fileInterfaces/CsvInterface.h \
            fileInterfaces/CsvProfileImportSettings.h \
            fileInterfaces/ProfileImportSettings.h \
@@ -197,6 +198,8 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            items/SampleItem.h \
            items/SedimentStructureItem.h \
            items/StandardItem.h \
+           items/ProjectItem.h \
+           models/ProjectItemModel.h \
            models/BedCorrelationItemModel.h \
            models/BeddingTypeItemModel.h \
            models/BedItemModel.h \
@@ -258,6 +261,7 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            views/SedimentStructureInBedView.h \
            views/SedimentStructureView.h \
            views/TreeView.h \
+           views/ProjectView.h \
            widgets/BedPropertyPage.h \
            widgets/DatabaseConnectionDialog.h \
            widgets/DescriptionEdit.h \
@@ -277,7 +281,8 @@ HEADERS += columnView/BeddingTypeLegendItem.h \
            widgets/ProfileCorrelationWidget.h \
            widgets/ProfileWorkWidget.h \
            widgets/QtPatternSelectorWidget.h \
-           widgets/WorkWidget.h
+           widgets/WorkWidget.h \
+           widgets/DbWorkWidget.h
 SOURCES += main.cpp \
            columnView/BeddingTypeLegendItem.cpp \
            columnView/BoundaryTypeLegendItem.cpp \
@@ -364,6 +369,7 @@ SOURCES += main.cpp \
            dialogs/SampleEditorDialog.cpp \
            dialogs/SedimentStructureEditorDialog.cpp \
            dialogs/SettingsDialog.cpp \
+           dialogs/ProjectEditorDialog.cpp \
            fileInterfaces/CsvInterface.cpp \
            fileInterfaces/CsvProfileImportSettings.cpp \
            fileInterfaces/ProfileImportSettings.cpp \
@@ -389,6 +395,8 @@ SOURCES += main.cpp \
            items/SampleItem.cpp \
            items/SedimentStructureItem.cpp \
            items/StandardItem.cpp \
+           items/ProjectItem.cpp \
+           models/ProjectItemModel.cpp \
            models/BedCorrelationItemModel.cpp \
            models/BeddingTypeItemModel.cpp \
            models/BedItemModel.cpp \
@@ -448,6 +456,7 @@ SOURCES += main.cpp \
            views/SedimentStructureInBedView.cpp \
            views/SedimentStructureView.cpp \
            views/TreeView.cpp \
+           views/ProjectView.cpp \
            widgets/BedPropertyPage.cpp \
            widgets/DatabaseConnectionDialog.cpp \
            widgets/DescriptionEdit.cpp \
@@ -467,5 +476,6 @@ SOURCES += main.cpp \
            widgets/ProfileCorrelationWidget.cpp \
            widgets/ProfileWorkWidget.cpp \
            widgets/QtPatternSelectorWidget.cpp \
-           widgets/WorkWidget.cpp
+           widgets/WorkWidget.cpp \
+           widgets/DbWorkWidget.cpp
 TRANSLATIONS += i18n/profilelogger_de.ts i18n/profilelogger_en.ts

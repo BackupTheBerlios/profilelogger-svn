@@ -76,6 +76,11 @@ class Postgres: public QObject {
   void close();
   void clearResult(PGresult* res);
 
+ signals:
+  void connectionEstablished(const QString& conn);
+  void connectionClosed();
+  void connectionLost();
+
  private:
   PGconn* _psql;
 };

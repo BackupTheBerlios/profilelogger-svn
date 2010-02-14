@@ -14,6 +14,7 @@ class QMenu;
 class QTabWidget;
 class QLabel;
 
+class DbWorkWidget;
 class WorkWidget;
 class ProfileCorrelationWidget;
 
@@ -37,6 +38,7 @@ private:
     QMenu* _dbM;
 
     QTabWidget* _centralW;
+    DbWorkWidget* _dbWorkW;
     WorkWidget* _workW;
     ProfileCorrelationWidget* _correlationW;
 

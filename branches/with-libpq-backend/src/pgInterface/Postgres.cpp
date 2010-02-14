@@ -48,17 +48,24 @@ void Postgres::open(const DatabaseConnectionSettings& s) {
   _psql = PQconnectdb(qstrdup(s.makeConnectionString().toUtf8()));
 
   if (!_psql) {
+    emit connectionLost();
     throw DatabaseError(QString("%1: %2").arg("PQconnectdb returned NULL: ")
 			.arg(errorString()));
   }
 
   if (PQstatus(_psql) != CONNECTION_OK) {
-    close();
-    throw DatabaseError(errorString());
+    emit connectionLost();
+    QString dbMsg = errorString();
+    PQfinish(_psql);
+    throw DatabaseError(dbMsg);
   }
+
+  emit connectionEstablished(s.makeInfoString());
 }
 
 void Postgres::close() {
+  PQfinish(_psql);
+  emit connectionClosed();
 }
 
 void Postgres::clearResult(PGresult* res) {
