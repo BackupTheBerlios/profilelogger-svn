@@ -10,7 +10,11 @@
 #include "ProfileLogger.h"
 #include "MainWindow.h"
 
+#include "DatabaseError.h"
+#include "DatabaseErrorDialog.h"
+
 int main(int argc, char *argv[]) {
+  try {
     ProfileLogger app(argc, argv);
     app.loadTranslation();
 
@@ -22,4 +26,10 @@ int main(int argc, char *argv[]) {
     app.setMainWindow(w);
     
     return app.exec();
+  } catch(DatabaseError e) {
+    DatabaseErrorDialog dlg(0, e);
+    dlg.exec();
+
+    exit(-1);
+  }
 }

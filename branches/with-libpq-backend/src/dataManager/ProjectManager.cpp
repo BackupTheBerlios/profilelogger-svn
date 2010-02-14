@@ -5,9 +5,9 @@
 #include "Project.h"
 #include "Postgres.h"
 #include "SqlFactory.h"
-#include "AppDatabase.h"
+#include "ProfileLoggerDatabase.h"
 
-ProjectManager::ProjectManager(QObject* p, Postgres* pg, AppDatabase* dm)
+ProjectManager::ProjectManager(QObject* p, Postgres* pg, ProfileLoggerDatabase* dm)
   : DataManager(p, pg, dm)
 {
   setTable(dm->getTable("data.projects"));

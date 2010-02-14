@@ -8,7 +8,7 @@ class Project;
 class ProjectManager: public DataManager {
   Q_OBJECT
     public:
-  ProjectManager(QObject* p, Postgres* pg, AppDatabase* dm);
+  ProjectManager(QObject* p, Postgres* pg, ProfileLoggerDatabase* dm);
   virtual ~ProjectManager() {}
 
   QList<TableColumn*> getInsertColumns() const;

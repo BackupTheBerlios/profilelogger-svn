@@ -10,7 +10,7 @@
 
 #include "libpq-fe.h"
 
-DataManager::DataManager(QObject* p, Postgres* pg, AppDatabase* dm)
+DataManager::DataManager(QObject* p, Postgres* pg, ProfileLoggerDatabase* dm)
   : QObject(p),
     _pg(pg),
     _dm(dm),

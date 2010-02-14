@@ -7,7 +7,7 @@
 #include <QVariant>
 
 class Postgres;
-class AppDatabase;
+class ProfileLoggerDatabase;
 class SqlFactory;
 
 class Dataset;
@@ -18,7 +18,7 @@ class DataManager: public QObject
 {
   Q_OBJECT
     public:
-  DataManager(QObject* p, Postgres* pg, AppDatabase* dm);
+  DataManager(QObject* p, Postgres* pg, ProfileLoggerDatabase* dm);
   virtual ~DataManager() {}
 
   Postgres* getPostgres() const {
@@ -49,7 +49,7 @@ class DataManager: public QObject
     return QList<TableColumn*>();
   }
 
-  AppDatabase* getDbModel() const {
+  ProfileLoggerDatabase* getDbModel() const {
     return _dm;
   }
 
@@ -86,7 +86,7 @@ class DataManager: public QObject
 						      QList<TableColumn*> sortCols);
     private:
   Postgres* _pg;
-  AppDatabase* _dm;
+  ProfileLoggerDatabase* _dm;
   Table* _table;
   SqlFactory* _sqlF;
 };

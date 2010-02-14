@@ -25,6 +25,10 @@ class DatabaseError: public AbstractDatabaseError {
       .arg(getDatabaseMessage());
   }
 
+  virtual const char* what() throw() {
+    return qstrdup(text().toUtf8());
+  }
+
   QString getSql() const {
     return _sql;
   }
