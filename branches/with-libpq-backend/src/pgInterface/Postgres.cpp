@@ -20,8 +20,10 @@ QString Postgres::errorString() const  {
 }
 
 PGresult* Postgres::exec(const QString& cmd)  {
-  qDebug() << cmd;
-  PGresult* res = PQexec(_psql, cmd.toAscii().constData());
+  const char* csql = qstrdup(cmd.toUtf8());
+  qDebug() << "Postgres::exec(): " << csql;
+
+  PGresult* res = PQexec(_psql, csql);
 
   if (PQresultStatus(res) != PGRES_COMMAND_OK) {
     PQclear(res);
@@ -32,19 +34,21 @@ PGresult* Postgres::exec(const QString& cmd)  {
 }
 
 void Postgres::begin() {
-  PQclear(exec("BEGIN"));
+  PGresult *res = exec("BEGIN");
+  clearResult(res);
 }
 
 void Postgres::commit() {
-  PQclear(exec("COMMIT"));
+  PGresult *res = exec("COMMIT");
+  clearResult(res);
 }
 
 void Postgres::rollback() {
-  PQclear(exec("ROLLBACK"));
+  PGresult *res = exec("ROLLBACK");
+  clearResult(res);
 }
 
 void Postgres::open(const DatabaseConnectionSettings& s) {
-  //  _psql = PQconnectdb(connStr.toAscii().constData());
   _psql = PQconnectdb(qstrdup(s.makeConnectionString().toUtf8()));
 
   if (!_psql) {
@@ -152,8 +156,10 @@ PGresult* Postgres::execParams(const QString& sql,
     paramValues[i] = qstrdup(values.at(i).toString().toUtf8());
   }
 
+  const char* csql = qstrdup(sql.toUtf8());
+
   PGresult* ret = PQexecParams(_psql,
-			       sql.toAscii().constData(),
+			       csql,
 			       values.size(),
 			       NULL, // backend deduces param types
 			       paramValues,
@@ -285,11 +291,22 @@ void Postgres::declareSelectCursor(const QString& cursorName,
   }
 }
 
-void Postgres::createSchema(Database* db) {
+void Postgres::dropSchema(Database* db) {
   SqlFactory f(0);
   QStringList sql;
 
-  sql << "DROP SCHEMA data CASCADE";
+  for (QList<Schema*>::iterator it = db->getFirstSchema(); it != db->getLastSchema(); it++) {
+    sql << f.drop(*it, true);
+  }
+
+  for (QStringList::iterator it = sql.begin(); it != sql.end(); it++) {
+    exec(*it);
+  }
+}
+
+void Postgres::createSchema(Database* db) {
+  SqlFactory f(0);
+  QStringList sql;
 
   for (QList<Schema*>::iterator it = db->getFirstSchema(); it != db->getLastSchema(); it++) {
     Schema* schema = *it;
@@ -359,3 +376,8 @@ void Postgres::createSchema(Database* db) {
     exec(*it);
   }
 }
+
+void Postgres::insertTemplateData() {
+  
+}
+

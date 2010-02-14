@@ -33,9 +33,13 @@ QStringList SqlFactory::make(Schema* s) {
   return ret;
 }
 
-QStringList SqlFactory::drop(Schema* s) {
+QStringList SqlFactory::drop(Schema* s, const bool cascade) {
   QStringList ret;
-  ret << QString("DROP SCHEMA %1 CASCADE").arg(quoteIdentifier(s->getQualifiedName()));
+  if (!cascade) {
+    ret << QString("DROP SCHEMA %1").arg(quoteIdentifier(s->getQualifiedName()));
+  } else {
+    ret << QString("DROP SCHEMA %1 CASCADE").arg(quoteIdentifier(s->getQualifiedName()));
+  }
   return ret;
 }
 

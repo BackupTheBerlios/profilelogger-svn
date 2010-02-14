@@ -39,7 +39,7 @@ class SqlFactory: public QObject
   QString typeToString(Database::DataTypes t);
 
   QStringList make(Database* db);
-  QStringList drop(Schema* s);
+  QStringList drop(Schema* s, bool cascade = true);
   QStringList make(Schema* s);
   QStringList make(Sequence* s);
   QStringList make(Table* t);

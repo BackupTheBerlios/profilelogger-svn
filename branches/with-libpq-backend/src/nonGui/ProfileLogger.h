@@ -46,6 +46,7 @@ class SampleItemModel;
 class ImageItemModel;
 class ProfileCorrelationItemModel;
 class BedCorrelationItemModel;
+class ProjectItemModel;
 
 class Settings;
 
@@ -107,6 +108,9 @@ public:
     QAction* getDeleteBedsBelowBelowAction();
     QAction* getOpenDatabaseAction();
     QAction* getCloseDatabaseAction();
+    QAction* getDropSchemaAction();
+    QAction* getCreateSchemaAction();
+    QAction* getInsertTemplateDataAction();
 
     QAction* getExportProfileToSvgAction();
     QAction* getExportProfileToPdfAction();
@@ -182,6 +186,10 @@ public:
         return _customSymbolItemModel;
     }
 
+    ProjectItemModel* getProjectItemModel() {
+      return _projectItemModel;
+    }
+
     Project* getProject() {
         return &_project;
     }
@@ -234,6 +242,9 @@ public slots:
     void unregisterProfileItemModel(Profile* p);
     void slotOpenDatabase();
     void slotCloseDatabase();
+    void slotDropSchema();
+    void slotCreateSchema();
+    void slotInsertTemplateData();
 
 private:
     void loadTranslation(const QString& fileName);
@@ -265,6 +276,7 @@ private:
     ImageItemModel* _imageItemModel;
     ProfileCorrelationItemModel* _profileCorrelationItemModel;
     BedCorrelationItemModel* _bedCorrelationItemModel;
+    ProjectItemModel* _projectItemModel;
 
     QMap<Profile*, ProfileItemModel*> _profileItemModels;
     QMap<Bed*, BedItemModel*> _bedItemModels;
@@ -280,6 +292,9 @@ private:
     QAction* _quitA;
     QAction* _openDatabaseA;
     QAction* _closeDatabaseA;
+    QAction* _dropSchemaA;
+    QAction* _createSchemaA;
+    QAction* _insertTemplateDataA;
     QAction* _reloadBedsA;
     QAction* _createBedOnTopA;
     QAction* _createBedAboveCurrentBedA;

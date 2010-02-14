@@ -26,20 +26,39 @@
 MainWindow::MainWindow()
   : QMainWindow() {
   setupStatusBar();
+  setupMenuBar();
+  setupCentralWidget();
+}
+
+void MainWindow::setupCentralWidget() {
+  _centralW = new QTabWidget(this);
+
+  setCentralWidget(_centralW);
+
+  _dbWorkW = new DbWorkWidget(centralWidget());
+  _workW = new WorkWidget(centralWidget());
+  _correlationW = new ProfileCorrelationWidget(centralWidget());
+
+  (static_cast<QTabWidget*>(centralWidget()))->addTab(_dbWorkW, tr("Database Profile Management"));
+  (static_cast<QTabWidget*>(centralWidget()))->addTab(_workW, tr("Profile Management"));
+  (static_cast<QTabWidget*>(centralWidget()))->addTab(_correlationW, tr("Profile Correlation"));
+}
+
+void MainWindow::setupMenuBar() {
   _fileM = new QMenu(tr("&File"), this);
   _projectM = new QMenu(tr("&Project"), this);
   _helpM = new QMenu(tr("&Help"), this);
   _dbM = new QMenu(tr("&Database"), this);
-
-  _centralW = new QTabWidget(this);
-
-  setCentralWidget(_centralW);
 
   _fileM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getSettingsAction());
   _fileM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getQuitAction());
 
   _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getOpenDatabaseAction());
   _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getCloseDatabaseAction());
+  _dbM->insertSeparator((static_cast<ProfileLogger*> (QApplication::instance()))->getDropSchemaAction());
+  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getDropSchemaAction());
+  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getCreateSchemaAction());
+  _dbM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getInsertTemplateDataAction());
 
   _projectM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getNewProjectAction());
   _projectM->addAction((static_cast<ProfileLogger*> (QApplication::instance()))->getSaveProjectAction());
@@ -54,14 +73,6 @@ MainWindow::MainWindow()
   menuBar()->addMenu(_dbM);
   menuBar()->addMenu(_projectM);
   menuBar()->addMenu(_helpM);
-
-  _dbWorkW = new DbWorkWidget(centralWidget());
-  _workW = new WorkWidget(centralWidget());
-  _correlationW = new ProfileCorrelationWidget(centralWidget());
-
-  (static_cast<QTabWidget*>(centralWidget()))->addTab(_dbWorkW, tr("Database Profile Management"));
-  (static_cast<QTabWidget*>(centralWidget()))->addTab(_workW, tr("Profile Management"));
-  (static_cast<QTabWidget*>(centralWidget()))->addTab(_correlationW, tr("Profile Correlation"));
 }
 
 MainWindow::~MainWindow() {

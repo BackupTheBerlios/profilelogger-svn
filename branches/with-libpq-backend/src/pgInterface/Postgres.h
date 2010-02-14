@@ -26,6 +26,9 @@ class Postgres: public QObject {
   virtual ~Postgres();
  
   void createSchema(Database* m);
+  void dropSchema(Database* m);
+  void insertTemplateData();
+
   QString errorString() const;
 
   PGresult* exec(const QString& cmd);

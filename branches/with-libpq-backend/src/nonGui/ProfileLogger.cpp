@@ -44,6 +44,7 @@
 #include "ImageItemModel.h"
 #include "ProfileCorrelationItemModel.h"
 #include "BedCorrelationItemModel.h"
+#include "ProjectItemModel.h"
 
 #include "SettingsDialog.h"
 #include "Settings.h"
@@ -119,6 +120,9 @@ void ProfileLogger::setupActions() {
   _quitA = new QAction(tr("Quit"), this);
   _openDatabaseA = new QAction(tr("Open Database..."), this);
   _closeDatabaseA = new QAction(tr("Close Database"), this);
+  _dropSchemaA = new QAction(tr("Drop Schema..."), this);
+  _createSchemaA = new QAction(tr("Create Schema..."), this);
+  _insertTemplateDataA = new QAction(tr("Insert Template Data..."), this);
 
   _reloadBedsA = new QAction(tr("Reload Beds"), this);
   _createBedOnTopA = new QAction(tr("Create Bed On Top..."), this);
@@ -152,6 +156,10 @@ void ProfileLogger::setupActions() {
   connect(_quitA, SIGNAL(activated()), this, SLOT(slotQuit()));
   connect(_openDatabaseA, SIGNAL(activated()), this, SLOT(slotOpenDatabase()));
   connect(_closeDatabaseA, SIGNAL(activated()), this, SLOT(slotCloseDatabase()));
+  connect(_dropSchemaA, SIGNAL(activated()), this, SLOT(slotDropSchema()));
+  connect(_createSchemaA, SIGNAL(activated()), this, SLOT(slotCreateSchema()));
+  connect(_insertTemplateDataA, SIGNAL(activated()), this, SLOT(slotInsertTemplateData()));
+
   connect(_reloadBedsA, SIGNAL(activated()), _bedItemModel, SLOT(reload()));
   connect(_createBedOnTopA, SIGNAL(activated()), _bedItemModel, SLOT(slotCreateBedOnTop()));
   connect(_createBedAboveCurrentBedA, SIGNAL(activated()), _bedItemModel, SLOT(slotCreateBedAboveCurrentBed()));
@@ -192,6 +200,7 @@ void ProfileLogger::setupModels() {
   _imageItemModel = new ImageItemModel(this);
   _profileCorrelationItemModel = new ProfileCorrelationItemModel(this);
   _bedCorrelationItemModel = new BedCorrelationItemModel(this);
+  _projectItemModel = new ProjectItemModel(this);
 }
 
 void ProfileLogger::slotNewProject() {
@@ -500,7 +509,20 @@ void ProfileLogger::slotOpenDatabase()
   }
 
   try {
-    _dbConn->open(dlg->getDatabaseConnectionSettings());
+    DatabaseConnectionSettings cs = dlg->getDatabaseConnectionSettings();
+    _dbConn->open(cs);
+
+    if (cs.getDropSchema()) {
+      slotDropSchema();
+    }
+
+    if (cs.getCreateSchema()) {
+      slotCreateSchema();
+    }
+
+    if (cs.getInsertTemplateData()) { 
+      slotInsertTemplateData();
+    }
   }
   catch(DatabaseError e) {
     DatabaseErrorDialog dlg(activeWindow(), e);
@@ -532,3 +554,56 @@ QAction* ProfileLogger::getOpenDatabaseAction() {
 void ProfileLogger::slotQuit() {
   QApplication::quit();
 }
+
+
+QAction* ProfileLogger::getDropSchemaAction() {
+  return _dropSchemaA;
+}
+
+QAction* ProfileLogger::getCreateSchemaAction() {
+  return _createSchemaA;
+}
+
+QAction* ProfileLogger::getInsertTemplateDataAction() {
+  return _insertTemplateDataA;
+}
+
+void ProfileLogger::slotDropSchema() {
+  try {
+    _dbConn->begin();
+    _dbConn->dropSchema(_db);
+    _dbConn->commit();
+  }
+  catch(DatabaseError e) {
+    _dbConn->rollback();
+    DatabaseErrorDialog dlg(activeWindow(), e);
+    dlg.exec();
+  }
+}
+
+void ProfileLogger::slotCreateSchema() {
+  try {
+    _dbConn->begin();
+    _dbConn->createSchema(_db);
+    _dbConn->commit();
+  }
+  catch(DatabaseError e) {
+    _dbConn->rollback();
+    DatabaseErrorDialog dlg(activeWindow(), e);
+    dlg.exec();
+  }
+}
+
+void ProfileLogger::slotInsertTemplateData() {
+  try {
+    _dbConn->begin();
+    _dbConn->insertTemplateData();
+    _dbConn->commit();
+  }
+  catch(DatabaseError e) {
+    _dbConn->rollback();
+    DatabaseErrorDialog dlg(activeWindow(), e);
+    dlg.exec();
+  }
+}
+

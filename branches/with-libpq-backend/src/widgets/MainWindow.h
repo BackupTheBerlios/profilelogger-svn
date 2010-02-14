@@ -30,7 +30,9 @@ public:
     void slotDatabaseConnectionClosed();
 
 private:
+    void setupMenuBar();
     void setupStatusBar();
+    void setupCentralWidget();
 
     QMenu* _fileM;
     QMenu* _projectM;
