@@ -609,7 +609,6 @@ void ProfileLogger::slotInsertTemplateData() {
   }
 }
 
-
 void ProfileLogger::reloadProjects() {
   try {
     getPostgres()->begin();
