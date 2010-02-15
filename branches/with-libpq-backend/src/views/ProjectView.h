@@ -17,16 +17,19 @@ signals:
     void reloadRequest();
     void editRequest(const QModelIndex& idx);
     void deleteRequest(QModelIndexList indexes);
+    void currentProjectChanged(Project* p);
 
 public slots:
     void selectProject(Project* q);
     void slotIndexActivated(const QModelIndex&);
-    //    void slotCurrentProjectChanged(Project* p);
     void slotCustomContextMenuRequested(const QPoint& p);
     void slotSelectItemRequested(const QModelIndex& idx);
     void slotReload();
     void slotEdit();
     void slotDelete();
+
+ private:
+    Project* _project;
 };
 
 #endif	/* _PROJECTVIEW_H */
