@@ -158,6 +158,7 @@ DB_MODEL_HEADERS = \
            dbModel/UniqueConstraint.h 
 
 DIALOG_HEADERS = \
+           dialogs/DatabaseConnectionDialog.h \
            dialogs/BedCorrelationEditorDialog.h \
            dialogs/BeddingTypeEditorDialog.h \
            dialogs/BedEditorDialog.h \
@@ -289,7 +290,6 @@ VIEW_HEADERS = \
 
 WIDGET_HEADERS = \
            widgets/BedPropertyPage.h \
-           widgets/DatabaseConnectionDialog.h \
            widgets/DescriptionEdit.h \
            widgets/FileNameBrowserWidget.h \
            widgets/GrainSizeModeSelectorWidget.h \
@@ -397,6 +397,7 @@ DB_MODEL_SRC = \
            dbModel/UniqueConstraint.cpp 
 
 DIALOGS_SRC = \
+           dialogs/DatabaseConnectionDialog.cpp \
            dialogs/BedCorrelationEditorDialog.cpp \
            dialogs/BeddingTypeEditorDialog.cpp \
            dialogs/BedEditorDialog.cpp \
@@ -526,7 +527,6 @@ VIEW_SRC = \
 
 WIDGETS_SRC = \
            widgets/BedPropertyPage.cpp \
-           widgets/DatabaseConnectionDialog.cpp \
            widgets/DescriptionEdit.cpp \
            widgets/FileNameBrowserWidget.cpp \
            widgets/GrainSizeModeSelectorWidget.cpp \
