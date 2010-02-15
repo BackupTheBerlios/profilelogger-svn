@@ -109,7 +109,6 @@ void ProfileLogger::setupActions() {
   _openLastProjectA = new QAction(tr("Open Last Project"), this);
   _openLastProjectA->setShortcut(QKeySequence("Ctrl+Shift+o"));
   _openProjectA = new QAction(tr("&Open Project"), this);
-  _openProjectA->setShortcut(QKeySequence("Ctrl+o"));
   _newProjectA = new QAction(tr("&New Project"), this);
   _saveProjectA = new QAction(tr("&Save Project"), this);
   _saveProjectA->setShortcut(QKeySequence("Ctrl+s"));
@@ -119,6 +118,7 @@ void ProfileLogger::setupActions() {
   _aboutQtA = new QAction(tr("About Qt..."), this);
   _quitA = new QAction(tr("Quit"), this);
   _openDatabaseA = new QAction(tr("Open Database..."), this);
+  _openDatabaseA->setShortcut(QKeySequence("Ctrl+o"));
   _closeDatabaseA = new QAction(tr("Close Database"), this);
   _dropSchemaA = new QAction(tr("Drop Schema..."), this);
   _createSchemaA = new QAction(tr("Create Schema..."), this);
