@@ -6,6 +6,11 @@
 class ProjectItemModel;
 class ProjectView;
 
+class ProfileItemModel;
+class ProfileItemView;
+
+class QSplitter;
+
 class DbWorkWidget: public QWidget {
   Q_OBJECT
     public:
@@ -18,8 +23,13 @@ class DbWorkWidget: public QWidget {
   void slotDatabaseClosed();
 
  private:
+  QSplitter* _splW;
+
   ProjectItemModel* _projectsM;
   ProjectView* _projectsV;
+
+  ProfileItemModel* _profilesM;
+  ProfileItemView* _profilesV;
 };
 
 #endif
