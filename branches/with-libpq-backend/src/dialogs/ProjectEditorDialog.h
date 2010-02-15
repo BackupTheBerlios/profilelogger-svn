@@ -14,11 +14,14 @@
 class Project;
 
 class ProjectEditorDialog : public DatasetEditorDialog {
-    Q_OBJECT
-public:
-    ProjectEditorDialog(QWidget* parent, Project* p);
-    virtual ~ProjectEditorDialog();
-    Project* getProject();
+  Q_OBJECT
+    public:
+  ProjectEditorDialog(QWidget* parent, Project* p);
+  virtual ~ProjectEditorDialog();
+  Project* getProject();
+
+  public slots:
+  virtual void accept();
 };
 
 #endif	/* _PROJECTEDITORDIALOG_H */
