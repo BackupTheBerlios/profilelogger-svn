@@ -98,6 +98,8 @@ DatabaseConnectionDialog::DatabaseConnectionDialog(QWidget* p)
   if (_s.getInsertTemplateData()) {
     _insertTemplateDataW->setCheckState(Qt::Checked);
   }
+
+  _passW->setFocus();
 }
 
 void DatabaseConnectionDialog::slotHostChanged(const QString& s) {
