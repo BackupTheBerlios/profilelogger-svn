@@ -245,6 +245,7 @@ public slots:
     void slotDropSchema();
     void slotCreateSchema();
     void slotInsertTemplateData();
+    void reloadProjects();
 
 private:
     void loadTranslation(const QString& fileName);

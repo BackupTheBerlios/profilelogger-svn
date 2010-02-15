@@ -523,6 +523,8 @@ void ProfileLogger::slotOpenDatabase()
     if (cs.getInsertTemplateData()) { 
       slotInsertTemplateData();
     }
+
+    reloadProjects();
   }
   catch(DatabaseError e) {
     DatabaseErrorDialog dlg(activeWindow(), e);
@@ -607,3 +609,23 @@ void ProfileLogger::slotInsertTemplateData() {
   }
 }
 
+
+void ProfileLogger::reloadProjects() {
+  try {
+    getPostgres()->begin();
+    getProjectItemModel()->reload();
+    getPostgres()->commit();
+  }
+  catch(DatabaseError e) {
+    DatabaseErrorDialog dlg(activeWindow(), e);
+    dlg.exec();
+
+    try {
+      getPostgres()->rollback();
+    }
+    catch(DatabaseError e) {
+      DatabaseErrorDialog dlg(activeWindow(), e);
+      dlg.exec();
+    }
+  }
+}
