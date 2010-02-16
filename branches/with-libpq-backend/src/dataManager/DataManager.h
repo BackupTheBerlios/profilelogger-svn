@@ -84,7 +84,15 @@ class DataManager: public QObject
 						      QList<TableColumn*> cols,
 						      Table* t,
 						      QList<TableColumn*> sortCols);
-    private:
+
+  QList< QMap<QString, QVariant> > loadDataWithCursor(const QString& cursorName,
+						      QList<TableColumn*> cols,
+						      Table* t,
+						      QList<TableColumn*> sortCols,
+						      TableColumn* whereCol,
+						      const int whereId);
+
+ private:
   Postgres* _pg;
   ProfileLoggerDatabase* _dm;
   Table* _table;

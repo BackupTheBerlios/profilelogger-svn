@@ -22,8 +22,8 @@ class ColumnView;
 class GraphicColumnWidget;
 class SampleItemModel;
 class SampleItemView;
-class ImageItemModel;
-class ImageItemView;
+//class ImageItemModel;
+//class ImageItemView;
 
 class Project;
 
@@ -47,8 +47,8 @@ private:
     BedItemView* _bedsV;
     SampleItemModel* _samplesM;
     SampleItemView* _samplesV;
-    ImageItemModel* _imagesM;
-    ImageItemView* _imagesV;
+    //    ImageItemModel* _imagesM;
+    //    ImageItemView* _imagesV;
 
     ManagementToolBox* _managementW;
     GraphicColumnWidget* _columnW;

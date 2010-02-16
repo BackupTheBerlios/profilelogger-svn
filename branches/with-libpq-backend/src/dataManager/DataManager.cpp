@@ -88,3 +88,26 @@ QList< QMap<QString, QVariant> > DataManager::loadDataWithCursor(const QString& 
 
   return ret;
 }
+
+QList< QMap<QString, QVariant> > DataManager::loadDataWithCursor(const QString& cursorName,
+								 QList<TableColumn*> cols,
+								 Table* t,
+								 QList<TableColumn*> sortCols,
+								 TableColumn* whereCol,
+								 const int whereId) {
+  getPostgres()->declareSelectCursor(cursorName, 
+				     cols,
+				     t,
+				     sortCols,
+				     whereCol,
+				     whereId);
+
+  PGresult* res = getPostgres()->fetchAllInCursor(cursorName);
+
+  QList< QMap<QString, QVariant> > ret = getPostgres()->getData(res);
+
+  getPostgres()->closeCursor(cursorName);
+  getPostgres()->clearResult(res);
+
+  return ret;
+}

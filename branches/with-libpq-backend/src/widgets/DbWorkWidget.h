@@ -8,6 +8,7 @@ class ProjectView;
 
 class ProfileItemModel;
 class ProfileItemView;
+class ManagementToolBox;
 
 class QSplitter;
 
@@ -30,6 +31,8 @@ class DbWorkWidget: public QWidget {
 
   ProfileItemModel* _profilesM;
   ProfileItemView* _profilesV;
+
+  ManagementToolBox* _tbW;
 };
 
 #endif

@@ -69,6 +69,7 @@ class ProfileLoggerDatabase: public Database
 
   Table* _tLithologies;
   TableColumn* _lithologiesLithologyId;
+  TableColumn* _lithologiesProjectId;
 
   Table* _tFossils;
   TableColumn* _fossilsFossilId;

@@ -13,13 +13,14 @@
 #include <QObject>
 
 class Fossil : public DatasetWithFileName {
-public:
-    Fossil(int id = 0,
-            const QString& name = QObject::tr("New Fossil"),
-            const QString& description = QString::null,
-            const QString& fileName = QString::null);
-    virtual ~Fossil();
-    QString makeToolTipText(const bool withDatasetName = false) const;
+ public:
+  Fossil(Project* p = 0,
+	 int id = 0,
+	 const QString& name = QObject::tr("New Fossil"),
+	 const QString& description = QString::null,
+	 const QString& fileName = QString::null);
+  virtual ~Fossil();
+  QString makeToolTipText(const bool withDatasetName = false) const;
 };
 
 #endif	/* _Fossil_H */

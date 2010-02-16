@@ -12,13 +12,14 @@
 #include "DatasetWithFileNameEditorDialog.h"
 
 class BoundaryType : public DatasetWithFileName {
-public:
-    BoundaryType(int id = 0,
-            const QString& name = QObject::tr("New Boundary Type"),
-            const QString& description = QString::null,
-            const QString& fileName = QString::null);
-    virtual ~BoundaryType();
-    QString makeToolTipText(const bool withDatasetName = false) const;
+ public:
+  BoundaryType(Project* p = 0,
+	       int id = 0,
+	       const QString& name = QObject::tr("New Boundary Type"),
+	       const QString& description = QString::null,
+	       const QString& fileName = QString::null);
+  virtual ~BoundaryType();
+  QString makeToolTipText(const bool withDatasetName = false) const;
 };
 
 #endif	/* _BoundaryType_H */

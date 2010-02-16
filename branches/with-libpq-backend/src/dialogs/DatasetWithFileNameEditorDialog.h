@@ -29,7 +29,6 @@ public slots:
     virtual void slotShowDataset(Dataset* d);
 
 protected:
-
     bool hasFileNameWidget() const {
         return 0 != _fileNameW;
     }
@@ -54,7 +53,6 @@ protected:
     }
 
 private:
-
     FileNameBrowserWidget* _fileNameW;
     ImageFileNameBrowserWidget* _imageFileNameW;
 };

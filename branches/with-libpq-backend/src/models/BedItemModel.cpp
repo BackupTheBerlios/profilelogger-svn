@@ -96,7 +96,7 @@ void BedItemModel::slotCreateBedAbove(const QModelIndex& idxBedBelow) {
         return;
     }
 
-    Bed* bed = _profile->createBed(0, bitm->getBed()->getPosition());
+    Bed* bed = _profile->createBed(bitm->getBed()->getPosition());
 
     BedEditorDialog* dlg = new BedEditorDialog((static_cast<ProfileLogger*>(QApplication::instance()))->getMainWindow(), bed);
     dlg->exec();
@@ -120,7 +120,7 @@ void BedItemModel::slotCreateBedBelow(const QModelIndex& idxBedAbove) {
         return;
     }
 
-    Bed* bed = _profile->createBed(0, bitm->getBed()->getPosition() - 1);
+    Bed* bed = _profile->createBed(bitm->getBed()->getPosition() - 1);
 
     BedEditorDialog* dlg = new BedEditorDialog((static_cast<ProfileLogger*>(QApplication::instance()))->getMainWindow(), bed);
     dlg->exec();

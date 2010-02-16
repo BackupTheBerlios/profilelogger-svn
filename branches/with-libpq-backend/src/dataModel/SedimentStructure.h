@@ -14,13 +14,14 @@
 #include <QStringList>
 
 class SedimentStructure : public DatasetWithFileName {
-public:
-    SedimentStructure(int id = 0,
-            const QString& name = QObject::tr("New SedimentStructure"),
-            const QString& description = QString::null,
-            const QString& fileName = QString::null);
-    virtual ~SedimentStructure();
-    QString makeToolTipText(const bool withDatasetName = false) const;
+ public:
+  SedimentStructure(Project* p = 0,
+		    int id = 0,
+		    const QString& name = QObject::tr("New SedimentStructure"),
+		    const QString& description = QString::null,
+		    const QString& fileName = QString::null);
+  virtual ~SedimentStructure();
+  QString makeToolTipText(const bool withDatasetName = false) const;
 };
 
 #endif	/* _SedimentStructure_H */

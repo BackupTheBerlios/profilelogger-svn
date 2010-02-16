@@ -13,6 +13,7 @@
 class Project;
 class Lithology;
 class LithologyItem;
+class LithologyManager;
 
 class LithologyItemModel : public StandardItemModel {
     Q_OBJECT
@@ -20,6 +21,8 @@ public:
     LithologyItemModel(QObject* parent = 0);
     virtual ~LithologyItemModel();
     QModelIndex findIndexForLithology(Lithology* q);
+
+    LithologyManager* getLithologyManager();
 
 signals:
     void selectItemRequest(const QModelIndex& idx);

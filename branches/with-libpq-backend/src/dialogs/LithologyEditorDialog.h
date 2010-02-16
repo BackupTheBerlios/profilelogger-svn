@@ -8,22 +8,25 @@
 #ifndef _LITHOLOGYEDITORDIALOG_H
 #define	_LITHOLOGYEDITORDIALOG_H
 
-#include "DatasetWithFileNameEditorDialog.h"
+#include "DatasetInProjectWithFileNameEditorDialog.h"
 #include "GrainSizeModes.h"
 
 class Lithology;
 class GrainSizeSelectorWidget;
 class CarbonateGrainSize;
 class ClasticGrainSize;
+class LithologyManager;
 
-class LithologyEditorDialog : public DatasetWithFileNameEditorDialog {
+class LithologyEditorDialog : public DatasetInProjectWithFileNameEditorDialog {
     Q_OBJECT
 public:
     LithologyEditorDialog(QWidget* parent, Lithology* p);
     virtual ~LithologyEditorDialog();
     Lithology* getLithology();
+    LithologyManager* getLithologyManager();
 
 public slots:
+    virtual void accept();
     void slotDefaultGrainSizeModeChanged(GrainSizeModes m);
     void slotDefaultCarbonateGrainSizeChanged(CarbonateGrainSize* s);
     void slotDefaultClasticGrainSizeChanged(ClasticGrainSize* s);

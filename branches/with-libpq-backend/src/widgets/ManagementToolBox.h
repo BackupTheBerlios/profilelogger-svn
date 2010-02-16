@@ -35,6 +35,9 @@ public:
 public slots:
     virtual void slotCurrentProjectChanged(Project* p);
     
+ signals:
+    void currentProjectChanged(Project* p);
+
 private:
     Project* _project;
 

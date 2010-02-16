@@ -21,6 +21,10 @@ class QTabWidget;
 
 class Dataset;
 
+class ProfileLoggerDatabase;
+class DataManager;
+class Postgres;
+
 class DatasetEditorDialog : public QDialog {
     Q_OBJECT
 public:
@@ -31,17 +35,34 @@ signals:
     void showDatasetRequest(Dataset* d);
     void validationRequest();
 
-public slots:
-    virtual void reject();
-    virtual void close();
-
 protected slots:
     virtual void slotNameChanged(const QString& s);
     virtual void slotDescriptionChanged(const QString& s);
     virtual void slotShowDataset(Dataset* d);
     virtual void clear();
+    virtual void reject();
+    virtual void accept();
 
 protected:
+    void begin();
+    void commit();
+    void rollback();
+
+    void setDataManager(DataManager* m) {
+      _dataManager = m;
+    }
+
+    DataManager* getDataManager() {
+      return _dataManager;
+    }
+
+    Postgres* getPostgres() {
+      return _postgres;
+    }
+
+    ProfileLoggerDatabase* getProfileLoggerDatabase() {
+      return _database;
+    }
 
     bool hasIdWidget() const {
         return 0 != _idW;
@@ -91,6 +112,9 @@ protected:
 
 private:
     Dataset* _data;
+    DataManager* _dataManager;
+    Postgres* _postgres;
+    ProfileLoggerDatabase* _database;
 
     QTabWidget* _tabW;
     IdLabel* _idW;

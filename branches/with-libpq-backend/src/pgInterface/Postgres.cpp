@@ -377,7 +377,43 @@ void Postgres::createSchema(Database* db) {
   }
 }
 
+
 void Postgres::insertTemplateData() {
   
+}
+
+void Postgres::declareSelectCursor(const QString& cursorName,
+				   QList<TableColumn*> cols,
+				   Table* t,
+				   QList<TableColumn*> orderCols,
+				   TableColumn* whereCol,
+				   const int whereId) {
+  QStringList selectColNames;
+  QStringList orderColNames;
+  
+  for (int i = 0; i < cols.size(); i++) {
+    selectColNames << cols.at(i)->getName();
+  }
+
+  for (int i = 0; i < orderCols.size(); i++) {
+    orderColNames << orderCols.at(i)->getName();
+  }
+
+  if (orderColNames.size() > 0) {
+    declareCursor(cursorName, 
+		  QString("SELECT %1 from %2 WHERE %3 = %4 order by %5")
+		  .arg(selectColNames.join(", "))
+		  .arg(t->getQualifiedName())
+		  .arg(whereCol->getName())
+		  .arg(whereId)
+		  .arg(orderColNames.join(", ")));
+  } else {
+    declareCursor(cursorName, 
+		  QString("SELECT %1 from %2 where %3 = %4")
+		  .arg(selectColNames.join(", "))
+		  .arg(whereCol->getName())
+		  .arg(whereId)
+		  .arg(t->getQualifiedName()));
+  }
 }
 

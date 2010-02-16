@@ -14,13 +14,14 @@
 #include <QStringList>
 
 class CustomSymbol: public DatasetWithFileName {
-public:
-    CustomSymbol(int id = 0,
-            const QString& name = QObject::tr("New Custom Symbol"),
-            const QString& description = QString::null,
-            const QString& fileName = QString::null);
-    virtual ~CustomSymbol();
-    QString makeToolTipText(const bool withDatasetName=false) const;
+ public:
+  CustomSymbol(Project* p = 0,
+	       int id = 0,
+	       const QString& name = QObject::tr("New Custom Symbol"),
+	       const QString& description = QString::null,
+	       const QString& fileName = QString::null);
+  virtual ~CustomSymbol();
+  QString makeToolTipText(const bool withDatasetName=false) const;
 };
 
 #endif	/* _CustomSymbol_H */

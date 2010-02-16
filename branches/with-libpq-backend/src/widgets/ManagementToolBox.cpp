@@ -25,6 +25,7 @@
 #include "FaciesView.h"
 #include "LithologicalUnitTypeView.h"
 #include "LithologicalUnitView.h"
+#include "LithologyItemModel.h"
 
 ManagementToolBox::ManagementToolBox(QWidget* p)
 : QToolBox(p),
@@ -68,8 +69,11 @@ _project(0) {
     addItem(_lithologicalUnitTypeV, tr("Lithological Unit Types"));
     addItem(_lithologicalUnitV, tr("Lithological Units"));
 
-    connect(static_cast<ProfileLogger*> (QApplication::instance()), SIGNAL(currentProjectChanged(Project*)),
-            this, SLOT(slotCurrentProjectChanged(Project*)));
+    connect(this, SIGNAL(currentProjectChanged(Project*)), _lithologyV, SLOT(slotCurrentProjectChanged(Project*)));
+    connect(this, 
+	    SIGNAL(currentProjectChanged(Project*)),
+	    (static_cast<ProfileLogger*> (QApplication::instance()))->getLithologyItemModel(), 
+	    SLOT(slotCurrentProjectChanged(Project*)));
 }
 
 ManagementToolBox::~ManagementToolBox() {
@@ -78,4 +82,5 @@ ManagementToolBox::~ManagementToolBox() {
 void ManagementToolBox::slotCurrentProjectChanged(Project* p) {
     _project = p;
     setEnabled(_project);
+    emit(currentProjectChanged(_project));
 }

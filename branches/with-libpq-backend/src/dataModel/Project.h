@@ -52,7 +52,7 @@ class Project: public Dataset {
   }
 
   Profile* duplicateProfile(Profile* p);
-  Profile* createProfile(int id = 0);
+  Profile* createProfile();
   void deleteProfile(Profile* p);
   Profile* getProfile(int id);
 
@@ -65,7 +65,7 @@ class Project: public Dataset {
   }
 
   ProfileCorrelation* duplicateProfileCorrelation(ProfileCorrelation* p);
-  ProfileCorrelation* createProfileCorrelation(int id = 0);
+  ProfileCorrelation* createProfileCorrelation();
   void deleteProfileCorrelation(ProfileCorrelation* p);
   ProfileCorrelation* getProfileCorrelation(int id);
 
@@ -77,7 +77,7 @@ class Project: public Dataset {
     return _profileCorrelations.end();
   }
 
-  OutcropQuality* createOutcropQuality(int id = 0);
+  OutcropQuality* createOutcropQuality();
   void deleteOutcropQuality(OutcropQuality* oq);
   OutcropQuality* getOutcropQuality(int id);
 
@@ -93,7 +93,7 @@ class Project: public Dataset {
     return _outcropQualities.end();
   }
 
-  Color* createColor(int id = 0);
+  Color* createColor();
   void deleteColor(Color* oq);
   Color* getColor(int id);
 
@@ -109,7 +109,7 @@ class Project: public Dataset {
     return _colors.end();
   }
 
-  LithologicalUnitType* createLithologicalUnitType(int id = 0);
+  LithologicalUnitType* createLithologicalUnitType();
   void deleteLithologicalUnitType(LithologicalUnitType* oq);
   LithologicalUnitType* getLithologicalUnitType(int id);
 
@@ -125,7 +125,7 @@ class Project: public Dataset {
     return _lithologicalUnitTypes.end();
   }
 
-  LithologicalUnit* createLithologicalUnit(int id = 0);
+  LithologicalUnit* createLithologicalUnit();
   void deleteLithologicalUnit(LithologicalUnit* oq);
   LithologicalUnit* getLithologicalUnit(int id);
 
@@ -141,11 +141,15 @@ class Project: public Dataset {
     return _lithologicalUnits.end();
   }
 
+  void setLithologies(QList<Lithology*> l) {
+    _lithologies = l;
+  }
+
   int getLithologyCount() {
     return _lithologies.size();
   }
 
-  Lithology* createLithology(int id = 0);
+  Lithology* createLithology();
   void deleteLithology(Lithology* oq);
   Lithology* getLithology(int id);
 
@@ -157,7 +161,7 @@ class Project: public Dataset {
     return _lithologies.end();
   }
 
-  BeddingType* createBeddingType(int id = 0);
+  BeddingType* createBeddingType();
   void deleteBeddingType(BeddingType* oq);
   BeddingType* getBeddingType(int id);
 
@@ -173,7 +177,7 @@ class Project: public Dataset {
     return _beddingTypes.end();
   }
 
-  Facies* createFacies(int id = 0);
+  Facies* createFacies();
   void deleteFacies(Facies* oq);
   Facies* getFacies(int id);
 
@@ -189,7 +193,7 @@ class Project: public Dataset {
     return _facies.end();
   }
 
-  BoundaryType* createBoundaryType(int id = 0);
+  BoundaryType* createBoundaryType();
   void deleteBoundaryType(BoundaryType* oq);
   BoundaryType* getBoundaryType(int id);
 
@@ -225,7 +229,7 @@ class Project: public Dataset {
     return _carbonateGrainSizes.end();
   }
 
-  Fossil* createFossil(int id = 0);
+  Fossil* createFossil();
   void deleteFossil(Fossil* oq);
   Fossil* getFossil(int id);
 
@@ -241,7 +245,7 @@ class Project: public Dataset {
     return _fossils.end();
   }
 
-  SedimentStructure* createSedimentStructure(int id = 0);
+  SedimentStructure* createSedimentStructure();
   void deleteSedimentStructure(SedimentStructure* oq);
   SedimentStructure* getSedimentStructure(int id);
 
@@ -257,7 +261,7 @@ class Project: public Dataset {
     return _sedimentStructures.end();
   }
 
-  CustomSymbol* createCustomSymbol(int id = 0);
+  CustomSymbol* createCustomSymbol();
   void deleteCustomSymbol(CustomSymbol* oq);
   CustomSymbol* getCustomSymbol(int id);
 
@@ -290,21 +294,19 @@ class Project: public Dataset {
   virtual void setupClasticGrainSizes();
   virtual void setupLengthUnits();
 
-  ClasticGrainSize* createClasticGrainSize(int id,
-					   int order,
+  ClasticGrainSize* createClasticGrainSize(int order,
 					   const QString& name,
 					   const QString& description,
 					   GraphicColumnHeader::WidthPositions pos);
   void deleteClasticGrainSize(ClasticGrainSize* oq);
 
-  CarbonateGrainSize* createCarbonateGrainSize(int id,
-					       int order,
+  CarbonateGrainSize* createCarbonateGrainSize(int order,
 					       const QString& name,
 					       const QString& description,
 					       GraphicColumnHeader::WidthPositions pos);
   void deleteCarbonateGrainSize(CarbonateGrainSize* oq);
 
-  LengthUnit* createLengthUnit(int id, int mm, const QString& name);
+  LengthUnit* createLengthUnit(int mm, const QString& name);
 
  private:
   QString _path;

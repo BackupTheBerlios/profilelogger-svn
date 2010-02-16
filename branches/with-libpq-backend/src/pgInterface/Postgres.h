@@ -41,6 +41,13 @@ class Postgres: public QObject {
 			   Table* t,
 			   QList<TableColumn*> orderCols);
 
+  void declareSelectCursor(const QString& cursorName,
+			   QList<TableColumn*> cols,
+			   Table* t,
+			   QList<TableColumn*> orderCols,
+			   TableColumn* whereCol,
+			   const int whereId);
+
   PGresult* fetchAllInCursor(const QString& cursorName);
 
   void closeCursor(const QString& cursorName);

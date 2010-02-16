@@ -15,103 +15,161 @@
 #include "Project.h"
 #include "LithologyEditorDialog.h"
 #include "Lithology.h"
+#include "LithologyManager.h"
+#include "DatabaseError.h"
+#include "DatabaseErrorDialog.h"
 
 class Project;
 
 LithologyItemModel::LithologyItemModel(QObject* p)
-: StandardItemModel(p),
-_project(0) {
-    connect(static_cast<ProfileLogger*> (QApplication::instance()),
-            SIGNAL(currentProjectChanged(Project*)),
-            this,
-            SLOT(slotCurrentProjectChanged(Project*)));
+  : StandardItemModel(p),
+    _project(0) {
+  setDataManager(new LithologyManager(this,
+				      getPostgres(),
+				      getProfileLoggerDatabase()));
 }
 
 LithologyItemModel::~LithologyItemModel() {
 }
 
+LithologyManager* LithologyItemModel::getLithologyManager() {
+  return (LithologyManager*)getDataManager();
+}
+
 void LithologyItemModel::slotCurrentProjectChanged(Project* p) {
-    _project = p;
-    reload();
+  _project = p;
+  reload();
 }
 
 void LithologyItemModel::reload() {
-    clear();
+  clear();
 
-    QStringList hh;
-    hh << tr("Lithology");
-    setHorizontalHeaderLabels(hh);
+  QStringList hh;
+  hh << tr("Lithology");
+  setHorizontalHeaderLabels(hh);
 
-    if (!_project) {
-        return;
+  if (!_project) {
+    return;
+  }
+
+  try {
+    begin();
+    _project->setLithologies(getLithologyManager()->loadLithologies(_project));
+    commit();
+  }
+  catch(DatabaseError e) {
+    DatabaseErrorDialog dlg(getDialogParent(), e);
+    dlg.exec();
+    try {
+      rollback();
     }
-
-    QList<Lithology*>::iterator it = _project->getFirstLithology();
-    QList<Lithology*>::iterator last = _project->getLastLithology();
-
-    while (it != last) {
-        appendItem(*it);
-        it++;
+    catch(DatabaseError e) {
+      DatabaseErrorDialog dlg(getDialogParent(), e);
+      dlg.exec();
     }
+  }
+  QList<Lithology*>::iterator it = _project->getFirstLithology();
+  QList<Lithology*>::iterator last = _project->getLastLithology();
 
-    emit reloaded();
+  while (it != last) {
+    appendItem(*it);
+    it++;
+  }
+
+  emit reloaded();
 }
 
 void LithologyItemModel::createNew() {
-    Lithology* p = _project->createLithology();
-    LithologyEditorDialog* dlg = new LithologyEditorDialog((static_cast<ProfileLogger*>(QApplication::instance()))->getMainWindow(), p);
-    dlg->exec();
-    emit selectItemRequest(indexFromItem(appendItem(p)));
+  Q_ASSERT(_project);
+  Lithology* p = new Lithology(_project);
+  
+  LithologyEditorDialog* dlg = new LithologyEditorDialog(getDialogParent(), p);
+  
+  if (QDialog::Accepted != dlg->exec()) {
+    delete p;
+    return;
+  }
+
+  int id = p->getId();
+    
+  if (p) {
+    delete p;
+  }
+
+  reload();
+
+  emit selectItemRequest(indexFromItem(findItemForLithology(id)));
 }
 
 LithologyItem* LithologyItemModel::appendItem(Lithology* p) {
-    LithologyItem* i = new LithologyItem(p);
-    appendRow(i);
-    return i;
+  LithologyItem* i = new LithologyItem(p);
+  appendRow(i);
+  return i;
 }
 
 void LithologyItemModel::slotEditRequested(const QModelIndex& idx) {
-    LithologyItem* itm = (LithologyItem*) itemFromIndex(idx);
+  LithologyItem* itm = (LithologyItem*) itemFromIndex(idx);
 
-    if (!itm) {
-        return;
-    }
+  if (!itm) {
+    return;
+  }
 
-    LithologyEditorDialog* dlg = new LithologyEditorDialog((static_cast<ProfileLogger*>(QApplication::instance()))->getMainWindow(), itm->getLithology());
-    dlg->exec();
-    int id = dlg->getLithology()->getId();
-    reload();
-    emit selectItemRequest(indexFromItem(findItemForLithology(id)));
+  LithologyEditorDialog* dlg = new LithologyEditorDialog(getDialogParent(), 
+							 itm->getLithology());
+  dlg->exec();
+
+  int id = dlg->getLithology()->getId();
+
+  reload();
+
+  emit selectItemRequest(indexFromItem(findItemForLithology(id)));
 }
 
 LithologyItem* LithologyItemModel::findItemForLithology(int id) {
-    for (int r = 0; r < rowCount(); r++) {
-        LithologyItem* ret = (LithologyItem*) item(r);
-        if (ret->getLithology()->getId() == id) {
-            return ret;
-        }
+  for (int r = 0; r < rowCount(); r++) {
+    LithologyItem* ret = (LithologyItem*) item(r);
+    if (ret->getLithology()->getId() == id) {
+      return ret;
     }
-    return 0;
+  }
+  return 0;
 }
 
 void LithologyItemModel::slotDeleteRequested(QModelIndexList list) {
-    for (QModelIndexList::iterator it = list.begin();
-            it != list.end();
-            it++) {
-        LithologyItem* itm = (LithologyItem*) itemFromIndex(*it);
-        _project->deleteLithology(itm->getLithology());
+  try {
+    for (QModelIndexList::iterator it = list.begin(); it != list.end(); it++) {
+      begin();
+      LithologyItem* itm = (LithologyItem*) itemFromIndex(*it);
+      Lithology* l = itm->getLithology();
+      getLithologyManager()->remove(l);
+      _project->deleteLithology(l);
+      commit();
     }
-    reload();
+  }
+  catch(DatabaseError e) {
+    DatabaseErrorDialog dlg(QApplication::activeWindow(), e);
+    dlg.exec();
+    
+    try {
+      rollback();
+    }
+    catch(DatabaseError e) {
+      DatabaseErrorDialog dlg(getDialogParent(), e);
+      dlg.exec();
+    }
+  }
+
+  reload();
 }
 
 QModelIndex LithologyItemModel::findIndexForLithology(Lithology* q) {
-    if (!q) {
-        return QModelIndex();
-    }
+  if (!q) {
+    return QModelIndex();
+  }
 
-    LithologyItem* itm = findItemForLithology(q->getId());
-    if (!itm) {
-        return QModelIndex();
-    }
-    return indexFromItem(itm);
+  LithologyItem* itm = findItemForLithology(q->getId());
+  if (!itm) {
+    return QModelIndex();
+  }
+  return indexFromItem(itm);
 }

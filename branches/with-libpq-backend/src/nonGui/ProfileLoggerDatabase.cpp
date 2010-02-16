@@ -111,12 +111,17 @@ void ProfileLoggerDatabase::configureTableLithologies()
 {
   _lithologiesLithologyId = _tLithologies->createTableColumn("id", Database::DataTypeInt);
   _lithologiesLithologyId->setSequence(_seqLithologies);
+  _lithologiesProjectId = _tLithologies->createTableColumn("project_id", 
+							   Database::DataTypeInt);
 
-  TableColumn* n = _tLithologies->createTableColumn("name", Database::DataTypeText);
+  TableColumn* n = _tLithologies->createTableColumn("name", 
+						    Database::DataTypeText);
   n->setDefaultText(tr("New Lithology"));
-  (void) _tLithologies->createTableColumn("description", Database::DataTypeText);
-  (void) _tLithologies->createTableColumn("svg", Database::DataTypeText);
-
+  (void) _tLithologies->createTableColumn("description", 
+					  Database::DataTypeText);
+  (void) _tLithologies->createTableColumn("file_name", 
+					  Database::DataTypeText);
+  
   _tLithologies->createPrimaryKey("pk_lithologies")->add(_lithologiesLithologyId);
   _tLithologies->createUniqueConstraint("u_lithologies_name")->add(n);
   _tLithologies->createTextNotEmptyCheckConstraint("chk_lithologies_name_not_empty")->add(n);
@@ -371,4 +376,7 @@ void ProfileLoggerDatabase::setupForeignKeys()
 								_faciesFaciesId);
   _tBeds->createForeignKey("fk_beds_lithological_unit_exists")->setColumns(_bedsLithologicalUnitId,
 									   _lithologicalUnitsLithologicalUnitId);
+
+  _tLithologies->createForeignKey("fk_lithologies_project_exists")->setColumns(_lithologiesProjectId,
+									       _projectsProjectId);
 }

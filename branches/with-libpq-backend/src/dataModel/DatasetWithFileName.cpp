@@ -7,13 +7,17 @@
 
 #include "DatasetWithFileName.h"
 
-DatasetWithFileName::DatasetWithFileName(int id,
-        const QString& name,
-        const QString& description,
-        const QString& fileName)
-: Dataset(id, name, description),
-_fileName(fileName) {
-}
+DatasetWithFileName::DatasetWithFileName(Project* p,
+					 int id,
+					 const QString& name,
+					 const QString& description,
+					 const QString& fileName)
+  : DatasetInProject(p, 
+		     id, 
+		     name, 
+		     description),
+    _fileName(fileName) {
+    }
 
 DatasetWithFileName::~DatasetWithFileName() {
 }

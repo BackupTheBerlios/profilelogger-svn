@@ -13,13 +13,14 @@
 #include <QObject>
 
 class BeddingType: public DatasetWithFileName {
-public:
-    BeddingType(int id = 0,
-            const QString& name = QObject::tr("New Bedding Type"),
-            const QString& description = QString::null,
-            const QString& filename = QString::null);
-    virtual ~BeddingType();
-    QString makeToolTipText(const bool withDatasetName=false) const;
+ public:
+  BeddingType(Project* p = 0,
+	      int id = 0,
+	      const QString& name = QObject::tr("New Bedding Type"),
+	      const QString& description = QString::null,
+	      const QString& filename = QString::null);
+  virtual ~BeddingType();
+  QString makeToolTipText(const bool withDatasetName=false) const;
 };
 
 #endif	/* _BeddingType_H */

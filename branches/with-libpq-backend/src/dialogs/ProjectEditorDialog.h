@@ -12,6 +12,7 @@
 #include "GrainSizeModes.h"
 
 class Project;
+class ProjectManager;
 
 class ProjectEditorDialog : public DatasetEditorDialog {
   Q_OBJECT
@@ -22,6 +23,9 @@ class ProjectEditorDialog : public DatasetEditorDialog {
 
   public slots:
   virtual void accept();
+
+ protected:
+  ProjectManager* getProjectManager();
 };
 
 #endif	/* _PROJECTEDITORDIALOG_H */

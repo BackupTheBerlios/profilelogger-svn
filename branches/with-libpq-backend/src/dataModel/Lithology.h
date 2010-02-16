@@ -8,7 +8,7 @@
 #ifndef _Lithology_H
 #define	_Lithology_H
 
-#include "DatasetWithFileName.h"
+#include "DatasetInProjectWithFileName.h"
 
 #include "GrainSizeModes.h"
 
@@ -17,72 +17,74 @@
 
 class ClasticGrainSize;
 class CarbonateGrainSize;
+class Project;
 
-class Lithology : public DatasetWithFileName {
-public:
-    Lithology(int id = 0,
-            const QString& name = QObject::tr("New Color"),
+class Lithology : public DatasetInProjectWithFileName {
+ public:
+  Lithology(Project* p = 0,
+	    int id = 0,
+            const QString& name = QObject::tr("New Lithology"),
             const QString& description = QString::null,
             const QString& fileName = QString::null,
             GrainSizeModes defaultGrainSizeMode = ClasticGrainSizeMode,
             ClasticGrainSize* defaultClasticGrainSize = 0,
             CarbonateGrainSize* defaultCarbonateGrainSize = 0);
-    virtual ~Lithology();
-    QString makeToolTipText(const bool withDatasetName = false) const;
+  virtual ~Lithology();
+  QString makeToolTipText(const bool withDatasetName = false) const;
 
-    bool hasDefaultClasticGrainSize() const {
-        return 0 != _defaultClasticGrainSize;
+  bool hasDefaultClasticGrainSize() const {
+    return 0 != _defaultClasticGrainSize;
+  }
+
+  bool hasDefaultCarbonateGrainSize() const {
+    return 0 != _defaultCarbonateGrainSize;
+  }
+
+  GrainSizeModes getDefaultGrainSizeMode() const {
+    return _defaultGrainSizeMode;
+  }
+
+  ClasticGrainSize* getDefaultClasticGrainSize() const {
+    return _defaultClasticGrainSize;
+  }
+
+  CarbonateGrainSize* getDefaultCarbonateGrainSize() const {
+    return _defaultCarbonateGrainSize;
+  }
+
+  void setDefaultGrainSizeMode(GrainSizeModes m) {
+    if (m != _defaultGrainSizeMode) {
+      _defaultCarbonateGrainSize = 0;
+      _defaultClasticGrainSize = 0;
+    }
+    _defaultGrainSizeMode = m;
+  }
+
+  void setDefaultCarbonateGrainSize(CarbonateGrainSize* s) {
+    if (s) {
+      _defaultGrainSizeMode = CarbonateGrainSizeMode;
+      _defaultClasticGrainSize = 0;
     }
 
-    bool hasDefaultCarbonateGrainSize() const {
-        return 0 != _defaultCarbonateGrainSize;
+    _defaultCarbonateGrainSize = s;
+  }
+
+  void setDefaultClasticGrainSize(ClasticGrainSize* s) {
+    if (s) {
+      _defaultGrainSizeMode = ClasticGrainSizeMode;
+      _defaultCarbonateGrainSize = 0;
     }
 
-    GrainSizeModes getDefaultGrainSizeMode() const {
-        return _defaultGrainSizeMode;
-    }
+    _defaultClasticGrainSize = s;
+  }
 
-    ClasticGrainSize* getDefaultClasticGrainSize() const {
-        return _defaultClasticGrainSize;
-    }
-
-    CarbonateGrainSize* getDefaultCarbonateGrainSize() const {
-        return _defaultCarbonateGrainSize;
-    }
-
-    void setDefaultGrainSizeMode(GrainSizeModes m) {
-        if (m != _defaultGrainSizeMode) {
-            _defaultCarbonateGrainSize = 0;
-            _defaultClasticGrainSize = 0;
-        }
-        _defaultGrainSizeMode = m;
-    }
-
-    void setDefaultCarbonateGrainSize(CarbonateGrainSize* s) {
-        if (s) {
-            _defaultGrainSizeMode = CarbonateGrainSizeMode;
-            _defaultClasticGrainSize = 0;
-        }
-
-        _defaultCarbonateGrainSize = s;
-    }
-
-    void setDefaultClasticGrainSize(ClasticGrainSize* s) {
-        if (s) {
-            _defaultGrainSizeMode = ClasticGrainSizeMode;
-            _defaultCarbonateGrainSize = 0;
-        }
-
-        _defaultClasticGrainSize = s;
-    }
-
-    QString getDefaultGrainSizeModeName();
-    QString getDefaultGrainSizeName();
+  QString getDefaultGrainSizeModeName();
+  QString getDefaultGrainSizeName();
     
-private:
-    GrainSizeModes _defaultGrainSizeMode;
-    CarbonateGrainSize* _defaultCarbonateGrainSize;
-    ClasticGrainSize* _defaultClasticGrainSize;
+ private:
+  GrainSizeModes _defaultGrainSizeMode;
+  CarbonateGrainSize* _defaultCarbonateGrainSize;
+  ClasticGrainSize* _defaultClasticGrainSize;
 };
 
 #endif	/* _Lithology_H */

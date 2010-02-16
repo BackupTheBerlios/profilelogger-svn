@@ -13,12 +13,17 @@
 #include <QDialogButtonBox>
 #include <QGroupBox>
 #include <QTabWidget>
+#include <QApplication>
 
 #include "IdLabel.h"
 #include "NameEdit.h"
 #include "DescriptionEdit.h"
 #include "Dataset.h"
 #include "CustomSymbolInBedItemModel.h"
+#include "ProfileLogger.h"
+#include "ProfileLoggerDatabase.h"
+#include "Postgres.h"
+#include "DataManager.h"
 
 DatasetEditorDialog::DatasetEditorDialog(QWidget* p, Dataset* d)
   : QDialog(p),
@@ -26,12 +31,17 @@ DatasetEditorDialog::DatasetEditorDialog(QWidget* p, Dataset* d)
     lC(0),
     wC(1),
     _data(d),
+    _dataManager(0),
+    _postgres(0),
+    _database(0),
     _tabW(0),
     _idW(0),
     _mainPageW(0),
     _nameW(0),
     _descriptionW(0),
     _bbW(0) {
+  _postgres = (static_cast<ProfileLogger*>(QApplication::instance()))->getPostgres();
+  _database = (static_cast<ProfileLogger*>(QApplication::instance()))->getProfileLoggerDatabase();
   setLayout(new QVBoxLayout());
   _tabW = new QTabWidget(this);
   layout()->addWidget(_tabW);
@@ -131,10 +141,22 @@ void DatasetEditorDialog::clear() {
   }
 }
 
-void DatasetEditorDialog::reject() {
-  // ignore
+void DatasetEditorDialog::begin() {
+  getPostgres()->begin();
 }
 
-void DatasetEditorDialog::close() {
+void DatasetEditorDialog::commit() {
+  getPostgres()->commit();
+}
+
+void DatasetEditorDialog::rollback() {
+  getPostgres()->rollback();
+}
+
+void DatasetEditorDialog::reject() {
+  done(QDialog::Rejected);
+}
+
+void DatasetEditorDialog::accept() {
   done(QDialog::Accepted);
 }

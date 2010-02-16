@@ -110,9 +110,14 @@ CORRELATION_VIEW_HEADERS = \
 
 DATA_MANAGER_HEADERS = \
            dataManager/DataManager.h \
-           dataManager/ProjectManager.h 
+           dataManager/ProjectManager.h \
+           dataManager/LithologyManager.h
 
 DATA_MODEL_HEADERS = \
+dataModel/DatasetInProject.h \
+dataModel/DatasetInProjectWithFileName.h \
+dataModel/DatasetInProfile.h \
+dataModel/DatasetInProfileWithFileName.h \
            dataModel/Bed.h \
            dataModel/BedCorrelation.h \
            dataModel/BeddingType.h \
@@ -158,6 +163,8 @@ DB_MODEL_HEADERS = \
            dbModel/UniqueConstraint.h 
 
 DIALOG_HEADERS = \
+dialogs/DatasetInProjectWithFileNameEditorDialog.h \
+dialogs/DatasetInProjectEditorDialog.h \
            dialogs/DatabaseConnectionDialog.h \
            dialogs/BedCorrelationEditorDialog.h \
            dialogs/BeddingTypeEditorDialog.h \
@@ -171,7 +178,6 @@ DIALOG_HEADERS = \
            dialogs/DatasetWithFileNameEditorDialog.h \
            dialogs/FaciesEditorDialog.h \
            dialogs/FossilEditorDialog.h \
-           dialogs/ImageEditorDialog.h \
            dialogs/ListSelectorDialog.h \
            dialogs/LithologicalUnitEditorDialog.h \
            dialogs/LithologicalUnitTypeEditorDialog.h \
@@ -184,6 +190,7 @@ DIALOG_HEADERS = \
            dialogs/SedimentStructureEditorDialog.h \
            dialogs/SettingsDialog.h \
            dialogs/ProjectEditorDialog.h 
+#           dialogs/ImageEditorDialog.h \
 
 FILE_INTERFACE_HEADERS = \
            fileInterfaces/CsvInterface.h \
@@ -203,7 +210,6 @@ ITEM_HEADERS = \
            items/FaciesItem.h \
            items/FossilItem.h \
            items/GrainSizeItem.h \
-           items/ImageItem.h \
            items/LithologicalUnitItem.h \
            items/LithologicalUnitTypeItem.h \
            items/LithologyItem.h \
@@ -214,6 +220,7 @@ ITEM_HEADERS = \
            items/SedimentStructureItem.h \
            items/StandardItem.h \
            items/ProjectItem.h 
+#           items/ImageItem.h \
 
 MODEL_HEADERS = \
            models/ProjectItemModel.h \
@@ -230,7 +237,6 @@ MODEL_HEADERS = \
            models/FossilInBedItemModel.h \
            models/FossilItemModel.h \
            models/GrainSizeItemModel.h \
-           models/ImageItemModel.h \
            models/LithologicalUnitItemModel.h \
            models/LithologicalUnitTypeItemModel.h \
            models/LithologyItemModel.h \
@@ -241,16 +247,16 @@ MODEL_HEADERS = \
            models/SedimentStructureInBedItemModel.h \
            models/SedimentStructureItemModel.h \
            models/StandardItemModel.h 
+#           models/ImageItemModel.h \
 
 NON_GUI_HEADERS = \
            nonGui/AppDatabase.h \
-           nonGui/Image.h \
            nonGui/ProfileLogger.h \
            nonGui/ProfileLoggerDatabase.h \
            nonGui/Settings.h \
            nonGui/SymbolFactory.h \
            nonGui/Version.h 
-
+#           nonGui/Image.h \
 PG_INTERFACE_HEADERS = \
            pgInterface/AbstractDatabaseError.h \
            pgInterface/DatabaseError.h \
@@ -275,7 +281,6 @@ VIEW_HEADERS = \
            views/FossilView.h \
            views/GrainSizeView.h \
            views/GraphicColumnBody.h \
-           views/ImageItemView.h \
            views/LithologicalUnitTypeView.h \
            views/LithologicalUnitView.h \
            views/LithologyView.h \
@@ -287,6 +292,7 @@ VIEW_HEADERS = \
            views/SedimentStructureView.h \
            views/TreeView.h \
            views/ProjectView.h 
+#           views/ImageItemView.h \
 
 WIDGET_HEADERS = \
            widgets/BedPropertyPage.h \
@@ -350,9 +356,14 @@ CORRELATION_VIEW_SRC = \
 
 DATA_MANAGER_SRC = \
            dataManager/DataManager.cpp \
-           dataManager/ProjectManager.cpp 
+           dataManager/ProjectManager.cpp \
+           dataManager/LithologyManager.cpp
 
 DATA_MODEL_SRC = \
+dataModel/DatasetInProject.cpp \
+dataModel/DatasetInProjectWithFileName.cpp \
+dataModel/DatasetInProfile.cpp \
+dataModel/DatasetInProfileWithFileName.cpp \
            dataModel/Bed.cpp \
            dataModel/BedCorrelation.cpp \
            dataModel/BeddingType.cpp \
@@ -397,6 +408,8 @@ DB_MODEL_SRC = \
            dbModel/UniqueConstraint.cpp 
 
 DIALOGS_SRC = \
+dialogs/DatasetInProjectWithFileNameEditorDialog.cpp \
+dialogs/DatasetInProjectEditorDialog.cpp \
            dialogs/DatabaseConnectionDialog.cpp \
            dialogs/BedCorrelationEditorDialog.cpp \
            dialogs/BeddingTypeEditorDialog.cpp \
@@ -410,7 +423,6 @@ DIALOGS_SRC = \
            dialogs/DatasetWithFileNameEditorDialog.cpp \
            dialogs/FaciesEditorDialog.cpp \
            dialogs/FossilEditorDialog.cpp \
-           dialogs/ImageEditorDialog.cpp \
            dialogs/ListSelectorDialog.cpp \
            dialogs/LithologicalUnitEditorDialog.cpp \
            dialogs/LithologicalUnitTypeEditorDialog.cpp \
@@ -423,6 +435,7 @@ DIALOGS_SRC = \
            dialogs/SedimentStructureEditorDialog.cpp \
            dialogs/SettingsDialog.cpp \
            dialogs/ProjectEditorDialog.cpp 
+#           dialogs/ImageEditorDialog.cpp \
 
 FILE_INTERFACES_SRC = \
            fileInterfaces/CsvInterface.cpp \
@@ -442,7 +455,6 @@ ITEMS_SRC = \
            items/FaciesItem.cpp \
            items/FossilItem.cpp \
            items/GrainSizeItem.cpp \
-           items/ImageItem.cpp \
            items/LithologicalUnitItem.cpp \
            items/LithologicalUnitTypeItem.cpp \
            items/LithologyItem.cpp \
@@ -453,6 +465,7 @@ ITEMS_SRC = \
            items/SedimentStructureItem.cpp \
            items/StandardItem.cpp \
            items/ProjectItem.cpp 
+#           items/ImageItem.cpp \
 
 MODELS_SRC = \
            models/ProjectItemModel.cpp \
@@ -469,7 +482,6 @@ MODELS_SRC = \
            models/FossilInBedItemModel.cpp \
            models/FossilItemModel.cpp \
            models/GrainSizeItemModel.cpp \
-           models/ImageItemModel.cpp \
            models/LithologicalUnitItemModel.cpp \
            models/LithologicalUnitTypeItemModel.cpp \
            models/LithologyItemModel.cpp \
@@ -480,6 +492,7 @@ MODELS_SRC = \
            models/SedimentStructureInBedItemModel.cpp \
            models/SedimentStructureItemModel.cpp \
            models/StandardItemModel.cpp 
+#           models/ImageItemModel.cpp \
 
 NON_GUI_SRC = \
            nonGui/AppDatabase.cpp \
@@ -512,7 +525,6 @@ VIEW_SRC = \
            views/FossilInBedView.cpp \
            views/FossilView.cpp \
            views/GrainSizeView.cpp \
-           views/ImageItemView.cpp \
            views/LithologicalUnitTypeView.cpp \
            views/LithologicalUnitView.cpp \
            views/LithologyView.cpp \
@@ -524,6 +536,7 @@ VIEW_SRC = \
            views/SedimentStructureView.cpp \
            views/TreeView.cpp \
            views/ProjectView.cpp 
+#           views/ImageItemView.cpp \
 
 WIDGETS_SRC = \
            widgets/BedPropertyPage.cpp \

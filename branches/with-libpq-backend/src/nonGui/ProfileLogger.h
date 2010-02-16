@@ -43,7 +43,7 @@ class FaciesItemModel;
 class LithologicalUnitTypeItemModel;
 class LithologicalUnitItemModel;
 class SampleItemModel;
-class ImageItemModel;
+//class ImageItemModel;
 class ProfileCorrelationItemModel;
 class BedCorrelationItemModel;
 class ProjectItemModel;
@@ -154,10 +154,10 @@ public:
         return _sampleItemModel;
     }
 
-    ImageItemModel* getImageItemModel() {
+    /*    ImageItemModel* getImageItemModel() {
         return _imageItemModel;
     }
-
+    */
     BeddingTypeItemModel* getBeddingTypeItemModel() {
         return _beddingTypeItemModel;
     }
@@ -274,7 +274,7 @@ private:
     LithologicalUnitTypeItemModel* _lithologicalUnitTypeItemModel;
     LithologicalUnitItemModel* _lithologicalUnitItemModel;
     SampleItemModel* _sampleItemModel;
-    ImageItemModel* _imageItemModel;
+    //    ImageItemModel* _imageItemModel;
     ProfileCorrelationItemModel* _profileCorrelationItemModel;
     BedCorrelationItemModel* _bedCorrelationItemModel;
     ProjectItemModel* _projectItemModel;

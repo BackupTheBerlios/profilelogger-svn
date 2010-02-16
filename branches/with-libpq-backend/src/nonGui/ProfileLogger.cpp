@@ -41,7 +41,7 @@
 #include "ClasticGrainSizeItemModel.h"
 #include "FossilItemModel.h"
 #include "FaciesItemModel.h"
-#include "ImageItemModel.h"
+//#include "ImageItemModel.h"
 #include "ProfileCorrelationItemModel.h"
 #include "BedCorrelationItemModel.h"
 #include "ProjectItemModel.h"
@@ -197,7 +197,7 @@ void ProfileLogger::setupModels() {
   _lithologicalUnitTypeItemModel = new LithologicalUnitTypeItemModel(this);
   _lithologicalUnitItemModel = new LithologicalUnitItemModel(this);
   _sampleItemModel = new SampleItemModel(this);
-  _imageItemModel = new ImageItemModel(this);
+  //  _imageItemModel = new ImageItemModel(this);
   _profileCorrelationItemModel = new ProfileCorrelationItemModel(this);
   _bedCorrelationItemModel = new BedCorrelationItemModel(this);
   _projectItemModel = new ProjectItemModel(this);

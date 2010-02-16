@@ -14,14 +14,15 @@
 #include <QStringList>
 
 class Facies : public DatasetWithFileName {
-public:
-    Facies(int id = 0,
-            const QString& name = QObject::tr("New Facies"),
-            const QString& description = QString::null,
-            const QString& fileName = QString::null);
+ public:
+  Facies(Project* p = 0,
+	 int id = 0,
+	 const QString& name = QObject::tr("New Facies"),
+	 const QString& description = QString::null,
+	 const QString& fileName = QString::null);
 
-    virtual ~Facies();
-    QString makeToolTipText(const bool withDatasetName = false) const;
+  virtual ~Facies();
+  QString makeToolTipText(const bool withDatasetName = false) const;
 };
 
 #endif	/* _Facies_H */

@@ -566,50 +566,50 @@ bool XMLInterface::save(Project* p) {
 }
 
 void XMLInterface::loadOutcropQualities() {
-  QDomNodeList outcropQualities = _metaE.elementsByTagName("OutcropQuality");
+  /*  QDomNodeList outcropQualities = _metaE.elementsByTagName("OutcropQuality");
   for (int i = 0; i < outcropQualities.size(); i++) {
     QDomElement e = outcropQualities.at(i).toElement();
     OutcropQuality* ocq = _project->createOutcropQuality(e.attribute("id").toInt());
     ocq->setName(e.attribute("name"));
     ocq->setDescription(e.attribute("description"));
     ocq->setFileName(e.attribute("patternFileName"));
-  }
+    }*/
 }
 
 void XMLInterface::loadFacies() {
-  QDomNodeList facies = _metaE.elementsByTagName("Facies");
+  /*  QDomNodeList facies = _metaE.elementsByTagName("Facies");
   for (int i = 0; i < facies.size(); i++) {
     QDomElement e = facies.at(i).toElement();
     Facies* c = _project->createFacies(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setFileName(e.attribute("patternFileName"));
-  }
-}
+    }*/
+ }
 
 void XMLInterface::loadColors() {
-  QDomNodeList colors = _metaE.elementsByTagName("Color");
+  /*  QDomNodeList colors = _metaE.elementsByTagName("Color");
   for (int i = 0; i < colors.size(); i++) {
     QDomElement e = colors.at(i).toElement();
     Color* c = _project->createColor(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setBrushStyle((Qt::BrushStyle)e.attribute("QtBrushStyle").toInt());
-  }
+    }*/
 }
 
 void XMLInterface::loadLithologicalUnitTypes() {
-  QDomNodeList lithologicalUnitTypes = _metaE.elementsByTagName("LithologicalUnitType");
+  /*  QDomNodeList lithologicalUnitTypes = _metaE.elementsByTagName("LithologicalUnitType");
   for (int i = 0; i < lithologicalUnitTypes.size(); i++) {
     QDomElement e = lithologicalUnitTypes.at(i).toElement();
     LithologicalUnitType* c = _project->createLithologicalUnitType(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
-  }
+    }*/
 }
 
 void XMLInterface::loadLithologicalUnits() {
-  QDomNodeList lithologicalUnits = _metaE.elementsByTagName("LithologicalUnit");
+  /*  QDomNodeList lithologicalUnits = _metaE.elementsByTagName("LithologicalUnit");
   for (int i = 0; i < lithologicalUnits.size(); i++) {
     QDomElement e = lithologicalUnits.at(i).toElement();
     LithologicalUnit* c = _project->createLithologicalUnit(e.attribute("id").toInt());
@@ -619,11 +619,11 @@ void XMLInterface::loadLithologicalUnits() {
     if (e.hasAttribute("lithologicalUnitTypeId")) {
       c->setLithologicalUnitType(_project->getLithologicalUnitType(e.attribute("lithologicalUnitTypeId").toInt()));
     }
-  }
+    }*/
 }
 
 void XMLInterface::loadLithologies() {
-  QDomNodeList lithologies = _metaE.elementsByTagName("Lithology");
+  /*  QDomNodeList lithologies = _metaE.elementsByTagName("Lithology");
   for (int i = 0; i < lithologies.size(); i++) {
     QDomElement e = lithologies.at(i).toElement();
     Lithology* c = _project->createLithology(e.attribute("id").toInt());
@@ -646,66 +646,66 @@ void XMLInterface::loadLithologies() {
     if (e.hasAttribute("defaultClasticGrainSizeId")) {
       c->setDefaultClasticGrainSize(_project->getClasticGrainSize(e.attribute("defaultClasticGrainSizeId").toInt()));
     }
-  }
+    }*/
 }
 
 void XMLInterface::loadBeddingTypes() {
-  QDomNodeList beddingTypes = _metaE.elementsByTagName("BeddingType");
+  /*  QDomNodeList beddingTypes = _metaE.elementsByTagName("BeddingType");
   for (int i = 0; i < beddingTypes.size(); i++) {
     QDomElement e = beddingTypes.at(i).toElement();
     BeddingType* c = _project->createBeddingType(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setFileName(e.attribute("patternFileName"));
-  }
+    }*/
 }
 
 void XMLInterface::loadBoundaryTypes() {
-  QDomNodeList boundaryTypes = _metaE.elementsByTagName("BoundaryType");
+  /*  QDomNodeList boundaryTypes = _metaE.elementsByTagName("BoundaryType");
   for (int i = 0; i < boundaryTypes.size(); i++) {
     QDomElement e = boundaryTypes.at(i).toElement();
     BoundaryType* c = _project->createBoundaryType(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setFileName(e.attribute("fileName"));
-  }
+    }*/
 }
 
 void XMLInterface::loadFossils() {
-  QDomNodeList fossils = _metaE.elementsByTagName("Fossil");
+  /*  QDomNodeList fossils = _metaE.elementsByTagName("Fossil");
   for (int i = 0; i < fossils.size(); i++) {
     QDomElement e = fossils.at(i).toElement();
     Fossil* c = _project->createFossil(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setFileName(e.attribute("pictureFileName"));
-  }
+    }*/
 }
 
 void XMLInterface::loadSedimentStructures() {
-  QDomNodeList sedimentStructures = _metaE.elementsByTagName("SedimentStructure");
+  /*  QDomNodeList sedimentStructures = _metaE.elementsByTagName("SedimentStructure");
   for (int i = 0; i < sedimentStructures.size(); i++) {
     QDomElement e = sedimentStructures.at(i).toElement();
     SedimentStructure* c = _project->createSedimentStructure(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setFileName(e.attribute("pictureFileName"));
-  }
+    }*/
 }
 
 void XMLInterface::loadCustomSymbols() {
-  QDomNodeList customSymbols = _metaE.elementsByTagName("CustomSymbol");
+  /*  QDomNodeList customSymbols = _metaE.elementsByTagName("CustomSymbol");
   for (int i = 0; i < customSymbols.size(); i++) {
     QDomElement e = customSymbols.at(i).toElement();
     CustomSymbol* c = _project->createCustomSymbol(e.attribute("id").toInt());
     c->setName(e.attribute("name"));
     c->setDescription(e.attribute("description"));
     c->setFileName(e.attribute("pictureFileName"));
-  }
+    }*/
 }
 
 void XMLInterface::loadMetadata() {
-  QDomNodeList lMeta = _doc.documentElement().elementsByTagName("Metadata");
+  /*  QDomNodeList lMeta = _doc.documentElement().elementsByTagName("Metadata");
 
   if (lMeta.size() == 1) {
     _metaE = lMeta.at(0).toElement();
@@ -720,46 +720,52 @@ void XMLInterface::loadMetadata() {
     loadCustomSymbols();
     loadLithologicalUnitTypes();
     loadLithologicalUnits();
-  }
+    }*/
 }
 
 void XMLInterface::loadFossilsInBed(Bed* bed, QDomElement& bedE) {
-  QDomElement fossilsInBedE = bedE.elementsByTagName("FossilsInBed").item(0).toElement();
+  (void) bed;
+  (void) bedE;
+  /*  QDomElement fossilsInBedE = bedE.elementsByTagName("FossilsInBed").item(0).toElement();
 
   QDomNodeList fossilsInBedNodes = fossilsInBedE.elementsByTagName("FossilInBed");
 
   for (int n = 0; n != fossilsInBedNodes.size(); n++) {
     QDomElement e = fossilsInBedNodes.item(n).toElement();
     bed->addFossil(_project->getFossil(e.attribute("fossilId").toInt()));
-  }
+    }*/
 }
 
 void XMLInterface::loadSedimentStructuresInBed(Bed* bed, QDomElement& bedE) {
-
-
-  QDomElement SedimentStructuresInBedE = bedE.elementsByTagName("SedimentStructuresInBed").item(0).toElement();
+  (void) bed;
+  (void) bedE;
+  /*  QDomElement SedimentStructuresInBedE = bedE.elementsByTagName("SedimentStructuresInBed").item(0).toElement();
 
   QDomNodeList sedimentStructuresInBedNodes = SedimentStructuresInBedE.elementsByTagName("SedimentStructureInBed");
 
   for (int n = 0; n != sedimentStructuresInBedNodes.size(); n++) {
     QDomElement e = sedimentStructuresInBedNodes.item(n).toElement();
     bed->addSedimentStructure(_project->getSedimentStructure(e.attribute("sedimentStructureId").toInt()));
-  }
+    }*/
 }
 
 void XMLInterface::loadCustomSymbolsInBed(Bed* bed, QDomElement& bedE) {
-  QDomElement CustomSymbolsInBedE = bedE.elementsByTagName("CustomSymbolsInBed").item(0).toElement();
+  (void) bed;
+  (void) bedE;
+  /*  QDomElement CustomSymbolsInBedE = bedE.elementsByTagName("CustomSymbolsInBed").item(0).toElement();
 
   QDomNodeList customSymbolsInBedNodes = CustomSymbolsInBedE.elementsByTagName("CustomSymbolInBed");
 
   for (int n = 0; n != customSymbolsInBedNodes.size(); n++) {
     QDomElement e = customSymbolsInBedNodes.item(n).toElement();
     bed->addCustomSymbol(_project->getCustomSymbol(e.attribute("customSymbolId").toInt()));
-  }
+    }*/
 }
 
 void XMLInterface::loadGrainSizeForBed(Bed* bed, QDomElement& bedE) {
-  if (bedE.hasAttribute("grainSizeMode")) {
+  (void) bed;
+  (void) bedE;
+  /*  if (bedE.hasAttribute("grainSizeMode")) {
     if (bedE.attribute("grainSizeMode").toInt() == (int) CarbonateGrainSizeMode) {
       bed->setGrainSizeMode(CarbonateGrainSizeMode);
       if (bedE.hasAttribute("baseCarbonateGrainSizeId")) {
@@ -778,11 +784,13 @@ void XMLInterface::loadGrainSizeForBed(Bed* bed, QDomElement& bedE) {
 	bed->setTopClasticGrainSize(_project->getClasticGrainSize(bedE.attribute("topClasticGrainSizeId").toInt()));
       }
     }
-  }
+    }*/
 }
 
 void XMLInterface::loadBed(Bed* bed, QDomElement& bedE) {
-  bed->setDescription(bedE.attribute("description"));
+  (void) bed;
+  (void) bedE;
+  /*  bed->setDescription(bedE.attribute("description"));
 
   bed->getHeight()->setValue(bedE.attribute("heightValue").toInt());
   bed->getHeight()->setUnit(_project->getLengthUnit(bedE.attribute("heightLengthUnitId").toInt()));
@@ -815,11 +823,13 @@ void XMLInterface::loadBed(Bed* bed, QDomElement& bedE) {
   loadGrainSizeForBed(bed, bedE);
   loadFossilsInBed(bed, bedE);
   loadSedimentStructuresInBed(bed, bedE);
-  loadCustomSymbolsInBed(bed, bedE);
+  loadCustomSymbolsInBed(bed, bedE);*/
 }
 
 void XMLInterface::loadProfile(Profile* profile, QDomElement& profileE) {
-  profile->setName(profileE.attribute("name"));
+  (void) profile;
+  (void) profileE;
+  /*  profile->setName(profileE.attribute("name"));
   profile->setDescription(profileE.attribute("description"));
   profile->setMaxSymbolSize(profileE.attribute("maxSymbolSize").toInt());
   profile->setScale(profileE.attribute("scale").toInt());
@@ -899,11 +909,11 @@ void XMLInterface::loadProfile(Profile* profile, QDomElement& profileE) {
     Bed* bed = profile->createBed(bedE.attribute("id").toInt(),
 				  bedE.attribute("position").toInt());
     loadBed(bed, bedE);
-  }
+    }*/
 }
 
 void XMLInterface::loadProfiles() {
-  QDomNodeList lData = _doc.documentElement().elementsByTagName("Data");
+  /*  QDomNodeList lData = _doc.documentElement().elementsByTagName("Data");
   if (lData.size() == 1) {
     _dataE = lData.at(0).toElement();
 
@@ -913,11 +923,11 @@ void XMLInterface::loadProfiles() {
       Profile* profile = _project->createProfile(QVariant(profileE.attribute("id")).toInt());
       loadProfile(profile, profileE);
     }
-  }
+    }*/
 }
 
 void XMLInterface::loadProfileCorrelations() {
-  QDomNodeList lData = _doc.documentElement().elementsByTagName("Data");
+  /*  QDomNodeList lData = _doc.documentElement().elementsByTagName("Data");
   if (lData.size() == 1) {
     _dataE = lData.at(0).toElement();
     
@@ -941,11 +951,13 @@ void XMLInterface::loadProfileCorrelations() {
 	}
       }
     }
-  }
+    }*/
 }
 
 void XMLInterface::loadBedCorrelation(BedCorrelation* bc, QDomElement& e) {
-  if (!bc) {
+  (void) bc;
+  (void) e;
+  /*  if (!bc) {
     return;
   }
 
@@ -965,7 +977,7 @@ void XMLInterface::loadBedCorrelation(BedCorrelation* bc, QDomElement& e) {
 	bc->setRightBed(rightP->getBedById(e.attribute("rightBedId").toInt()));
       }
     }
-  }
+    }*/
 }
 
 bool XMLInterface::load(Project* p, const QString& path) {
@@ -989,10 +1001,10 @@ bool XMLInterface::load(Project* p, const QString& path) {
 
   f.close();
 
-  loadMetadata();
+  /*  loadMetadata();
   loadProfiles();
   loadProfileCorrelations();
-
+  */
   return true;
 }
 

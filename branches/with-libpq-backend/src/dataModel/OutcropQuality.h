@@ -14,14 +14,15 @@
 #include "DatasetWithFileName.h"
 
 class OutcropQuality : public DatasetWithFileName {
-public:
-    OutcropQuality(int id = 0,
-            const QString& name = QObject::tr("New Outcrop Quality"),
-            const QString& description = QString::null,
-            const QString& fileName = QString::null);
+ public:
+  OutcropQuality(Project* p = 0,
+		 int id = 0,
+		 const QString& name = QObject::tr("New Outcrop Quality"),
+		 const QString& description = QString::null,
+		 const QString& fileName = QString::null);
 
-    virtual ~OutcropQuality();
-    QString makeToolTipText(const bool withDatasetName = false) const;
+  virtual ~OutcropQuality();
+  QString makeToolTipText(const bool withDatasetName = false) const;
 };
 
 #endif	/* _OUTCROPQUALITY_H */
