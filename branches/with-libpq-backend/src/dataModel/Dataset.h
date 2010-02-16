@@ -14,7 +14,8 @@ class Dataset: public PrimitiveDataset {
  public:
   Dataset(int id = 0,
 	  const QString& name = QString::null,
-	  const QString& description = QString::null);
+	  const QString& description = QString::null,
+	  const bool isInDatabase = false);
   virtual ~Dataset();
   void setName(const QString& n) { 
     _name = n; 
@@ -44,9 +45,14 @@ class Dataset: public PrimitiveDataset {
     
   virtual void copyData(Dataset* other);
 
+  virtual bool isInDatabase() const {
+    return _isInDatabase;
+  }
+
  private:
   QString _name;
   QString _description;
+  bool _isInDatabase;
 };
 
 #endif	/* _DATASET_H */

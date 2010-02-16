@@ -123,7 +123,10 @@ void ProfileLoggerDatabase::configureTableLithologies()
 					  Database::DataTypeText);
   
   _tLithologies->createPrimaryKey("pk_lithologies")->add(_lithologiesLithologyId);
-  _tLithologies->createUniqueConstraint("u_lithologies_name")->add(n);
+  UniqueConstraint* u = _tLithologies->createUniqueConstraint("u_lithologies_name");
+  u->add(n);
+  u->add(_lithologiesProjectId);
+
   _tLithologies->createTextNotEmptyCheckConstraint("chk_lithologies_name_not_empty")->add(n);
 }
 

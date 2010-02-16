@@ -29,10 +29,12 @@
 Project::Project(const int id,
 		 const QString& name,
 		 const QString& description,
-		 const QString& path)
+		 const QString& path,
+		 const bool isInDatabase)
   : Dataset(id,
 	    name,
-	    description),
+	    description,
+	    isInDatabase),
     _path(path) {
   setupGrainSizes();
   setupLengthUnits();

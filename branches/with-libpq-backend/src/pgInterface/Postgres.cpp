@@ -158,6 +158,8 @@ PGresult* Postgres::execParams(const QString& sql,
 
   const char* csql = qstrdup(sql.toUtf8());
 
+  qDebug() << "Postgres::execParams() csql: " << csql;
+
   PGresult* ret = PQexecParams(_psql,
 			       csql,
 			       values.size(),
@@ -203,6 +205,8 @@ void Postgres::execInsert(Table* t,
     .arg(colNames.join(", "))
     .arg(placeholders.join(", "));
 
+  qDebug() << "Postgres::execInsert(): " << sql;
+
   PGresult* res = execParams(sql, values);
 
   if (PGRES_COMMAND_OK != PQresultStatus(res)) {
@@ -242,6 +246,8 @@ void Postgres::execUpdate(Table* t,
     .arg(kv.join(", "))
     .arg(idCol->getName())
     .arg(idValuePlaceholder);
+
+  qDebug() << "Postgres::execUpdate(): " << sql;
 
   PGresult* res = execParams(sql, values);
 

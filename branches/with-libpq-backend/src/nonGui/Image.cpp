@@ -11,12 +11,14 @@ Image::Image(Profile* p,
 	     int id,
 	     const QString& name,
 	     const QString& description,
-	     const QString& fileName)
+	     const QString& fileName,
+	     const bool isInDatabase)
   : DatasetInProfileWithFileName(p,
 				 id, 
 				 name, 
 				 description, 
-				 fileName) {
+				 fileName,
+				 isInDatabase) {
 }
 
 Image::~Image() {

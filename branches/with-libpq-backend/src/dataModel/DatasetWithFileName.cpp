@@ -11,11 +11,13 @@ DatasetWithFileName::DatasetWithFileName(Project* p,
 					 int id,
 					 const QString& name,
 					 const QString& description,
-					 const QString& fileName)
+					 const QString& fileName,
+					 const bool isInDatabase)
   : DatasetInProject(p, 
 		     id, 
 		     name, 
-		     description),
+		     description,
+		     isInDatabase),
     _fileName(fileName) {
     }
 

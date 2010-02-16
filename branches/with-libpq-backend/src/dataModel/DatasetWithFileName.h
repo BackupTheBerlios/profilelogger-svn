@@ -16,7 +16,9 @@ class DatasetWithFileName: public DatasetInProject {
 		      int id = 0,
 		      const QString& name = QString::null,
 		      const QString& description = QString::null,
-		      const QString& fileName = QString::null);
+		      const QString& fileName = QString::null,
+		      const bool isInDatabase = false);
+
   DatasetWithFileName(const DatasetWithFileName& orig);
   virtual ~DatasetWithFileName();
 

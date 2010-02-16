@@ -114,7 +114,7 @@ void ProjectManager::update(Project* p) {
 }
 
 void ProjectManager::save(Project* p) {
-  if (p->hasId()) {
+  if (p->isInDatabase()) {
     update(p);
   } else {
     insert(p);
@@ -133,9 +133,11 @@ QList<Project*> ProjectManager::loadProjects() {
   for (QList< QMap<QString, QVariant> >::iterator it = d.begin(); it != d.end(); it++) {
     QMap<QString, QVariant> row = *it;
 
-    ret << new Project(row["id"].toInt(),
-		       row["name"].toString(),
-		       row["description"].toString());
+    ret << new Project(row.value("id").toInt(),
+		       row.value("name").toString(),
+		       row.value("description").toString(),
+		       QString::null, // path is not used, will be removed later
+		       true);
   }
 
   return ret;

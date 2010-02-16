@@ -26,6 +26,7 @@ class Lithology : public DatasetInProjectWithFileName {
             const QString& name = QObject::tr("New Lithology"),
             const QString& description = QString::null,
             const QString& fileName = QString::null,
+	    const bool isInDatabase = false,
             GrainSizeModes defaultGrainSizeMode = ClasticGrainSizeMode,
             ClasticGrainSize* defaultClasticGrainSize = 0,
             CarbonateGrainSize* defaultCarbonateGrainSize = 0);

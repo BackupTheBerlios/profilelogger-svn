@@ -11,26 +11,28 @@
 #include <QStringList>
 
 Dataset::Dataset(int id,
-        const QString& name,
-        const QString& description)
+		 const QString& name,
+		 const QString& description,
+		 const bool isInDatabase)
   : PrimitiveDataset(id),
-_name(name),
-_description(description) {
+    _name(name),
+    _description(description),
+    _isInDatabase(isInDatabase) {
 }
 
 Dataset::~Dataset() {
 }
 
 QString Dataset::makeToolTipText(const bool withDatasetName) const {
-    QStringList ret;
-    if (withDatasetName) {
-        ret << QObject::tr("Dataset:");
-    }
+  QStringList ret;
+  if (withDatasetName) {
+    ret << QObject::tr("Dataset:");
+  }
 
-    ret << QObject::tr("ID: %1").arg(getId())
-            << QObject::tr("Name: %1").arg(getName())
-            << QObject::tr("Description: %1").arg(getDescription());
-    return ret.join("\n");
+  ret << QObject::tr("ID: %1").arg(getId())
+      << QObject::tr("Name: %1").arg(getName())
+      << QObject::tr("Description: %1").arg(getDescription());
+  return ret.join("\n");
 }
 
 void Dataset::copyData(Dataset* other) {

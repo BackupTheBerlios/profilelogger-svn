@@ -26,6 +26,7 @@ class Profile : public DatasetInProject {
 	  int id = 0,
 	  const QString& name = QString::null,
 	  const QString& description = QString::null,
+	  const bool isInDatabase = false,
 	  int scale = 1,
 	  int legendColumns = 16,
 	  bool showHeight = true,

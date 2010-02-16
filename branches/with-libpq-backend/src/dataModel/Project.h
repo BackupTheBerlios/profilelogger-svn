@@ -40,7 +40,8 @@ class Project: public Dataset {
   Project(const int id = 0,
 	  const QString& name = tr("New Project"),
 	  const QString& description = QString::null,
-	  const QString& path = QString::null);
+	  const QString& path = QString::null,
+	  const bool isInDatabase = false);
   virtual ~Project();
 
   void setPath(const QString& p) {
