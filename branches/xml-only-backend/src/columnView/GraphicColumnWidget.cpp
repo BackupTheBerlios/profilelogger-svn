@@ -42,6 +42,27 @@ _scaleStep(0.02) {
     
     _scene = new QGraphicsScene(this);
     setScene(_scene);
+
+    connect((static_cast<ProfileLogger*>(QApplication::instance()))->getExportProfileToSvgAction(),
+	    SIGNAL(activated()),
+	    this,
+	    SLOT(slotExportToSvg()));
+    connect((static_cast<ProfileLogger*>(QApplication::instance()))->getExportProfileToJpgAction(),
+	    SIGNAL(activated()),
+	    this,
+	    SLOT(slotExportToJpg()));
+    connect((static_cast<ProfileLogger*>(QApplication::instance()))->getExportProfileToPdfAction(),
+	    SIGNAL(activated()),
+	    this,
+	    SLOT(slotExportToPdf()));
+    connect((static_cast<ProfileLogger*>(QApplication::instance()))->getExportProfileToTiffAction(),
+	    SIGNAL(activated()),
+	    this,
+	    SLOT(slotExportToTiff()));
+    connect((static_cast<ProfileLogger*>(QApplication::instance()))->getExportProfileToPngAction(),
+	    SIGNAL(activated()),
+	    this,
+	    SLOT(slotExportToPng()));
 }
 
 GraphicColumnWidget::~GraphicColumnWidget() {
