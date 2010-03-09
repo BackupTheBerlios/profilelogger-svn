@@ -357,7 +357,7 @@ class Database:
                 })
 
     def open(self, connectionData):
-        self.schema = connectionData.schema
+        self.schema = str(connectionData.schema)
         self.setupTables()
         self.setupMapping()
         print "opening... %s" % connectionData.makeConnectionString()
