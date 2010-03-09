@@ -11,7 +11,6 @@ class Project(NamedDescribedDataset):
         self.customSymbols = []
         self.boundaryTypes = []
         self.pois = []
-        self.grainSizes = []
         self.profiles = []
 
     def registerProfile(self, p):
@@ -30,12 +29,6 @@ class Project(NamedDescribedDataset):
             print 'Boundary Type %s already registered in project %s' % (t, self.name)
             return
         self.boundaryTypes.append(t)
-
-    def registerGrainSize(self, s):
-        if self.grainSizes.count(s) > 0:
-            print 'Grain Size %s already registered in project %s' % (s, self.name)
-            return
-        self.grainSizes.append(s)
 
     def registerCustomSymbol(self, s):
         if self.customSymbols.count(s) > 0:
@@ -93,9 +86,6 @@ class Project(NamedDescribedDataset):
         print '\tCustom Symbols:'
         for s in self.customSymbols:
             print '\t\t%s' % s
-        print '\tGrain Sizes:'
-        for s in self.grainSizes:
-            print '\t\t%s' % s
         print '\tBoundary Types:'
         for t in self.boundaryTypes:
             print '\t\t%s' % s
@@ -119,5 +109,3 @@ class Project(NamedDescribedDataset):
                     print '\t\t\t\t\t%s' % s
                 for f in b.fossils:
                     print '\t\t\t\t\t%s' % f
-                for s in b.grainSizes:
-                    print '\t\t\t\t\t%s' % s
