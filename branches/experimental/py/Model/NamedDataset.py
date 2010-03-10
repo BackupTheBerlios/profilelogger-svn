@@ -7,4 +7,9 @@ class NamedDataset(Dataset):
     def hasName(self):
         return self.name is not None
     def __str__(self):
-        return u"<%s: ID: %i, Name: %s>" % (self.__class__.__name__, self.id, self.name)
+        if self.hasId():
+            return u"<%s: ID: %i, Name: %s>" % (self.__class__.__name__, self.id, self.name)
+        else:
+            return u"<%s: ID: <Not Set>, Name: %s>" % (self.__class__.__name__, self.name)
+    def makeToolTip(self):
+        return u'ID: %i\nName: %s' % (self.id, self.name)

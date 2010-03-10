@@ -3,7 +3,7 @@ from PyQt4.QtCore import *
 
 class DatabaseConnectionDialog(QDialog):
     def __init__(self, connectionData, parent):
-        super(DatabaseConnectionDialog, self).__init__(parent)
+        QDialog.__init__(self, parent)
         self.cd = connectionData
 
         self.setLayout(QVBoxLayout(self))

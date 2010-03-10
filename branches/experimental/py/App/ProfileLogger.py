@@ -5,14 +5,17 @@ from Persistance.Database import *
 from Persistance.ConnectionData import *
 
 from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
+from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
+
+from Model.LengthUnit import LengthUnit
 
 from App.Settings import Settings
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
-
+    
     def __init__(self, argv):
-        super(ProfileLogger, self).__init__(argv)
+        QApplication.__init__(self, argv)
         self.setApplicationName('ProfileLogger')
         self.setApplicationVersion('2.0')
         self.setOrganizationName('lochisoft')
@@ -20,6 +23,7 @@ class ProfileLogger(QApplication):
 
         self.setupActions()
         self.db = Database()
+        self.lengthUnitModel = LengthUnitItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
@@ -49,6 +53,17 @@ class ProfileLogger(QApplication):
             print cd.makeInfoString()
             self.db.open(cd)
             self.databaseConnected.emit(cd.makeInfoString())
+            if (cd.insertTemplateData):
+                self.insertTemplateData()
+            self.lengthUnitModel.reload()
+
+    def insertTemplateData(self):
+        self.db.begin()
+        self.db.session.add(LengthUnit(None, 1, str(self.tr('mm'))))
+        self.db.session.add(LengthUnit(None, 10, str(self.tr('cm'))))
+        self.db.session.add(LengthUnit(None, 100, str(self.tr('dm'))))
+        self.db.session.add(LengthUnit(None, 1000, str(self.tr('m'))))
+        self.db.commit()
 
     def onCloseDatabase(self):
         print 'close database'

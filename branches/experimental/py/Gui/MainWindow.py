@@ -1,9 +1,12 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
+from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
+from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
+
 class MainWindow(QMainWindow):
     def __init__(self):
-        super(MainWindow, self).__init__()
+        QMainWindow.__init__(self)
         self.setupMenu()
         self.setupStatusBar()
 
@@ -27,3 +30,5 @@ class MainWindow(QMainWindow):
 
     def onDatabaseConnected(self, msg):
         self.dbStatusW.setText(msg)
+        self.lengthUnitsW = LengthUnitItemView(self, QApplication.instance().lengthUnitModel)
+        self.setCentralWidget(self.lengthUnitsW)

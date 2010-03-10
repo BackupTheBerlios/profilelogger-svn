@@ -38,6 +38,7 @@ class Database:
                                             Column('id', Integer, Sequence('seq_length_units', schema=self.schema), primary_key=True, nullable=False),
                                             Column('millimetres', Integer, nullable=False),
                                             Column('name', String, nullable=False),
+                                            Column('description', String, nullable=True),
                                             CheckConstraint('millimetres > 0', name='chk_length_units_millimetres_sensible'),
                                             CheckConstraint("name <> ''", name='chk_length_units_name_not_empty'),
                                             UniqueConstraint('millimetres', name='u_length_units_millimetres'),
@@ -234,7 +235,8 @@ class Database:
         mapper(LengthUnit, self.tables['length_units'], properties = {
                 'id': self.tables['length_units'].c.id,
                 'milliMetre': self.tables['length_units'].c.millimetres,
-                'name': self.tables['length_units'].c.name})
+                'name': self.tables['length_units'].c.name,
+                'description': self.tables['length_units'].c.description})
         mapper(GrainSize, self.tables['grain_sizes'], properties = {
                 'id': self.tables['grain_sizes'].c.id,
                 'name': self.tables['grain_sizes'].c.name,
@@ -360,7 +362,6 @@ class Database:
         self.schema = str(connectionData.schema)
         self.setupTables()
         self.setupMapping()
-        print "opening... %s" % connectionData.makeConnectionString()
         self.engine = create_engine(connectionData.makeConnectionString(), echo=True)
         self.engine.connect()
         self.session = create_session(bind=self.engine, autocommit=False, autoflush=False)
