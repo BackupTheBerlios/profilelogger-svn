@@ -9,7 +9,20 @@ class MainWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.setupMenu()
         self.setupStatusBar()
-
+        self.setupCentralWidget()
+        QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
+    def setupCentralWidget(self):
+        self.setCentralWidget(QSplitter(Qt.Horizontal, self))
+        self.setupGlobalTools()
+        self.centralWidget().setEnabled(False)
+    def setupGlobalTools(self):
+        self.globalToolsW = QToolBox(self.centralWidget())
+        self.setupLengthUnitManagement()
+        self.centralWidget().addWidget(self.globalToolsW)
+    def setupLengthUnitManagement(self):
+        self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
+                                               QApplication.instance().lengthUnitModel)
+        self.globalToolsW.addItem(self.lengthUnitsW, self.tr("Length Units"))
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())
@@ -26,9 +39,7 @@ class MainWindow(QMainWindow):
         self.dbStatusW = QLabel(self.statusBar())
         self.statusBar().addPermanentWidget(self.dbStatusW)
         self.dbStatusW.setText(self.tr('Not Connected'))
-        QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
 
     def onDatabaseConnected(self, msg):
         self.dbStatusW.setText(msg)
-        self.lengthUnitsW = LengthUnitItemView(self, QApplication.instance().lengthUnitModel)
-        self.setCentralWidget(self.lengthUnitsW)
+        self.centralWidget().setEnabled(True)
