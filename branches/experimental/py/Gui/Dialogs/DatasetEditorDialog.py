@@ -6,6 +6,11 @@ from Gui.Widgets.NameEdit import NameEdit
 from Gui.Widgets.DescriptionEdit import DescriptionEdit
 from Gui.Widgets.IntLineEdit import IntLineEdit
 
+from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
+
+from sqlalchemy.exc import *
+from sqlalchemy.orm.exc import *
+
 class DatasetEditorDialog(QDialog):
     def __init__(self, parent, data):
         QDialog.__init__(self, parent)
@@ -68,3 +73,21 @@ class DatasetEditorDialog(QDialog):
         lbl = QLabel(lbl, self.contentW)
         lbl.setAlignment(Qt.AlignTop | Qt.AlignRight)
         return lbl
+    def accept(self):
+        try:
+            if not self.data.hasId():
+                QApplication.instance().db.session.add(self.data)
+            QApplication.instance().db.session.commit()
+            self.done(QDialog.Accepted)
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+    def reject(self):
+        if self.data.hasId():
+            QApplication.instance().db.session.refresh(self.data)
+        self.done(QDialog.Rejected)

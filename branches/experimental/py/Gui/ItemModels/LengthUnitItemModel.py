@@ -10,29 +10,24 @@ class LengthUnitItemModel(StandardItemModel):
     def __init__(self, parent):
         StandardItemModel.__init__(self, parent)
     def onCreateNewRequest(self):
-        tmp = LengthUnit()
-        dlg = LengthUnitEditorDialog(QApplication.activeWindow(), tmp)
+        dlg = LengthUnitEditorDialog(QApplication.activeWindow(), LengthUnit())
         if QDialog.Accepted == dlg.exec_():
-            s = self.getSession()
-            s.add(tmp)
-            s.commit()
             self.reload()
 
+    def getDataFromIndex(self, idx):
+        itm = self.itemFromIndex(idx)
+        if itm is None:
+            return None
+        return itm.data
+
     def onEditRequest(self, idx):
-        tmp = self.itemFromIndex(idx)
-        if tmp is None:
-            return
-        data = tmp.data
+        data = self.getDataFromIndex(idx)
         if data is None:
             return
         dlg = LengthUnitEditorDialog(QApplication.activeWindow(), data)
-        s = self.getSession()
         if QDialog.Accepted == dlg.exec_():
-            s.flush()
-            s.commit()
             self.reload()
-        else:
-            s.refresh(data)
+
     def onDeleteRequest(self, idx):
         itm = self.itemFromIndex(idx)
         data = itm.data

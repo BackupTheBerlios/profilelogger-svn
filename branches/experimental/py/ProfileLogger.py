@@ -29,8 +29,15 @@ from Model.GrainSizeInBed import GrainSizeInBed
 from Persistance.ConnectionData import ConnectionData
 from Persistance.Database import Database
 
+from sqlalchemy.exc import *
+
 if '__main__' == __name__:
-    app = ProfileLogger(sys.argv)
-    w = MainWindow()
-    w.show()
-    sys.exit(app.exec_())
+    try:
+        app = ProfileLogger(sys.argv)
+        w = MainWindow()
+        w.show()
+        sys.exit(app.exec_())
+    except DisconnectionError, e:
+        print e
+    
+

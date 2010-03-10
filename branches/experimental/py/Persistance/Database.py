@@ -372,7 +372,7 @@ class Database:
             self.metadata.create_all()
 
     def begin(self):
-        return self.session
+        return self.session.begin()
     def commit(self):
         self.session.commit()
     def rollback(self):

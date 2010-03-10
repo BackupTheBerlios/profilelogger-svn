@@ -5,7 +5,10 @@ from Persistance.Database import *
 from Persistance.ConnectionData import *
 
 from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
+from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
+
+from sqlalchemy.exc import *
 
 from Model.LengthUnit import LengthUnit
 
@@ -50,20 +53,33 @@ class ProfileLogger(QApplication):
         dlg = DatabaseConnectionDialog(cd, self.activeWindow())
         if QDialog.Accepted == dlg.exec_():
             Settings().saveConnectionData(cd)
-            print cd.makeInfoString()
-            self.db.open(cd)
-            self.databaseConnected.emit(cd.makeInfoString())
-            if (cd.insertTemplateData):
-                self.insertTemplateData()
-            self.lengthUnitModel.reload()
-
+            try:
+                self.db.open(cd)
+                self.databaseConnected.emit(cd.makeInfoString())
+                if (cd.insertTemplateData):
+                    self.insertTemplateData()
+                    self.lengthUnitModel.reload()
+            except OperationalError, e:
+                dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+                dlg.exec_()
+                
     def insertTemplateData(self):
-        self.db.begin()
-        self.db.session.add(LengthUnit(None, 1, str(self.tr('mm'))))
-        self.db.session.add(LengthUnit(None, 10, str(self.tr('cm'))))
-        self.db.session.add(LengthUnit(None, 100, str(self.tr('dm'))))
-        self.db.session.add(LengthUnit(None, 1000, str(self.tr('m'))))
-        self.db.commit()
+        try: 
+            self.db.begin()
+            self.db.session.add(LengthUnit(None, 1, str(self.tr('mm'))))
+            self.db.session.add(LengthUnit(None, 10, str(self.tr('cm'))))
+            self.db.session.add(LengthUnit(None, 100, str(self.tr('dm'))))
+            self.db.session.add(LengthUnit(None, 1000, str(self.tr('m'))))
+            self.db.commit()
+        except SqlError, e:
+            dlg = DatabaseExceptionDialog(self.activeWindow(), e)
+            dlg.exec_()
+            try:
+                self.db.rollback()
+            except SqlError, re:
+                dlg = DatabaseExceptionDialog(self.activeWindow(), re)
+                dlg.exec_()
+            
 
     def onCloseDatabase(self):
         print 'close database'
