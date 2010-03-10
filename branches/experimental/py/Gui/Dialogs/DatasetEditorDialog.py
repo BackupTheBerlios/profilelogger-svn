@@ -36,14 +36,14 @@ class DatasetEditorDialog(QDialog):
         self.contentW.layout().addWidget(self.idL, self.currentContentRow, self.labelCol)
         self.contentW.layout().addWidget(self.idW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
-    def addIntEdit(self, label):
+    def addIntEdit(self, label, min=1, max=999999):
         self.intL = self.createOneLineLabel(label)
         self.intW = IntLineEdit(self)
         self.intL.setBuddy(self.intW)
         self.contentW.layout().addWidget(self.intL, self.currentContentRow, self.labelCol)
         self.contentW.layout().addWidget(self.intW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
-
+        self.intW.validator().setRange(min, max)
     def addNameEdit(self, label=None):
         lbl = label
         if lbl is None:

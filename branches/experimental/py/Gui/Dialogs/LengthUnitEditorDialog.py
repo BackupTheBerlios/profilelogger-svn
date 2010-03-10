@@ -9,7 +9,6 @@ class LengthUnitEditorDialog(DatasetEditorDialog):
         self.addIdDisplay()
         self.addNameEdit()
         self.addIntEdit(self.tr("&Millimetres"))
-        self.intW.validator().setRange(1, 9999999)
         self.addDescriptionEdit()
         self.addButtons()
 
