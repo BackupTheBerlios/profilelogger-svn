@@ -8,55 +8,9 @@ from Gui.Dialogs.LengthUnitEditorDialog import LengthUnitEditorDialog
 
 class LengthUnitItemModel(StandardItemModel):
     def __init__(self, parent):
-        StandardItemModel.__init__(self, parent)
-    def onCreateNewRequest(self):
-        dlg = LengthUnitEditorDialog(QApplication.activeWindow(), LengthUnit())
-        if QDialog.Accepted == dlg.exec_():
-            self.reload()
-
-    def getDataFromIndex(self, idx):
-        itm = self.itemFromIndex(idx)
-        if itm is None:
-            return None
-        return itm.data
-
-    def onEditRequest(self, idx):
-        data = self.getDataFromIndex(idx)
-        if data is None:
-            return
-        dlg = LengthUnitEditorDialog(QApplication.activeWindow(), data)
-        if QDialog.Accepted == dlg.exec_():
-            self.reload()
-
-    def onDeleteRequest(self, idx):
-        itm = self.itemFromIndex(idx)
-        data = itm.data
-        self.getSession().delete(data)
-        self.getSession().commit();
-        self.reload()
-    def reload(self):
-        self.clear()
-        self.setHorizontalHeaderLabels([self.tr("Length Units")])
-        self.data = self.getSession().query(LengthUnit).order_by(LengthUnit.milliMetre).all()
-        for u in self.data:
-            self.appendItem(u)
-        self.reloaded.emit()
-
-    def findItemForLengthUnit(self, id):
-        r = 0
-        while r < self.rowCount():
-            ret = self.item(r)
-            if ret.data.id == id:
-                return ret;
-            r += 1;
-        return None
-    def findIndexForLengthUnit(self, dataset):
-        if dataset is None:
-            return QModelIndex()
-        itm = self.findItemForLengthUnit(dataset.id)
-        if itm is None:
-            return QModelIndex()
-        return self.indexFromItem(itm)
-
-    def appendItem(self, dataset):
-        self.appendRow(LengthUnitItem(dataset))
+        StandardItemModel.__init__(self, parent,
+                                   LengthUnit,
+                                   LengthUnitItem,
+                                   LengthUnitEditorDialog,
+                                   LengthUnit.milliMetre)
+        self.headerStrings = [self.tr("Length Units")]

@@ -16,7 +16,8 @@ from App.Settings import Settings
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
-    
+    databaseClosed = pyqtSignal(QString)
+
     def __init__(self, argv):
         QApplication.__init__(self, argv)
         self.setApplicationName('ProfileLogger')
@@ -82,4 +83,4 @@ class ProfileLogger(QApplication):
             
 
     def onCloseDatabase(self):
-        print 'close database'
+        self.databaseClosed.emit()

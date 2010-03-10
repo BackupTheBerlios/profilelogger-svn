@@ -1,6 +1,7 @@
 from Dataset import Dataset
 
 class NamedDataset(Dataset):
+    name = None
     def __init__(self, id=None, name=None):
         super(NamedDataset, self).__init__(id)
         self.name = name

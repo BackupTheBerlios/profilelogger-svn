@@ -1,4 +1,5 @@
 class Dataset(object):
+    id = None
     def __init__(self, id=None):
         super(Dataset, self).__init__()
         self.id = id
