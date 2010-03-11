@@ -1,3 +1,5 @@
+from Dialog import Dialog
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
@@ -11,9 +13,9 @@ from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
-class DatasetEditorDialog(QDialog):
+class DatasetEditorDialog(Dialog):
     def __init__(self, parent, data):
-        QDialog.__init__(self, parent)
+        Dialog.__init__(self, parent)
         self.data = data
         self.setLayout(QVBoxLayout(self))
     def addContentPanel(self, title):

@@ -1,4 +1,4 @@
-from StandardItemModel import StandardItemModel
+from DataManagementItemModel import DataManagementItemModel
 
 from PyQt4.QtGui import *
 
@@ -6,11 +6,11 @@ from Model.LengthUnit import LengthUnit
 from Gui.ItemModels.LengthUnitItem import LengthUnitItem
 from Gui.Dialogs.LengthUnitEditorDialog import LengthUnitEditorDialog
 
-class LengthUnitItemModel(StandardItemModel):
+class LengthUnitItemModel(DataManagementItemModel):
     def __init__(self, parent):
-        StandardItemModel.__init__(self, parent,
-                                   LengthUnit,
-                                   LengthUnitItem,
-                                   LengthUnitEditorDialog,
-                                   LengthUnit.milliMetre)
+        DataManagementItemModel.__init__(self, parent,
+                                         LengthUnit,
+                                         LengthUnitItem,
+                                         LengthUnitEditorDialog,
+                                         LengthUnit.milliMetre)
         self.headerStrings = [self.tr("Length Units")]

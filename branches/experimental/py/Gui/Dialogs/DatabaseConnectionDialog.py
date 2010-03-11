@@ -1,9 +1,11 @@
+from Dialog import Dialog
+
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class DatabaseConnectionDialog(QDialog):
+class DatabaseConnectionDialog(Dialog):
     def __init__(self, connectionData, parent):
-        QDialog.__init__(self, parent)
+        Dialog.__init__(self, parent)
         self.cd = connectionData
 
         self.setLayout(QVBoxLayout(self))

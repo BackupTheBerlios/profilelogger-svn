@@ -1,10 +1,9 @@
-from Gui.ItemViews.TreeView import TreeView
+from DataManagementItemView import DataManagementItemView
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 
-class LengthUnitItemView(TreeView):
-
+class LengthUnitItemView(DataManagementItemView):
     def __init__(self, parent, model):
-        TreeView.__init__(self, parent, model)
+        DataManagementItemView.__init__(self, parent, model)
