@@ -14,6 +14,7 @@ from Gui.ItemModels.FossilItemModel import FossilItemModel
 from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
+from Gui.ItemModels.ProfileItemModel import ProfileItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -28,6 +29,7 @@ from Gui.ItemViews.FossilItemView import FossilItemView
 from Gui.ItemViews.CustomSymbolItemView import CustomSymbolItemView
 from Gui.ItemViews.BoundaryTypeItemView import BoundaryTypeItemView
 from Gui.ItemViews.PointOfInterestItemView import PointOfInterestItemView
+from Gui.ItemViews.ProfileItemView import ProfileItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -50,6 +52,7 @@ class MainWindow(QMainWindow):
         self.setupFossilManagement()
         self.setupCustomSymbolManagement()
         self.setupBoundaryTypeManagement()
+        self.setupProfileManagement()
         self.centralWidget().addWidget(self.projectToolsW)
         self.setupPointOfInterestManagement()
     def setupLithologyManagement(self):
@@ -62,6 +65,11 @@ class MainWindow(QMainWindow):
                                           QApplication.instance().colorModel)
         self.projectToolsW.addItem(self.lithologiesW, self.tr("Colors"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
+    def setupProfileManagement(self):
+        self.lithologiesW = ProfileItemView(self.globalToolsW,
+                                            QApplication.instance().profileModel)
+        self.projectToolsW.addItem(self.lithologiesW, self.tr("Profiles"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().profileModel.onProjectChange)
     def setupPointOfInterestManagement(self):
         self.lithologiesW = PointOfInterestItemView(self.globalToolsW,
                                           QApplication.instance().pointOfInterestModel)

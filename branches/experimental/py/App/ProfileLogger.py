@@ -27,6 +27,7 @@ from Gui.ItemModels.FossilItemModel import FossilItemModel
 from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
+from Gui.ItemModels.ProfileItemModel import ProfileItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -54,6 +55,7 @@ class ProfileLogger(QApplication):
         self.customSymbolModel = CustomSymbolItemModel(self)
         self.boundaryTypeModel = BoundaryTypeItemModel(self)
         self.pointOfInterestModel = PointOfInterestItemModel(self)
+        self.profileModel = ProfileItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
@@ -111,6 +113,7 @@ class ProfileLogger(QApplication):
         d['sampling'] = CustomSymbol(d['Test project'], None, unicode('Sampling Point'), None, unicode(''))
         d['sharp planar'] = BoundaryType(d['Test project'], None, unicode('Sharp Planar'), None, unicode(''))
         d['oc1'] = PointOfInterest(d['Test project'], None, unicode('Outcrop 1'), None, unicode(''))
+        d['Profile 1'] = Profile(d['Test project'], None, unicode('Profile 1'), unicode(''))
         try: 
             s = self.db.session
             for k, v in d.iteritems():
