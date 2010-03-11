@@ -74,12 +74,20 @@ class ProfileLogger(QApplication):
                 dlg.exec_()
                 
     def insertTemplateData(self):
+        d = dict()
+        d['um'] = LengthUnit(None, 1, unicode(self.tr('um')))
+        d['mm'] = LengthUnit(None, 1000, unicode(self.tr('mm')))
+        d['cm'] = LengthUnit(None, 10000, unicode(self.tr('cm')))
+        d['dm'] = LengthUnit(None, 100000, unicode(self.tr('dm')))
+        d['m'] = LengthUnit(None, 1000000, unicode(self.tr('m')))
+        d['Krumbein1963'] = GrainSizeType(None, unicode('Krumbein, 1963'),
+                                          unicode('W.C. Krumbein and L.L. Sloss(1963): Stratigraphy and Sedimentation, 2nd edition. Freeman, San Francisco'))
+        d['Folk1964'] = GrainSizeType(None, unicode('Folk, 1964'),
+                                      unicode('Folk, 1964: A Review of Grain-Size Parameters. Sedimentology 6:2:73-93'))
         try: 
             s = self.db.session
-            s.add(LengthUnit(None, 1, unicode(self.tr('mm'))))
-            s.add(LengthUnit(None, 10, unicode(self.tr('cm'))))
-            s.add(LengthUnit(None, 100, unicode(self.tr('dm'))))
-            s.add(LengthUnit(None, 1000, unicode(self.tr('m'))))
+            for k, v in d.iteritems():
+                s.add(v)
             s.commit()
         except SQLError, e:
             dlg = DatabaseExceptionDialog(self.activeWindow(), e)
