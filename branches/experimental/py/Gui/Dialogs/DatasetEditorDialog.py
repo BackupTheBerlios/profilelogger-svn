@@ -33,20 +33,20 @@ class DatasetEditorDialog(Dialog):
         self.bbW.accepted.connect(self.accept)
         self.bbW.rejected.connect(self.reject)
         self.layout().addWidget(self.bbW)
+    def addLabelWidgetPair(self, labelW, widget):
+        self.contentW.layout().addWidget(labelW, self.currentContentRow, self.labelCol)
+        self.contentW.layout().addWidget(widget, self.currentContentRow, self.widgetCol)
+        self.currentContentRow += 1
     def addIdDisplay(self):
         self.idL = self.createOneLineLabel(self.tr("ID"))
         self.idW = IdLabel(self.contentW)
-        self.contentW.layout().addWidget(self.idL, self.currentContentRow, self.labelCol)
-        self.contentW.layout().addWidget(self.idW, self.currentContentRow, self.widgetCol)
-        self.currentContentRow += 1
+        self.addLabelWidgetPair(self.idL, self.idW)
     def addIntEdit(self, label, min=1, max=999999):
         self.intL = self.createOneLineLabel(label)
         self.intW = IntLineEdit(self)
         self.intL.setBuddy(self.intW)
-        self.contentW.layout().addWidget(self.intL, self.currentContentRow, self.labelCol)
-        self.contentW.layout().addWidget(self.intW, self.currentContentRow, self.widgetCol)
-        self.currentContentRow += 1
         self.intW.validator().setRange(min, max)
+        self.addLabelWidgetPair(self.intL, self.intW)
     def addNameEdit(self, label=None):
         lbl = label
         if lbl is None:
@@ -54,9 +54,7 @@ class DatasetEditorDialog(Dialog):
         self.nameL = self.createOneLineLabel(lbl)
         self.nameW = NameEdit(self.contentW)
         self.nameL.setBuddy(self.nameW)
-        self.contentW.layout().addWidget(self.nameL, self.currentContentRow, self.labelCol)
-        self.contentW.layout().addWidget(self.nameW, self.currentContentRow, self.widgetCol)
-        self.currentContentRow += 1
+        self.addLabelWidgetPair(self.nameL, self.nameW)
     def addDescriptionEdit(self, label=None):
         lbl = label
         if lbl is None:
@@ -64,10 +62,7 @@ class DatasetEditorDialog(Dialog):
         self.descriptionL = self.createMultiLineLabel(lbl)
         self.descriptionW = DescriptionEdit(self.contentW)
         self.descriptionL.setBuddy(self.descriptionW)
-        self.contentW.layout().addWidget(self.descriptionL, self.currentContentRow, self.labelCol)
-        self.contentW.layout().addWidget(self.descriptionW, self.currentContentRow, self.widgetCol)
-        self.currentContentRow += 1
-
+        self.addLabelWidgetPair(self.descriptionL, self.descriptionW)
     def addSVGLoader(self, label=None):
         lbl = label
         if lbl is None:
@@ -75,9 +70,7 @@ class DatasetEditorDialog(Dialog):
         self.svgLoaderL = self.createOneLineLabel(lbl)
         self.svgLoaderW = SVGLoaderWidget(self.contentW)
         self.svgLoaderL.setBuddy(self.svgLoaderW)
-        self.contentW.layout().addWidget(self.svgLoaderL, self.currentContentRow, self.labelCol)
-        self.contentW.layout().addWidget(self.svgLoaderW, self.currentContentRow, self.widgetCol)
-        self.currentContentRow += 1
+        self.addLabelWidgetPair(self.svgLoaderL, self.svgLoaderW)
     def createOneLineLabel(self, lbl):
         lbl = QLabel(lbl, self.contentW)
         lbl.setAlignment(Qt.AlignVCenter | Qt.AlignRight)
@@ -86,7 +79,11 @@ class DatasetEditorDialog(Dialog):
         lbl = QLabel(lbl, self.contentW)
         lbl.setAlignment(Qt.AlignTop | Qt.AlignRight)
         return lbl
+    def validate(self):
+        return True
     def accept(self):
+        if not self.validate():
+            return
         try:
             if not self.data.hasId():
                 QApplication.instance().db.session.add(self.data)

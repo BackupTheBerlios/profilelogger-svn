@@ -14,9 +14,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.typeL = self.createOneLineLabel(self.tr("Grain Size Type"))
         self.typeW = GrainSizeTypeItemView(self.contentW,
                                            QApplication.instance().grainSizeTypeModel)
-        self.contentW.layout().addWidget(self.typeL, self.currentContentRow, self.labelCol)
-        self.contentW.layout().addWidget(self.typeW, self.currentContentRow, self.widgetCol)
-        self.currentContentRow += 1
+        self.addLabelWidgetPair(self.typeL, self.typeW)
 
         self.addDescriptionEdit()
         self.addButtons()
