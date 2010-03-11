@@ -101,6 +101,7 @@ class Database:
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                       Column('name', String, nullable=False, server_default='New Color'),
                                       Column('description', String, nullable=True),
+                                      Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_colors_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_colors_name_in_project'),
                                       schema=self.schema);
@@ -299,7 +300,8 @@ class Database:
         mapper(Color, self.tables['colors'], properties = {
                 'id': self.tables['colors'].c.id,
                 'name': self.tables['colors'].c.name,
-                'description': self.tables['colors'].c.description
+                'description': self.tables['colors'].c.description,
+                'svgItem': relation(SVGItem, backref='colors'),
                 })
         mapper(BeddingType, self.tables['bedding_types'], properties = {
                 'id': self.tables['bedding_types'].c.id,

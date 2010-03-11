@@ -1,6 +1,6 @@
-from NamedDescribedDatasetInProject import NamedDescribedDatasetInProject
+from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
 
-class Color(NamedDescribedDatasetInProject):
-    def __init__(self, project, id=None, name=None, description=None):
-        super(Color, self).__init__(project, id, name, description)
+class Color(NamedDescribedDatasetWithSVGItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(Color, self).__init__(project, id, name, svgItem, description)
         self.project.registerColor(self)

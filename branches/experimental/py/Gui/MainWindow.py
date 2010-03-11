@@ -7,6 +7,7 @@ from Gui.ItemModels.SVGItemModel import SVGItemModel
 from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
 from Gui.ItemModels.LithologyItemModel import LithologyItemModel
+from Gui.ItemModels.ColorItemModel import ColorItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -14,6 +15,7 @@ from Gui.ItemViews.SVGItemView import SVGItemView
 from Gui.ItemViews.GrainSizeTypeItemView import GrainSizeTypeItemView
 from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
 from Gui.ItemViews.LithologyItemView import LithologyItemView
+from Gui.ItemViews.ColorItemView import ColorItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -30,12 +32,18 @@ class MainWindow(QMainWindow):
     def setupProjectTools(self):
         self.projectToolsW = QToolBox(self.centralWidget())
         self.setupLithologyManagement()
+        self.setupColorManagement()
         self.centralWidget().addWidget(self.projectToolsW)
     def setupLithologyManagement(self):
         self.lithologiesW = LithologyItemView(self.globalToolsW,
                                               QApplication.instance().lithologyModel)
         self.projectToolsW.addItem(self.lithologiesW, self.tr("Lithologies"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().lithologyModel.onProjectChange)
+    def setupColorManagement(self):
+        self.lithologiesW = ColorItemView(self.globalToolsW,
+                                          QApplication.instance().colorModel)
+        self.projectToolsW.addItem(self.lithologiesW, self.tr("Colors"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
 
     def setupGlobalTools(self):
         self.globalToolsW = QToolBox(self.centralWidget())
