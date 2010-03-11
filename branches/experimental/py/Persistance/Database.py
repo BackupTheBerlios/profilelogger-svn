@@ -11,6 +11,7 @@ from Model.SedimentStructure import SedimentStructure
 from Model.Fossil import Fossil
 from Model.CustomSymbol import CustomSymbol
 from Model.BoundaryType import BoundaryType
+from Model.PointOfInterest import PointOfInterest
 from Model.Profile import Profile
 from Model.GrainSizeType import GrainSizeType
 from Model.GrainSize import GrainSize
@@ -104,6 +105,16 @@ class Database:
                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_colors_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_colors_name_in_project'),
+                                      schema=self.schema);
+
+        self.tables['points_of_interest'] = Table('points_of_interest', self.metadata,
+                                      Column('id', Integer, Sequence('seq_points_of_interest', schema=self.schema), primary_key=True, nullable=False),
+                                      Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                      Column('name', String, nullable=False, server_default='New Color'),
+                                      Column('description', String, nullable=True),
+                                      Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                      CheckConstraint("name <> ''", name='chk_points_of_interest_name_not_empty'),
+                                      UniqueConstraint('name', 'project_id', name='u_points_of_interest_name_in_project'),
                                       schema=self.schema);
 
         self.tables['bedding_types'] = Table('bedding_types', self.metadata,
@@ -294,7 +305,8 @@ class Database:
                 'fossils': relation(Fossil, backref='project'),
                 'customSymbols': relation(CustomSymbol, backref='project'),
                 'boundaryTypes': relation(BoundaryType, backref='project'),
-                'profiles': relation(Profile, backref='project')})
+                'profiles': relation(Profile, backref='project'),
+                'pointsOfInterest': relation(PointOfInterest, backref='project')})
         mapper(Lithology, self.tables['lithologies'], properties = {
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,
@@ -307,6 +319,12 @@ class Database:
                 'name': self.tables['colors'].c.name,
                 'description': self.tables['colors'].c.description,
                 'svgItem': relation(SVGItem, backref='colors'),
+                })
+        mapper(PointOfInterest, self.tables['points_of_interest'], properties = {
+                'id': self.tables['points_of_interest'].c.id,
+                'name': self.tables['points_of_interest'].c.name,
+                'description': self.tables['points_of_interest'].c.description,
+                'svgItem': relation(SVGItem, backref='pointsOfInterest'),
                 })
         mapper(BeddingType, self.tables['bedding_types'], properties = {
                 'id': self.tables['bedding_types'].c.id,

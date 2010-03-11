@@ -26,6 +26,7 @@ from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
 from Gui.ItemModels.FossilItemModel import FossilItemModel
 from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
+from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -52,6 +53,7 @@ class ProfileLogger(QApplication):
         self.fossilModel = FossilItemModel(self)
         self.customSymbolModel = CustomSymbolItemModel(self)
         self.boundaryTypeModel = BoundaryTypeItemModel(self)
+        self.pointOfInterestModel = PointOfInterestItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
@@ -108,6 +110,7 @@ class ProfileLogger(QApplication):
         d['snail'] = Fossil(d['Test project'], None, unicode('Snail'), None, unicode(''))
         d['sampling'] = CustomSymbol(d['Test project'], None, unicode('Sampling Point'), None, unicode(''))
         d['sharp planar'] = BoundaryType(d['Test project'], None, unicode('Sharp Planar'), None, unicode(''))
+        d['oc1'] = PointOfInterest(d['Test project'], None, unicode('Outcrop 1'), None, unicode(''))
         try: 
             s = self.db.session
             for k, v in d.iteritems():

@@ -10,7 +10,7 @@ class Project(NamedDescribedDataset):
         self.fossils = []
         self.customSymbols = []
         self.boundaryTypes = []
-        self.pois = []
+        self.pointsOfInterest = []
         self.profiles = []
 
     def registerProfile(self, p):
@@ -19,10 +19,10 @@ class Project(NamedDescribedDataset):
             return
         self.profiles.append(p)
     def registerPointOfInterest(self, p):
-        if self.pois.count(p) > 0:
+        if self.pointsOfInterest.count(p) > 0:
             print 'POI %s already registered in project %s' % (p, self.name)
             return
-        self.pois.append(p)
+        self.pointsOfInterest.append(p)
 
     def registerBoundaryType(self, t):
         if self.boundaryTypes.count(t) > 0:
@@ -90,7 +90,7 @@ class Project(NamedDescribedDataset):
         for t in self.boundaryTypes:
             print '\t\t%s' % s
         print '\tPoints of Interest:'
-        for p in self.pois:
+        for p in self.pointsOfInterest:
             print '\t\t%s' % p
         print '\tProfiles:'
         for p in self.profiles:
