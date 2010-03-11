@@ -150,6 +150,7 @@ class Database:
                                               Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                               Column('name', String, nullable=False, server_default='New Boundary_Type'),
                                               Column('description', String, nullable=True),
+                                              Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                               CheckConstraint("name <> ''", name='chk_boundary_types_name_not_empty'),
                                               UniqueConstraint('name', 'project_id', name='u_boundary_types_name_in_project'),
                                               schema=self.schema);
@@ -335,7 +336,8 @@ class Database:
         mapper(BoundaryType, self.tables['boundary_types'], properties = {
                 'id': self.tables['boundary_types'].c.id,
                 'name': self.tables['boundary_types'].c.name,
-                'description': self.tables['boundary_types'].c.description
+                'description': self.tables['boundary_types'].c.description,
+                'svgItem': relation(SVGItem, backref='boundaryTypes')
                 })
         mapper(Bed, self.tables['beds'], properties = {
                 'id': self.tables['beds'].c.id,

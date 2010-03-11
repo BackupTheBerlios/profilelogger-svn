@@ -12,6 +12,7 @@ from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
 from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
 from Gui.ItemModels.FossilItemModel import FossilItemModel
 from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
+from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -24,6 +25,7 @@ from Gui.ItemViews.BeddingTypeItemView import BeddingTypeItemView
 from Gui.ItemViews.SedimentStructureItemView import SedimentStructureItemView
 from Gui.ItemViews.FossilItemView import FossilItemView
 from Gui.ItemViews.CustomSymbolItemView import CustomSymbolItemView
+from Gui.ItemViews.BoundaryTypeItemView import BoundaryTypeItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -45,6 +47,7 @@ class MainWindow(QMainWindow):
         self.setupSedimentStructureManagement()
         self.setupFossilManagement()
         self.setupCustomSymbolManagement()
+        self.setupBoundaryTypeManagement()
         self.centralWidget().addWidget(self.projectToolsW)
     def setupLithologyManagement(self):
         self.lithologiesW = LithologyItemView(self.globalToolsW,
@@ -56,6 +59,11 @@ class MainWindow(QMainWindow):
                                           QApplication.instance().colorModel)
         self.projectToolsW.addItem(self.lithologiesW, self.tr("Colors"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
+    def setupBoundaryTypeManagement(self):
+        self.lithologiesW = BoundaryTypeItemView(self.globalToolsW,
+                                                 QApplication.instance().boundaryTypeModel)
+        self.projectToolsW.addItem(self.lithologiesW, self.tr("BoundaryTypes"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().boundaryTypeModel.onProjectChange)
     def setupCustomSymbolManagement(self):
         self.lithologiesW = CustomSymbolItemView(self.globalToolsW,
                                           QApplication.instance().customSymbolModel)
