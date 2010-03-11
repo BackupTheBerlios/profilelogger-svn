@@ -21,6 +21,7 @@ from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
 from Gui.ItemModels.LithologyItemModel import LithologyItemModel
 from Gui.ItemModels.ColorItemModel import ColorItemModel
+from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -42,6 +43,8 @@ class ProfileLogger(QApplication):
         self.grainSizeModel = GrainSizeItemModel(self)
         self.lithologyModel = LithologyItemModel(self)
         self.colorModel = ColorItemModel(self)
+        self.beddingTypeModel = BeddingTypeItemModel(self)
+        
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.triggered.connect(QApplication.instance().quit);
@@ -92,6 +95,7 @@ class ProfileLogger(QApplication):
         d['Test project'] = Project(None, unicode('Test Project'))
         d['Limestone Mudstone'] = Lithology(d['Test project'], None, unicode('Limestone Mudstone'), None, unicode(''), d['clay'])
         d['red'] = Color(d['Test project'], None, unicode('Red'), None, unicode(''))
+        d['massive'] = BeddingType(d['Test project'], None, unicode('Massive'), None, unicode(''))
         try: 
             s = self.db.session
             for k, v in d.iteritems():

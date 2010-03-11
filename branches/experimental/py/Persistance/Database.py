@@ -111,6 +111,7 @@ class Database:
                                              Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                              Column('name', String, nullable=False, server_default='New Color'),
                                              Column('description', String, nullable=True),
+                                             Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                              CheckConstraint("name <> ''", name='chk_bedding_types_name_not_empty'),
                                              UniqueConstraint('name', 'project_id', name='u_bedding_types_name_in_project'),
                                              schema=self.schema);
@@ -306,12 +307,13 @@ class Database:
         mapper(BeddingType, self.tables['bedding_types'], properties = {
                 'id': self.tables['bedding_types'].c.id,
                 'name': self.tables['bedding_types'].c.name,
-                'description': self.tables['bedding_types'].c.description
+                'description': self.tables['bedding_types'].c.description,
+                'svgItem': relation(SVGItem, backref='beddingTypes')
                 })
         mapper(SedimentStructure, self.tables['sediment_structures'], properties = {
                 'id': self.tables['sediment_structures'].c.id,
                 'name': self.tables['sediment_structures'].c.name,
-                'description': self.tables['sediment_structures'].c.description
+                'description': self.tables['sediment_structures'].c.description,
                 })
         mapper(Fossil, self.tables['fossils'], properties = {
                 'id': self.tables['fossils'].c.id,
