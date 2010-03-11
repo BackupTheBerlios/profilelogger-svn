@@ -5,11 +5,13 @@ from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
 from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
+from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
 from Gui.ItemViews.SVGItemView import SVGItemView
 from Gui.ItemViews.GrainSizeTypeItemView import GrainSizeTypeItemView
+from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -28,6 +30,7 @@ class MainWindow(QMainWindow):
         self.setupProjectManagement()
         self.setupSVGItemManagement()
         self.setupGrainSizeTypeManagement()
+        self.setupGrainSizeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupLengthUnitManagement(self):
         self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
@@ -37,6 +40,10 @@ class MainWindow(QMainWindow):
         self.projectsW = ProjectItemView(self.globalToolsW,
                                          QApplication.instance().projectModel)
         self.globalToolsW.addItem(self.projectsW, self.tr("Projects"))
+    def setupGrainSizeManagement(self):
+        self.grainSizesW = GrainSizeItemView(self.globalToolsW,
+                                             QApplication.instance().grainSizeModel)
+        self.globalToolsW.addItem(self.grainSizesW, self.tr("Grain Sizes"))
     def setupSVGItemManagement(self):
         self.SVGItemsW = SVGItemView(self.globalToolsW,
                                      QApplication.instance().svgItemModel)

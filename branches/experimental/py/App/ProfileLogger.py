@@ -18,6 +18,7 @@ from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
 from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
+from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -36,6 +37,7 @@ class ProfileLogger(QApplication):
         self.projectModel = ProjectItemModel(self)
         self.svgItemModel = SVGItemModel(self)
         self.grainSizeTypeModel = GrainSizeTypeItemModel(self)
+        self.grainSizeModel = GrainSizeItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.triggered.connect(QApplication.instance().quit);

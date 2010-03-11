@@ -58,7 +58,7 @@ class DataManagementItemModel(StandardItemModel):
                 return ret;
             r += 1;
         return None
-    def findIndexForId(self, dataset):
+    def findIndexForDataset(self, dataset):
         if dataset is None:
             return QModelIndex()
         itm = self.findItemForId(dataset.id)

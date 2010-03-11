@@ -72,7 +72,7 @@ class DatasetEditorDialog(Dialog):
         lbl = label
         if lbl is None:
             lbl = self.tr("&SVG File")
-        self.svgLoaderL = self.createMultiLineLabel(lbl)
+        self.svgLoaderL = self.createOneLineLabel(lbl)
         self.svgLoaderW = SVGLoaderWidget(self.contentW)
         self.svgLoaderL.setBuddy(self.svgLoaderW)
         self.contentW.layout().addWidget(self.svgLoaderL, self.currentContentRow, self.labelCol)

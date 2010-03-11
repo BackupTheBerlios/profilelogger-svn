@@ -85,6 +85,10 @@ class DataManagementItemView(TreeView):
     def onSelectItemRequest(self, idx):
         if self.selectionModel() is None:
             self.setSelectionModel(QItemSelectionModel(self.model()))
+        self.selectItemByIndex(idx)
+    def selectItemByIndex(self, idx):
+        if not idx.isValid():
+            return
         self.selectionModel().select(idx, QItemSelectionModel.ClearAndSelect)
         self.selectionModel().setCurrentIndex(idx, QItemSelectionModel.ClearAndSelect)
         self.scrollTo(idx, QAbstractItemView.EnsureVisible)
@@ -97,4 +101,10 @@ class DataManagementItemView(TreeView):
         if itm is None:
             self.currentDatasetChanged.emit(None)
         else:
-            self.currentDatasetChanged.emit(itm)
+            self.currentDatasetChanged.emit(itm.data)
+    def selectDataset(self, dataset):
+        if dataset is None:
+            return
+        idx = self.model().findIndexForDataset(dataset)
+        if idx.isValid():
+            self.selectItemByIndex(idx)
