@@ -69,6 +69,10 @@ class Database:
                                            Column('grain_size_type_id', Integer, ForeignKey('%s.grain_size_types.id' % self.schema), nullable=False),
                                            Column('name', String, nullable=False, server_default='New Grain_Size'),
                                            Column('description', String, nullable=True),
+                                           Column('min', Integer, nullable=True),
+                                           Column('min_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=True),
+                                           Column('max', Integer, nullable=True),
+                                           Column('max_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=True),
                                            CheckConstraint("name <> ''", name='chk_grain_sizes_name_not_empty'),
                                            UniqueConstraint('name', name='u_grain_sizes_name'),
                                            schema=self.schema)
@@ -258,7 +262,13 @@ class Database:
         mapper(GrainSize, self.tables['grain_sizes'], properties = {
                 'id': self.tables['grain_sizes'].c.id,
                 'name': self.tables['grain_sizes'].c.name,
-                'description': self.tables['grain_sizes'].c.description})
+                'description': self.tables['grain_sizes'].c.description,
+                'minSize': self.tables['grain_sizes'].c.min,
+                'minSizeLengthUnit': relation(LengthUnit,
+                                              primaryjoin=self.tables['grain_sizes'].c.min_length_unit_id==self.tables['length_units'].c.id),
+                'maxSize': self.tables['grain_sizes'].c.max,
+                'maxSizeLengthUnit': relation(LengthUnit,
+                                              primaryjoin=self.tables['grain_sizes'].c.max_length_unit_id==self.tables['length_units'].c.id)})
         mapper(GrainSizeType, self.tables['grain_size_types'], properties = {
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,
