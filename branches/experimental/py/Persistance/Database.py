@@ -120,6 +120,7 @@ class Database:
                                                    Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                                    Column('name', String, nullable=False, server_default='New Color'),
                                                    Column('description', String, nullable=True),
+                                                   Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                                    CheckConstraint("name <> ''", name='chk_sediment_structures_name_not_empty'),
                                                    UniqueConstraint('name', 'project_id', name='u_sediment_structures_name_in_project'),
                                                    schema=self.schema);
@@ -314,6 +315,7 @@ class Database:
                 'id': self.tables['sediment_structures'].c.id,
                 'name': self.tables['sediment_structures'].c.name,
                 'description': self.tables['sediment_structures'].c.description,
+                'svgItem': relation(SVGItem, backref='sedimentStructures')
                 })
         mapper(Fossil, self.tables['fossils'], properties = {
                 'id': self.tables['fossils'].c.id,
