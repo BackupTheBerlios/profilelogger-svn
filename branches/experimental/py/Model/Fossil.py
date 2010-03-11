@@ -1,6 +1,6 @@
-from NamedDescribedDatasetInProject import NamedDescribedDatasetInProject
+from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
 
-class Fossil(NamedDescribedDatasetInProject):
-    def __init__(self, project, id=None, name=None, description=None):
-        super(Fossil, self).__init__(project, id, name, description)
+class Fossil(NamedDescribedDatasetWithSVGItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(Fossil, self).__init__(project, id, name, svgItem, description)
         self.project.registerFossil(self)

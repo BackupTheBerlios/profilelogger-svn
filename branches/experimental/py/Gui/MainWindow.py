@@ -10,6 +10,7 @@ from Gui.ItemModels.LithologyItemModel import LithologyItemModel
 from Gui.ItemModels.ColorItemModel import ColorItemModel
 from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
 from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
+from Gui.ItemModels.FossilItemModel import FossilItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -20,6 +21,7 @@ from Gui.ItemViews.LithologyItemView import LithologyItemView
 from Gui.ItemViews.ColorItemView import ColorItemView
 from Gui.ItemViews.BeddingTypeItemView import BeddingTypeItemView
 from Gui.ItemViews.SedimentStructureItemView import SedimentStructureItemView
+from Gui.ItemViews.FossilItemView import FossilItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -39,6 +41,7 @@ class MainWindow(QMainWindow):
         self.setupColorManagement()
         self.setupBeddingTypeManagement()
         self.setupSedimentStructureManagement()
+        self.setupFossilManagement()
         self.centralWidget().addWidget(self.projectToolsW)
     def setupLithologyManagement(self):
         self.lithologiesW = LithologyItemView(self.globalToolsW,
@@ -50,6 +53,11 @@ class MainWindow(QMainWindow):
                                           QApplication.instance().colorModel)
         self.projectToolsW.addItem(self.lithologiesW, self.tr("Colors"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
+    def setupFossilManagement(self):
+        self.lithologiesW = FossilItemView(self.globalToolsW,
+                                           QApplication.instance().fossilModel)
+        self.projectToolsW.addItem(self.lithologiesW, self.tr("Fossils"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().fossilModel.onProjectChange)
     def setupSedimentStructureManagement(self):
         self.lithologiesW = SedimentStructureItemView(self.globalToolsW,
                                           QApplication.instance().sedimentStructureModel)

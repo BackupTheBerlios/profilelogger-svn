@@ -130,6 +130,7 @@ class Database:
                                        Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                        Column('name', String, nullable=False, server_default='New Fossil'),
                                        Column('description', String, nullable=True),
+                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                        CheckConstraint("name <> ''", name='chk_fossils_name_not_empty'),
                                        UniqueConstraint('name', 'project_id', name='u_fossils_name_in_project'),
                                        schema=self.schema);
@@ -320,7 +321,8 @@ class Database:
         mapper(Fossil, self.tables['fossils'], properties = {
                 'id': self.tables['fossils'].c.id,
                 'name': self.tables['fossils'].c.name,
-                'description': self.tables['fossils'].c.description
+                'description': self.tables['fossils'].c.description,
+                'svgItem': relation(SVGItem, backref='fossils')
                 })
         mapper(CustomSymbol, self.tables['custom_symbols'], properties = {
                 'id': self.tables['custom_symbols'].c.id,
