@@ -3,6 +3,7 @@ from sqlalchemy.orm import *
 
 from Model.Project import Project
 from Model.LengthUnit import LengthUnit
+from Model.SVGItem import SVGItem
 from Model.Lithology import Lithology
 from Model.Color import Color
 from Model.BeddingType import BeddingType
@@ -14,7 +15,6 @@ from Model.Profile import Profile
 from Model.GrainSizeType import GrainSizeType
 from Model.GrainSize import GrainSize
 from Model.Bed import Bed
-
 from Model.LithologyInBed import LithologyInBed
 from Model.ColorInBed import ColorInBed
 from Model.BeddingTypeInBed import BeddingTypeInBed
@@ -37,13 +37,24 @@ class Database:
         self.tables['length_units'] = Table('length_units', self.metadata,
                                             Column('id', Integer, Sequence('seq_length_units', schema=self.schema), primary_key=True, nullable=False),
                                             Column('millimetres', Integer, nullable=False),
-                                            Column('name', String, nullable=False),
+                                            Column('name', String, nullable=False, server_default='New Length Unit'),
                                             Column('description', String, nullable=True),
                                             CheckConstraint('millimetres > 0', name='chk_length_units_millimetres_sensible'),
                                             CheckConstraint("name <> ''", name='chk_length_units_name_not_empty'),
                                             UniqueConstraint('millimetres', name='u_length_units_millimetres'),
                                             UniqueConstraint('name', name='u_length_units_name'),
                                             schema=self.schema)
+
+        self.tables['svg_items'] = Table('svg_items', self.metadata,
+                                         Column('id', Integer, Sequence('seq_svg_items', schema=self.schema), primary_key=True, nullable=False),
+                                         Column('name', String, nullable=False, server_default='New SVG Item'),
+                                         Column('description', String, nullable=True),
+                                         Column('svg_data', String, nullable=False),
+                                         Column('original_path', String, nullable=False),
+                                         CheckConstraint("name <> ''", name="chk_svg_items_name_not_empty"),
+                                         CheckConstraint("svg_data <> ''", name="chk_svg_items_svg_data_not_empty"),
+                                         UniqueConstraint('name', name='u_svg_items_name'),
+                                         schema=self.schema)
 
         self.tables['grain_size_types'] = Table('grain_size_types', self.metadata,
                                                 Column('id', Integer, Sequence('seq_grain_size_types', schema=self.schema), primary_key=True, nullable=False),
@@ -237,6 +248,13 @@ class Database:
                 'milliMetre': self.tables['length_units'].c.millimetres,
                 'name': self.tables['length_units'].c.name,
                 'description': self.tables['length_units'].c.description})
+        mapper(SVGItem, self.tables['svg_items'], properties = {
+                'id': self.tables['svg_items'].c.id,
+                'name': self.tables['svg_items'].c.name,
+                'description': self.tables['svg_items'].c.description,
+                'svgData': self.tables['svg_items'].c.svg_data,
+                'originalPath': self.tables['svg_items'].c.original_path
+                })
         mapper(GrainSize, self.tables['grain_sizes'], properties = {
                 'id': self.tables['grain_sizes'].c.id,
                 'name': self.tables['grain_sizes'].c.name,
@@ -359,7 +377,7 @@ class Database:
                 })
 
     def open(self, connectionData):
-        self.schema = str(connectionData.schema)
+        self.schema = unicode(connectionData.schema)
         self.setupTables()
         self.setupMapping()
         self.engine = create_engine(connectionData.makeConnectionString(), echo=True)

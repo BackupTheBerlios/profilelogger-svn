@@ -8,6 +8,6 @@ class DescriptionEdit(QTextEdit):
         QLineEdit.__init__(self, parent)
         self.textChanged.connect(self.onTextChanged)
     def onTextChanged(self):
-        self.descriptionChanged.emit(str(self.toPlainText()))
+        self.descriptionChanged.emit(unicode(self.toPlainText()))
     def setValue(self, txt):
-        self.setPlainText(str(txt))
+        self.setPlainText(unicode(txt))

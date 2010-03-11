@@ -21,12 +21,12 @@ class DatabaseConnectionDialog(Dialog):
         self.layout().addWidget(self.bb)
 
         self.setupWidgets()
-        self.hostW.setText(str(self.cd.host))
-        self.portW.setText(str(self.cd.port))
-        self.dbW.setText(str(self.cd.dbName))
-        self.schemaW.setText(str(self.cd.schema))
-        self.loginW.setText(str(self.cd.user))
-        self.passwordW.setText(str(self.cd.password))
+        self.hostW.setText(unicode(self.cd.host))
+        self.portW.setText(unicode(self.cd.port))
+        self.dbW.setText(unicode(self.cd.dbName))
+        self.schemaW.setText(unicode(self.cd.schema))
+        self.loginW.setText(unicode(self.cd.user))
+        self.passwordW.setText(unicode(self.cd.password))
         if self.cd.dropSchema:
             self.dropSchemaW.setCheckState(Qt.Checked)
         if self.cd.createSchema:
@@ -106,17 +106,17 @@ class DatabaseConnectionDialog(Dialog):
         self.insertTemplateDataW.toggled.connect(self.onInsertTemplateDataToggle)
 
     def onHostChange(self, txt):
-        self.cd.host = str(txt)
+        self.cd.host = unicode(txt)
     def onPortChange(self, port):
-        self.cd.port = str(port)
+        self.cd.port = unicode(port)
     def onDatabaseChange(self, db):
-        self.cd.dbName = str(db)
+        self.cd.dbName = unicode(db)
     def onSchemaChange(self, s):
         self.cd.schema = s
     def onLoginChange(self, l):
-        self.cd.user = str(l)
+        self.cd.user = unicode(l)
     def onPasswordChange(self, p):
-        self.cd.password = str(p)
+        self.cd.password = unicode(p)
     def onDropSchemaToggle(self, t):
         self.cd.dropSchema = t
     def onCreateSchemaToggle(self, t):

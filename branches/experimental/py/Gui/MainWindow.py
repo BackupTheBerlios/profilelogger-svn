@@ -2,10 +2,12 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
-from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
-
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
+from Gui.ItemModels.SVGItemModel import SVGItemModel
+
+from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
+from Gui.ItemViews.SVGItemView import SVGItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -22,6 +24,7 @@ class MainWindow(QMainWindow):
         self.globalToolsW = QToolBox(self.centralWidget())
         self.setupLengthUnitManagement()
         self.setupProjectManagement()
+        self.setupSVGItemManagement()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupLengthUnitManagement(self):
         self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
@@ -31,6 +34,11 @@ class MainWindow(QMainWindow):
         self.projectsW = ProjectItemView(self.globalToolsW,
                                          QApplication.instance().projectModel)
         self.globalToolsW.addItem(self.projectsW, self.tr("Projects"))
+    def setupSVGItemManagement(self):
+        self.SVGItemsW = SVGItemView(self.globalToolsW,
+                                     QApplication.instance().svgItemModel)
+        self.globalToolsW.addItem(self.SVGItemsW, self.tr("SVG Items"))
+
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())

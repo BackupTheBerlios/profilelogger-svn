@@ -13,16 +13,16 @@ class LengthUnitEditorDialog(DatasetEditorDialog):
         self.addButtons()
 
         self.idW.setValue(self.data.id)
-        self.nameW.setValue(str(self.data.name))
+        self.nameW.setValue(unicode(self.data.name))
         self.intW.setValue(self.data.milliMetre)
-        self.descriptionW.setValue(str(self.data.description))
+        self.descriptionW.setValue(unicode(self.data.description))
 
         self.nameW.nameChanged.connect(self.onNameChange)
         self.intW.valueChanged.connect(self.onMillimetreChange)
         self.descriptionW.descriptionChanged.connect(self.onDescriptionChange)
     def onNameChange(self, txt):
-        self.data.name = str(txt)
+        self.data.name = unicode(txt)
     def onMillimetreChange(self, mm):
         self.data.milliMetre = mm
     def onDescriptionChange(self, txt):
-        self.data.description = str(txt)
+        self.data.description = unicode(txt)

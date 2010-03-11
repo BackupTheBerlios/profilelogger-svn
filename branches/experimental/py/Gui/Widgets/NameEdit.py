@@ -8,9 +8,9 @@ class NameEdit(QLineEdit):
         QLineEdit.__init__(self, parent)
         self.textChanged.connect(self.onTextChange)
     def onTextChange(self, txt):
-        self.nameChanged.emit(str(txt))
+        self.nameChanged.emit(unicode(txt))
     def setValue(self, txt):
         if txt is not None:
-            self.setText(str(txt))
+            self.setText(unicode(txt))
         else:
             self.clear()

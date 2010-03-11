@@ -7,32 +7,32 @@ class Settings:
         pass
     def saveConnectionData(self, c):
         s = QSettings()
-        s.setValue('ConnectionData/Host', str(c.host))
-        s.setValue('ConnectionData/Port', str(c.port))
-        s.setValue('ConnectionData/Database', str(c.dbName))
-        s.setValue('ConnectionData/Schema', str(c.schema))
-        s.setValue('ConnectionData/User', str(c.user))
+        s.setValue('ConnectionData/Host', unicode(c.host))
+        s.setValue('ConnectionData/Port', unicode(c.port))
+        s.setValue('ConnectionData/Database', unicode(c.dbName))
+        s.setValue('ConnectionData/Schema', unicode(c.schema))
+        s.setValue('ConnectionData/User', unicode(c.user))
         s.setValue('ConnectionData/DropSchema', self.boolToString(c.dropSchema))
         s.setValue('ConnectionData/CreateSchema', self.boolToString(c.createSchema))
         s.setValue('ConnectionData/InsertTemplateData', self.boolToString(c.insertTemplateData))
 
     def loadConnectionData(self):
         s = QSettings()
-        return ConnectionData(str(s.value('ConnectionData/Host').toString()),
-                              str(s.value('ConnectionData/Port').toString()),
-                              str(s.value('ConnectionData/Database').toString()),
-                              str(s.value('ConnectionData/Schema').toString()),
-                              str(s.value('ConnectionData/User').toString()),
+        return ConnectionData(unicode(s.value('ConnectionData/Host').toString()),
+                              unicode(s.value('ConnectionData/Port').toString()),
+                              unicode(s.value('ConnectionData/Database').toString()),
+                              unicode(s.value('ConnectionData/Schema').toString()),
+                              unicode(s.value('ConnectionData/User').toString()),
                               '',
-                              self.stringToBool(str(s.value('ConnectionData/DropSchema').toString())),
-                              self.stringToBool(str(s.value('ConnectionData/CreateSchema').toString())),
-                              self.stringToBool(str(s.value('ConnectionData/InsertTemplateData').toBool())))
+                              self.stringToBool(unicode(s.value('ConnectionData/DropSchema').toString())),
+                              self.stringToBool(unicode(s.value('ConnectionData/CreateSchema').toString())),
+                              self.stringToBool(unicode(s.value('ConnectionData/InsertTemplateData').toBool())))
 
     def boolToString(self, arg):
         if arg:
-            return str('Yes')
+            return unicode('Yes')
         else:
-            return str('No')
+            return unicode('No')
 
     def stringToBool(self, s):
         if 'Yes' == s:

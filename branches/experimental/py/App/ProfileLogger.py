@@ -16,6 +16,7 @@ from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
+from Gui.ItemModels.SVGItemModel import SVGItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -32,6 +33,7 @@ class ProfileLogger(QApplication):
         self.db = Database()
         self.lengthUnitModel = LengthUnitItemModel(self)
         self.projectModel = ProjectItemModel(self)
+        self.svgItemModel = SVGItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
@@ -70,18 +72,18 @@ class ProfileLogger(QApplication):
                 
     def insertTemplateData(self):
         try: 
-            self.db.begin()
-            self.db.session.add(LengthUnit(None, 1, str(self.tr('mm'))))
-            self.db.session.add(LengthUnit(None, 10, str(self.tr('cm'))))
-            self.db.session.add(LengthUnit(None, 100, str(self.tr('dm'))))
-            self.db.session.add(LengthUnit(None, 1000, str(self.tr('m'))))
-            self.db.commit()
-        except SqlError, e:
+            s = self.db.session
+            s.add(LengthUnit(None, 1, unicode(self.tr('mm'))))
+            s.add(LengthUnit(None, 10, unicode(self.tr('cm'))))
+            s.add(LengthUnit(None, 100, unicode(self.tr('dm'))))
+            s.add(LengthUnit(None, 1000, unicode(self.tr('m'))))
+            s.commit()
+        except SQLError, e:
             dlg = DatabaseExceptionDialog(self.activeWindow(), e)
             dlg.exec_()
             try:
-                self.db.rollback()
-            except SqlError, re:
+                s.rollback()
+            except SQLError, re:
                 dlg = DatabaseExceptionDialog(self.activeWindow(), re)
                 dlg.exec_()
             

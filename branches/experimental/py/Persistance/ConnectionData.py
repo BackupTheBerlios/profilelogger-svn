@@ -2,12 +2,12 @@ class ConnectionData:
     def __init__(self, host=None, port=None, dbName=None, schema=None, 
                  user=None, password=None,
                  dropSchema=False, createSchema=False, insertTemplateData=False):
-        self.host = str(host)
-        self.port = str(port)
-        self.dbName = str(dbName)
-        self.schema = str(schema)
-        self.user = str(user)
-        self.password = str(password)
+        self.host = unicode(host)
+        self.port = unicode(port)
+        self.dbName = unicode(dbName)
+        self.schema = unicode(schema)
+        self.user = unicode(user)
+        self.password = unicode(password)
         self.dropSchema = dropSchema
         self.createSchema = createSchema
         self.insertTemplateData = insertTemplateData

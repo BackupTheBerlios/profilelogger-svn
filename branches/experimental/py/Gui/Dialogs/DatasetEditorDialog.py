@@ -7,6 +7,7 @@ from Gui.Widgets.IdLabel import IdLabel
 from Gui.Widgets.NameEdit import NameEdit
 from Gui.Widgets.DescriptionEdit import DescriptionEdit
 from Gui.Widgets.IntLineEdit import IntLineEdit
+from Gui.Widgets.SVGLoaderWidget import SVGLoaderWidget
 
 from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 
@@ -67,6 +68,16 @@ class DatasetEditorDialog(Dialog):
         self.contentW.layout().addWidget(self.descriptionW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
 
+    def addSVGLoader(self, label=None):
+        lbl = label
+        if lbl is None:
+            lbl = self.tr("&SVG File")
+        self.svgLoaderL = self.createMultiLineLabel(lbl)
+        self.svgLoaderW = SVGLoaderWidget(self.contentW)
+        self.svgLoaderL.setBuddy(self.svgLoaderW)
+        self.contentW.layout().addWidget(self.svgLoaderL, self.currentContentRow, self.labelCol)
+        self.contentW.layout().addWidget(self.svgLoaderW, self.currentContentRow, self.widgetCol)
+        self.currentContentRow += 1
     def createOneLineLabel(self, lbl):
         lbl = QLabel(lbl, self.contentW)
         lbl.setAlignment(Qt.AlignVCenter | Qt.AlignRight)
@@ -89,6 +100,11 @@ class DatasetEditorDialog(Dialog):
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
             QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+
     def reject(self):
         if self.data.hasId():
             QApplication.instance().db.session.refresh(self.data)

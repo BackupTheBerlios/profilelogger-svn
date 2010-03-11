@@ -13,4 +13,4 @@ class ProjectItemModel(DataManagementItemModel):
                                          ProjectItem,
                                          ProjectEditorDialog,
                                          Project.name)
-        self.headerStrings = [self.tr("Projects")]
+        self.headerStrings = [self.tr("SVG Items")]
