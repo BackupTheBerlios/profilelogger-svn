@@ -2,8 +2,8 @@ from NamedDescribedDataset import NamedDescribedDataset
 
 class Bed(NamedDescribedDataset):
     def __init__(self, profile, id=None, 
-                 height=None, lengthUnit=None,
-                 number=None,
+                 height=0, lengthUnit=None,
+                 number=0,
                  name=None, description=None):
         super(Bed, self).__init__(id, name, description)
         self.height = height
@@ -57,4 +57,4 @@ class Bed(NamedDescribedDataset):
     def registerGrainSize(self, s):
         self.grainSizes.append(s)
     def __str__(self):
-        return u'<Bed %i: height: %i %s' % (self.number, self.height, self.lengthUnit.name)
+        return self.name

@@ -180,9 +180,11 @@ class Database:
                                     Column('height', Integer, nullable=False),
                                     Column('length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
                                     Column('bed_number', Integer, nullable=False),
-                                    Column('top_boundary_type_id', Integer, ForeignKey('%s.boundary_types.id' % self.schema), nullable=False),
+                                    Column('name', String, nullable=False),
+                                    Column('top_boundary_type_id', Integer, ForeignKey('%s.boundary_types.id' % self.schema), nullable=True),
                                     CheckConstraint('height > 0', name='chk_beds_height_greater_zero'),
                                     UniqueConstraint('bed_number', 'profile_id', name='u_beds_bed_number_in_profile'),
+                                    UniqueConstraint('name', name='u_beds_bed_name'),
                                     schema=self.schema)
         self.tables['lithologies_beds'] = Table('lithologies_beds', self.metadata,
                                                 Column('id', Integer, Sequence('seq_lithologies_beds', schema=self.schema), primary_key=True, nullable=False),
@@ -360,6 +362,7 @@ class Database:
         mapper(Bed, self.tables['beds'], properties = {
                 'id': self.tables['beds'].c.id,
                 'number': self.tables['beds'].c.bed_number,
+                'name':  self.tables['beds'].c.name,
                 'height': self.tables['beds'].c.height,
                 'topBoundaryType': relation(BoundaryType),
                 'lengthUnit': relation(LengthUnit),

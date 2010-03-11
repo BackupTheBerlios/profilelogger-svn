@@ -15,6 +15,7 @@ from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 from Gui.ItemModels.ProfileItemModel import ProfileItemModel
+from Gui.ItemModels.BedItemModel import BedItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -30,6 +31,7 @@ from Gui.ItemViews.CustomSymbolItemView import CustomSymbolItemView
 from Gui.ItemViews.BoundaryTypeItemView import BoundaryTypeItemView
 from Gui.ItemViews.PointOfInterestItemView import PointOfInterestItemView
 from Gui.ItemViews.ProfileItemView import ProfileItemView
+from Gui.ItemViews.BedItemView import BedItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -42,7 +44,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(QSplitter(Qt.Horizontal, self))
         self.setupGlobalTools()
         self.setupProjectTools()
+        self.setupBedTools()
         self.centralWidget().setEnabled(False)
+    def setupBedTools(self):
+        self.bedToolsW = QToolBox(self.centralWidget())
+        self.setupBedManagement()
+        self.centralWidget().addWidget(self.bedToolsW)
     def setupProjectTools(self):
         self.projectToolsW = QToolBox(self.centralWidget())
         self.setupLithologyManagement()
@@ -53,47 +60,52 @@ class MainWindow(QMainWindow):
         self.setupCustomSymbolManagement()
         self.setupBoundaryTypeManagement()
         self.setupProfileManagement()
-        self.centralWidget().addWidget(self.projectToolsW)
         self.setupPointOfInterestManagement()
+        self.centralWidget().addWidget(self.projectToolsW)
+    def setupBedManagement(self):
+        self.bedsW = ColorItemView(self.bedToolsW,
+                                   QApplication.instance().bedModel)
+        self.bedToolsW.addItem(self.bedsW, self.tr("Beds"))
+        self.profilesW.currentDatasetChanged.connect(QApplication.instance().bedModel.onProfileChange)
     def setupLithologyManagement(self):
         self.lithologiesW = LithologyItemView(self.globalToolsW,
                                               QApplication.instance().lithologyModel)
         self.projectToolsW.addItem(self.lithologiesW, self.tr("Lithologies"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().lithologyModel.onProjectChange)
     def setupColorManagement(self):
-        self.lithologiesW = ColorItemView(self.globalToolsW,
+        self.colorsW = ColorItemView(self.globalToolsW,
                                           QApplication.instance().colorModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Colors"))
+        self.projectToolsW.addItem(self.colorsW, self.tr("Colors"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
     def setupProfileManagement(self):
-        self.lithologiesW = ProfileItemView(self.globalToolsW,
-                                            QApplication.instance().profileModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Profiles"))
+        self.profilesW = ProfileItemView(self.globalToolsW,
+                                         QApplication.instance().profileModel)
+        self.projectToolsW.addItem(self.profilesW, self.tr("Profiles"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().profileModel.onProjectChange)
     def setupPointOfInterestManagement(self):
-        self.lithologiesW = PointOfInterestItemView(self.globalToolsW,
-                                          QApplication.instance().pointOfInterestModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Points Of Interest"))
+        self.pointsOfInterestW = PointOfInterestItemView(self.globalToolsW,
+                                                         QApplication.instance().pointOfInterestModel)
+        self.projectToolsW.addItem(self.pointsOfInterestW, self.tr("Points Of Interest"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().pointOfInterestModel.onProjectChange)
     def setupBoundaryTypeManagement(self):
-        self.lithologiesW = BoundaryTypeItemView(self.globalToolsW,
-                                                 QApplication.instance().boundaryTypeModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("BoundaryTypes"))
+        self.boundaryTypeView = BoundaryTypeItemView(self.globalToolsW,
+                                                     QApplication.instance().boundaryTypeModel)
+        self.projectToolsW.addItem(self.boundaryTypeView, self.tr("BoundaryTypes"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().boundaryTypeModel.onProjectChange)
     def setupCustomSymbolManagement(self):
-        self.lithologiesW = CustomSymbolItemView(self.globalToolsW,
-                                          QApplication.instance().customSymbolModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Custom Symbols"))
+        self.customSymbolView = CustomSymbolItemView(self.globalToolsW,
+                                                     QApplication.instance().customSymbolModel)
+        self.projectToolsW.addItem(self.customSymbolView, self.tr("Custom Symbols"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().customSymbolModel.onProjectChange)
     def setupFossilManagement(self):
-        self.lithologiesW = FossilItemView(self.globalToolsW,
-                                           QApplication.instance().fossilModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Fossils"))
+        self.fossilsW = FossilItemView(self.globalToolsW,
+                                       QApplication.instance().fossilModel)
+        self.projectToolsW.addItem(self.fossilsW, self.tr("Fossils"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().fossilModel.onProjectChange)
     def setupSedimentStructureManagement(self):
-        self.lithologiesW = SedimentStructureItemView(self.globalToolsW,
-                                          QApplication.instance().sedimentStructureModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Sediment Structures"))
+        self.sedimentStructuresW = SedimentStructureItemView(self.globalToolsW,
+                                                             QApplication.instance().sedimentStructureModel)
+        self.projectToolsW.addItem(self.sedimentStructuresW, self.tr("Sediment Structures"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().sedimentStructureModel.onProjectChange)
     def setupBeddingTypeManagement(self):
         self.lithologiesW = BeddingTypeItemView(self.globalToolsW,

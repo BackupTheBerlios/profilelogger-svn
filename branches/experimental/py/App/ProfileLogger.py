@@ -28,6 +28,7 @@ from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 from Gui.ItemModels.ProfileItemModel import ProfileItemModel
+from Gui.ItemModels.BedItemModel import BedItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -56,9 +57,10 @@ class ProfileLogger(QApplication):
         self.boundaryTypeModel = BoundaryTypeItemModel(self)
         self.pointOfInterestModel = PointOfInterestItemModel(self)
         self.profileModel = ProfileItemModel(self)
-
+        self.bedModel = BedItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
+        self.quitA.setShortcut(QKeySequence('Ctrl+q'))
         self.quitA.triggered.connect(QApplication.instance().quit);
 
         self.openDbA = QAction(self.tr('&Open Database...'), self)
@@ -114,6 +116,7 @@ class ProfileLogger(QApplication):
         d['sharp planar'] = BoundaryType(d['Test project'], None, unicode('Sharp Planar'), None, unicode(''))
         d['oc1'] = PointOfInterest(d['Test project'], None, unicode('Outcrop 1'), None, unicode(''))
         d['Profile 1'] = Profile(d['Test project'], None, unicode('Profile 1'), unicode(''))
+        d['Bed 1'] = Bed(d['Profile 1'], None, 1, d['cm'], 1, unicode('Bed 1'), unicode(''))
         try: 
             s = self.db.session
             for k, v in d.iteritems():
