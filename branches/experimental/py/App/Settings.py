@@ -26,7 +26,7 @@ class Settings:
                               '',
                               self.stringToBool(unicode(s.value('ConnectionData/DropSchema').toString())),
                               self.stringToBool(unicode(s.value('ConnectionData/CreateSchema').toString())),
-                              self.stringToBool(unicode(s.value('ConnectionData/InsertTemplateData').toBool())))
+                              self.stringToBool(unicode(s.value('ConnectionData/InsertTemplateData').toString())))
 
     def boolToString(self, arg):
         if arg:
