@@ -36,12 +36,12 @@ class Database:
 
         self.tables['length_units'] = Table('length_units', self.metadata,
                                             Column('id', Integer, Sequence('seq_length_units', schema=self.schema), primary_key=True, nullable=False),
-                                            Column('millimetres', Integer, nullable=False),
+                                            Column('micrometres', Integer, nullable=False),
                                             Column('name', String, nullable=False, server_default='New Length Unit'),
                                             Column('description', String, nullable=True),
-                                            CheckConstraint('millimetres > 0', name='chk_length_units_millimetres_sensible'),
+                                            CheckConstraint('micrometres > 0', name='chk_length_units_micrometres_sensible'),
                                             CheckConstraint("name <> ''", name='chk_length_units_name_not_empty'),
-                                            UniqueConstraint('millimetres', name='u_length_units_millimetres'),
+                                            UniqueConstraint('micrometres', name='u_length_units_micrometres'),
                                             UniqueConstraint('name', name='u_length_units_name'),
                                             schema=self.schema)
 
@@ -249,7 +249,7 @@ class Database:
         clear_mappers()
         mapper(LengthUnit, self.tables['length_units'], properties = {
                 'id': self.tables['length_units'].c.id,
-                'milliMetre': self.tables['length_units'].c.millimetres,
+                'microMetre': self.tables['length_units'].c.micrometres,
                 'name': self.tables['length_units'].c.name,
                 'description': self.tables['length_units'].c.description})
         mapper(SVGItem, self.tables['svg_items'], properties = {

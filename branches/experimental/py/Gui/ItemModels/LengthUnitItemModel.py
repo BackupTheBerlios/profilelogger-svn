@@ -12,5 +12,5 @@ class LengthUnitItemModel(DataManagementItemModel):
                                          LengthUnit,
                                          LengthUnitItem,
                                          LengthUnitEditorDialog,
-                                         LengthUnit.milliMetre)
+                                         LengthUnit.microMetre)
         self.headerStrings = [self.tr("Length Units")]
