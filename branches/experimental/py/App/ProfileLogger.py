@@ -17,6 +17,7 @@ from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
+from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -34,7 +35,7 @@ class ProfileLogger(QApplication):
         self.lengthUnitModel = LengthUnitItemModel(self)
         self.projectModel = ProjectItemModel(self)
         self.svgItemModel = SVGItemModel(self)
-
+        self.grainSizeTypeModel = GrainSizeTypeItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.triggered.connect(QApplication.instance().quit);

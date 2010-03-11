@@ -4,10 +4,12 @@ from PyQt4.QtCore import *
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
+from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
 from Gui.ItemViews.SVGItemView import SVGItemView
+from Gui.ItemViews.GrainSizeTypeItemView import GrainSizeTypeItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -25,6 +27,7 @@ class MainWindow(QMainWindow):
         self.setupLengthUnitManagement()
         self.setupProjectManagement()
         self.setupSVGItemManagement()
+        self.setupGrainSizeTypeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupLengthUnitManagement(self):
         self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
@@ -38,6 +41,10 @@ class MainWindow(QMainWindow):
         self.SVGItemsW = SVGItemView(self.globalToolsW,
                                      QApplication.instance().svgItemModel)
         self.globalToolsW.addItem(self.SVGItemsW, self.tr("SVG Items"))
+    def setupGrainSizeTypeManagement(self):
+        self.grainSizeTypesW = GrainSizeTypeItemView(self.globalToolsW,
+                                                     QApplication.instance().grainSizeTypeModel)
+        self.globalToolsW.addItem(self.grainSizeTypesW, self.tr("Grain Size Types"))
 
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
