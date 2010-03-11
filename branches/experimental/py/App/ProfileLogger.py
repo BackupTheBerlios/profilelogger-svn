@@ -24,6 +24,8 @@ from Gui.ItemModels.ColorItemModel import ColorItemModel
 from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
 from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
 from Gui.ItemModels.FossilItemModel import FossilItemModel
+from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
+from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -48,6 +50,7 @@ class ProfileLogger(QApplication):
         self.beddingTypeModel = BeddingTypeItemModel(self)
         self.sedimentStructureModel = SedimentStructureItemModel(self)
         self.fossilModel = FossilItemModel(self)
+        self.customSymbolModel = CustomSymbolItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
@@ -102,6 +105,7 @@ class ProfileLogger(QApplication):
         d['massive'] = BeddingType(d['Test project'], None, unicode('Massive'), None, unicode(''))
         d['slump'] = SedimentStructure(d['Test project'], None, unicode('Slump'), None, unicode(''))
         d['snail'] = Fossil(d['Test project'], None, unicode('Snail'), None, unicode(''))
+        d['sampling'] = CustomSymbol(d['Test project'], None, unicode('Sampling Point'), None, unicode(''))
         try: 
             s = self.db.session
             for k, v in d.iteritems():
