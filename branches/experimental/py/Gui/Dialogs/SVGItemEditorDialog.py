@@ -15,8 +15,7 @@ class SVGItemEditorDialog(DatasetEditorDialog):
         self.idW.setValue(self.data.id)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
-        self.svgLoaderW.setDataAndFileName(QString(self.data.svgData),
-                                           QString(self.data.originalPath))
+        self.svgLoaderW.setDataAndFileName(self.data.svgData, self.data.originalPath)
         self.nameW.nameChanged.connect(self.onNameChange)
         self.descriptionW.descriptionChanged.connect(self.onDescriptionChange)
         self.svgLoaderW.svgDataChanged.connect(self.onSvgDataChange)

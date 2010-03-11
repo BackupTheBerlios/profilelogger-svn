@@ -19,6 +19,7 @@ from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
 from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
+from Gui.ItemModels.LithologyItemModel import LithologyItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -38,6 +39,7 @@ class ProfileLogger(QApplication):
         self.svgItemModel = SVGItemModel(self)
         self.grainSizeTypeModel = GrainSizeTypeItemModel(self)
         self.grainSizeModel = GrainSizeItemModel(self)
+        self.lithologyModel = LithologyItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.triggered.connect(QApplication.instance().quit);
@@ -84,6 +86,9 @@ class ProfileLogger(QApplication):
                                           unicode('W.C. Krumbein and L.L. Sloss(1963): Stratigraphy and Sedimentation, 2nd edition. Freeman, San Francisco'))
         d['Folk1964'] = GrainSizeType(None, unicode('Folk, 1964'),
                                       unicode('Folk, 1964: A Review of Grain-Size Parameters. Sedimentology 6:2:73-93'))
+        d['clay'] = GrainSize(d['Krumbein1963'], None, unicode('Clay'), '', 1, d['um'], 4, d['um'])
+        d['Test project'] = Project(None, unicode('Test Project'))
+        d['Limestone Mudstone'] = Lithology(d['Test project'], None, unicode('Limestone Mudstone'), None, unicode(''), d['clay'])
         try: 
             s = self.db.session
             for k, v in d.iteritems():

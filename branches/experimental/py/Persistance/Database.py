@@ -90,6 +90,8 @@ class Database:
                                            Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                            Column('name', String, nullable=False, server_default='New Lithology'),
                                            Column('description', String, nullable=True),
+                                           Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                           Column('default_grain_size_id', Integer, ForeignKey('%s.grain_sizes.id' % self.schema), nullable=True),
                                            CheckConstraint("name <> ''", name='chk_lithologies_name_not_empty'),
                                            UniqueConstraint('name', 'project_id', name='u_lithologies_name_in_project'),
                                            schema=self.schema);
@@ -263,6 +265,7 @@ class Database:
                 'id': self.tables['grain_sizes'].c.id,
                 'name': self.tables['grain_sizes'].c.name,
                 'description': self.tables['grain_sizes'].c.description,
+                'grainSizeType': relation(GrainSizeType, backref='grainSizes'),
                 'minSize': self.tables['grain_sizes'].c.min,
                 'minSizeLengthUnit': relation(LengthUnit,
                                               primaryjoin=self.tables['grain_sizes'].c.min_length_unit_id==self.tables['length_units'].c.id),
@@ -272,8 +275,7 @@ class Database:
         mapper(GrainSizeType, self.tables['grain_size_types'], properties = {
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,
-                'description': self.tables['grain_size_types'].c.description,
-                'grainSizes': relation(GrainSize, backref='grainSizeType')})
+                'description': self.tables['grain_size_types'].c.description})
         mapper(Project, self.tables['projects'], properties = {
                 'id': self.tables['projects'].c.id,
                 'name': self.tables['projects'].c.name,
@@ -290,7 +292,9 @@ class Database:
         mapper(Lithology, self.tables['lithologies'], properties = {
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,
-                'description': self.tables['lithologies'].c.description
+                'description': self.tables['lithologies'].c.description,
+                'svgItem': relation(SVGItem, backref='lithologies'),
+                'defaultGrainSize': relation(GrainSize)
                 })
         mapper(Color, self.tables['colors'], properties = {
                 'id': self.tables['colors'].c.id,

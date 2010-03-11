@@ -53,8 +53,14 @@ class SVGLoaderWidget(QWidget):
         self.svgDataChanged.emit(self.svgData)
         self.fileNameChanged.emit(self.path)
     def setDataAndFileName(self, svgData, fileName):
-        self.svgData = QString(svgData)
-        self.path = QString(fileName)
+        if svgData is not None:
+            self.svgData = QString(svgData)
+        else:
+            self.svgData = None
+        if fileName is not None:
+            self.path = QString(fileName)
+        else:
+            self.path = None
         self.showContent()
     def showContent(self):
         if self.svgData is not None:
