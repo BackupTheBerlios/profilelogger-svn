@@ -4,6 +4,9 @@ from PyQt4.QtCore import *
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 
+from Gui.ItemModels.ProjectItemModel import ProjectItemModel
+from Gui.ItemViews.ProjectItemView import ProjectItemView
+
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -18,11 +21,16 @@ class MainWindow(QMainWindow):
     def setupGlobalTools(self):
         self.globalToolsW = QToolBox(self.centralWidget())
         self.setupLengthUnitManagement()
+        self.setupProjectManagement()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupLengthUnitManagement(self):
         self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
                                                QApplication.instance().lengthUnitModel)
         self.globalToolsW.addItem(self.lengthUnitsW, self.tr("Length Units"))
+    def setupProjectManagement(self):
+        self.projectsW = ProjectItemView(self.globalToolsW,
+                                         QApplication.instance().projectModel)
+        self.globalToolsW.addItem(self.projectsW, self.tr("Projects"))
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())

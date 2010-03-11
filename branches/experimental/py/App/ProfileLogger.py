@@ -1,18 +1,21 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
+from sqlalchemy.exc import *
+
 from Persistance.Database import *
 from Persistance.ConnectionData import *
 
-from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
-from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
-from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
-
-from sqlalchemy.exc import *
-
 from Model.LengthUnit import LengthUnit
+from Model.Project import Project
 
 from App.Settings import Settings
+
+from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
+from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
+
+from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
+from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -28,6 +31,7 @@ class ProfileLogger(QApplication):
         self.setupActions()
         self.db = Database()
         self.lengthUnitModel = LengthUnitItemModel(self)
+        self.projectModel = ProjectItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
