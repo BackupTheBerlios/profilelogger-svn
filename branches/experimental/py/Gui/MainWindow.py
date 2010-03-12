@@ -17,6 +17,11 @@ from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 from Gui.ItemModels.ProfileItemModel import ProfileItemModel
 from Gui.ItemModels.BedItemModel import BedItemModel
 from Gui.ItemModels.LithologicalUnitTypeItemModel import LithologicalUnitTypeItemModel
+from Gui.ItemModels.LithologicalUnitItemModel import LithologicalUnitItemModel
+from Gui.ItemModels.StratigraphicUnitTypeItemModel import StratigraphicUnitTypeItemModel
+from Gui.ItemModels.StratigraphicUnitItemModel import StratigraphicUnitItemModel
+from Gui.ItemModels.TectonicUnitTypeItemModel import TectonicUnitTypeItemModel
+from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -35,6 +40,10 @@ from Gui.ItemViews.ProfileItemView import ProfileItemView
 from Gui.ItemViews.BedItemView import BedItemView
 from Gui.ItemViews.LithologicalUnitTypeItemView import LithologicalUnitTypeItemView
 from Gui.ItemViews.LithologicalUnitItemView import LithologicalUnitItemView
+from Gui.ItemViews.StratigraphicUnitTypeItemView import StratigraphicUnitTypeItemView
+from Gui.ItemViews.StratigraphicUnitItemView import StratigraphicUnitItemView
+from Gui.ItemViews.TectonicUnitTypeItemView import TectonicUnitTypeItemView
+from Gui.ItemViews.TectonicUnitItemView import TectonicUnitItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -56,6 +65,10 @@ class MainWindow(QMainWindow):
         self.setupSVGItemManagement()
         self.setupLithologicalUnitTypeManagement()
         self.setupLithologicalUnitManagement()
+        self.setupStratigraphicUnitTypeManagement()
+        self.setupStratigraphicUnitManagement()
+        self.setupTectonicUnitTypeManagement()
+        self.setupTectonicUnitManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
@@ -137,10 +150,6 @@ class MainWindow(QMainWindow):
         self.grainSizesW = GrainSizeItemView(self.globalToolsW,
                                              QApplication.instance().grainSizeModel)
         self.globalToolsW.addItem(self.grainSizesW, self.tr("Grain Sizes"))
-    def setupLithologicalUnitManagement(self):
-        self.lithologicalUnitsW = LithologicalUnitItemView(self.globalToolsW,
-                                             QApplication.instance().lithologicalUnitModel)
-        self.globalToolsW.addItem(self.lithologicalUnitsW, self.tr("Lithological Units"))
     def setupSVGItemManagement(self):
         self.SVGItemsW = SVGItemView(self.globalToolsW,
                                      QApplication.instance().svgItemModel)
@@ -153,6 +162,26 @@ class MainWindow(QMainWindow):
         self.lithologicalUnitTypesW = LithologicalUnitTypeItemView(self.globalToolsW,
                                                                    QApplication.instance().lithologicalUnitTypeModel)
         self.globalToolsW.addItem(self.lithologicalUnitTypesW, self.tr("Lithological Unit Types"))
+    def setupLithologicalUnitManagement(self):
+        self.lithologicalUnitsW = LithologicalUnitItemView(self.globalToolsW,
+                                                           QApplication.instance().lithologicalUnitModel)
+        self.globalToolsW.addItem(self.lithologicalUnitsW, self.tr("Lithological Units"))
+    def setupStratigraphicUnitTypeManagement(self):
+        self.stratigraphicUnitTypesW = StratigraphicUnitTypeItemView(self.globalToolsW,
+                                                                     QApplication.instance().stratigraphicUnitTypeModel)
+        self.globalToolsW.addItem(self.stratigraphicUnitTypesW, self.tr("Stratigraphic Unit Types"))
+    def setupStratigraphicUnitManagement(self):
+        self.stratigraphicUnitsW = StratigraphicUnitItemView(self.globalToolsW,
+                                                             QApplication.instance().stratigraphicUnitModel)
+        self.globalToolsW.addItem(self.stratigraphicUnitsW, self.tr("Stratigraphic Units"))
+    def setupTectonicUnitTypeManagement(self):
+        self.tectonicUnitTypesW = TectonicUnitTypeItemView(self.globalToolsW,
+                                                           QApplication.instance().tectonicUnitTypeModel)
+        self.globalToolsW.addItem(self.tectonicUnitTypesW, self.tr("Tectonic Unit Types"))
+    def setupTectonicUnitManagement(self):
+        self.tectonicUnitsW = TectonicUnitItemView(self.globalToolsW,
+                                                   QApplication.instance().tectonicUnitModel)
+        self.globalToolsW.addItem(self.tectonicUnitsW, self.tr("Tectonic Units"))
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())

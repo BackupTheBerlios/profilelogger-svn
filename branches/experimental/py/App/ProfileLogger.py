@@ -20,7 +20,6 @@ from Gui.ItemModels.SVGItemModel import SVGItemModel
 from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
 from Gui.ItemModels.LithologyItemModel import LithologyItemModel
-from Gui.ItemModels.LithologicalUnitItemModel import LithologicalUnitItemModel
 from Gui.ItemModels.ColorItemModel import ColorItemModel
 from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
 from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
@@ -39,6 +38,11 @@ from Gui.ItemModels.FossilInBedItemModel import FossilInBedItemModel
 from Gui.ItemModels.GrainSizeInBedItemModel import GrainSizeInBedItemModel
 from Gui.ItemModels.BoundaryTypeInBedItemModel import BoundaryTypeInBedItemModel
 from Gui.ItemModels.LithologicalUnitTypeItemModel import LithologicalUnitTypeItemModel
+from Gui.ItemModels.LithologicalUnitItemModel import LithologicalUnitItemModel
+from Gui.ItemModels.StratigraphicUnitTypeItemModel import StratigraphicUnitTypeItemModel
+from Gui.ItemModels.StratigraphicUnitItemModel import StratigraphicUnitItemModel
+from Gui.ItemModels.TectonicUnitTypeItemModel import TectonicUnitTypeItemModel
+from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -57,7 +61,6 @@ class ProfileLogger(QApplication):
         self.projectModel = ProjectItemModel(self)
         self.svgItemModel = SVGItemModel(self)
         self.grainSizeTypeModel = GrainSizeTypeItemModel(self)
-        self.lithologicalUnitTypeModel = LithologicalUnitTypeItemModel(self)
         self.grainSizeModel = GrainSizeItemModel(self)
         self.lithologyModel = LithologyItemModel(self)
         self.colorModel = ColorItemModel(self)
@@ -77,7 +80,12 @@ class ProfileLogger(QApplication):
         self.fossilInBedModel = FossilInBedItemModel(self)
         self.grainSizeInBedModel = GrainSizeInBedItemModel(self)
         self.boundaryTypeInBedModel = BoundaryTypeInBedItemModel(self)
+        self.lithologicalUnitTypeModel = LithologicalUnitTypeItemModel(self)
         self.lithologicalUnitModel = LithologicalUnitItemModel(self)
+        self.stratigraphicUnitTypeModel = StratigraphicUnitTypeItemModel(self)
+        self.stratigraphicUnitModel = StratigraphicUnitItemModel(self)
+        self.tectonicUnitTypeModel = TectonicUnitTypeItemModel(self)
+        self.tectonicUnitModel = TectonicUnitItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
