@@ -22,6 +22,7 @@ from Gui.ItemModels.StratigraphicUnitTypeItemModel import StratigraphicUnitTypeI
 from Gui.ItemModels.StratigraphicUnitItemModel import StratigraphicUnitItemModel
 from Gui.ItemModels.TectonicUnitTypeItemModel import TectonicUnitTypeItemModel
 from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
+from Gui.ItemModels.FaciesItemModel import FaciesItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -44,6 +45,7 @@ from Gui.ItemViews.StratigraphicUnitTypeItemView import StratigraphicUnitTypeIte
 from Gui.ItemViews.StratigraphicUnitItemView import StratigraphicUnitItemView
 from Gui.ItemViews.TectonicUnitTypeItemView import TectonicUnitTypeItemView
 from Gui.ItemViews.TectonicUnitItemView import TectonicUnitItemView
+from Gui.ItemViews.FaciesItemView import FaciesItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -81,6 +83,7 @@ class MainWindow(QMainWindow):
         self.setupProfileManagement()
         self.setupLithologyManagement()
         self.setupColorManagement()
+        self.setupFaciesManagement()
         self.setupBeddingTypeManagement()
         self.setupSedimentStructureManagement()
         self.setupFossilManagement()
@@ -103,6 +106,11 @@ class MainWindow(QMainWindow):
                                           QApplication.instance().colorModel)
         self.projectToolsW.addItem(self.colorsW, self.tr("Colors"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
+    def setupFaciesManagement(self):
+        self.faciessW = FaciesItemView(self.globalToolsW,
+                                       QApplication.instance().faciesModel)
+        self.projectToolsW.addItem(self.faciessW, self.tr("Facies"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().faciesModel.onProjectChange)
     def setupProfileManagement(self):
         self.profilesW = ProfileItemView(self.globalToolsW,
                                          QApplication.instance().profileModel)

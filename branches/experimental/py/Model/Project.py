@@ -12,6 +12,7 @@ class Project(NamedDescribedDataset):
         self.boundaryTypes = []
         self.pointsOfInterest = []
         self.profiles = []
+        self.facies = []
 
     def registerProfile(self, p):
         if self.profiles.count(p) > 0:
@@ -56,6 +57,10 @@ class Project(NamedDescribedDataset):
         if self.colors.count(c) > 0:
             return
         self.colors.append(c)
+    def registerFacies(self, c):
+        if self.facies.count(c) > 0:
+            return
+        self.facies.append(c)
 
     def debug(self):
         print 'Project: %s' % self.name

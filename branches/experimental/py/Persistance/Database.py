@@ -6,6 +6,7 @@ from Model.LengthUnit import LengthUnit
 from Model.SVGItem import SVGItem
 from Model.Lithology import Lithology
 from Model.Color import Color
+from Model.Facies import Facies
 from Model.BeddingType import BeddingType
 from Model.SedimentStructure import SedimentStructure
 from Model.Fossil import Fossil
@@ -156,6 +157,15 @@ class Database:
                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_colors_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_colors_name_in_project'),
+                                      schema=self.schema);
+        self.tables['facies'] = Table('facies', self.metadata,
+                                      Column('id', Integer, Sequence('seq_facies', schema=self.schema), primary_key=True, nullable=False),
+                                      Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                      Column('name', String, nullable=False, server_default='New Facies'),
+                                      Column('description', String, nullable=True),
+                                      Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                      CheckConstraint("name <> ''", name='chk_facies_name_not_empty'),
+                                      UniqueConstraint('name', 'project_id', name='u_facies_name_in_project'),
                                       schema=self.schema);
 
         self.tables['points_of_interest'] = Table('points_of_interest', self.metadata,
@@ -412,9 +422,9 @@ class Database:
                 'description': self.tables['projects'].c.description,
                 'lithologies': relation(Lithology, backref='project'),
                 'colors': relation(Color, backref='project'),
+                'facies': relation(Facies, backref='project'),
                 'beddingTypes': relation(BeddingType, backref='project'),
                 'sedimentStructures': relation(SedimentStructure, backref='project'),
-                'colors': relation(Color, backref='project'),
                 'fossils': relation(Fossil, backref='project'),
                 'customSymbols': relation(CustomSymbol, backref='project'),
                 'boundaryTypes': relation(BoundaryType, backref='project'),
@@ -433,6 +443,13 @@ class Database:
                 'description': self.tables['colors'].c.description,
                 'svgItem': relation(SVGItem, backref='colors'),
                 })
+        mapper(Facies, self.tables['facies'], properties = {
+                'id': self.tables['facies'].c.id,
+                'name': self.tables['facies'].c.name,
+                'description': self.tables['facies'].c.description,
+                'svgItem': relation(SVGItem, backref='facies'),
+                })
+
         mapper(PointOfInterest, self.tables['points_of_interest'], properties = {
                 'id': self.tables['points_of_interest'].c.id,
                 'name': self.tables['points_of_interest'].c.name,
