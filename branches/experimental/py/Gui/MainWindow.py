@@ -16,6 +16,7 @@ from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 from Gui.ItemModels.ProfileItemModel import ProfileItemModel
 from Gui.ItemModels.BedItemModel import BedItemModel
+from Gui.ItemModels.LithologicalUnitTypeItemModel import LithologicalUnitTypeItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -32,6 +33,7 @@ from Gui.ItemViews.BoundaryTypeItemView import BoundaryTypeItemView
 from Gui.ItemViews.PointOfInterestItemView import PointOfInterestItemView
 from Gui.ItemViews.ProfileItemView import ProfileItemView
 from Gui.ItemViews.BedItemView import BedItemView
+from Gui.ItemViews.LithologicalUnitTypeItemView import LithologicalUnitTypeItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -51,6 +53,7 @@ class MainWindow(QMainWindow):
         self.setupProjectManagement()
         self.setupLengthUnitManagement()
         self.setupSVGItemManagement()
+        self.setupLithologicalUnitTypeManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
@@ -140,7 +143,10 @@ class MainWindow(QMainWindow):
         self.grainSizeTypesW = GrainSizeTypeItemView(self.globalToolsW,
                                                      QApplication.instance().grainSizeTypeModel)
         self.globalToolsW.addItem(self.grainSizeTypesW, self.tr("Grain Size Types"))
-
+    def setupLithologicalUnitTypeManagement(self):
+        self.lithologicalUnitTypesW = LithologicalUnitTypeItemView(self.globalToolsW,
+                                                                   QApplication.instance().lithologicalUnitTypeModel)
+        self.globalToolsW.addItem(self.lithologicalUnitTypesW, self.tr("Lithological Unit Types"))
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())

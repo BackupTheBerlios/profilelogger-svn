@@ -24,6 +24,7 @@ from Model.SedimentStructureInBed import SedimentStructureInBed
 from Model.FossilInBed import FossilInBed
 from Model.GrainSizeInBed import GrainSizeInBed
 from Model.BoundaryTypeInBed import BoundaryTypeInBed
+from Model.LithologicalUnitType import LithologicalUnitType
 
 class Database:
     def __init__(self):
@@ -65,6 +66,14 @@ class Database:
                                                 CheckConstraint("name <> ''", name='chk_grain_size_types_name_not_empty'),
                                                 UniqueConstraint('name', name='u_grain_size_types_name'),
                                                 schema=self.schema)
+
+        self.tables['lithological_unit_types'] = Table('lithological_unit_types', self.metadata,
+                                                       Column('id', Integer, Sequence('seq_lithological_unit_types', schema=self.schema), primary_key=True, nullable=False),
+                                                       Column('name', String, nullable=False),
+                                                       Column('description', String, nullable=True),
+                                                       CheckConstraint("name <> ''", name='chk_lithological_unit_types_name_not_empty'),
+                                                       UniqueConstraint('name', name='u_lithological_unit_types_name'),
+                                                       schema=self.schema)
 
         self.tables['grain_sizes'] = Table('grain_sizes', self.metadata,
                                            Column('id', Integer, Sequence('seq_grain_sizes', schema=self.schema), primary_key=True, nullable=False),
@@ -329,6 +338,10 @@ class Database:
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,
                 'description': self.tables['grain_size_types'].c.description})
+        mapper(LithologicalUnitType, self.tables['lithological_unit_types'], properties = {
+                'id': self.tables['lithological_unit_types'].c.id,
+                'name': self.tables['lithological_unit_types'].c.name,
+                'description': self.tables['lithological_unit_types'].c.description})
         mapper(Project, self.tables['projects'], properties = {
                 'id': self.tables['projects'].c.id,
                 'name': self.tables['projects'].c.name,

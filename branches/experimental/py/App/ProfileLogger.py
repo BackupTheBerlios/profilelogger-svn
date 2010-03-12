@@ -37,6 +37,7 @@ from Gui.ItemModels.SedimentStructureInBedItemModel import SedimentStructureInBe
 from Gui.ItemModels.FossilInBedItemModel import FossilInBedItemModel
 from Gui.ItemModels.GrainSizeInBedItemModel import GrainSizeInBedItemModel
 from Gui.ItemModels.BoundaryTypeInBedItemModel import BoundaryTypeInBedItemModel
+from Gui.ItemModels.LithologicalUnitTypeItemModel import LithologicalUnitTypeItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -55,6 +56,7 @@ class ProfileLogger(QApplication):
         self.projectModel = ProjectItemModel(self)
         self.svgItemModel = SVGItemModel(self)
         self.grainSizeTypeModel = GrainSizeTypeItemModel(self)
+        self.lithologicalUnitTypeModel = LithologicalUnitTypeItemModel(self)
         self.grainSizeModel = GrainSizeItemModel(self)
         self.lithologyModel = LithologyItemModel(self)
         self.colorModel = ColorItemModel(self)
