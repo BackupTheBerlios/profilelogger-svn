@@ -249,18 +249,21 @@ class Database:
                                                         Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
                                                         Column('end_from_base', Integer, nullable=False, server_default=text('100')),
                                                         Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
-                                                        Column('lithology_id', Integer, ForeignKey('%s.sediment_structures.id' % self.schema), nullable=False),
+                                                        Column('sediment_structure_id', Integer, ForeignKey('%s.sediment_structures.id' % self.schema), nullable=False),
                                                         Column('description', String, nullable=True),
+                                                        Column('name', String, nullable=False),
                                                         CheckConstraint('end_from_base > begin_from_base', name='chk_sediment_structures_beds_end_above_begin'),
                                                         CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_sediment_structures_beds_begin_in_range'),
                                                         CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_sediment_structures_beds_end_in_range'),
+                                                        CheckConstraint("name <> ''", name="chk_sediment_structures_beds_name_not_empty"),
+                                                        UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'sediment_structure_id', name='u_sediment_structures_beds'),
                                                         schema=self.schema)
         self.tables['fossils_beds'] = Table('fossils_beds', self.metadata,
                                             Column('id', Integer, Sequence('seq_fossils_beds', schema=self.schema), primary_key=True, nullable=False),
                                             Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
                                             Column('end_from_base', Integer, nullable=False, server_default=text('100')),
                                             Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
-                                            Column('lithology_id', Integer, ForeignKey('%s.fossils.id' % self.schema), nullable=False),
+                                            Column('fossil_id', Integer, ForeignKey('%s.fossils.id' % self.schema), nullable=False),
                                             Column('description', String, nullable=True),
                                             CheckConstraint('end_from_base > begin_from_base', name='chk_fossils_beds_end_above_begin'),
                                             CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_fossils_beds_begin_in_range'),
@@ -428,7 +431,9 @@ class Database:
                 'id': self.tables['sediment_structures_beds'].c.id,
                 'begin': self.tables['sediment_structures_beds'].c.begin_from_base,
                 'end': self.tables['sediment_structures_beds'].c.end_from_base,
-                'description': self.tables['sediment_structures_beds'].c.description
+                'description': self.tables['sediment_structures_beds'].c.description,
+                'sedimentStructure': relation(SedimentStructure, backref='sedimentStructuresInBed'),
+                'name': self.tables['sediment_structures_beds'].c.name
                 })
         mapper(FossilInBed, self.tables['fossils_beds'], properties = {
                 'id': self.tables['fossils_beds'].c.id,

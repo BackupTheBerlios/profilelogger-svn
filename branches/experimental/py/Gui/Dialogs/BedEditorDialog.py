@@ -7,6 +7,7 @@ from Gui.ItemViews.LithologyInBedItemView import LithologyInBedItemView
 from Gui.ItemViews.ColorInBedItemView import ColorInBedItemView
 from Gui.ItemViews.BeddingTypeInBedItemView import BeddingTypeInBedItemView
 from Gui.ItemViews.CustomSymbolInBedItemView import CustomSymbolInBedItemView
+from Gui.ItemViews.SedimentStructureInBedItemView import SedimentStructureInBedItemView
 
 from Gui.Widgets.LengthInputWidget import LengthInputWidget
 from Gui.Widgets.IntLineEdit import IntLineEdit
@@ -75,11 +76,13 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.colorInBedW = ColorInBedItemView(self.detailsW, QApplication.instance().colorInBedModel)
         self.beddingTypeInBedW = BeddingTypeInBedItemView(self.detailsW, QApplication.instance().beddingTypeInBedModel)
         self.customSymbolInBedW = CustomSymbolInBedItemView(self.detailsW, QApplication.instance().customSymbolInBedModel)
+        self.sedimentStructureInBedW = SedimentStructureInBedItemView(self.detailsW, QApplication.instance().sedimentStructureInBedModel)
 
         self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithology"))
         self.detailsW.addTab(self.colorInBedW, self.tr("Color"))
         self.detailsW.addTab(self.beddingTypeInBedW, self.tr("Bedding Type"))
         self.detailsW.addTab(self.customSymbolInBedW, self.tr("Custom Symbol"))
+        self.detailsW.addTab(self.sedimentStructureInBedW, self.tr("Sediment Structure"))
 
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
@@ -98,8 +101,10 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().colorInBedModel.setBed(self.data)
             QApplication.instance().beddingTypeInBedModel.setBed(self.data)
             QApplication.instance().customSymbolInBedModel.setBed(self.data)
+            QApplication.instance().sedimentStructureInBedModel.setBed(self.data)
         else:
             QApplication.instance().lithologyInBedModel.setBed(None)
             QApplication.instance().colorInBedModel.setBed(None)
             QApplication.instance().beddingTypeInBedModel.setBed(None)
             QApplication.instance().customSymbolInBedModel.setBed(None)
+            QApplication.instance().sedimentStructureInBedModel.setBed(None)
