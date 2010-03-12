@@ -269,7 +269,7 @@ class Database:
                                             CheckConstraint('end_from_base > begin_from_base', name='chk_fossils_beds_end_above_begin'),
                                             CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_fossils_beds_begin_in_range'),
                                             CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_fossils_beds_end_in_range'),
-                                            CheckConstraint("name <> ''", name="chk_fossils_name_not_empty"),
+                                            CheckConstraint("name <> ''", name="chk_fossils_beds_name_not_empty"),
                                             UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'fossil_id', name='u_fossils_beds'),
                                             schema=self.schema)
         self.tables['grain_sizes_beds'] = Table('grain_sizes_beds', self.metadata,
@@ -277,11 +277,14 @@ class Database:
                                                 Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
                                                 Column('end_from_base', Integer, nullable=False, server_default=text('100')),
                                                 Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
-                                                Column('lithology_id', Integer, ForeignKey('%s.grain_sizes.id' % self.schema), nullable=False),
+                                                Column('grain_size_id', Integer, ForeignKey('%s.grain_sizes.id' % self.schema), nullable=False),
                                                 Column('description', String, nullable=True),
+                                                Column('name', String, nullable=False),
                                                 CheckConstraint('end_from_base > begin_from_base', name='chk_grain_sizes_beds_end_above_begin'),
                                                 CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_grain_sizes_beds_begin_in_range'),
                                                 CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_grain_sizes_beds_end_in_range'),
+                                                CheckConstraint("name <> ''", name="chk_grain_sizes_beds_name_not_empty"),
+                                                UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'grain_size_id', name='u_grain_sizes_beds'),
                                                 schema=self.schema)
 
     def setupMapping(self):
@@ -450,7 +453,9 @@ class Database:
                 'id': self.tables['grain_sizes_beds'].c.id,
                 'begin': self.tables['grain_sizes_beds'].c.begin_from_base,
                 'end': self.tables['grain_sizes_beds'].c.end_from_base,
-                'description': self.tables['grain_sizes_beds'].c.description
+                'description': self.tables['grain_sizes_beds'].c.description,
+                'grainSize': relation(GrainSize, backref='grainSizesInBed'),
+                'name': self.tables['grain_sizes_beds'].c.name
                 })
 
     def open(self, connectionData):

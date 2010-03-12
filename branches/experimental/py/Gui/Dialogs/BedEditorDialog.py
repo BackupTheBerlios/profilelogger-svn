@@ -9,6 +9,7 @@ from Gui.ItemViews.BeddingTypeInBedItemView import BeddingTypeInBedItemView
 from Gui.ItemViews.CustomSymbolInBedItemView import CustomSymbolInBedItemView
 from Gui.ItemViews.SedimentStructureInBedItemView import SedimentStructureInBedItemView
 from Gui.ItemViews.FossilInBedItemView import FossilInBedItemView
+from Gui.ItemViews.GrainSizeInBedItemView import GrainSizeInBedItemView
 
 from Gui.Widgets.LengthInputWidget import LengthInputWidget
 from Gui.Widgets.IntLineEdit import IntLineEdit
@@ -79,6 +80,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.customSymbolInBedW = CustomSymbolInBedItemView(self.detailsW, QApplication.instance().customSymbolInBedModel)
         self.sedimentStructureInBedW = SedimentStructureInBedItemView(self.detailsW, QApplication.instance().sedimentStructureInBedModel)
         self.fossilInBedW = FossilInBedItemView(self.detailsW, QApplication.instance().fossilInBedModel)
+        self.grainSizeInBedW = GrainSizeInBedItemView(self.detailsW, QApplication.instance().grainSizeInBedModel)
 
         self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithology"))
         self.detailsW.addTab(self.colorInBedW, self.tr("Color"))
@@ -86,6 +88,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.detailsW.addTab(self.customSymbolInBedW, self.tr("Custom Symbol"))
         self.detailsW.addTab(self.sedimentStructureInBedW, self.tr("Sediment Structure"))
         self.detailsW.addTab(self.fossilInBedW, self.tr("Fossil"))
+        self.detailsW.addTab(self.grainSizeInBedW, self.tr("Grain Size"))
 
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
@@ -106,6 +109,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().customSymbolInBedModel.setBed(self.data)
             QApplication.instance().sedimentStructureInBedModel.setBed(self.data)
             QApplication.instance().fossilInBedModel.setBed(self.data)
+            QApplication.instance().grainSizeInBedModel.setBed(self.data)
         else:
             QApplication.instance().lithologyInBedModel.setBed(None)
             QApplication.instance().colorInBedModel.setBed(None)
@@ -113,3 +117,4 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().customSymbolInBedModel.setBed(None)
             QApplication.instance().sedimentStructureInBedModel.setBed(None)
             QApplication.instance().fossilInBedModel.setBed(None)
+            QApplication.instance().grainSizeInBedModel.setBed(None)

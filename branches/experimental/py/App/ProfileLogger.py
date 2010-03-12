@@ -35,6 +35,7 @@ from Gui.ItemModels.BeddingTypeInBedItemModel import BeddingTypeInBedItemModel
 from Gui.ItemModels.CustomSymbolInBedItemModel import CustomSymbolInBedItemModel
 from Gui.ItemModels.SedimentStructureInBedItemModel import SedimentStructureInBedItemModel
 from Gui.ItemModels.FossilInBedItemModel import FossilInBedItemModel
+from Gui.ItemModels.GrainSizeInBedItemModel import GrainSizeInBedItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -70,7 +71,7 @@ class ProfileLogger(QApplication):
         self.customSymbolInBedModel = CustomSymbolInBedItemModel(self)
         self.sedimentStructureInBedModel = SedimentStructureInBedItemModel(self)
         self.fossilInBedModel = FossilInBedItemModel(self)
-
+        self.grainSizeInBedModel = GrainSizeInBedItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))
