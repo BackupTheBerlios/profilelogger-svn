@@ -1,8 +1,8 @@
-from DataManagementItemView import DataManagementItemView
+from DataInProjectManagementItemView import DataInProjectManagementItemView
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-class OutcropTypeItemView(DataManagementItemView):
+class OutcropTypeItemView(DataInProjectManagementItemView):
     def __init__(self, parent, model):
-        DataManagementItemView.__init__(self, parent, model)
+        DataInProjectManagementItemView.__init__(self, parent, model)

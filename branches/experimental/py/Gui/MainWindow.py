@@ -75,7 +75,6 @@ class MainWindow(QMainWindow):
         self.setupTectonicUnitManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
-        self.setupOutcropTypeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupBedTools(self):
         self.bedToolsW = QToolBox(self.centralWidget())
@@ -86,6 +85,7 @@ class MainWindow(QMainWindow):
         self.setupProfileManagement()
         self.setupLithologyManagement()
         self.setupColorManagement()
+        self.setupOutcropTypeManagement()
         self.setupFaciesManagement()
         self.setupBeddingTypeManagement()
         self.setupSedimentStructureManagement()
@@ -176,7 +176,8 @@ class MainWindow(QMainWindow):
     def setupOutcropTypeManagement(self):
         self.outcropTypesW = OutcropTypeItemView(self.globalToolsW,
                                                  QApplication.instance().outcropTypeModel)
-        self.globalToolsW.addItem(self.outcropTypesW, self.tr("Outcrop Types"))
+        self.projectToolsW.addItem(self.outcropTypesW, self.tr("Outcrop Types"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().outcropTypeModel.onProjectChange)
     def setupLithologicalUnitManagement(self):
         self.lithologicalUnitsW = LithologicalUnitItemView(self.globalToolsW,
                                                            QApplication.instance().lithologicalUnitModel)

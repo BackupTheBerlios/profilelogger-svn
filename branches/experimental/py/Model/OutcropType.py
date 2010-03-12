@@ -1,5 +1,6 @@
-from NamedDescribedDataset import NamedDescribedDataset
+from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
 
-class OutcropType(NamedDescribedDataset):
-    def __init__(self, id=None, name=None, description=None):
-        super(OutcropType, self).__init__(id, name, description)
+class OutcropType(NamedDescribedDatasetWithSVGItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(OutcropType, self).__init__(project, id, name, svgItem, description)
+        self.project.registerOutcropType(self)

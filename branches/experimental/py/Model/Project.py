@@ -5,6 +5,7 @@ class Project(NamedDescribedDataset):
         super(Project, self).__init__(id, name, description)
         self.lithologies = []
         self.colors = []
+        self.outcropTypes = []
         self.beddingTypes = []
         self.sedimentStructures = []
         self.fossils = []
@@ -57,6 +58,10 @@ class Project(NamedDescribedDataset):
         if self.colors.count(c) > 0:
             return
         self.colors.append(c)
+    def registerOutcropType(self, c):
+        if self.outcropTypes.count(c) > 0:
+            return
+        self.outcropTypes.append(c)
     def registerFacies(self, c):
         if self.facies.count(c) > 0:
             return

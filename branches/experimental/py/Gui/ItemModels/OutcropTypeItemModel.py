@@ -1,4 +1,4 @@
-from DataManagementItemModel import DataManagementItemModel
+from DataInProjectManagementItemModel import DataInProjectManagementItemModel
 
 from PyQt4.QtGui import *
 
@@ -6,11 +6,11 @@ from Model.OutcropType import OutcropType
 from Gui.ItemModels.OutcropTypeItem import OutcropTypeItem
 from Gui.Dialogs.OutcropTypeEditorDialog import OutcropTypeEditorDialog
 
-class OutcropTypeItemModel(DataManagementItemModel):
+class OutcropTypeItemModel(DataInProjectManagementItemModel):
     def __init__(self, parent):
-        DataManagementItemModel.__init__(self, parent,
-                                         OutcropType,
-                                         OutcropTypeItem,
-                                         OutcropTypeEditorDialog,
-                                         OutcropType.name)
+        DataInProjectManagementItemModel.__init__(self, parent,
+                                                  OutcropType,
+                                                  OutcropTypeItem,
+                                                  OutcropTypeEditorDialog,
+                                                  OutcropType.name)
         self.headerStrings = [self.tr("Outcrop Types")]

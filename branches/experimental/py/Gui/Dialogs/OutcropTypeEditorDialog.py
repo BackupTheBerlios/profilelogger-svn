@@ -1,17 +1,23 @@
-from Gui.Dialogs.DatasetEditorDialog import *
+from Gui.Dialogs.DatasetWithSVGItemInProjectEditorDialog import *
 
 from PyQt4.QtCore import *
 
-class OutcropTypeEditorDialog(DatasetEditorDialog):
+from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
+
+class OutcropTypeEditorDialog(DatasetWithSVGItemInProjectEditorDialog):
     def __init__(self, parent, data):
-        DatasetEditorDialog.__init__(self, parent, data)
+        DatasetWithSVGItemInProjectEditorDialog.__init__(self, parent, data)
         self.addContentPanel(self.tr("Outcrop Type"))
         self.addIdDisplay()
+        self.addProjectSelector()
+        self.addSVGItemSelector()
         self.addNameEdit()
         self.addDescriptionEdit()
         self.addButtons()
 
         self.idW.setValue(self.data.id)
+        self.projectW.selectDataset(data.project)
+        self.svgItemW.selectDataset(data.svgItem)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
 

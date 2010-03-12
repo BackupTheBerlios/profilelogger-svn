@@ -20,6 +20,7 @@ class Bed(NamedDescribedDataset):
         self.customSymbols = []
         self.grainSizes = []
         self.boundaryTypes = []
+        self.outcropTypes = []
         self.poi = None
         
         self.profile.registerBed(self)
@@ -45,6 +46,8 @@ class Bed(NamedDescribedDataset):
         self.lithologies.append(l)
     def registerColor(self, c):
         self.colors.append(c)
+    def registerOutcropType(self, c):
+        self.outcropTypes.append(c)
     def registerBeddingType(self, t):
         self.beddingTypes.append(t)
     def registerCustomSymbol(self, t):
@@ -59,3 +62,5 @@ class Bed(NamedDescribedDataset):
         self.boundaryTypes.append(s)
     def __str__(self):
         return self.name
+    def hasOutcropType(self):
+        return len(self.outcropTypes) > 0
