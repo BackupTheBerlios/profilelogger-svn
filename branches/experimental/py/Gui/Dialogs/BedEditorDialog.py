@@ -12,6 +12,7 @@ from Gui.ItemViews.FossilInBedItemView import FossilInBedItemView
 from Gui.ItemViews.GrainSizeInBedItemView import GrainSizeInBedItemView
 from Gui.ItemViews.BoundaryTypeInBedItemView import BoundaryTypeInBedItemView
 from Gui.ItemViews.OutcropTypeInBedItemView import OutcropTypeInBedItemView
+from Gui.ItemViews.FaciesInBedItemView import FaciesInBedItemView
 
 from Gui.Widgets.LengthInputWidget import LengthInputWidget
 from Gui.Widgets.IntLineEdit import IntLineEdit
@@ -85,6 +86,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.grainSizeInBedW = GrainSizeInBedItemView(self.detailsW, QApplication.instance().grainSizeInBedModel)
         self.boundaryTypeInBedW = BoundaryTypeInBedItemView(self.detailsW, QApplication.instance().boundaryTypeInBedModel)
         self.outcropTypeInBedW = OutcropTypeInBedItemView(self.detailsW, QApplication.instance().outcropTypeInBedModel)
+        self.faciesInBedW = FaciesInBedItemView(self.detailsW, QApplication.instance().faciesInBedModel)
 
         self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithology"))
         self.detailsW.addTab(self.colorInBedW, self.tr("Color"))
@@ -95,6 +97,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.detailsW.addTab(self.grainSizeInBedW, self.tr("Grain Size"))
         self.detailsW.addTab(self.boundaryTypeInBedW, self.tr("Boundary Type"))
         self.detailsW.addTab(self.outcropTypeInBedW, self.tr("Outcrop Type"))
+        self.detailsW.addTab(self.faciesInBedW, self.tr("Facies"))
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
         if self.save():
@@ -117,6 +120,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().grainSizeInBedModel.setBed(self.data)
             QApplication.instance().boundaryTypeInBedModel.setBed(self.data)
             QApplication.instance().outcropTypeInBedModel.setBed(self.data)
+            QApplication.instance().faciesInBedModel.setBed(self.data)
         else:
             QApplication.instance().lithologyInBedModel.setBed(None)
             QApplication.instance().colorInBedModel.setBed(None)
@@ -127,3 +131,4 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().grainSizeInBedModel.setBed(None)
             QApplication.instance().boundaryTypeInBedModel.setBed(None)
             QApplication.instance().outcropTypeInBedModel.setBed(None)
+            QApplication.instance().faciesInBedModel.setBed(None)

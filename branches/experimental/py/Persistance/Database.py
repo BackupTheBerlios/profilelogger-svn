@@ -33,6 +33,7 @@ from Model.TectonicUnitType import TectonicUnitType
 from Model.TectonicUnit import TectonicUnit
 from Model.OutcropType import OutcropType
 from Model.OutcropTypeInBed import OutcropTypeInBed
+from Model.FaciesInBed import FaciesInBed
 
 class Database:
     def __init__(self):
@@ -158,8 +159,7 @@ class Database:
                                            Column('default_grain_size_id', Integer, ForeignKey('%s.grain_sizes.id' % self.schema), nullable=True),
                                            CheckConstraint("name <> ''", name='chk_lithologies_name_not_empty'),
                                            UniqueConstraint('name', 'project_id', name='u_lithologies_name_in_project'),
-                                           schema=self.schema);
-
+                                           schema=self.schema)
         self.tables['colors'] = Table('colors', self.metadata,
                                       Column('id', Integer, Sequence('seq_colors', schema=self.schema), primary_key=True, nullable=False),
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
@@ -168,17 +168,16 @@ class Database:
                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_colors_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_colors_name_in_project'),
-                                      schema=self.schema);
+                                      schema=self.schema)
         self.tables['facies'] = Table('facies', self.metadata,
                                       Column('id', Integer, Sequence('seq_facies', schema=self.schema), primary_key=True, nullable=False),
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
-                                      Column('name', String, nullable=False, server_default='New Facies'),
+                                      Column('name', String, nullable=False, server_default='New Facie'),
                                       Column('description', String, nullable=True),
                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_facies_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_facies_name_in_project'),
-                                      schema=self.schema);
-
+                                      schema=self.schema)
         self.tables['points_of_interest'] = Table('points_of_interest', self.metadata,
                                       Column('id', Integer, Sequence('seq_points_of_interest', schema=self.schema), primary_key=True, nullable=False),
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
@@ -187,8 +186,7 @@ class Database:
                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_points_of_interest_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_points_of_interest_name_in_project'),
-                                      schema=self.schema);
-
+                                      schema=self.schema)
         self.tables['bedding_types'] = Table('bedding_types', self.metadata,
                                              Column('id', Integer, Sequence('seq_bedding_types', schema=self.schema), primary_key=True, nullable=False),
                                              Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
@@ -299,7 +297,20 @@ class Database:
                                            CheckConstraint("name <> ''", name="chk_outcrop_types_beds_name_not_empty"),
                                            UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'outcrop_type_id', name='u_outcrop_types_beds'),
                                            schema=self.schema)
-
+        self.tables['facies_beds'] = Table('facies_beds', self.metadata,
+                                           Column('id', Integer, Sequence('seq_facies_beds', schema=self.schema), primary_key=True, nullable=False),
+                                           Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
+                                           Column('end_from_base', Integer, nullable=False, server_default=text('100')),
+                                           Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
+                                           Column('facies_id', Integer, ForeignKey('%s.facies.id' % self.schema), nullable=False),
+                                           Column('description', String, nullable=True),
+                                           Column('name', String, nullable=False),
+                                           CheckConstraint('end_from_base > begin_from_base', name='chk_facies_beds_end_above_begin'),
+                                           CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_facies_beds_begin_in_range'),
+                                           CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_facies_beds_end_in_range'),
+                                           CheckConstraint("name <> ''", name="chk_facies_beds_name_not_empty"),
+                                           UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'facies_id', name='u_facies_beds'),
+                                           schema=self.schema)
         self.tables['boundary_types_beds'] = Table('boundary_types_beds', self.metadata,
                                            Column('id', Integer, Sequence('seq_boundary_types_beds', schema=self.schema), primary_key=True, nullable=False),
                                            Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
@@ -476,7 +487,6 @@ class Database:
                 'description': self.tables['facies'].c.description,
                 'svgItem': relation(SVGItem, backref='facies'),
                 })
-
         mapper(PointOfInterest, self.tables['points_of_interest'], properties = {
                 'id': self.tables['points_of_interest'].c.id,
                 'name': self.tables['points_of_interest'].c.name,
@@ -523,6 +533,7 @@ class Database:
                 'lithologies': relation(LithologyInBed, backref='bed'),
                 'colors': relation(ColorInBed, backref='bed'),
                 'outcropTypes': relation(OutcropTypeInBed, backref='bed'),
+                'facies': relation(FaciesInBed, backref='bed'),
                 'beddingTypes': relation(BeddingTypeInBed, backref='bed'),
                 'customSymbols': relation(CustomSymbolInBed, backref='bed'),
                 'sedimentStructures': relation(SedimentStructureInBed, backref='bed'),
@@ -565,6 +576,14 @@ class Database:
                 'description': self.tables['outcrop_types_beds'].c.description,
                 'outcropType': relation(OutcropType, backref='outcrop_typesInBed'),
                 'name': self.tables['outcrop_types_beds'].c.name
+                })
+        mapper(FaciesInBed, self.tables['facies_beds'], properties = {
+                'id': self.tables['facies_beds'].c.id,
+                'begin': self.tables['facies_beds'].c.begin_from_base,
+                'end': self.tables['facies_beds'].c.end_from_base,
+                'description': self.tables['facies_beds'].c.description,
+                'facies': relation(Facies, backref='faciesInBed'),
+                'name': self.tables['facies_beds'].c.name
                 })
         mapper(BoundaryTypeInBed, self.tables['boundary_types_beds'], properties = {
                 'id': self.tables['boundary_types_beds'].c.id,

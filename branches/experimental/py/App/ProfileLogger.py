@@ -46,6 +46,7 @@ from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
 from Gui.ItemModels.FaciesItemModel import FaciesItemModel
 from Gui.ItemModels.OutcropTypeItemModel import OutcropTypeItemModel
 from Gui.ItemModels.OutcropTypeInBedItemModel import OutcropTypeInBedItemModel
+from Gui.ItemModels.FaciesInBedItemModel import FaciesInBedItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -92,6 +93,7 @@ class ProfileLogger(QApplication):
         self.faciesModel = FaciesItemModel(self)
         self.outcropTypeModel = OutcropTypeItemModel(self)
         self.outcropTypeInBedModel = OutcropTypeInBedItemModel(self)
+        self.faciesInBedModel = FaciesInBedItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)

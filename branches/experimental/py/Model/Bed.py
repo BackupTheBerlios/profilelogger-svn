@@ -21,6 +21,7 @@ class Bed(NamedDescribedDataset):
         self.grainSizes = []
         self.boundaryTypes = []
         self.outcropTypes = []
+        self.facies = []
         self.poi = None
         
         self.profile.registerBed(self)
@@ -64,3 +65,5 @@ class Bed(NamedDescribedDataset):
         return self.name
     def hasOutcropType(self):
         return len(self.outcropTypes) > 0
+    def registerFacies(self, c):
+        self.facies.append(c)
