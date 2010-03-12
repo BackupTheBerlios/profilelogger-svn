@@ -265,9 +265,12 @@ class Database:
                                             Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
                                             Column('fossil_id', Integer, ForeignKey('%s.fossils.id' % self.schema), nullable=False),
                                             Column('description', String, nullable=True),
+                                            Column('name', String, nullable=False),
                                             CheckConstraint('end_from_base > begin_from_base', name='chk_fossils_beds_end_above_begin'),
                                             CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_fossils_beds_begin_in_range'),
                                             CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_fossils_beds_end_in_range'),
+                                            CheckConstraint("name <> ''", name="chk_fossils_name_not_empty"),
+                                            UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'fossil_id', name='u_fossils_beds'),
                                             schema=self.schema)
         self.tables['grain_sizes_beds'] = Table('grain_sizes_beds', self.metadata,
                                                 Column('id', Integer, Sequence('seq_grain_sizes_beds', schema=self.schema), primary_key=True, nullable=False),
@@ -439,7 +442,9 @@ class Database:
                 'id': self.tables['fossils_beds'].c.id,
                 'begin': self.tables['fossils_beds'].c.begin_from_base,
                 'end': self.tables['fossils_beds'].c.end_from_base,
-                'description': self.tables['fossils_beds'].c.description
+                'description': self.tables['fossils_beds'].c.description,
+                'fossil': relation(Fossil, backref='fossilsInBed'),
+                'name': self.tables['fossils_beds'].c.name
                 })
         mapper(GrainSizeInBed, self.tables['grain_sizes_beds'], properties = {
                 'id': self.tables['grain_sizes_beds'].c.id,
