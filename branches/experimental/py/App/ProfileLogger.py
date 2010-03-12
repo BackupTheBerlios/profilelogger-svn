@@ -31,6 +31,8 @@ from Gui.ItemModels.ProfileItemModel import ProfileItemModel
 from Gui.ItemModels.BedItemModel import BedItemModel
 from Gui.ItemModels.LithologyInBedItemModel import LithologyInBedItemModel
 from Gui.ItemModels.ColorInBedItemModel import ColorInBedItemModel
+from Gui.ItemModels.BeddingTypeInBedItemModel import BeddingTypeInBedItemModel
+from Gui.ItemModels.CustomSymbolInBedItemModel import CustomSymbolInBedItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -62,6 +64,8 @@ class ProfileLogger(QApplication):
         self.bedModel = BedItemModel(self)
         self.lithologyInBedModel = LithologyInBedItemModel(self)
         self.colorInBedModel = ColorInBedItemModel(self)
+        self.beddingTypeInBedModel = BeddingTypeInBedItemModel(self)
+        self.customSymbolInBedModel = CustomSymbolInBedItemModel(self)
 
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)

@@ -5,6 +5,8 @@ from PyQt4.QtCore import *
 from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
 from Gui.ItemViews.LithologyInBedItemView import LithologyInBedItemView
 from Gui.ItemViews.ColorInBedItemView import ColorInBedItemView
+from Gui.ItemViews.BeddingTypeInBedItemView import BeddingTypeInBedItemView
+from Gui.ItemViews.CustomSymbolInBedItemView import CustomSymbolInBedItemView
 
 from Gui.Widgets.LengthInputWidget import LengthInputWidget
 from Gui.Widgets.IntLineEdit import IntLineEdit
@@ -71,8 +73,13 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
 
         self.lithologyInBedW = LithologyInBedItemView(self.detailsW, QApplication.instance().lithologyInBedModel)
         self.colorInBedW = ColorInBedItemView(self.detailsW, QApplication.instance().colorInBedModel)
+        self.beddingTypeInBedW = BeddingTypeInBedItemView(self.detailsW, QApplication.instance().beddingTypeInBedModel)
+        self.customSymbolInBedW = CustomSymbolInBedItemView(self.detailsW, QApplication.instance().customSymbolInBedModel)
+
         self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithology"))
         self.detailsW.addTab(self.colorInBedW, self.tr("Color"))
+        self.detailsW.addTab(self.beddingTypeInBedW, self.tr("Bedding Type"))
+        self.detailsW.addTab(self.customSymbolInBedW, self.tr("Custom Symbol"))
 
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
@@ -89,6 +96,10 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         if isEnabled:
             QApplication.instance().lithologyInBedModel.setBed(self.data)
             QApplication.instance().colorInBedModel.setBed(self.data)
+            QApplication.instance().beddingTypeInBedModel.setBed(self.data)
+            QApplication.instance().customSymbolInBedModel.setBed(self.data)
         else:
             QApplication.instance().lithologyInBedModel.setBed(None)
             QApplication.instance().colorInBedModel.setBed(None)
+            QApplication.instance().beddingTypeInBedModel.setBed(None)
+            QApplication.instance().customSymbolInBedModel.setBed(None)

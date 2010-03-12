@@ -197,7 +197,7 @@ class Database:
                                                 CheckConstraint('end_from_base > begin_from_base', name='chk_lithologies_beds_end_above_begin'),
                                                 CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_lithologies_beds_begin_in_range'),
                                                 CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_lithologies_beds_end_in_range'),
-                                                CheckConstraint("name <> ''", name="chk_lithologies_beds_name_not_empt<"),
+                                                CheckConstraint("name <> ''", name="chk_lithologies_beds_name_not_empty"),
                                                 UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithology_id', name='u_lithologies_beds'),
                                                 schema=self.schema)
         self.tables['colors_beds'] = Table('colors_beds', self.metadata,
@@ -205,14 +205,14 @@ class Database:
                                            Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
                                            Column('end_from_base', Integer, nullable=False, server_default=text('100')),
                                            Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
-                                           Column('lithology_id', Integer, ForeignKey('%s.colors.id' % self.schema), nullable=False),
+                                           Column('color_id', Integer, ForeignKey('%s.colors.id' % self.schema), nullable=False),
                                            Column('description', String, nullable=True),
                                            Column('name', String, nullable=False),
                                            CheckConstraint('end_from_base > begin_from_base', name='chk_colors_beds_end_above_begin'),
                                            CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_colors_beds_begin_in_range'),
                                            CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_colors_beds_end_in_range'),
-                                           CheckConstraint("name <> ''", name="chk_colors_beds_name_not_empt<"),
-                                           UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithology_id', name='u_colors_beds'),
+                                           CheckConstraint("name <> ''", name="chk_colors_beds_name_not_empty"),
+                                           UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'color_id', name='u_colors_beds'),
                                            schema=self.schema)
 
         self.tables['bedding_types_beds'] = Table('bedding_types_beds', self.metadata,
@@ -220,11 +220,14 @@ class Database:
                                                   Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
                                                   Column('end_from_base', Integer, nullable=False, server_default=text('100')),
                                                   Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
-                                                  Column('lithology_id', Integer, ForeignKey('%s.bedding_types.id' % self.schema), nullable=False),
+                                                  Column('bedding_type_id', Integer, ForeignKey('%s.bedding_types.id' % self.schema), nullable=False),
                                                   Column('description', String, nullable=True),
+                                                  Column('name', String, nullable=False),
                                                   CheckConstraint('end_from_base > begin_from_base', name='chk_bedding_types_beds_end_above_begin'),
                                                   CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_bedding_types_beds_begin_in_range'),
                                                   CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_bedding_types_beds_end_in_range'),
+                                                  CheckConstraint("name <> ''", name="chk_bedding_types_beds_name_not_empty"),
+                                                  UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'bedding_type_id', name='u_bedding_types_beds'),
                                                   schema=self.schema)
 
         self.tables['custom_symbols_beds'] = Table('custom_symbols_beds', self.metadata,
@@ -232,11 +235,14 @@ class Database:
                                                   Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
                                                   Column('end_from_base', Integer, nullable=False, server_default=text('100')),
                                                   Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
-                                                  Column('lithology_id', Integer, ForeignKey('%s.custom_symbols.id' % self.schema), nullable=False),
+                                                  Column('custom_symbol_id', Integer, ForeignKey('%s.custom_symbols.id' % self.schema), nullable=False),
                                                   Column('description', String, nullable=True),
+                                                  Column('name', String, nullable=False),
                                                   CheckConstraint('end_from_base > begin_from_base', name='chk_custom_symbols_beds_end_above_begin'),
                                                   CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_custom_symbols_beds_begin_in_range'),
                                                   CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_custom_symbols_beds_end_in_range'),
+                                                  CheckConstraint("name <> ''", name="chk_custom_symbols_beds_name_not_empty"),
+                                                  UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'custom_symbol_id', name='u_custom_symbols_beds'),
                                                   schema=self.schema)
         self.tables['sediment_structures_beds'] = Table('sediment_structures_beds', self.metadata,
                                                         Column('id', Integer, Sequence('seq_sediment_structures_beds', schema=self.schema), primary_key=True, nullable=False),
@@ -406,13 +412,17 @@ class Database:
                 'id': self.tables['bedding_types_beds'].c.id,
                 'begin': self.tables['bedding_types_beds'].c.begin_from_base,
                 'end': self.tables['bedding_types_beds'].c.end_from_base,
-                'description': self.tables['bedding_types_beds'].c.description
+                'description': self.tables['bedding_types_beds'].c.description,
+                'beddingType': relation(BeddingType, backref='beddingTypesInBed'),
+                'name': self.tables['bedding_types_beds'].c.name
                 })
         mapper(CustomSymbolInBed, self.tables['custom_symbols_beds'], properties = {
                 'id': self.tables['custom_symbols_beds'].c.id,
                 'begin': self.tables['custom_symbols_beds'].c.begin_from_base,
                 'end': self.tables['custom_symbols_beds'].c.end_from_base,
-                'description': self.tables['custom_symbols_beds'].c.description
+                'description': self.tables['custom_symbols_beds'].c.description,
+                'customSymbol': relation(CustomSymbol, backref='customSymbolsInBed'),
+                'name': self.tables['custom_symbols_beds'].c.name
                 })
         mapper(SedimentStructureInBed, self.tables['sediment_structures_beds'], properties = {
                 'id': self.tables['sediment_structures_beds'].c.id,
