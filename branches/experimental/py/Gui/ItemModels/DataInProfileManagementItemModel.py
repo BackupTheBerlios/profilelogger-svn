@@ -27,6 +27,8 @@ class DataInProfileManagementItemModel(DataManagementItemModel):
         self.disableViews.emit()
         if self.profile is not None:
             self.reload()
+    def setProfile(self, profile):
+        self.onProfileChange(profile)
     def hasProfile(self):
         return self.profile is not None
     def reload(self):

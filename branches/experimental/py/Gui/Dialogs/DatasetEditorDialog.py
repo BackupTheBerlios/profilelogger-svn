@@ -81,14 +81,12 @@ class DatasetEditorDialog(Dialog):
         return lbl
     def validate(self):
         return True
-    def accept(self):
-        if not self.validate():
-            return
+    def save(self):
         try:
             if not self.data.hasId():
                 QApplication.instance().db.session.add(self.data)
             QApplication.instance().db.session.commit()
-            self.done(QDialog.Accepted)
+            return True
         except IntegrityError, e:
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
@@ -101,7 +99,12 @@ class DatasetEditorDialog(Dialog):
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
             QApplication.instance().db.session.rollback()
-
+        return False
+    def accept(self):
+        if not self.validate():
+            return
+        if self.save():
+            self.done(QDialog.Accepted)
     def reject(self):
         if self.data.hasId():
             QApplication.instance().db.session.refresh(self.data)

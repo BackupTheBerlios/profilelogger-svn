@@ -1,8 +1,9 @@
 from DatasetInBed import DatasetInBed
 
 class GrainSizeInBed(DatasetInBed):
-    def __init__(self, bed, id=None, grainSize=None, begin=0, end=100, description=None):
-        super(GrainSizeInBed, self).__init__(bed, id, begin, end, description)
+    def __init__(self, bed, id=None, grainSize=None, begin=0, end=100, 
+                 name=None, description=None):
+        super(GrainSizeInBed, self).__init__(bed, id, begin, end, name, description)
         self.grainSize = grainSize
         self.bed.registerGrainSize(self)
 

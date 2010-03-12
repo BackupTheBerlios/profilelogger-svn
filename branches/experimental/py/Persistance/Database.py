@@ -193,9 +193,12 @@ class Database:
                                                 Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
                                                 Column('lithology_id', Integer, ForeignKey('%s.lithologies.id' % self.schema), nullable=False),
                                                 Column('description', String, nullable=True),
+                                                Column('name', String, nullable=False),
                                                 CheckConstraint('end_from_base > begin_from_base', name='chk_lithologies_beds_end_above_begin'),
                                                 CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_lithologies_beds_begin_in_range'),
                                                 CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_lithologies_beds_end_in_range'),
+                                                UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithology_id', name='u_lithologies_beds'),
+                                                CheckConstraint("name <> ''", name="chk_lithologies_beds_name_not_empt<"),
                                                 schema=self.schema)
         self.tables['colors_beds'] = Table('colors_beds', self.metadata,
                                            Column('id', Integer, Sequence('seq_colors_beds', schema=self.schema), primary_key=True, nullable=False),
@@ -384,7 +387,9 @@ class Database:
                 'id': self.tables['lithologies_beds'].c.id,
                 'begin': self.tables['lithologies_beds'].c.begin_from_base,
                 'end': self.tables['lithologies_beds'].c.end_from_base,
-                'description':  self.tables['lithologies_beds'].c.description
+                'description':  self.tables['lithologies_beds'].c.description,
+                'lithology': relation(Lithology, backref='lithologiesInBed'),
+                'name': self.tables['lithologies_beds'].c.name
                 })
         mapper(ColorInBed, self.tables['colors_beds'], properties = {
                 'id': self.tables['colors_beds'].c.id,

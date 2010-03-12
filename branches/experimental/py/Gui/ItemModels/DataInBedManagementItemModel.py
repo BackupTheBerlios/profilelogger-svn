@@ -3,7 +3,7 @@ from DataManagementItemModel import DataManagementItemModel
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class DataInProjectManagementItemModel(DataManagementItemModel):
+class DataInBedManagementItemModel(DataManagementItemModel):
     enableViews = pyqtSignal()
     disableViews = pyqtSignal()
     reloaded = pyqtSignal()
@@ -20,29 +20,29 @@ class DataInProjectManagementItemModel(DataManagementItemModel):
                                          editorDialogClass,
                                          orderColumn,
                                          headerStrings)
-        self.project = None
-    def onProjectChange(self, project):
-        self.project = project
+        self.bed = None
+    def onBedChange(self, bed):
+        self.bed = bed
         self.clear();
         self.disableViews.emit()
-        if self.project is not None:
+        if self.bed is not None:
             self.reload()
-    def setProject(self, project):
-        self.onProjectChange(project)
-    def hasProject(self):
-        return self.project is not None
+    def setBed(self, bed):
+        self.onBedChange(bed)
+    def hasBed(self):
+        return self.bed is not None
     def reload(self):
         self.disableViews.emit()
         self.clear()
-        if not self.hasProject():
+        if not self.hasBed():
             return
         self.setHorizontalHeaderLabels(self.headerStrings)
-        self.data = self.getSession().query(self.dataClass).order_by(self.orderColumn).filter(self.dataClass.project==self.project).all()
+        self.data = self.getSession().query(self.dataClass).order_by(self.orderColumn).filter(self.dataClass.bed==self.bed).all()
         for u in self.data:
             self.appendItem(u)
         self.reloaded.emit()
         self.enableViews.emit()
     def onCreateNewRequest(self):
-        dlg = self.editorDialogClass(QApplication.activeWindow(), self.dataClass(project=self.project))
+        dlg = self.editorDialogClass(QApplication.activeWindow(), self.dataClass(bed=self.bed))
         if QDialog.Accepted == dlg.exec_():
             self.reload()

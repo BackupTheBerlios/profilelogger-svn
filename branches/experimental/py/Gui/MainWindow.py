@@ -45,13 +45,22 @@ class MainWindow(QMainWindow):
         self.setupGlobalTools()
         self.setupProjectTools()
         self.setupBedTools()
-        self.centralWidget().setEnabled(False)
+        self.centralWidget().setEnabled(False)    
+    def setupGlobalTools(self):
+        self.globalToolsW = QToolBox(self.centralWidget())
+        self.setupProjectManagement()
+        self.setupLengthUnitManagement()
+        self.setupSVGItemManagement()
+        self.setupGrainSizeTypeManagement()
+        self.setupGrainSizeManagement()
+        self.centralWidget().addWidget(self.globalToolsW)
     def setupBedTools(self):
         self.bedToolsW = QToolBox(self.centralWidget())
         self.setupBedManagement()
         self.centralWidget().addWidget(self.bedToolsW)
     def setupProjectTools(self):
         self.projectToolsW = QToolBox(self.centralWidget())
+        self.setupProfileManagement()
         self.setupLithologyManagement()
         self.setupColorManagement()
         self.setupBeddingTypeManagement()
@@ -59,7 +68,6 @@ class MainWindow(QMainWindow):
         self.setupFossilManagement()
         self.setupCustomSymbolManagement()
         self.setupBoundaryTypeManagement()
-        self.setupProfileManagement()
         self.setupPointOfInterestManagement()
         self.centralWidget().addWidget(self.projectToolsW)
     def setupBedManagement(self):
@@ -112,16 +120,6 @@ class MainWindow(QMainWindow):
                                                 QApplication.instance().beddingTypeModel)
         self.projectToolsW.addItem(self.lithologiesW, self.tr("Bedding Types"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().beddingTypeModel.onProjectChange)
-
-
-    def setupGlobalTools(self):
-        self.globalToolsW = QToolBox(self.centralWidget())
-        self.setupLengthUnitManagement()
-        self.setupProjectManagement()
-        self.setupSVGItemManagement()
-        self.setupGrainSizeTypeManagement()
-        self.setupGrainSizeManagement()
-        self.centralWidget().addWidget(self.globalToolsW)
     def setupLengthUnitManagement(self):
         self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
                                                QApplication.instance().lengthUnitModel)

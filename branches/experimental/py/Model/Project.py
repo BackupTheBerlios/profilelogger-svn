@@ -15,54 +15,45 @@ class Project(NamedDescribedDataset):
 
     def registerProfile(self, p):
         if self.profiles.count(p) > 0:
-            print 'Profile %s already registered in project %s' % (p, self.name)
             return
         self.profiles.append(p)
     def registerPointOfInterest(self, p):
         if self.pointsOfInterest.count(p) > 0:
-            print 'POI %s already registered in project %s' % (p, self.name)
             return
         self.pointsOfInterest.append(p)
 
     def registerBoundaryType(self, t):
         if self.boundaryTypes.count(t) > 0:
-            print 'Boundary Type %s already registered in project %s' % (t, self.name)
             return
         self.boundaryTypes.append(t)
 
     def registerCustomSymbol(self, s):
         if self.customSymbols.count(s) > 0:
-            print 'Custom Symbol %s already registered in project %s' % (s, self.name)
             return
         self.customSymbols.append(s)
 
     def registerFossil(self, f):
         if self.fossils.count(f) > 0:
-            print 'Fossil %s alread registered in project %s' % (f, self.name)
             return
         self.fossils.append(f)
 
     def registerSedimentStructure(self, s):
         if self.sedimentStructures.count(s) > 0:
-            print 'Sediment Structure %s already registered in project %s' % (s, self.name)
             return
         self.sedimentStructures.append(s)
 
     def registerBeddingType(self, t):
         if self.beddingTypes.count(t) > 0:
-            print 'Bedding Type %s already registered in project %s' % (t, self.name)
             return
         self.beddingTypes.append(t)
 
     def registerLithology(self, l):
         if self.lithologies.count(l) > 0:
-            print 'Lithology %s already registered in project %s' % (l, self.name)
             return
         self.lithologies.append(l)
         
     def registerColor(self, c):
         if self.colors.count(c) > 0:
-            print 'Color %s already registered in project %s' % (c, self.name)
             return
         self.colors.append(c)
 

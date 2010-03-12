@@ -4,5 +4,6 @@ class StandardItem(QStandardItem):
     def __init__(self, data):
         QStandardItem.__init__(self)
         self.data = data
+    def showData(self):
         self.setText(unicode(self.data.name))
         self.setToolTip(unicode(self.data.makeToolTip()))

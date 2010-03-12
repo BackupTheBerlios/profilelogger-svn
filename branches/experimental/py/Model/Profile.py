@@ -8,6 +8,5 @@ class Profile(NamedDescribedDatasetInProject):
 
     def registerBed(self, b):
         if self.beds.count(b) > 0:
-            print 'Bed %s already registered in Profile %s' % (b, self.name)
             return
         self.beds.append(b)
