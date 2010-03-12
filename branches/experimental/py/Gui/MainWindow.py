@@ -34,6 +34,7 @@ from Gui.ItemViews.PointOfInterestItemView import PointOfInterestItemView
 from Gui.ItemViews.ProfileItemView import ProfileItemView
 from Gui.ItemViews.BedItemView import BedItemView
 from Gui.ItemViews.LithologicalUnitTypeItemView import LithologicalUnitTypeItemView
+from Gui.ItemViews.LithologicalUnitItemView import LithologicalUnitItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -54,6 +55,7 @@ class MainWindow(QMainWindow):
         self.setupLengthUnitManagement()
         self.setupSVGItemManagement()
         self.setupLithologicalUnitTypeManagement()
+        self.setupLithologicalUnitManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
@@ -135,6 +137,10 @@ class MainWindow(QMainWindow):
         self.grainSizesW = GrainSizeItemView(self.globalToolsW,
                                              QApplication.instance().grainSizeModel)
         self.globalToolsW.addItem(self.grainSizesW, self.tr("Grain Sizes"))
+    def setupLithologicalUnitManagement(self):
+        self.lithologicalUnitsW = LithologicalUnitItemView(self.globalToolsW,
+                                             QApplication.instance().lithologicalUnitModel)
+        self.globalToolsW.addItem(self.lithologicalUnitsW, self.tr("Lithological Units"))
     def setupSVGItemManagement(self):
         self.SVGItemsW = SVGItemView(self.globalToolsW,
                                      QApplication.instance().svgItemModel)

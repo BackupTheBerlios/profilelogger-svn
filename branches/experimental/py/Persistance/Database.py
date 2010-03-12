@@ -15,6 +15,7 @@ from Model.PointOfInterest import PointOfInterest
 from Model.Profile import Profile
 from Model.GrainSizeType import GrainSizeType
 from Model.GrainSize import GrainSize
+from Model.LithologicalUnit import LithologicalUnit
 from Model.Bed import Bed
 from Model.LithologyInBed import LithologyInBed
 from Model.ColorInBed import ColorInBed
@@ -86,6 +87,15 @@ class Database:
                                            Column('max_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=True),
                                            CheckConstraint("name <> ''", name='chk_grain_sizes_name_not_empty'),
                                            UniqueConstraint('name', name='u_grain_sizes_name'),
+                                           schema=self.schema)
+
+        self.tables['lithological_units'] = Table('lithological_units', self.metadata,
+                                           Column('id', Integer, Sequence('seq_lithological_units', schema=self.schema), primary_key=True, nullable=False),
+                                           Column('lithological_unit_type_id', Integer, ForeignKey('%s.lithological_unit_types.id' % self.schema), nullable=False),
+                                           Column('name', String, nullable=False, server_default='New Lithological Unit'),
+                                           Column('description', String, nullable=True),
+                                           CheckConstraint("name <> ''", name='chk_lithological_units_name_not_empty'),
+                                           UniqueConstraint('name', name='u_lithological_units_name'),
                                            schema=self.schema)
 
         self.tables['projects'] = Table('projects', self.metadata,
@@ -334,6 +344,11 @@ class Database:
                 'maxSize': self.tables['grain_sizes'].c.max,
                 'maxSizeLengthUnit': relation(LengthUnit,
                                               primaryjoin=self.tables['grain_sizes'].c.max_length_unit_id==self.tables['length_units'].c.id)})
+        mapper(LithologicalUnit, self.tables['lithological_units'], properties = {
+                'id': self.tables['lithological_units'].c.id,
+                'name': self.tables['lithological_units'].c.name,
+                'description': self.tables['lithological_units'].c.description,
+                'lithologicalUnitType': relation(LithologicalUnitType, backref='lithologicalUnits')})
         mapper(GrainSizeType, self.tables['grain_size_types'], properties = {
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,

@@ -20,6 +20,7 @@ from Gui.ItemModels.SVGItemModel import SVGItemModel
 from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
 from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
 from Gui.ItemModels.LithologyItemModel import LithologyItemModel
+from Gui.ItemModels.LithologicalUnitItemModel import LithologicalUnitItemModel
 from Gui.ItemModels.ColorItemModel import ColorItemModel
 from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
 from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
@@ -76,6 +77,8 @@ class ProfileLogger(QApplication):
         self.fossilInBedModel = FossilInBedItemModel(self)
         self.grainSizeInBedModel = GrainSizeInBedItemModel(self)
         self.boundaryTypeInBedModel = BoundaryTypeInBedItemModel(self)
+        self.lithologicalUnitModel = LithologicalUnitItemModel(self)
+
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))
