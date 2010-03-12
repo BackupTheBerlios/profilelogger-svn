@@ -197,8 +197,8 @@ class Database:
                                                 CheckConstraint('end_from_base > begin_from_base', name='chk_lithologies_beds_end_above_begin'),
                                                 CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_lithologies_beds_begin_in_range'),
                                                 CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_lithologies_beds_end_in_range'),
-                                                UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithology_id', name='u_lithologies_beds'),
                                                 CheckConstraint("name <> ''", name="chk_lithologies_beds_name_not_empt<"),
+                                                UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithology_id', name='u_lithologies_beds'),
                                                 schema=self.schema)
         self.tables['colors_beds'] = Table('colors_beds', self.metadata,
                                            Column('id', Integer, Sequence('seq_colors_beds', schema=self.schema), primary_key=True, nullable=False),
@@ -207,9 +207,12 @@ class Database:
                                            Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
                                            Column('lithology_id', Integer, ForeignKey('%s.colors.id' % self.schema), nullable=False),
                                            Column('description', String, nullable=True),
+                                           Column('name', String, nullable=False),
                                            CheckConstraint('end_from_base > begin_from_base', name='chk_colors_beds_end_above_begin'),
                                            CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_colors_beds_begin_in_range'),
                                            CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_colors_beds_end_in_range'),
+                                           CheckConstraint("name <> ''", name="chk_colors_beds_name_not_empt<"),
+                                           UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithology_id', name='u_colors_beds'),
                                            schema=self.schema)
 
         self.tables['bedding_types_beds'] = Table('bedding_types_beds', self.metadata,
@@ -395,7 +398,9 @@ class Database:
                 'id': self.tables['colors_beds'].c.id,
                 'begin': self.tables['colors_beds'].c.begin_from_base,
                 'end': self.tables['colors_beds'].c.end_from_base,
-                'description': self.tables['colors_beds'].c.description
+                'description': self.tables['colors_beds'].c.description,
+                'color': relation(Color, backref='colorsInBed'),
+                'name': self.tables['colors_beds'].c.name
                 })
         mapper(BeddingTypeInBed, self.tables['bedding_types_beds'], properties = {
                 'id': self.tables['bedding_types_beds'].c.id,
