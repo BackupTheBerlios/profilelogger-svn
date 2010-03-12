@@ -19,8 +19,7 @@ class Bed(NamedDescribedDataset):
         self.fossils = []
         self.customSymbols = []
         self.grainSizes = []
-
-        self.topBoundaryType = None
+        self.boundaryTypes = []
         self.poi = None
         
         self.profile.registerBed(self)
@@ -32,8 +31,8 @@ class Bed(NamedDescribedDataset):
         return len(self.colors) > 0
     def hasBeddingType(self):
         return len(self.beddingTypes) > 0
-    def hasTopBoundaryType(self):
-        return self.topBoundaryType is not None
+    def hasBoundaryType(self):
+        return len(self.boundaryTypes) > 0
     def hasPoi(self):
         return self.poi is not None
     def hasBaseGrainSize(self):
@@ -56,5 +55,7 @@ class Bed(NamedDescribedDataset):
         self.fossils.append(f)
     def registerGrainSize(self, s):
         self.grainSizes.append(s)
+    def registerBoundaryType(self, s):
+        self.boundaryTypes.append(s)
     def __str__(self):
         return self.name

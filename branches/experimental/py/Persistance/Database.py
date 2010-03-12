@@ -23,6 +23,7 @@ from Model.CustomSymbolInBed import CustomSymbolInBed
 from Model.SedimentStructureInBed import SedimentStructureInBed
 from Model.FossilInBed import FossilInBed
 from Model.GrainSizeInBed import GrainSizeInBed
+from Model.BoundaryTypeInBed import BoundaryTypeInBed
 
 class Database:
     def __init__(self):
@@ -181,7 +182,6 @@ class Database:
                                     Column('length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
                                     Column('bed_number', Integer, nullable=False),
                                     Column('name', String, nullable=False),
-                                    Column('top_boundary_type_id', Integer, ForeignKey('%s.boundary_types.id' % self.schema), nullable=True),
                                     CheckConstraint('height > 0', name='chk_beds_height_greater_zero'),
                                     UniqueConstraint('bed_number', 'profile_id', name='u_beds_bed_number_in_profile'),
                                     UniqueConstraint('name', name='u_beds_bed_name'),
@@ -214,7 +214,20 @@ class Database:
                                            CheckConstraint("name <> ''", name="chk_colors_beds_name_not_empty"),
                                            UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'color_id', name='u_colors_beds'),
                                            schema=self.schema)
-
+        self.tables['boundary_types_beds'] = Table('boundary_types_beds', self.metadata,
+                                           Column('id', Integer, Sequence('seq_boundary_types_beds', schema=self.schema), primary_key=True, nullable=False),
+                                           Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
+                                           Column('end_from_base', Integer, nullable=False, server_default=text('100')),
+                                           Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
+                                           Column('boundary_type_id', Integer, ForeignKey('%s.boundary_types.id' % self.schema), nullable=False),
+                                           Column('description', String, nullable=True),
+                                           Column('name', String, nullable=False),
+                                           CheckConstraint('end_from_base > begin_from_base', name='chk_boundary_types_beds_end_above_begin'),
+                                           CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_boundary_types_beds_begin_in_range'),
+                                           CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_boundary_types_beds_end_in_range'),
+                                           CheckConstraint("name <> ''", name="chk_boundary_types_beds_name_not_empty"),
+                                           UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'boundary_type_id', name='u_boundary_types_beds'),
+                                           schema=self.schema)
         self.tables['bedding_types_beds'] = Table('bedding_types_beds', self.metadata,
                                                   Column('id', Integer, Sequence('seq_bedding_types_beds', schema=self.schema), primary_key=True, nullable=False),
                                                   Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
@@ -385,7 +398,6 @@ class Database:
                 'number': self.tables['beds'].c.bed_number,
                 'name':  self.tables['beds'].c.name,
                 'height': self.tables['beds'].c.height,
-                'topBoundaryType': relation(BoundaryType),
                 'lengthUnit': relation(LengthUnit),
                 'lithologies': relation(LithologyInBed, backref='bed'),
                 'colors': relation(ColorInBed, backref='bed'),
@@ -393,7 +405,8 @@ class Database:
                 'customSymbols': relation(CustomSymbolInBed, backref='bed'),
                 'sedimentStructures': relation(SedimentStructureInBed, backref='bed'),
                 'fossils': relation(FossilInBed, backref='bed'),
-                'grainSizes': relation(GrainSizeInBed, backref='bed')
+                'grainSizes': relation(GrainSizeInBed, backref='bed'),
+                'boundaryTypes': relation(BoundaryTypeInBed, backref='bed')
                 })
         mapper(Profile, self.tables['profiles'], properties = {
                 'id': self.tables['profiles'].c.id,
@@ -416,6 +429,14 @@ class Database:
                 'description': self.tables['colors_beds'].c.description,
                 'color': relation(Color, backref='colorsInBed'),
                 'name': self.tables['colors_beds'].c.name
+                })
+        mapper(BoundaryTypeInBed, self.tables['boundary_types_beds'], properties = {
+                'id': self.tables['boundary_types_beds'].c.id,
+                'begin': self.tables['boundary_types_beds'].c.begin_from_base,
+                'end': self.tables['boundary_types_beds'].c.end_from_base,
+                'description': self.tables['boundary_types_beds'].c.description,
+                'boundaryType': relation(BoundaryType, backref='boundaryTypesInBed'),
+                'name': self.tables['boundary_types_beds'].c.name
                 })
         mapper(BeddingTypeInBed, self.tables['bedding_types_beds'], properties = {
                 'id': self.tables['bedding_types_beds'].c.id,

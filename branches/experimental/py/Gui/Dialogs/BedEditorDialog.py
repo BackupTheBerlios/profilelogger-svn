@@ -10,6 +10,7 @@ from Gui.ItemViews.CustomSymbolInBedItemView import CustomSymbolInBedItemView
 from Gui.ItemViews.SedimentStructureInBedItemView import SedimentStructureInBedItemView
 from Gui.ItemViews.FossilInBedItemView import FossilInBedItemView
 from Gui.ItemViews.GrainSizeInBedItemView import GrainSizeInBedItemView
+from Gui.ItemViews.BoundaryTypeInBedItemView import BoundaryTypeInBedItemView
 
 from Gui.Widgets.LengthInputWidget import LengthInputWidget
 from Gui.Widgets.IntLineEdit import IntLineEdit
@@ -21,15 +22,15 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.addIdDisplay()
         self.addNameEdit()
         self.addProfileSelector()
-        self.addHeightEdit()
         self.addBedNumberEdit()
+        self.addHeightEdit()
         self.addDescriptionEdit()
         self.addSaveBedButton()
         self.addDetailsWidget()
         self.addButtons()
 
         self.nameW.setEnabled(False)
-
+        self.profileW.setSizePolicy(QSizePolicy.MinimumExpanding, QSizePolicy.Minimum)
         self.idW.setValue(self.data.id)
         self.profileW.selectDataset(data.profile)
         self.nameW.setValue(unicode(self.data.name))
@@ -81,6 +82,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.sedimentStructureInBedW = SedimentStructureInBedItemView(self.detailsW, QApplication.instance().sedimentStructureInBedModel)
         self.fossilInBedW = FossilInBedItemView(self.detailsW, QApplication.instance().fossilInBedModel)
         self.grainSizeInBedW = GrainSizeInBedItemView(self.detailsW, QApplication.instance().grainSizeInBedModel)
+        self.boundaryTypeInBedW = BoundaryTypeInBedItemView(self.detailsW, QApplication.instance().boundaryTypeInBedModel)
 
         self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithology"))
         self.detailsW.addTab(self.colorInBedW, self.tr("Color"))
@@ -89,6 +91,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.detailsW.addTab(self.sedimentStructureInBedW, self.tr("Sediment Structure"))
         self.detailsW.addTab(self.fossilInBedW, self.tr("Fossil"))
         self.detailsW.addTab(self.grainSizeInBedW, self.tr("Grain Size"))
+        self.detailsW.addTab(self.boundaryTypeInBedW, self.tr("BoundaryType"))
 
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
@@ -110,6 +113,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().sedimentStructureInBedModel.setBed(self.data)
             QApplication.instance().fossilInBedModel.setBed(self.data)
             QApplication.instance().grainSizeInBedModel.setBed(self.data)
+            QApplication.instance().boundaryTypeInBedModel.setBed(self.data)
         else:
             QApplication.instance().lithologyInBedModel.setBed(None)
             QApplication.instance().colorInBedModel.setBed(None)
@@ -118,3 +122,4 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().sedimentStructureInBedModel.setBed(None)
             QApplication.instance().fossilInBedModel.setBed(None)
             QApplication.instance().grainSizeInBedModel.setBed(None)
+            QApplication.instance().boundaryTypeInBedModel.setBed(None)
