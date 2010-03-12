@@ -31,6 +31,7 @@ from Model.StratigraphicUnitType import StratigraphicUnitType
 from Model.StratigraphicUnit import StratigraphicUnit
 from Model.TectonicUnitType import TectonicUnitType
 from Model.TectonicUnit import TectonicUnit
+from Model.OutcropType import OutcropType
 
 class Database:
     def __init__(self):
@@ -84,6 +85,13 @@ class Database:
                                            CheckConstraint("name <> ''", name='chk_grain_sizes_name_not_empty'),
                                            UniqueConstraint('name', name='u_grain_sizes_name'),
                                            schema=self.schema)
+        self.tables['outcrop_types'] = Table('outcrop_types', self.metadata,
+                                             Column('id', Integer, Sequence('seq_outcrop_types', schema=self.schema), primary_key=True, nullable=False),
+                                             Column('name', String, nullable=False),
+                                             Column('description', String, nullable=True),
+                                             CheckConstraint("name <> ''", name='chk_outcrop_types_name_not_empty'),
+                                             UniqueConstraint('name', name='u_outcrop_types_name'),
+                                             schema=self.schema)
         self.tables['lithological_unit_types'] = Table('lithological_unit_types', self.metadata,
                                                        Column('id', Integer, Sequence('seq_lithological_unit_types', schema=self.schema), primary_key=True, nullable=False),
                                                        Column('name', String, nullable=False),
@@ -389,6 +397,10 @@ class Database:
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,
                 'description': self.tables['grain_size_types'].c.description})
+        mapper(OutcropType, self.tables['outcrop_types'], properties = {
+                'id': self.tables['outcrop_types'].c.id,
+                'name': self.tables['outcrop_types'].c.name,
+                'description': self.tables['outcrop_types'].c.description})
         mapper(LithologicalUnitType, self.tables['lithological_unit_types'], properties = {
                 'id': self.tables['lithological_unit_types'].c.id,
                 'name': self.tables['lithological_unit_types'].c.name,

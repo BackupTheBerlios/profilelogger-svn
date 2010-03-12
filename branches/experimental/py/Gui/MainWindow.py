@@ -23,6 +23,7 @@ from Gui.ItemModels.StratigraphicUnitItemModel import StratigraphicUnitItemModel
 from Gui.ItemModels.TectonicUnitTypeItemModel import TectonicUnitTypeItemModel
 from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
 from Gui.ItemModels.FaciesItemModel import FaciesItemModel
+from Gui.ItemModels.OutcropTypeItemModel import OutcropTypeItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -46,6 +47,7 @@ from Gui.ItemViews.StratigraphicUnitItemView import StratigraphicUnitItemView
 from Gui.ItemViews.TectonicUnitTypeItemView import TectonicUnitTypeItemView
 from Gui.ItemViews.TectonicUnitItemView import TectonicUnitItemView
 from Gui.ItemViews.FaciesItemView import FaciesItemView
+from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -73,6 +75,7 @@ class MainWindow(QMainWindow):
         self.setupTectonicUnitManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
+        self.setupOutcropTypeManagement()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupBedTools(self):
         self.bedToolsW = QToolBox(self.centralWidget())
@@ -170,6 +173,10 @@ class MainWindow(QMainWindow):
         self.lithologicalUnitTypesW = LithologicalUnitTypeItemView(self.globalToolsW,
                                                                    QApplication.instance().lithologicalUnitTypeModel)
         self.globalToolsW.addItem(self.lithologicalUnitTypesW, self.tr("Lithological Unit Types"))
+    def setupOutcropTypeManagement(self):
+        self.outcropTypesW = OutcropTypeItemView(self.globalToolsW,
+                                                 QApplication.instance().outcropTypeModel)
+        self.globalToolsW.addItem(self.outcropTypesW, self.tr("Outcrop Types"))
     def setupLithologicalUnitManagement(self):
         self.lithologicalUnitsW = LithologicalUnitItemView(self.globalToolsW,
                                                            QApplication.instance().lithologicalUnitModel)
