@@ -1,21 +1,17 @@
-from Gui.Dialogs.DatasetWithSVGItemInProjectEditorDialog import *
+from Gui.Dialogs.DatasetEditorDialog import *
 
 from PyQt4.QtCore import *
 
-class ColorEditorDialog(DatasetWithSVGItemInProjectEditorDialog):
+class GeologicalMeasurementTypeEditorDialog(DatasetEditorDialog):
     def __init__(self, parent, data):
-        DatasetWithSVGItemInProjectEditorDialog.__init__(self, parent, data)
-        self.addContentPanel(self.tr("Color"))
+        DatasetEditorDialog.__init__(self, parent, data)
+        self.addContentPanel(self.tr("Geological Measurement Type"))
         self.addIdDisplay()
-        self.addProjectSelector()
-        self.addSVGItemSelector()
         self.addNameEdit()
         self.addDescriptionEdit()
         self.addButtons()
 
         self.idW.setValue(self.data.id)
-        self.projectW.selectDataset(data.project)
-        self.svgItemW.selectDataset(data.svgItem)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
 

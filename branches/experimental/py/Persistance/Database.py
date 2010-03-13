@@ -34,6 +34,10 @@ from Model.TectonicUnit import TectonicUnit
 from Model.OutcropType import OutcropType
 from Model.OutcropTypeInBed import OutcropTypeInBed
 from Model.FaciesInBed import FaciesInBed
+from Model.LithologicalUnitInBed import LithologicalUnitInBed
+from Model.StratigraphicUnitInBed import StratigraphicUnitInBed
+from Model.TectonicUnitInBed import TectonicUnitInBed
+from Model.GeologicalMeasurementType import GeologicalMeasurementType
 
 class Database:
     def __init__(self):
@@ -67,7 +71,13 @@ class Database:
                                          CheckConstraint("svg_data <> ''", name="chk_svg_items_svg_data_not_empty"),
                                          UniqueConstraint('name', name='u_svg_items_name'),
                                          schema=self.schema)
-
+        self.tables['geological_measurement_types'] = Table('geological_measurement_types', self.metadata,
+                                                            Column('id', Integer, Sequence('seq_geological_measurement_types', schema=self.schema), primary_key=True, nullable=False),
+                                                            Column('name', String, nullable=False),
+                                                            Column('description', String, nullable=True),
+                                                            CheckConstraint("name <> ''", name='chk_geological_measurement_types_name_not_empty'),
+                                                            UniqueConstraint('name', name='u_geological_measurement_types_name'),
+                                                            schema=self.schema)
         self.tables['grain_size_types'] = Table('grain_size_types', self.metadata,
                                                 Column('id', Integer, Sequence('seq_grain_size_types', schema=self.schema), primary_key=True, nullable=False),
                                                 Column('name', String, nullable=False),
@@ -103,14 +113,6 @@ class Database:
                                                        CheckConstraint("name <> ''", name='chk_lithological_unit_types_name_not_empty'),
                                                        UniqueConstraint('name', name='u_lithological_unit_types_name'),
                                                        schema=self.schema)
-        self.tables['lithological_units'] = Table('lithological_units', self.metadata,
-                                           Column('id', Integer, Sequence('seq_lithological_units', schema=self.schema), primary_key=True, nullable=False),
-                                           Column('lithological_unit_type_id', Integer, ForeignKey('%s.lithological_unit_types.id' % self.schema), nullable=False),
-                                           Column('name', String, nullable=False, server_default='New Lithological Unit'),
-                                           Column('description', String, nullable=True),
-                                           CheckConstraint("name <> ''", name='chk_lithological_units_name_not_empty'),
-                                           UniqueConstraint('name', name='u_lithological_units_name'),
-                                           schema=self.schema)
         self.tables['stratigraphic_unit_types'] = Table('stratigraphic_unit_types', self.metadata,
                                                        Column('id', Integer, Sequence('seq_stratigraphic_unit_types', schema=self.schema), primary_key=True, nullable=False),
                                                        Column('name', String, nullable=False),
@@ -119,13 +121,15 @@ class Database:
                                                        UniqueConstraint('name', name='u_stratigraphic_unit_types_name'),
                                                        schema=self.schema)
         self.tables['stratigraphic_units'] = Table('stratigraphic_units', self.metadata,
-                                           Column('id', Integer, Sequence('seq_stratigraphic_units', schema=self.schema), primary_key=True, nullable=False),
-                                           Column('stratigraphic_unit_type_id', Integer, ForeignKey('%s.stratigraphic_unit_types.id' % self.schema), nullable=False),
-                                           Column('name', String, nullable=False, server_default='New Stratigraphic Unit'),
-                                           Column('description', String, nullable=True),
-                                           CheckConstraint("name <> ''", name='chk_stratigraphic_units_name_not_empty'),
-                                           UniqueConstraint('name', name='u_stratigraphic_units_name'),
-                                           schema=self.schema)
+                                                   Column('id', Integer, Sequence('seq_stratigraphic_units', schema=self.schema), primary_key=True, nullable=False),
+                                                   Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                                   Column('name', String, nullable=False, server_default='New Stratigraphic Unit'),                                                 
+                                                   Column('description', String, nullable=True),
+                                                   Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                                   Column('stratigraphic_unit_type_id', Integer, ForeignKey('%s.stratigraphic_unit_types.id' % self.schema), nullable=False),
+                                                   CheckConstraint("name <> ''", name='chk_stratigraphic_units_name_not_empty'),
+                                                   UniqueConstraint('name', name='u_stratigraphic_units_name'),
+                                                   schema=self.schema)
         self.tables['tectonic_unit_types'] = Table('tectonic_unit_types', self.metadata,
                                                        Column('id', Integer, Sequence('seq_tectonic_unit_types', schema=self.schema), primary_key=True, nullable=False),
                                                        Column('name', String, nullable=False),
@@ -134,14 +138,15 @@ class Database:
                                                        UniqueConstraint('name', name='u_tectonic_unit_types_name'),
                                                        schema=self.schema)
         self.tables['tectonic_units'] = Table('tectonic_units', self.metadata,
-                                           Column('id', Integer, Sequence('seq_tectonic_units', schema=self.schema), primary_key=True, nullable=False),
-                                           Column('tectonic_unit_type_id', Integer, ForeignKey('%s.tectonic_unit_types.id' % self.schema), nullable=False),
-                                           Column('name', String, nullable=False, server_default='New Tectonic Unit'),
-                                           Column('description', String, nullable=True),
-                                           CheckConstraint("name <> ''", name='chk_tectonic_units_name_not_empty'),
-                                           UniqueConstraint('name', name='u_tectonic_units_name'),
-                                           schema=self.schema)
-
+                                              Column('id', Integer, Sequence('seq_tectonic_units', schema=self.schema), primary_key=True, nullable=False),
+                                              Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                              Column('name', String, nullable=False, server_default='New Tectonic Unit'),                                                 
+                                              Column('description', String, nullable=True),
+                                              Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                              Column('tectonic_unit_type_id', Integer, ForeignKey('%s.tectonic_unit_types.id' % self.schema), nullable=False),
+                                              CheckConstraint("name <> ''", name='chk_tectonic_units_name_not_empty'),
+                                              UniqueConstraint('name', name='u_tectonic_units_name'),
+                                              schema=self.schema)
         self.tables['projects'] = Table('projects', self.metadata,
                                         Column('id', Integer, Sequence('seq_projects', schema=self.schema), primary_key=True, nullable=False),
                                         Column('name', String, nullable=False, server_default='New Project'),
@@ -169,6 +174,16 @@ class Database:
                                       CheckConstraint("name <> ''", name='chk_colors_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_colors_name_in_project'),
                                       schema=self.schema)
+        self.tables['lithological_units'] = Table('lithological_units', self.metadata,
+                                                  Column('id', Integer, Sequence('seq_lithological_units', schema=self.schema), primary_key=True, nullable=False),
+                                                  Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                                  Column('name', String, nullable=False, server_default='New Lithological Unit'),                                                 
+                                                  Column('description', String, nullable=True),
+                                                  Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                                  Column('lithological_unit_type_id', Integer, ForeignKey('%s.lithological_unit_types.id' % self.schema), nullable=False),
+                                                  CheckConstraint("name <> ''", name='chk_lithological_units_name_not_empty'),
+                                                  UniqueConstraint('name', name='u_lithological_units_name'),
+                                                  schema=self.schema)
         self.tables['facies'] = Table('facies', self.metadata,
                                       Column('id', Integer, Sequence('seq_facies', schema=self.schema), primary_key=True, nullable=False),
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
@@ -283,6 +298,48 @@ class Database:
                                            CheckConstraint("name <> ''", name="chk_colors_beds_name_not_empty"),
                                            UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'color_id', name='u_colors_beds'),
                                            schema=self.schema)
+        self.tables['lithological_units_beds'] = Table('lithological_units_beds', self.metadata,
+                                                       Column('id', Integer, Sequence('seq_lithological_units_beds', schema=self.schema), primary_key=True, nullable=False),
+                                                       Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
+                                                       Column('end_from_base', Integer, nullable=False, server_default=text('100')),
+                                                       Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
+                                                       Column('lithological_unit_id', Integer, ForeignKey('%s.lithological_units.id' % self.schema), nullable=False),
+                                                       Column('description', String, nullable=True),
+                                                       Column('name', String, nullable=False),
+                                                       CheckConstraint('end_from_base > begin_from_base', name='chk_lithological_units_beds_end_above_begin'),
+                                                       CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_lithological_units_beds_begin_in_range'),
+                                                       CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_lithological_units_beds_end_in_range'),
+                                                       CheckConstraint("name <> ''", name="chk_lithological_units_beds_name_not_empty"),
+                                                       UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'lithological_unit_id', name='u_lithologicalUnits_beds'),
+                                                       schema=self.schema)
+        self.tables['tectonic_units_beds'] = Table('tectonic_units_beds', self.metadata,
+                                                   Column('id', Integer, Sequence('seq_tectonic_units_beds', schema=self.schema), primary_key=True, nullable=False),
+                                                   Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
+                                                   Column('end_from_base', Integer, nullable=False, server_default=text('100')),
+                                                   Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
+                                                   Column('tectonic_unit_id', Integer, ForeignKey('%s.tectonic_units.id' % self.schema), nullable=False),
+                                                   Column('description', String, nullable=True),
+                                                   Column('name', String, nullable=False),
+                                                   CheckConstraint('end_from_base > begin_from_base', name='chk_tectonic_units_beds_end_above_begin'),
+                                                   CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_tectonic_units_beds_begin_in_range'),
+                                                   CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_tectonic_units_beds_end_in_range'),
+                                                   CheckConstraint("name <> ''", name="chk_tectonic_units_beds_name_not_empty"),
+                                                   UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'tectonic_unit_id', name='u_tectonicUnits_beds'),
+                                                   schema=self.schema)
+        self.tables['stratigraphic_units_beds'] = Table('stratigraphic_units_beds', self.metadata,
+                                                        Column('id', Integer, Sequence('seq_stratigraphic_units_beds', schema=self.schema), primary_key=True, nullable=False),
+                                                        Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
+                                                        Column('end_from_base', Integer, nullable=False, server_default=text('100')),
+                                                        Column('bed_id', Integer, ForeignKey('%s.beds.id' % self.schema), nullable=False),
+                                                        Column('stratigraphic_unit_id', Integer, ForeignKey('%s.stratigraphic_units.id' % self.schema), nullable=False),
+                                                        Column('description', String, nullable=True),
+                                                        Column('name', String, nullable=False),
+                                                        CheckConstraint('end_from_base > begin_from_base', name='chk_stratigraphic_units_beds_end_above_begin'),
+                                                        CheckConstraint('begin_from_base >= 0 and begin_from_base <= 100', name='chk_stratigraphic_units_beds_begin_in_range'),
+                                                        CheckConstraint('end_from_base >= 0 and end_from_base <= 100', name='chk_stratigraphic_units_beds_end_in_range'),
+                                                        CheckConstraint("name <> ''", name="chk_stratigraphic_units_beds_name_not_empty"),
+                                                        UniqueConstraint('begin_from_base', 'end_from_base', 'bed_id', 'stratigraphic_unit_id', name='u_stratigraphicUnits_beds'),
+                                                        schema=self.schema)
         self.tables['outcrop_types_beds'] = Table('outcrop_types_beds', self.metadata,
                                            Column('id', Integer, Sequence('seq_outcrop_types_beds', schema=self.schema), primary_key=True, nullable=False),
                                            Column('begin_from_base', Integer, nullable=False, server_default=text('0')),
@@ -426,6 +483,10 @@ class Database:
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,
                 'description': self.tables['grain_size_types'].c.description})
+        mapper(GeologicalMeasurementType, self.tables['geological_measurement_types'], properties = {
+                'id': self.tables['geological_measurement_types'].c.id,
+                'name': self.tables['geological_measurement_types'].c.name,
+                'description': self.tables['geological_measurement_types'].c.description})
         mapper(LithologicalUnitType, self.tables['lithological_unit_types'], properties = {
                 'id': self.tables['lithological_unit_types'].c.id,
                 'name': self.tables['lithological_unit_types'].c.name,
@@ -434,6 +495,7 @@ class Database:
                 'id': self.tables['lithological_units'].c.id,
                 'name': self.tables['lithological_units'].c.name,
                 'description': self.tables['lithological_units'].c.description,
+                'svgItem': relation(SVGItem, backref='lithologicalUnits'),
                 'lithologicalUnitType': relation(LithologicalUnitType, backref='lithologicalUnits')})
         mapper(StratigraphicUnitType, self.tables['stratigraphic_unit_types'], properties = {
                 'id': self.tables['stratigraphic_unit_types'].c.id,
@@ -442,6 +504,7 @@ class Database:
         mapper(StratigraphicUnit, self.tables['stratigraphic_units'], properties = {
                 'id': self.tables['stratigraphic_units'].c.id,
                 'name': self.tables['stratigraphic_units'].c.name,
+                'svgItem': relation(SVGItem, backref='stratigraphicUnits'),
                 'description': self.tables['stratigraphic_units'].c.description,
                 'stratigraphicUnitType': relation(StratigraphicUnitType, backref='stratigraphicUnits')})
         mapper(TectonicUnitType, self.tables['tectonic_unit_types'], properties = {
@@ -451,6 +514,7 @@ class Database:
         mapper(TectonicUnit, self.tables['tectonic_units'], properties = {
                 'id': self.tables['tectonic_units'].c.id,
                 'name': self.tables['tectonic_units'].c.name,
+                'svgItem': relation(SVGItem, backref='tectonicUnits'),
                 'description': self.tables['tectonic_units'].c.description,
                 'tectonicUnitType': relation(TectonicUnitType, backref='tectonicUnits')})
         mapper(Project, self.tables['projects'], properties = {
@@ -467,7 +531,10 @@ class Database:
                 'customSymbols': relation(CustomSymbol, backref='project'),
                 'boundaryTypes': relation(BoundaryType, backref='project'),
                 'profiles': relation(Profile, backref='project'),
-                'pointsOfInterest': relation(PointOfInterest, backref='project')})
+                'pointsOfInterest': relation(PointOfInterest, backref='project'),
+                'lithologicalUnits': relation(LithologicalUnit, backref='project'),
+                'stratigraphicUnits': relation(StratigraphicUnit, backref='project'),
+                'tectonicUnits': relation(TectonicUnit, backref='project')})
         mapper(Lithology, self.tables['lithologies'], properties = {
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,
@@ -479,7 +546,7 @@ class Database:
                 'id': self.tables['colors'].c.id,
                 'name': self.tables['colors'].c.name,
                 'description': self.tables['colors'].c.description,
-                'svgItem': relation(SVGItem, backref='colors'),
+                'svgItem': relation(SVGItem, backref='colors')
                 })
         mapper(Facies, self.tables['facies'], properties = {
                 'id': self.tables['facies'].c.id,
@@ -534,6 +601,9 @@ class Database:
                 'colors': relation(ColorInBed, backref='bed'),
                 'outcropTypes': relation(OutcropTypeInBed, backref='bed'),
                 'facies': relation(FaciesInBed, backref='bed'),
+                'lithologicalUnits': relation(LithologicalUnitInBed, backref='bed'),
+                'stratigraphicUnits': relation(StratigraphicUnitInBed, backref='bed'),
+                'tectonicUnits': relation(TectonicUnitInBed, backref='bed'),
                 'beddingTypes': relation(BeddingTypeInBed, backref='bed'),
                 'customSymbols': relation(CustomSymbolInBed, backref='bed'),
                 'sedimentStructures': relation(SedimentStructureInBed, backref='bed'),
@@ -562,6 +632,30 @@ class Database:
                 'description': self.tables['colors_beds'].c.description,
                 'color': relation(Color, backref='colorsInBed'),
                 'name': self.tables['colors_beds'].c.name
+                })
+        mapper(LithologicalUnitInBed, self.tables['lithological_units_beds'], properties = {
+                'id': self.tables['lithological_units_beds'].c.id,
+                'begin': self.tables['lithological_units_beds'].c.begin_from_base,
+                'end': self.tables['lithological_units_beds'].c.end_from_base,
+                'description': self.tables['lithological_units_beds'].c.description,
+                'lithologicalUnit': relation(LithologicalUnit, backref='lithologicalUnitsInBed'),
+                'name': self.tables['lithological_units_beds'].c.name
+                })
+        mapper(TectonicUnitInBed, self.tables['tectonic_units_beds'], properties = {
+                'id': self.tables['tectonic_units_beds'].c.id,
+                'begin': self.tables['tectonic_units_beds'].c.begin_from_base,
+                'end': self.tables['tectonic_units_beds'].c.end_from_base,
+                'description': self.tables['tectonic_units_beds'].c.description,
+                'tectonicUnit': relation(TectonicUnit, backref='tectonicUnitsInBed'),
+                'name': self.tables['tectonic_units_beds'].c.name
+                })
+        mapper(StratigraphicUnitInBed, self.tables['stratigraphic_units_beds'], properties = {
+                'id': self.tables['stratigraphic_units_beds'].c.id,
+                'begin': self.tables['stratigraphic_units_beds'].c.begin_from_base,
+                'end': self.tables['stratigraphic_units_beds'].c.end_from_base,
+                'description': self.tables['stratigraphic_units_beds'].c.description,
+                'stratigraphicUnit': relation(StratigraphicUnit, backref='stratigraphicUnitsInBed'),
+                'name': self.tables['stratigraphic_units_beds'].c.name
                 })
         mapper(OutcropType, self.tables['outcrop_types'], properties = {
                 'id': self.tables['outcrop_types'].c.id,

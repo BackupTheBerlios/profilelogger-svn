@@ -1,8 +1,8 @@
-from DataManagementItemView import DataManagementItemView
+from DataInProjectManagementItemView import DataInProjectManagementItemView
 
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
-class StratigraphicUnitItemView(DataManagementItemView):
+class StratigraphicUnitItemView(DataInProjectManagementItemView):
     def __init__(self, parent, model):
-        DataManagementItemView.__init__(self, parent, model)
+        DataInProjectManagementItemView.__init__(self, parent, model)

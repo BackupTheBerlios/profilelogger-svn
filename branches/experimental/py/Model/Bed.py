@@ -22,6 +22,9 @@ class Bed(NamedDescribedDataset):
         self.boundaryTypes = []
         self.outcropTypes = []
         self.facies = []
+        self.lithologicalUnits = []
+        self.stratigraphicUnits = []
+        self.tectonicUnits = []
         self.poi = None
         
         self.profile.registerBed(self)
@@ -67,3 +70,9 @@ class Bed(NamedDescribedDataset):
         return len(self.outcropTypes) > 0
     def registerFacies(self, c):
         self.facies.append(c)
+    def registerLithologicalUnit(self, c):
+        self.lithologicalUnits.append(c)
+    def registerTectonicUnit(self, c):
+        self.tectonicUnits.append(c)
+    def registerStratigraphicUnit(self, c):
+        self.stratigraphicUnits.append(c)

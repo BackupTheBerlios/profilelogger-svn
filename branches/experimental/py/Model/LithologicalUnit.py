@@ -1,6 +1,6 @@
-from NamedDescribedDataset import NamedDescribedDataset
+from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
 
-class LithologicalUnit(NamedDescribedDataset):
-    def __init__(self, lithologicalUnitType=None, id=None, name=None, description=None):
-        super(LithologicalUnit, self).__init__(id, name, description)
-        self.lithologicalUnitType = lithologicalUnitType
+class LithologicalUnit(NamedDescribedDatasetWithSVGItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(LithologicalUnit, self).__init__(project, id, name, svgItem, description)
+        self.project.registerLithologicalUnit(self)

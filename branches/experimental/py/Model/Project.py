@@ -14,7 +14,10 @@ class Project(NamedDescribedDataset):
         self.pointsOfInterest = []
         self.profiles = []
         self.facies = []
-
+        self.lithologicalUnits = []
+        self.tectonicUnits = []
+        self.stratigraphicUnits = []
+        self.geologicalMeasurementTypes = []
     def registerProfile(self, p):
         if self.profiles.count(p) > 0:
             return
@@ -110,3 +113,15 @@ class Project(NamedDescribedDataset):
                     print '\t\t\t\t\t%s' % s
                 for f in b.fossils:
                     print '\t\t\t\t\t%s' % f
+    def registerLithologicalUnit(self, c):
+        if self.lithologicalUnits.count(c) > 0:
+            return
+        self.lithologicalUnits.append(c)
+    def registerTectonicUnit(self, c):
+        if self.tectonicUnits.count(c) > 0:
+            return
+        self.tectonicUnits.append(c)
+    def registerStratigraphicUnit(self, c):
+        if self.stratigraphicUnits.count(c) > 0:
+            return
+        self.stratigraphicUnits.append(c)

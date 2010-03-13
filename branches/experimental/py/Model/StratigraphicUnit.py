@@ -1,6 +1,6 @@
-from NamedDescribedDataset import NamedDescribedDataset
+from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
 
-class StratigraphicUnit(NamedDescribedDataset):
-    def __init__(self, stratigraphicUnitType=None, id=None, name=None, description=None):
-        super(StratigraphicUnit, self).__init__(id, name, description)
-        self.stratigraphicUnitType = stratigraphicUnitType
+class StratigraphicUnit(NamedDescribedDatasetWithSVGItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(StratigraphicUnit, self).__init__(project, id, name, svgItem, description)
+        self.project.registerStratigraphicUnit(self)

@@ -1,6 +1,6 @@
-from NamedDescribedDataset import NamedDescribedDataset
+from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
 
-class TectonicUnit(NamedDescribedDataset):
-    def __init__(self, tectonicUnitType=None, id=None, name=None, description=None):
-        super(TectonicUnit, self).__init__(id, name, description)
-        self.tectonicUnitType = tectonicUnitType
+class TectonicUnit(NamedDescribedDatasetWithSVGItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(TectonicUnit, self).__init__(project, id, name, svgItem, description)
+        self.project.registerTectonicUnit(self)
