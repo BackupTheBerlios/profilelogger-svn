@@ -16,7 +16,7 @@ from Gui.ItemViews.FaciesInBedItemView import FaciesInBedItemView
 from Gui.ItemViews.LithologicalUnitInBedItemView import LithologicalUnitInBedItemView
 from Gui.ItemViews.StratigraphicUnitInBedItemView import StratigraphicUnitInBedItemView
 from Gui.ItemViews.TectonicUnitInBedItemView import TectonicUnitInBedItemView
-
+from Gui.ItemViews.GeologicalMeasurementInBedItemView import GeologicalMeasurementInBedItemView
 from Gui.Widgets.LengthInputWidget import LengthInputWidget
 from Gui.Widgets.IntLineEdit import IntLineEdit
 
@@ -93,20 +93,22 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.lithologicalUnitInBedW = LithologicalUnitInBedItemView(self.detailsW, QApplication.instance().lithologicalUnitInBedModel)
         self.stratigraphicUnitInBedW = StratigraphicUnitInBedItemView(self.detailsW, QApplication.instance().stratigraphicUnitInBedModel)
         self.tectonicUnitInBedW = TectonicUnitInBedItemView(self.detailsW, QApplication.instance().tectonicUnitInBedModel)
+        self.geologicalMeasurementInBedW = GeologicalMeasurementInBedItemView(self.detailsW, QApplication.instance().geologicalMeasurementInBedModel)
 
-        self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithology"))
-        self.detailsW.addTab(self.colorInBedW, self.tr("Color"))
-        self.detailsW.addTab(self.beddingTypeInBedW, self.tr("Bedding Type"))
-        self.detailsW.addTab(self.customSymbolInBedW, self.tr("Custom Symbol"))
-        self.detailsW.addTab(self.sedimentStructureInBedW, self.tr("Sediment Structure"))
-        self.detailsW.addTab(self.fossilInBedW, self.tr("Fossil"))
-        self.detailsW.addTab(self.grainSizeInBedW, self.tr("Grain Size"))
-        self.detailsW.addTab(self.boundaryTypeInBedW, self.tr("Boundary Type"))
-        self.detailsW.addTab(self.outcropTypeInBedW, self.tr("Outcrop Type"))
+        self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithologies"))
+        self.detailsW.addTab(self.colorInBedW, self.tr("Colors"))
+        self.detailsW.addTab(self.beddingTypeInBedW, self.tr("Bedding Types"))
+        self.detailsW.addTab(self.customSymbolInBedW, self.tr("Custom Symbols"))
+        self.detailsW.addTab(self.sedimentStructureInBedW, self.tr("Sediment Structures"))
+        self.detailsW.addTab(self.fossilInBedW, self.tr("Fossils"))
+        self.detailsW.addTab(self.grainSizeInBedW, self.tr("Grain Sizes"))
+        self.detailsW.addTab(self.boundaryTypeInBedW, self.tr("Boundary Types"))
+        self.detailsW.addTab(self.outcropTypeInBedW, self.tr("Outcrop Types"))
         self.detailsW.addTab(self.faciesInBedW, self.tr("Facies"))
-        self.detailsW.addTab(self.lithologicalUnitInBedW, self.tr("Lithological Unit"))
-        self.detailsW.addTab(self.stratigraphicUnitInBedW, self.tr("Stratigraphic Unit"))
-        self.detailsW.addTab(self.tectonicUnitInBedW, self.tr("Tectonic Unit"))
+        self.detailsW.addTab(self.lithologicalUnitInBedW, self.tr("Lithological Units"))
+        self.detailsW.addTab(self.stratigraphicUnitInBedW, self.tr("Stratigraphic Units"))
+        self.detailsW.addTab(self.tectonicUnitInBedW, self.tr("Tectonic Units"))
+        self.detailsW.addTab(self.geologicalMeasurementInBedW, self.tr("Geological Measurements"))
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
         if self.save():
@@ -133,6 +135,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().lithologicalUnitInBedModel.setBed(self.data)
             QApplication.instance().stratigraphicUnitInBedModel.setBed(self.data)
             QApplication.instance().tectonicUnitInBedModel.setBed(self.data)
+            QApplication.instance().geologicalMeasurementInBedModel.setBed(self.data)
         else:
             QApplication.instance().lithologyInBedModel.setBed(None)
             QApplication.instance().colorInBedModel.setBed(None)
@@ -147,3 +150,4 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
             QApplication.instance().lithologicalUnitInBedModel.setBed(None)
             QApplication.instance().stratigraphicUnitInBedModel.setBed(None)
             QApplication.instance().tectonicUnitInBedModel.setBed(None)
+            QApplication.instance().geologicalMeasurementInBedModel.setBed(None)

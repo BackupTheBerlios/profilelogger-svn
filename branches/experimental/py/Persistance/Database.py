@@ -38,6 +38,7 @@ from Model.LithologicalUnitInBed import LithologicalUnitInBed
 from Model.StratigraphicUnitInBed import StratigraphicUnitInBed
 from Model.TectonicUnitInBed import TectonicUnitInBed
 from Model.GeologicalMeasurementType import GeologicalMeasurementType
+from Model.GeologicalMeasurementInBed import GeologicalMeasurementInBed
 
 class Database:
     def __init__(self):
@@ -75,8 +76,23 @@ class Database:
                                                             Column('id', Integer, Sequence('seq_geological_measurement_types', schema=self.schema), primary_key=True, nullable=False),
                                                             Column('name', String, nullable=False),
                                                             Column('description', String, nullable=True),
+                                                            Column('is_plane', Boolean, nullable=False),
                                                             CheckConstraint("name <> ''", name='chk_geological_measurement_types_name_not_empty'),
                                                             UniqueConstraint('name', name='u_geological_measurement_types_name'),
+                                                            schema=self.schema)
+        self.tables['geological_measurements_beds'] = Table('geological_measurements_beds', self.metadata,
+                                                            Column('id', Integer, Sequence('seq_geological_measurements_beds', schema=self.schema), primary_key=True, nullable=False),
+                                                            Column('name', String, nullable=False),
+                                                            Column('begin_from_base', Integer, nullable=False),
+                                                            Column('end_from_base', Integer, nullable=False),
+                                                            Column('strike', Integer, nullable=False),
+                                                            Column('dip', Integer, nullable=False),
+                                                            Column('description', String, nullable=True),
+                                                            Column('bed_id', ForeignKey('%s.beds.id' % self.schema), nullable=False),
+                                                            Column('geological_measurement_type_id', ForeignKey('%s.geological_measurement_types.id' % self.schema), nullable=False),
+                                                            CheckConstraint("name <> ''", name='chk_geological_measurements_in_beds_name'),
+                                                            CheckConstraint('strike >= 0 and strike <= 360', name='chk_geological_measurements_in_beds_strike_valid'),
+                                                            CheckConstraint('dip >= 0 and dip <= 90', name='chk_geological_measurements_in_beds_dip_valid'),
                                                             schema=self.schema)
         self.tables['grain_size_types'] = Table('grain_size_types', self.metadata,
                                                 Column('id', Integer, Sequence('seq_grain_size_types', schema=self.schema), primary_key=True, nullable=False),
@@ -486,7 +502,8 @@ class Database:
         mapper(GeologicalMeasurementType, self.tables['geological_measurement_types'], properties = {
                 'id': self.tables['geological_measurement_types'].c.id,
                 'name': self.tables['geological_measurement_types'].c.name,
-                'description': self.tables['geological_measurement_types'].c.description})
+                'description': self.tables['geological_measurement_types'].c.description,
+                'isPlane': self.tables['geological_measurement_types'].c.is_plane})
         mapper(LithologicalUnitType, self.tables['lithological_unit_types'], properties = {
                 'id': self.tables['lithological_unit_types'].c.id,
                 'name': self.tables['lithological_unit_types'].c.name,
@@ -609,7 +626,8 @@ class Database:
                 'sedimentStructures': relation(SedimentStructureInBed, backref='bed'),
                 'fossils': relation(FossilInBed, backref='bed'),
                 'grainSizes': relation(GrainSizeInBed, backref='bed'),
-                'boundaryTypes': relation(BoundaryTypeInBed, backref='bed')
+                'boundaryTypes': relation(BoundaryTypeInBed, backref='bed'),
+                'geologicalMeasurements': relation(GeologicalMeasurementInBed, backref='bed')
                 })
         mapper(Profile, self.tables['profiles'], properties = {
                 'id': self.tables['profiles'].c.id,
@@ -624,6 +642,16 @@ class Database:
                 'description':  self.tables['lithologies_beds'].c.description,
                 'lithology': relation(Lithology, backref='lithologiesInBed'),
                 'name': self.tables['lithologies_beds'].c.name
+                })
+        mapper(GeologicalMeasurementInBed, self.tables['geological_measurements_beds'], properties = {
+                'id': self.tables['geological_measurements_beds'].c.id,
+                'name': self.tables['geological_measurements_beds'].c.name,
+                'begin': self.tables['geological_measurements_beds'].c.begin_from_base,
+                'end': self.tables['geological_measurements_beds'].c.end_from_base,
+                'strike': self.tables['geological_measurements_beds'].c.strike,
+                'dip': self.tables['geological_measurements_beds'].c.dip,
+                'description': self.tables['geological_measurements_beds'].c.description,
+                'geologicalMeasurementType': relation(GeologicalMeasurementType, backref='geologicalMeasurements')
                 })
         mapper(ColorInBed, self.tables['colors_beds'], properties = {
                 'id': self.tables['colors_beds'].c.id,

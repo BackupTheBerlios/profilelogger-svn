@@ -25,6 +25,7 @@ class Bed(NamedDescribedDataset):
         self.lithologicalUnits = []
         self.stratigraphicUnits = []
         self.tectonicUnits = []
+        self.geologicalMeasurements = []
         self.poi = None
         
         self.profile.registerBed(self)
@@ -76,3 +77,5 @@ class Bed(NamedDescribedDataset):
         self.tectonicUnits.append(c)
     def registerStratigraphicUnit(self, c):
         self.stratigraphicUnits.append(c)
+    def registerGeologicalMeasurement(self, m):
+        self.geologicalMeasurements.append(m)
