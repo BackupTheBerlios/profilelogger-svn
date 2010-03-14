@@ -28,6 +28,7 @@ from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
 from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 from Gui.ItemModels.ProfileItemModel import ProfileItemModel
+from Gui.ItemModels.ProfileAssemblyItemModel import ProfileAssemblyItemModel
 from Gui.ItemModels.BedItemModel import BedItemModel
 from Gui.ItemModels.LithologyInBedItemModel import LithologyInBedItemModel
 from Gui.ItemModels.ColorInBedItemModel import ColorInBedItemModel
@@ -80,6 +81,7 @@ class ProfileLogger(QApplication):
         self.boundaryTypeModel = BoundaryTypeItemModel(self)
         self.pointOfInterestModel = PointOfInterestItemModel(self)
         self.profileModel = ProfileItemModel(self)
+        self.profileAssemblyModel = ProfileAssemblyItemModel(self)
         self.bedModel = BedItemModel(self)
         self.lithologyInBedModel = LithologyInBedItemModel(self)
         self.colorInBedModel = ColorInBedItemModel(self)

@@ -25,6 +25,7 @@ from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
 from Gui.ItemModels.FaciesItemModel import FaciesItemModel
 from Gui.ItemModels.OutcropTypeItemModel import OutcropTypeItemModel
 from Gui.ItemModels.GeologicalMeasurementTypeItemModel import GeologicalMeasurementTypeItemModel
+from Gui.ItemModels.ProfileAssemblyItemModel import ProfileAssemblyItemModel
 
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
@@ -50,6 +51,7 @@ from Gui.ItemViews.TectonicUnitItemView import TectonicUnitItemView
 from Gui.ItemViews.FaciesItemView import FaciesItemView
 from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
 from Gui.ItemViews.GeologicalMeasurementTypeItemView import GeologicalMeasurementTypeItemView
+from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -83,6 +85,7 @@ class MainWindow(QMainWindow):
     def setupProjectTools(self):
         self.projectToolsW = QToolBox(self.centralWidget())
         self.setupProfileManagement()
+        self.setupProfileAssemblyManagement()
         self.setupLithologyManagement()
         self.setupColorManagement()
         self.setupOutcropTypeManagement()
@@ -122,6 +125,11 @@ class MainWindow(QMainWindow):
                                          QApplication.instance().profileModel)
         self.projectToolsW.addItem(self.profilesW, self.tr("Profiles"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().profileModel.onProjectChange)
+    def setupProfileAssemblyManagement(self):
+        self.profileAssemblysW = ProfileAssemblyItemView(self.globalToolsW,
+                                                         QApplication.instance().profileAssemblyModel)
+        self.projectToolsW.addItem(self.profileAssemblysW, self.tr("Profile Assemblies"))
+        self.projectsW.currentDatasetChanged.connect(QApplication.instance().profileAssemblyModel.onProjectChange)
     def setupPointOfInterestManagement(self):
         self.pointsOfInterestW = PointOfInterestItemView(self.globalToolsW,
                                                          QApplication.instance().pointOfInterestModel)

@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
 
+from Model.ProfileAssembly import ProfileAssembly
 from Model.Project import Project
 from Model.LengthUnit import LengthUnit
 from Model.SVGItem import SVGItem
@@ -275,6 +276,14 @@ class Database:
                                        CheckConstraint("name <> ''", name='chk_profiles_name_not_empty'),
                                        UniqueConstraint('name', 'project_id', name='u_profiles_name_in_project'),
                                        schema=self.schema);
+        self.tables['profile_assemblies'] = Table('profile_assemblies', self.metadata,
+                                                  Column('id', Integer, Sequence('seq_profile_assemblies', schema=self.schema), primary_key=True, nullable=False),
+                                                  Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                                  Column('name', String, nullable=False, server_default='New Profile'),
+                                                  Column('description', String, nullable=True),
+                                                  CheckConstraint("name <> ''", name='chk_profile_assemblies_name_not_empty'),
+                                                  UniqueConstraint('name', 'project_id', name='u_profile_assemblies_name_in_project'),
+                                                  schema=self.schema);
         self.tables['beds'] = Table('beds', self.metadata,
                                     Column('id', Integer, Sequence('seq_beds', schema=self.schema), primary_key=True, nullable=False),
                                     Column('profile_id', Integer, ForeignKey('%s.profiles.id' % self.schema), nullable=False),
@@ -634,6 +643,11 @@ class Database:
                 'name': self.tables['profiles'].c.name,
                 'description': self.tables['profiles'].c.description,
                 'beds': relation(Bed, backref='profile')
+                })
+        mapper(ProfileAssembly, self.tables['profile_assemblies'], properties = {
+                'id': self.tables['profile_assemblies'].c.id,
+                'name': self.tables['profile_assemblies'].c.name,
+                'description': self.tables['profile_assemblies'].c.description
                 })
         mapper(LithologyInBed, self.tables['lithologies_beds'], properties = {
                 'id': self.tables['lithologies_beds'].c.id,

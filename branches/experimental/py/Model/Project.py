@@ -18,6 +18,7 @@ class Project(NamedDescribedDataset):
         self.tectonicUnits = []
         self.stratigraphicUnits = []
         self.geologicalMeasurementTypes = []
+        self.profileAssemblies = []
     def registerProfile(self, p):
         if self.profiles.count(p) > 0:
             return
@@ -125,3 +126,7 @@ class Project(NamedDescribedDataset):
         if self.stratigraphicUnits.count(c) > 0:
             return
         self.stratigraphicUnits.append(c)
+    def registerProfileAssembly(self, p):
+        if self.profileAssemblies.count(p) > 0:
+            return
+        self.profileAssemblies.append(p)
