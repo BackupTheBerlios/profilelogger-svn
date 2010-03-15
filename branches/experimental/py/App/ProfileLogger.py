@@ -29,6 +29,7 @@ from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
 from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
 from Gui.ItemModels.ProfileItemModel import ProfileItemModel
 from Gui.ItemModels.ProfileAssemblyItemModel import ProfileAssemblyItemModel
+from Gui.ItemModels.ProfileInProfileAssemblyItemModel import ProfileInProfileAssemblyItemModel
 from Gui.ItemModels.BedItemModel import BedItemModel
 from Gui.ItemModels.LithologyInBedItemModel import LithologyInBedItemModel
 from Gui.ItemModels.ColorInBedItemModel import ColorInBedItemModel
@@ -106,6 +107,7 @@ class ProfileLogger(QApplication):
         self.tectonicUnitInBedModel = TectonicUnitInBedItemModel(self)
         self.geologicalMeasurementTypeModel = GeologicalMeasurementTypeItemModel(self)
         self.geologicalMeasurementInBedModel = GeologicalMeasurementInBedItemModel(self)
+        self.profileInProfileAssemblyModel = ProfileInProfileAssemblyItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))

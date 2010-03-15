@@ -18,6 +18,7 @@ from Model.Profile import Profile
 from Model.GrainSizeType import GrainSizeType
 from Model.GrainSize import GrainSize
 from Model.Bed import Bed
+from Model.ProfileInProfileAssembly import ProfileInProfileAssembly
 from Model.LithologyInBed import LithologyInBed
 from Model.ColorInBed import ColorInBed
 from Model.BeddingTypeInBed import BeddingTypeInBed
@@ -62,7 +63,15 @@ class Database:
                                             UniqueConstraint('micrometres', name='u_length_units_micrometres'),
                                             UniqueConstraint('name', name='u_length_units_name'),
                                             schema=self.schema)
-
+        self.tables['profiles_profile_assemblies'] = Table('profiles_profile_assemblies', self.metadata,
+                                                           Column('id', Integer, Sequence('seq_profiles_profile_assemblies', schema=self.schema), primary_key=True, nullable=False),
+                                                           Column('name', String, nullable=False, server_default='New Profile in Profile Assembly'),
+                                                           Column('description', String, nullable=True),
+                                                           Column('profile_assembly_id', Integer, ForeignKey('%s.profile_assemblies.id' % self.schema), nullable=False),
+                                                           Column('profile_id', Integer, ForeignKey('%s.profiles.id' % self.schema), nullable=False), 
+                                                           CheckConstraint("name <> ''", name='chk_profiles_profile_assemblies_name_not_empty'),
+                                                           UniqueConstraint('name', 'profile_assembly_id', name='u_profiles_profile_assemblies_name_in_profile_assembly'),
+                                                           schema=self.schema)
         self.tables['svg_items'] = Table('svg_items', self.metadata,
                                          Column('id', Integer, Sequence('seq_svg_items', schema=self.schema), primary_key=True, nullable=False),
                                          Column('name', String, nullable=False, server_default='New SVG Item'),
@@ -560,7 +569,8 @@ class Database:
                 'pointsOfInterest': relation(PointOfInterest, backref='project'),
                 'lithologicalUnits': relation(LithologicalUnit, backref='project'),
                 'stratigraphicUnits': relation(StratigraphicUnit, backref='project'),
-                'tectonicUnits': relation(TectonicUnit, backref='project')})
+                'tectonicUnits': relation(TectonicUnit, backref='project'),
+                'profileAssemblies': relation(ProfileAssembly, backref='project')})
         mapper(Lithology, self.tables['lithologies'], properties = {
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,
@@ -648,6 +658,13 @@ class Database:
                 'id': self.tables['profile_assemblies'].c.id,
                 'name': self.tables['profile_assemblies'].c.name,
                 'description': self.tables['profile_assemblies'].c.description
+                })
+        mapper(ProfileInProfileAssembly, self.tables['profiles_profile_assemblies'], properties = {
+                'id': self.tables['profiles_profile_assemblies'].c.id,
+                'name': self.tables['profiles_profile_assemblies'].c.name,
+                'description': self.tables['profiles_profile_assemblies'].c.description,
+                'profileAssembly': relation(ProfileAssembly, backref='profilesInProfileAssembly'),
+                'profile': relation(Profile, backref='profileInProfileAssemblies')
                 })
         mapper(LithologyInBed, self.tables['lithologies_beds'], properties = {
                 'id': self.tables['lithologies_beds'].c.id,
