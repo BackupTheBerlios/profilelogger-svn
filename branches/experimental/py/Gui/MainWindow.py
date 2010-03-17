@@ -52,6 +52,7 @@ from Gui.ItemViews.FaciesItemView import FaciesItemView
 from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
 from Gui.ItemViews.GeologicalMeasurementTypeItemView import GeologicalMeasurementTypeItemView
 from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
+from Gui.Graphics.ProfileView import ProfileView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -65,6 +66,7 @@ class MainWindow(QMainWindow):
         self.setupGlobalTools()
         self.setupProjectTools()
         self.setupBedTools()
+        self.setupProfileViewer()
         self.centralWidget().setEnabled(False)    
     def setupGlobalTools(self):
         self.globalToolsW = QToolBox(self.centralWidget())
@@ -241,3 +243,11 @@ class MainWindow(QMainWindow):
     def onDatabaseConnected(self, msg):
         self.dbStatusW.setText(msg)
         self.centralWidget().setEnabled(True)
+    def setupProfileViewer(self):
+        self.profileViewW = ProfileView(self.centralWidget())
+        self.centralWidget().addWidget(self.profileViewW)
+        self.profilesW.currentDatasetChanged.connect(QApplication.instance().profileScene.onProfileChange)
+
+
+
+

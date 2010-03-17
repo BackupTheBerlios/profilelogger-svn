@@ -54,6 +54,7 @@ from Gui.ItemModels.StratigraphicUnitInBedItemModel import StratigraphicUnitInBe
 from Gui.ItemModels.TectonicUnitInBedItemModel import TectonicUnitInBedItemModel
 from Gui.ItemModels.GeologicalMeasurementTypeItemModel import GeologicalMeasurementTypeItemModel
 from Gui.ItemModels.GeologicalMeasurementInBedItemModel import GeologicalMeasurementInBedItemModel
+from Gui.Graphics.ProfileScene import ProfileScene
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -108,6 +109,7 @@ class ProfileLogger(QApplication):
         self.geologicalMeasurementTypeModel = GeologicalMeasurementTypeItemModel(self)
         self.geologicalMeasurementInBedModel = GeologicalMeasurementInBedItemModel(self)
         self.profileInProfileAssemblyModel = ProfileInProfileAssemblyItemModel(self)
+        self.profileScene = ProfileScene(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))
