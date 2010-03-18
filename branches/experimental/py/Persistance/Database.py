@@ -327,6 +327,8 @@ class Database:
                                        Column('id', Integer, Sequence('seq_profiles', schema=self.schema), primary_key=True, nullable=False),
                                        Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                        Column('name', String, nullable=False, server_default='New Profile'),
+                                        Column('start_height_value', Integer, nullable=False, server_default='0'),
+                                        Column('start_height_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
                                        Column('description', String, nullable=True),
                                        CheckConstraint("name <> ''", name='chk_profiles_name_not_empty'),
                                        UniqueConstraint('name', 'project_id', name='u_profiles_name_in_project'),
@@ -698,7 +700,9 @@ class Database:
                 'id': self.tables['profiles'].c.id,
                 'name': self.tables['profiles'].c.name,
                 'description': self.tables['profiles'].c.description,
-                'beds': relation(Bed, backref='profile')
+                'beds': relation(Bed, backref='profile'),
+                'startHeightValue': self.tables['profiles'].c.start_height_value,
+                'startHeightLengthUnit': relation(LengthUnit)
                 })
         mapper(ProfileAssembly, self.tables['profile_assemblies'], properties = {
                 'id': self.tables['profile_assemblies'].c.id,
