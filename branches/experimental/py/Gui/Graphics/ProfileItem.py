@@ -5,8 +5,9 @@ from HeaderItem import *
 from ColumnItem import *
 
 class ProfileItem(GraphicsRectItem):
-    def __init__(self, parent, scene):
+    def __init__(self, parent, scene, profile):
         GraphicsRectItem.__init__(self, parent, scene)
+        self.profile = profile
         self.internalSpacing = 25 #pixel
         self.drawingWidth = 600
         

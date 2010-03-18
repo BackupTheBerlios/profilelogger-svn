@@ -8,7 +8,7 @@ class LengthInputWidget(QWidget):
     valueChanged = pyqtSignal(int)
     lengthUnitChanged = pyqtSignal(LengthUnit)
 
-    def __init__(self, parent):
+    def __init__(self, parent, labelText=None):
         QWidget.__init__(self, parent)
         self.setContentsMargins(0, 0, 0, 0)
         self.setLayout(QHBoxLayout(self))
@@ -18,6 +18,8 @@ class LengthInputWidget(QWidget):
 
         self.populate()
 
+        if labelText is not None:
+            self.layout().addWidget(QLabel(labelText, self))
         self.layout().addWidget(self.valueW)
         self.layout().addWidget(self.unitsW)
 
