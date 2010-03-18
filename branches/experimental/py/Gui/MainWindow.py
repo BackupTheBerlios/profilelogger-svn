@@ -226,14 +226,18 @@ class MainWindow(QMainWindow):
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())
+        self.toolM = QMenu(self.tr("&Tools"), self.menuBar())
 
         for a in QApplication.instance().getFileActions():
             self.fileM.addAction(a)
         for a in QApplication.instance().getDatabaseActions():
             self.dbM.addAction(a)
+        for a in QApplication.instance().getToolActions():
+            self.toolM.addAction(a)
 
         self.menuBar().addMenu(self.fileM)
         self.menuBar().addMenu(self.dbM)
+        self.menuBar().addMenu(self.toolM)
 
     def setupStatusBar(self):
         self.dbStatusW = QLabel(self.statusBar())
