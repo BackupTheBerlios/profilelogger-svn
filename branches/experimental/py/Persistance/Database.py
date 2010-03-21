@@ -41,6 +41,13 @@ from Model.StratigraphicUnitInBed import StratigraphicUnitInBed
 from Model.TectonicUnitInBed import TectonicUnitInBed
 from Model.GeologicalMeasurementType import GeologicalMeasurementType
 from Model.GeologicalMeasurementInBed import GeologicalMeasurementInBed
+from Model.Drawing import *
+from Model.PenStyle import *
+from Model.PenCapStyle import *
+from Model.PenJoinStyle import *
+from Model.Pen import *
+from Model.BrushStyle import *
+from Model.Brush import *
 
 class Database:
     def __init__(self):
@@ -53,6 +60,82 @@ class Database:
         self.metadata = MetaData()
         self.tables = dict()
 
+        self.tables['pens'] = Table('pens', self.metadata,
+                                    Column('id', Integer, Sequence('seq_pens', schema=self.schema), primary_key=True, nullable=False),
+                                    Column('name', String, nullable=False),
+                                    Column('description', String, nullable=True),
+                                    Column('red', Integer, nullable=False, server_default='0'),
+                                    Column('green', Integer, nullable=False, server_default='0'),
+                                    Column('blue', Integer, nullable=False, server_default='0'),
+                                    Column('alpha', Integer, nullable=False, server_default='255'),
+                                    Column('width', Integer, nullable=False, server_default='1'),
+                                    Column('pen_cap_style_id', Integer, ForeignKey('%s.pen_cap_styles.id' % self.schema), nullable=True),
+                                    Column('pen_join_style_id', Integer, ForeignKey('%s.pen_join_styles.id' % self.schema), nullable=True),
+                                    Column('pen_style_id', Integer, ForeignKey('%s.pen_styles.id' % self.schema), nullable=True),
+                                    Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
+                                    UniqueConstraint('name', name='u_pens_name'),
+                                    UniqueConstraint('red', 'green', 'blue', 'alpha', 'pen_cap_style_id', 'pen_join_style_id', 'pen_style_id', 'brush_id', 'width', name='u_pens_values'),
+                                    schema=self.schema)
+
+        self.tables['brushes'] = Table('brushes', self.metadata,
+                                    Column('id', Integer, Sequence('seq_brushes', schema=self.schema), primary_key=True, nullable=False),
+                                    Column('name', String, nullable=False),
+                                    Column('description', String, nullable=True),
+                                    Column('red', Integer, nullable=False, server_default='0'),
+                                    Column('green', Integer, nullable=False, server_default='0'),
+                                    Column('blue', Integer, nullable=False, server_default='0'),
+                                    Column('alpha', Integer, nullable=False, server_default='255'),
+                                    Column('width', Integer, nullable=False, server_default='1'),
+                                    Column('brush_style_id', Integer, ForeignKey('%s.brush_styles.id' % self.schema), nullable=True),
+                                    UniqueConstraint('name', name='u_brushes_name'),
+                                    UniqueConstraint('red', 'green', 'blue', 'alpha', 'brush_style_id', 'width', name='u_brushes_values'),
+                                    schema=self.schema)
+        self.tables['pen_styles'] = Table('pen_styles', self.metadata,
+                                          Column('id', Integer, Sequence('seq_pen_styles', schema=self.schema), primary_key=True, nullable=False),
+                                          Column('name', String, nullable=False, server_default='New Drawing'),
+                                          Column('description', String, nullable=True),
+                                          Column('qt_enum_value', Integer, nullable=False),
+                                          CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
+                                          UniqueConstraint('name', name='u_pen_styles_name'),
+                                          UniqueConstraint('qt_enum_value', name='u_pen_styles_qt_enum_value'),
+                                          schema=self.schema)
+        self.tables['brush_styles'] = Table('brush_styles', self.metadata,
+                                          Column('id', Integer, Sequence('seq_brush_styles', schema=self.schema), primary_key=True, nullable=False),
+                                          Column('name', String, nullable=False, server_default='new brush style'),
+                                          Column('description', String, nullable=True),
+                                          Column('qt_enum_value', Integer, nullable=False),
+                                          CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
+                                          UniqueConstraint('name', name='u_brush_styles_name'),
+                                          UniqueConstraint('qt_enum_value', name='u_brush_styles_qt_enum_value'),
+                                          schema=self.schema)
+
+        self.tables['pen_cap_styles'] = Table('pen_cap_styles', self.metadata,
+                                              Column('id', Integer, Sequence('seq_pen_cap_styles', schema=self.schema), primary_key=True, nullable=False),
+                                              Column('name', String, nullable=False, server_default='New pen cap style'),
+                                              Column('description', String, nullable=True),
+                                              Column('qt_enum_value', Integer, nullable=False),
+                                              CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
+                                              UniqueConstraint('name', name='u_pen_cap_styles_name'),
+                                              UniqueConstraint('qt_enum_value', name='u_pen_cap_styles_qt_enum_value'),
+                                              schema=self.schema)
+        self.tables['pen_join_styles'] = Table('pen_join_styles', self.metadata,
+                                               Column('id', Integer, Sequence('seq_pen_join_styles', schema=self.schema), primary_key=True, nullable=False),
+                                               Column('name', String, nullable=False, server_default='New pen join style'),
+                                               Column('description', String, nullable=True),
+                                               Column('qt_enum_value', Integer, nullable=False),
+                                               CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
+                                               UniqueConstraint('name', name='u_pen_join_styles_name'),
+                                               UniqueConstraint('qt_enum_value', name='u_pen_join_styles_qt_enum_value'),
+                                               schema=self.schema)
+
+        self.tables['drawings'] = Table('drawings', self.metadata,
+                                        Column('id', Integer, Sequence('seq_drawings', schema=self.schema), primary_key=True, nullable=False),
+                                        Column('name', String, nullable=False, server_default='New Drawing'),
+                                        Column('description', String, nullable=True),
+                                        Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                        CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
+                                        UniqueConstraint('name', 'project_id', name='u_drawings_name_in_project'),
+                                        schema=self.schema)
         self.tables['length_units'] = Table('length_units', self.metadata,
                                             Column('id', Integer, Sequence('seq_length_units', schema=self.schema), primary_key=True, nullable=False),
                                             Column('micrometres', Integer, nullable=False),
@@ -538,6 +621,59 @@ class Database:
 
     def setupMapping(self):
         clear_mappers()
+        mapper(Drawing, self.tables['drawings'], properties = {
+                'id': self.tables['drawings'].c.id,
+                'name': self.tables['drawings'].c.name,
+                'description': self.tables['drawings'].c.description
+                })
+        mapper(Pen, self.tables['pens'], properties = {
+                'id': self.tables['pens'].c.id,
+                'name': self.tables['pens'].c.name,
+                'description': self.tables['pens'].c.description,
+                'rgbRed': self.tables['pens'].c.red,
+                'rgbGreen': self.tables['pens'].c.green,
+                'rgbBlue': self.tables['pens'].c.blue,
+                'rgbAlpha': self.tables['pens'].c.alpha,
+                'width': self.tables['pens'].c.width,
+                'penCapStyle': relation(PenCapStyle),
+                'penJoinStyle': relation(PenJoinStyle),
+                'penStyle': relation(PenStyle),
+                'brush': relation(Brush)
+            })
+        mapper(Brush, self.tables['brushes'], properties = {
+                'id': self.tables['brushes'].c.id,
+                'name': self.tables['brushes'].c.name,
+                'description': self.tables['brushes'].c.description,
+                'rgbRed': self.tables['brushes'].c.red,
+                'rgbGreen': self.tables['brushes'].c.green,
+                'rgbBlue': self.tables['brushes'].c.blue,
+                'rgbAlpha': self.tables['brushes'].c.alpha,
+                'brushStyle': relation(BrushStyle)
+            })
+        mapper(PenStyle, self.tables['pen_styles'], properties = {
+                'id': self.tables['pen_styles'].c.id,
+                'name': self.tables['pen_styles'].c.name,
+                'description': self.tables['pen_styles'].c.description,
+                'qtEnumValue': self.tables['pen_styles'].c.qt_enum_value
+                })
+        mapper(BrushStyle, self.tables['brush_styles'], properties = {
+                'id': self.tables['brush_styles'].c.id,
+                'name': self.tables['brush_styles'].c.name,
+                'description': self.tables['brush_styles'].c.description,
+                'qtEnumValue': self.tables['brush_styles'].c.qt_enum_value
+                })
+        mapper(PenCapStyle, self.tables['pen_cap_styles'], properties = {
+                'id': self.tables['pen_cap_styles'].c.id,
+                'name': self.tables['pen_cap_styles'].c.name,
+                'description': self.tables['pen_cap_styles'].c.description,
+                'qtEnumValue': self.tables['pen_cap_styles'].c.qt_enum_value
+                })
+        mapper(PenJoinStyle, self.tables['pen_join_styles'], properties = {
+                'id': self.tables['pen_join_styles'].c.id,
+                'name': self.tables['pen_join_styles'].c.name,
+                'description': self.tables['pen_join_styles'].c.description,
+                'qtEnumValue': self.tables['pen_join_styles'].c.qt_enum_value
+                })
         mapper(LengthUnit, self.tables['length_units'], properties = {
                 'id': self.tables['length_units'].c.id,
                 'microMetre': self.tables['length_units'].c.micrometres,
@@ -618,7 +754,8 @@ class Database:
                 'lithologicalUnits': relation(LithologicalUnit, backref='project'),
                 'stratigraphicUnits': relation(StratigraphicUnit, backref='project'),
                 'tectonicUnits': relation(TectonicUnit, backref='project'),
-                'profileAssemblies': relation(ProfileAssembly, backref='project')})
+                'profileAssemblies': relation(ProfileAssembly, backref='project'),
+                'drawings': relation(Drawing, backref='project')})
         mapper(Lithology, self.tables['lithologies'], properties = {
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,

@@ -5,3 +5,4 @@ class CanvasView(QGraphicsView):
     def __init__(self, parent):
         QGraphicsView.__init__(self, parent)
         self.setMinimumSize(500, 500)
+        self.setRenderHints(QPainter.Antialiasing | QPainter.TextAntialiasing | QPainter.SmoothPixmapTransform | QPainter.HighQualityAntialiasing | QPainter.NonCosmeticDefaultPen)

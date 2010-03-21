@@ -17,9 +17,14 @@ class ColorSelectionWidget(QWidget):
         self.layout().addWidget(self.browseW)
         self.browseW.clicked.connect(self.onBrowse)
         self.showColor()
+    def setColor(self, c):
+        self.currentColor = c
+        self.showColor()
+
     def showColor(self):
-        self.pixmap.fill(self.currentColor)
-        self.displayW.setPixmap(self.pixmap)
+        if self.currentColor is not None:
+            self.pixmap.fill(self.currentColor)
+            self.displayW.setPixmap(self.pixmap)
     def onBrowse(self):
         dlg = QColorDialog(self)
         dlg.setCurrentColor(self.currentColor)
