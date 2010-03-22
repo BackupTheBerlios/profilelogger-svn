@@ -11,3 +11,8 @@ class DataSelectionComboBox(ComboBox):
     def onCurrentIndexChanged(self, idx):
         ds = self.model().getDataFromIntIndex(idx)
         self.currentDatasetChanged.emit(ds)
+    def setValue(self, dataset):
+        if dataset is None:
+            self.setCurrentIndex(-1)
+            return
+        self.setCurrentIndex(self.model().getIntIndexFromData(dataset))

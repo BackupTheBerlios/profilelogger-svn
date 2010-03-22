@@ -1,32 +1,6 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
-from Gui.ItemModels.ProjectItemModel import ProjectItemModel
-from Gui.ItemModels.SVGItemModel import SVGItemModel
-from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
-from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
-from Gui.ItemModels.LithologyItemModel import LithologyItemModel
-from Gui.ItemModels.ColorItemModel import ColorItemModel
-from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
-from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
-from Gui.ItemModels.FossilItemModel import FossilItemModel
-from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
-from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
-from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
-from Gui.ItemModels.ProfileItemModel import ProfileItemModel
-from Gui.ItemModels.BedItemModel import BedItemModel
-from Gui.ItemModels.LithologicalUnitTypeItemModel import LithologicalUnitTypeItemModel
-from Gui.ItemModels.LithologicalUnitItemModel import LithologicalUnitItemModel
-from Gui.ItemModels.StratigraphicUnitTypeItemModel import StratigraphicUnitTypeItemModel
-from Gui.ItemModels.StratigraphicUnitItemModel import StratigraphicUnitItemModel
-from Gui.ItemModels.TectonicUnitTypeItemModel import TectonicUnitTypeItemModel
-from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
-from Gui.ItemModels.FaciesItemModel import FaciesItemModel
-from Gui.ItemModels.OutcropTypeItemModel import OutcropTypeItemModel
-from Gui.ItemModels.GeologicalMeasurementTypeItemModel import GeologicalMeasurementTypeItemModel
-from Gui.ItemModels.ProfileAssemblyItemModel import ProfileAssemblyItemModel
-
 from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
 from Gui.ItemViews.ProjectItemView import ProjectItemView
 from Gui.ItemViews.SVGItemView import SVGItemView
@@ -58,6 +32,8 @@ from Gui.ItemViews.PenJoinStyleSelector import PenJoinStyleSelector
 from Gui.ItemViews.PenCapStyleSelector import PenCapStyleSelector
 from Gui.ItemViews.BrushStyleSelector import BrushStyleSelector
 from Gui.ItemViews.DrawingItemView import DrawingItemView
+from Gui.ItemViews.PenItemView import PenItemView
+from Gui.ItemViews.BrushItemView import BrushItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -77,6 +53,8 @@ class MainWindow(QMainWindow):
         self.globalToolsW = QToolBox(self.centralWidget())
         self.setupProjectManagement()
         self.setupDrawingManagement()
+        self.setupPenManagement()
+        self.setupBrushManagement()
         self.setupLengthUnitManagement()
         self.setupSVGItemManagement()
         self.setupLithologicalUnitTypeManagement()
@@ -184,6 +162,14 @@ class MainWindow(QMainWindow):
         self.drawingsW = DrawingItemView(self.globalToolsW,
                                          QApplication.instance().drawingModel)
         self.globalToolsW.addItem(self.drawingsW, self.tr("Drawings"))
+    def setupPenManagement(self):
+        self.pensW = PenItemView(self.globalToolsW,
+                                 QApplication.instance().penModel)
+        self.globalToolsW.addItem(self.pensW, self.tr("Pens"))
+    def setupBrushManagement(self):
+        self.brushsW = BrushItemView(self.globalToolsW,
+                                 QApplication.instance().brushModel)
+        self.globalToolsW.addItem(self.brushsW, self.tr("Brushes"))
     def setupGrainSizeManagement(self):
         self.grainSizesW = GrainSizeItemView(self.globalToolsW,
                                              QApplication.instance().grainSizeModel)

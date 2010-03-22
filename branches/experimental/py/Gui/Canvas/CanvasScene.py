@@ -13,6 +13,11 @@ from Gui.Dialogs.RectItemEditorDialog import *
 from Gui.Dialogs.EllipseItemEditorDialog import *
 from Gui.Dialogs.PathItemEditorDialog import *
 
+from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
+
+from sqlalchemy.exc import *
+from sqlalchemy.orm.exc import *
+
 class CanvasScene(QGraphicsScene):
     def __init__(self, parent):
         QGraphicsScene.__init__(self, parent)
@@ -263,14 +268,34 @@ class CanvasScene(QGraphicsScene):
         print "moving todo"
     def endMove(self, pos):
         print "moving todo"
-    def drawAndSaveCurrentItem(self):
-        if self.currentItem.__class__ == LineItem:
+    def drawAndSaveLineItem(self, lineItem):
+        try:
             l = self.currentItem.line()
             self.currentItem.setLine(QLineF(l.p1(), e.scenePos()))
             tmp = LineItem(None, self, self.currentItem.line())
             tmp.setPen(self.currentPen)
             self.removeItem(self.currentItem)
             self.drawStraightLine()
+            QApplication.instance().db.session.add(self.data)
+            QApplication.instance().db.session.commit()
+            return True
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        return False
+
+    def drawAndSaveCurrentItem(self):
+        if self.currentItem.__class__ == LineItem:
+            self.drawAndSaveLineItem(self.currentItem)
             return
         if self.currentItem.__class__ == RectItem:
             r = self.currentItem.rect()

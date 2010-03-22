@@ -128,6 +128,17 @@ class Database:
                                                UniqueConstraint('qt_enum_value', name='u_pen_join_styles_qt_enum_value'),
                                                schema=self.schema)
 
+        self.tables['line_items'] = Table('line_items', self.metadata,
+                                          Column('id', Integer, Sequence('seq_line_items', schema=self.schema), nullable=False, primary_key=True),
+                                          Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
+                                          Column('x1', Float, nullable=False),
+                                          Column('y1', Float, nullable=False),
+                                          Column('x2', Float, nullable=False),
+                                          Column('y2', Float, nullable=False),
+                                          Column('pos_x', Float, nullable=False),
+                                          Column('pos_y', Float, nullable=False),
+                                          Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
+                                          schema=self.schema)
         self.tables['drawings'] = Table('drawings', self.metadata,
                                         Column('id', Integer, Sequence('seq_drawings', schema=self.schema), primary_key=True, nullable=False),
                                         Column('name', String, nullable=False, server_default='New Drawing'),

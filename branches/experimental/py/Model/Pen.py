@@ -8,7 +8,7 @@ class Pen(NamedDescribedDataset):
                  width=1, 
                  penCapStyle=None, penJoinStyle=None, penStyle=None, 
                  brush=None):
-        NamedDescribedDataset.__init__(id, name, description)
+        NamedDescribedDataset.__init__(self, id, name, description)
         self.rgbRed = rgbRed
         self.rgbGreen = rgbGreen
         self.rgbBlue = rgbBlue

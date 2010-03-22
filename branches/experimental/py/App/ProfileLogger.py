@@ -59,6 +59,8 @@ from Gui.ItemModels.PenJoinStyleItemModel import PenJoinStyleItemModel
 from Gui.ItemModels.PenCapStyleItemModel import PenCapStyleItemModel
 from Gui.ItemModels.BrushStyleItemModel import BrushStyleItemModel
 from Gui.ItemModels.DrawingItemModel import DrawingItemModel
+from Gui.ItemModels.PenItemModel import PenItemModel
+from Gui.ItemModels.BrushItemModel import BrushItemModel
 
 from Gui.Graphics.ProfileScene import ProfileScene
 
@@ -121,6 +123,8 @@ class ProfileLogger(QApplication):
         self.penCapStyleModel = PenCapStyleItemModel(self)
         self.brushStyleModel = BrushStyleItemModel(self)
         self.drawingModel = DrawingItemModel(self)
+        self.penModel = PenItemModel(self)
+        self.brushModel = BrushItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))

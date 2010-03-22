@@ -29,6 +29,11 @@ class DataSelectionItemModel(StandardItemModel):
         self.clear()
     def getDataFromIntIndex(self, intIdx):
         return self.intKeyData[intIdx]
+    def getIntIndexFromData(self, data):
+        for k,v in self.intKeyData.iteritems():
+            if data == v:
+                return k
+        return -1
     def getDataFromIndex(self, idx):
         itm = self.itemFromIndex(idx)
         if itm is None:
