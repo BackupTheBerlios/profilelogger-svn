@@ -138,48 +138,7 @@ class CanvasScene(QGraphicsScene):
         if self.isMoving:
             self.endMove(e.scenePos())
             return
-        if self.currentItem.__class__ == LineItem:
-            l = self.currentItem.line()
-            self.currentItem.setLine(QLineF(l.p1(), e.scenePos()))
-            tmp = LineItem(None, self, self.currentItem.line())
-            tmp.setPen(self.currentPen)
-            self.removeItem(self.currentItem)
-            self.drawStraightLine()
-            return
-        if self.currentItem.__class__ == RectItem:
-            r = self.currentItem.rect()
-            self.currentItem.setRect(QRectF(r.topLeft(), e.scenePos()))
-            tmp = RectItem(None, self, self.currentItem.rect())
-            tmp.setPen(self.currentPen)
-            tmp.setBrush(self.currentBrush)
-            self.removeItem(self.currentItem)
-            self.drawRectangle()
-            return
-        if self.currentItem.__class__ == EllipseItem:
-            r = self.currentItem.rect()
-            self.currentItem.setRect(QRectF(r.topLeft(), e.scenePos()))
-            tmp = EllipseItem(None, self, self.currentItem.rect())
-            tmp.setPen(self.currentPen)
-            tmp.setBrush(self.currentBrush)
-            self.removeItem(self.currentItem)
-            self.drawEllipse()
-            return
-        if self.currentItem.__class__ == PolygonItem:
-            p = self.currentItem.polygon()
-            p.append(e.scenePos())
-            tmp = PolygonItem(None, self, self.currentItem.polygon())
-            tmp.setPen(self.currentPen)
-            tmp.setBrush(self.currentBrush)
-            self.removeItem(self.currentItem)
-            self.drawPolygon()
-        if self.currentItem.__class__ == PathItem:
-            p = self.currentItem.path()
-            p.lineTo(e.scenePos())
-            tmp = PathItem(None, self, self.currentItem.path())
-            tmp.setPen(self.currentPen)
-            tmp.setBrush(self.currentBrush)
-            self.removeItem(self.currentItem)
-            self.drawPath()
+        self.drawAndSaveCurrentItem()
     def onPenWidthChange(self, w):
         self.currentPen.setWidth(w)
     def onPenColorChange(self, c):
@@ -304,3 +263,46 @@ class CanvasScene(QGraphicsScene):
         print "moving todo"
     def endMove(self, pos):
         print "moving todo"
+    def drawAndSaveCurrentItem(self):
+        if self.currentItem.__class__ == LineItem:
+            l = self.currentItem.line()
+            self.currentItem.setLine(QLineF(l.p1(), e.scenePos()))
+            tmp = LineItem(None, self, self.currentItem.line())
+            tmp.setPen(self.currentPen)
+            self.removeItem(self.currentItem)
+            self.drawStraightLine()
+            return
+        if self.currentItem.__class__ == RectItem:
+            r = self.currentItem.rect()
+            self.currentItem.setRect(QRectF(r.topLeft(), e.scenePos()))
+            tmp = RectItem(None, self, self.currentItem.rect())
+            tmp.setPen(self.currentPen)
+            tmp.setBrush(self.currentBrush)
+            self.removeItem(self.currentItem)
+            self.drawRectangle()
+            return
+        if self.currentItem.__class__ == EllipseItem:
+            r = self.currentItem.rect()
+            self.currentItem.setRect(QRectF(r.topLeft(), e.scenePos()))
+            tmp = EllipseItem(None, self, self.currentItem.rect())
+            tmp.setPen(self.currentPen)
+            tmp.setBrush(self.currentBrush)
+            self.removeItem(self.currentItem)
+            self.drawEllipse()
+            return
+        if self.currentItem.__class__ == PolygonItem:
+            p = self.currentItem.polygon()
+            p.append(e.scenePos())
+            tmp = PolygonItem(None, self, self.currentItem.polygon())
+            tmp.setPen(self.currentPen)
+            tmp.setBrush(self.currentBrush)
+            self.removeItem(self.currentItem)
+            self.drawPolygon()
+        if self.currentItem.__class__ == PathItem:
+            p = self.currentItem.path()
+            p.lineTo(e.scenePos())
+            tmp = PathItem(None, self, self.currentItem.path())
+            tmp.setPen(self.currentPen)
+            tmp.setBrush(self.currentBrush)
+            self.removeItem(self.currentItem)
+            self.drawPath()

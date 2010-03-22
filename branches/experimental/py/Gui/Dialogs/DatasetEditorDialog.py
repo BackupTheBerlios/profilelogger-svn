@@ -8,6 +8,7 @@ from Gui.Widgets.NameEdit import NameEdit
 from Gui.Widgets.DescriptionEdit import DescriptionEdit
 from Gui.Widgets.IntLineEdit import IntLineEdit
 from Gui.Widgets.SVGLoaderWidget import SVGLoaderWidget
+from Gui.Canvas.DrawingEdit import DrawingEdit
 
 from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 
@@ -55,6 +56,14 @@ class DatasetEditorDialog(Dialog):
         self.nameW = NameEdit(self.contentW)
         self.nameL.setBuddy(self.nameW)
         self.addLabelWidgetPair(self.nameL, self.nameW)
+    def addDrawingEdit(self, label=None):
+        lbl = label
+        if lbl is None:
+            lbl = self.tr("&Drawing")
+        self.drawingL = self.createMultiLineLabel(lbl)
+        self.drawingW = DrawingEdit(self.contentW)
+        self.drawingL.setBuddy(self.drawingW)
+        self.addLabelWidgetPair(self.drawingL, self.drawingW)
     def addDescriptionEdit(self, label=None):
         lbl = label
         if lbl is None:

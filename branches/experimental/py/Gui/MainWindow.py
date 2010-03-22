@@ -57,6 +57,7 @@ from Gui.ItemViews.PenStyleSelector import PenStyleSelector
 from Gui.ItemViews.PenJoinStyleSelector import PenJoinStyleSelector
 from Gui.ItemViews.PenCapStyleSelector import PenCapStyleSelector
 from Gui.ItemViews.BrushStyleSelector import BrushStyleSelector
+from Gui.ItemViews.DrawingItemView import DrawingItemView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -75,6 +76,7 @@ class MainWindow(QMainWindow):
     def setupGlobalTools(self):
         self.globalToolsW = QToolBox(self.centralWidget())
         self.setupProjectManagement()
+        self.setupDrawingManagement()
         self.setupLengthUnitManagement()
         self.setupSVGItemManagement()
         self.setupLithologicalUnitTypeManagement()
@@ -178,6 +180,10 @@ class MainWindow(QMainWindow):
         self.projectsW = ProjectItemView(self.globalToolsW,
                                          QApplication.instance().projectModel)
         self.globalToolsW.addItem(self.projectsW, self.tr("Projects"))
+    def setupDrawingManagement(self):
+        self.drawingsW = DrawingItemView(self.globalToolsW,
+                                         QApplication.instance().drawingModel)
+        self.globalToolsW.addItem(self.drawingsW, self.tr("Drawings"))
     def setupGrainSizeManagement(self):
         self.grainSizesW = GrainSizeItemView(self.globalToolsW,
                                              QApplication.instance().grainSizeModel)

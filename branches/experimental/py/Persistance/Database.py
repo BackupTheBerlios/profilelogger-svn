@@ -132,9 +132,8 @@ class Database:
                                         Column('id', Integer, Sequence('seq_drawings', schema=self.schema), primary_key=True, nullable=False),
                                         Column('name', String, nullable=False, server_default='New Drawing'),
                                         Column('description', String, nullable=True),
-                                        Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                         CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
-                                        UniqueConstraint('name', 'project_id', name='u_drawings_name_in_project'),
+                                        UniqueConstraint('name', name='u_drawings_name_in_project'),
                                         schema=self.schema)
         self.tables['length_units'] = Table('length_units', self.metadata,
                                             Column('id', Integer, Sequence('seq_length_units', schema=self.schema), primary_key=True, nullable=False),
@@ -754,8 +753,7 @@ class Database:
                 'lithologicalUnits': relation(LithologicalUnit, backref='project'),
                 'stratigraphicUnits': relation(StratigraphicUnit, backref='project'),
                 'tectonicUnits': relation(TectonicUnit, backref='project'),
-                'profileAssemblies': relation(ProfileAssembly, backref='project'),
-                'drawings': relation(Drawing, backref='project')})
+                'profileAssemblies': relation(ProfileAssembly, backref='project')})
         mapper(Lithology, self.tables['lithologies'], properties = {
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,
