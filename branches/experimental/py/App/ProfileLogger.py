@@ -56,6 +56,11 @@ from Gui.ItemModels.StratigraphicUnitInBedItemModel import StratigraphicUnitInBe
 from Gui.ItemModels.TectonicUnitInBedItemModel import TectonicUnitInBedItemModel
 from Gui.ItemModels.GeologicalMeasurementTypeItemModel import GeologicalMeasurementTypeItemModel
 from Gui.ItemModels.GeologicalMeasurementInBedItemModel import GeologicalMeasurementInBedItemModel
+from Gui.ItemModels.PenStyleItemModel import PenStyleItemModel
+from Gui.ItemModels.PenJoinStyleItemModel import PenJoinStyleItemModel
+from Gui.ItemModels.PenCapStyleItemModel import PenCapStyleItemModel
+from Gui.ItemModels.BrushStyleItemModel import BrushStyleItemModel
+
 from Gui.Graphics.ProfileScene import ProfileScene
 
 class ProfileLogger(QApplication):
@@ -112,6 +117,10 @@ class ProfileLogger(QApplication):
         self.geologicalMeasurementInBedModel = GeologicalMeasurementInBedItemModel(self)
         self.profileInProfileAssemblyModel = ProfileInProfileAssemblyItemModel(self)
         self.profileScene = ProfileScene(self)
+        self.penStyleModel = PenStyleItemModel(self)
+        self.penJoinStyleModel = PenJoinStyleItemModel(self)
+        self.penCapStyleModel = PenCapStyleItemModel(self)
+        self.brushStyleModel = BrushStyleItemModel(self)
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))
