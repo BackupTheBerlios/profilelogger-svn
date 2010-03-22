@@ -1,17 +1,17 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from LineItem import LineItem
-from RectItem import RectItem
-from PolygonItem import PolygonItem
-from EllipseItem import EllipseItem
-from PathItem import PathItem
+from Model.LineItem import LineItem
+from Model.RectItem import RectItem
+from Model.PolygonItem import PolygonItem
+from Model.EllipseItem import EllipseItem
+from Model.PathItem import PathItem
 
-from LineItemEditorDialog import *
-from PolygonItemEditorDialog import *
-from RectItemEditorDialog import *
-from EllipseItemEditorDialog import *
-from PathItemEditorDialog import *
+from Gui.Dialogs.LineItemEditorDialog import *
+from Gui.Dialogs.PolygonItemEditorDialog import *
+from Gui.Dialogs.RectItemEditorDialog import *
+from Gui.Dialogs.EllipseItemEditorDialog import *
+from Gui.Dialogs.PathItemEditorDialog import *
 
 class CanvasScene(QGraphicsScene):
     def __init__(self, parent):

@@ -8,7 +8,7 @@ from Gui.Widgets.NameEdit import NameEdit
 from Gui.Widgets.DescriptionEdit import DescriptionEdit
 from Gui.Widgets.IntLineEdit import IntLineEdit
 from Gui.Widgets.SVGLoaderWidget import SVGLoaderWidget
-from Gui.Canvas.DrawingEdit import DrawingEdit
+from Gui.Widgets.DrawingEdit import DrawingEdit
 
 from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 

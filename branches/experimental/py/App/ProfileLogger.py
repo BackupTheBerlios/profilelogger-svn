@@ -14,8 +14,6 @@ from App.Settings import Settings
 from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
 from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 
-from Gui.Canvas.CanvasWidget import CanvasWidget
-
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
@@ -134,17 +132,12 @@ class ProfileLogger(QApplication):
 
         self.closeDbA = QAction(self.tr('&Close Database...'), self)
         self.closeDbA.triggered.connect(self.onCloseDatabase)
-
-        self.openCanvasA = QAction(self.tr("Open Canvas..."), self)
-        self.openCanvasA.setShortcut(QKeySequence('Ctrl+Shift+o'))
-        self.openCanvasA.triggered.connect(self.onOpenCanvas)
     def getFileActions(self):
         ret = []
         ret.append(self.quitA)
         return ret
     def getToolActions(self):
         ret = []
-        ret.append(self.openCanvasA)
         return ret
     def getDatabaseActions(self):
         ret = []
@@ -234,6 +227,3 @@ class ProfileLogger(QApplication):
 
     def onCloseDatabase(self):
         self.databaseClosed.emit()
-    def onOpenCanvas(self):
-        self.canvasW = CanvasWidget(None)
-        self.canvasW.show()

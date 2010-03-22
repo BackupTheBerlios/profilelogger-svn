@@ -1,8 +1,8 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from CanvasScene import *
-from CanvasView import *
+from Gui.Canvas.CanvasScene import *
+from Gui.Canvas.CanvasView import *
 
 from Gui.Widgets.PixelInputWidget import PixelInputWidget
 from Gui.Widgets.ColorSelectionWidget import ColorSelectionWidget
@@ -11,19 +11,21 @@ from Gui.Widgets.PenJoinStyleSelector import PenJoinStyleSelector
 from Gui.Widgets.PenStyleSelector import PenStyleSelector
 from Gui.Widgets.BrushStyleSelector import BrushStyleSelector
 
-class CanvasWidget(QSplitter):
+class DrawingEdit(QSplitter):
     def __init__(self, parent):
         QSplitter.__init__(self, parent)
+        self.drawing = None
         self.setOrientation(Qt.Horizontal)
         self.canvasS = CanvasScene(self)
         self.canvasV = CanvasView(self)
+        self.canvasV.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.canvasV.setScene(self.canvasS)
         self.configureTools()
         self.addWidget(self.toolsW)
         self.addWidget(self.canvasV)
     def configureTools(self):
-        self.toolsW = QGroupBox(self.tr("Tools"), self)
-        self.toolsW.setLayout(QVBoxLayout(self.toolsW))
+        self.toolsW = QToolBox(self)
+        self.toolsW.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.setupToolsWidget()
         self.setupSettingsWidget()
@@ -31,9 +33,9 @@ class CanvasWidget(QSplitter):
         self.modeW = QLabel(self.tr("No Tool Selected"), self.toolsW)
         self.modeW.setAlignment(Qt.AlignBottom | Qt.AlignHCenter)
         
-        self.toolsW.layout().addWidget(self.toolBoxW)
-        self.toolsW.layout().addWidget(self.settingsW)
-        self.toolsW.layout().addWidget(self.modeW)
+        self.toolsW.addItem(self.toolBoxW, self.tr("Primitives"))
+        self.toolsW.addItem(self.settingsW, self.tr("Pen \& Brush"))
+        self.toolsW.addItem(self.modeW, self.tr("Hint"))
         
         self.penWidthW.valueChanged.connect(self.canvasS.onPenWidthChange)
         self.penColorW.colorChanged.connect(self.canvasS.onPenColorChange)
@@ -68,7 +70,7 @@ class CanvasWidget(QSplitter):
     def onEditRequest(self):
         self.modeW.setText(self.tr("Edit"))
     def setupSettingsWidget(self):
-        self.settingsW = QGroupBox(self.tr("Settings"), self.toolsW)
+        self.settingsW = QWidget(self.toolsW)
         self.settingsW.setLayout(QGridLayout(self.settingsW))
         self.penWidthW = PixelInputWidget(self.settingsW, None)
         self.penWidthW.setValue(2)
@@ -104,7 +106,7 @@ class CanvasWidget(QSplitter):
         self.settingsW.layout().addWidget(QLabel(self.tr("Brush Style"), self.settingsW), r, lc)
         self.settingsW.layout().addWidget(self.brushStyleW, r, wc)
     def setupToolsWidget(self):
-        self.toolBoxW = QGroupBox(self.tr("Tools"), self.toolsW)
+        self.toolBoxW = QWidget(self.toolsW)
         self.toolBoxW.setLayout(QVBoxLayout(self.toolBoxW))
         self.straightLineW = QPushButton(self.tr("Straight Line"), self.toolBoxW)
         self.polygonLineW = QPushButton(self.tr("Polygon Line"), self.toolBoxW)
@@ -141,3 +143,5 @@ class CanvasWidget(QSplitter):
         self.editW.clicked.connect(self.canvasS.onEdit)
         self.moveW.clicked.connect(self.onMoveRequest)
         self.moveW.clicked.connect(self.canvasS.onMove)
+    def setValue(self, drawing):
+        self.drawing = drawing
