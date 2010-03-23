@@ -28,6 +28,8 @@ class DataSelectionItemModel(StandardItemModel):
     def onDatabaseClosed(self):
         self.clear()
     def getDataFromIntIndex(self, intIdx):
+        if intIdx not in self.intKeyData.keys():
+            return None
         return self.intKeyData[intIdx]
     def getIntIndexFromData(self, data):
         for k,v in self.intKeyData.iteritems():
