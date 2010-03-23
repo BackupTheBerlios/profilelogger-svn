@@ -6,6 +6,11 @@ from Gui.Canvas.CanvasView import *
 
 from Gui.ItemViews.PenItemView import *
 from Gui.ItemViews.BrushItemView import *
+from Gui.Canvas.StraightLineItem import *
+from Gui.Canvas.RectangleItem import *
+from Gui.Canvas.EllipsisItem import *
+from Gui.Canvas.PolygonItem import *
+from Gui.Canvas.PainterPathItem import *
 
 class DrawingEdit(QSplitter):
     def __init__(self, parent):
@@ -100,3 +105,13 @@ class DrawingEdit(QSplitter):
 #        self.moveW.clicked.connect(self.canvasS.onMove)
     def setValue(self, drawing):
         self.drawing = drawing
+        for l in self.drawing.straightLines:
+            self.canvasS.addItem(StraightLineItem(l))
+        for r in self.drawing.rectangles:
+            self.canvasS.addItem(RectangleItem(r))
+        for e in self.drawing.ellipses:
+            self.canvasS.addItem(EllipsisItem(e))
+        for p in self.drawing.polygons:
+            self.canvasS.addItem(PolygonItem(p))
+        for p in self.drawing.painterPaths:
+            self.canvasS.addItem(PainterPathItem(p))

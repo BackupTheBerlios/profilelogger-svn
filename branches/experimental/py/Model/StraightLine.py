@@ -1,5 +1,8 @@
 from Dataset import Dataset
 
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
 class StraightLine(Dataset):
     def __init__(self, id=None, drawing=None,
                  posX=0, posY=0,
@@ -16,5 +19,7 @@ class StraightLine(Dataset):
         self.pen = pen
     def makePosition(self):
         return QPointF(self.posX, self.posY)
-    def makeRect(self):
-        return QRectF(self.x1, self.y1, self.x2, self.y2)
+    def makeLine(self):
+        return QLineF(self.x1, self.y1, self.x2, self.y2)
+    def hasPen(self):
+        return self.pen is not None

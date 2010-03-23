@@ -1,5 +1,7 @@
 from Dataset import Dataset
 
+from PyQt4.QtCore import *
+
 class Rectangle(Dataset):
     def __init__(self, id=None, drawing=None,
                  posX=0, posY=0,
@@ -19,3 +21,7 @@ class Rectangle(Dataset):
         return QPointF(self.posX, self.posY)
     def makeRect(self):
         return QRectF(self.x1, self.y1, self.x2, self.y2)
+    def hasPen(self):
+        return self.pen is not None
+    def hasBrush(self):
+        return self.brush is not None
