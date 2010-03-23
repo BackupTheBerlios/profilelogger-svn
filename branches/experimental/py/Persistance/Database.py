@@ -101,12 +101,10 @@ class Database:
         self.tables['straight_lines'] = Table('straight_lines', self.metadata,
                                               Column('id', Integer, Sequence('seq_straight_lines', schema=self.schema), primary_key=True, nullable=False),
                                               Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                              Column('pos_x', Integer, nullable=False, server_default='0'),
-                                              Column('pos_y', Integer, nullable=False, server_default='0'),
-                                              Column('x1', Integer, nullable=False, server_default='0'),
-                                              Column('y1', Integer, nullable=False, server_default='0'),
-                                              Column('x2', Integer, nullable=False, server_default='0'),
-                                              Column('y2', Integer, nullable=False, server_default='0'),
+                                              Column('x1', Float, nullable=False, server_default='0.0'),
+                                              Column('y1', Float, nullable=False, server_default='0.0'),
+                                              Column('x2', Float, nullable=False, server_default='0.0'),
+                                              Column('y2', Float, nullable=False, server_default='0.0'),
                                               Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
                                               schema=self.schema)
         self.tables['rectangles'] = Table('rectangles', self.metadata,
@@ -761,8 +759,6 @@ class Database:
                 })
         mapper(StraightLine, self.tables['straight_lines'], properties = {
                 'id': self.tables['straight_lines'].c.id,
-                'posX': self.tables['straight_lines'].c.pos_x,
-                'posY': self.tables['straight_lines'].c.pos_y,
                 'x1': self.tables['straight_lines'].c.x1,
                 'y1': self.tables['straight_lines'].c.y1,
                 'x2': self.tables['straight_lines'].c.x2,

@@ -194,7 +194,7 @@ class ProfileLogger(QApplication):
         d['Qt.DiagCrossPattern'] = BrushStyle(None, unicode(self.tr("Diagonal crossing lines")), '', 14)
         d['artistic pen'] = Pen(None, unicode(self.tr("Artistic Pen")), '', 0, 0, 0, 255, 1, d['Qt.RoundCap'], d['Qt.RoundJoin'], d['Qt.SolidLine'])
         d['test drawing'] = Drawing(None, unicode(self.tr("Test Drawing")))
-        d['straight line'] = StraightLine(None, d['test drawing'], 0, 0, 0, 0, 20, 20, d['artistic pen'])
+        d['straight line'] = StraightLine(None, d['test drawing'], 0, 0, 20, 20, d['artistic pen'])
         d['rectangle'] = Rectangle(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
         d['ellipsis'] = Ellipsis(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
         d['polygon'] = Polygon(None, d['test drawing'], 0, 0, [], d['artistic pen'])
