@@ -48,6 +48,13 @@ from Model.PenJoinStyle import *
 from Model.Pen import *
 from Model.BrushStyle import *
 from Model.Brush import *
+from Model.StraightLine import *
+from Model.Rectangle import *
+from Model.Ellipsis import *
+from Model.Polygon import *
+from Model.PolygonPoint import *
+from Model.PainterPath import *
+from Model.PainterPathPoint import *
 
 class Database:
     def __init__(self):
@@ -59,6 +66,73 @@ class Database:
     def setupTables(self):
         self.metadata = MetaData()
         self.tables = dict()
+        self.tables['painter_paths'] = Table('painter_paths', self.metadata,
+                                             Column('id', Integer, Sequence('seq_painter_paths', schema=self.schema), primary_key=True, nullable=False),
+                                             Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
+                                             Column('pos_x', Integer, nullable=False, server_default='0'),
+                                             Column('pos_y', Integer, nullable=False, server_default='0'),
+                                             Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
+                                             Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
+                                             schema=self.schema)
+        self.tables['painter_path_points'] = Table('painter_path_points', self.metadata,
+                                                   Column('id', Integer, Sequence('seq_painter_path_points', schema=self.schema), primary_key=True, nullable=False),
+                                                   Column('painter_path_id', Integer, ForeignKey('%s.painter_paths.id' % self.schema), nullable=False),
+                                                   Column('x', Integer, nullable=False),
+                                                   Column('y', Integer, nullable=False),
+                                                   Column('position', Integer, nullable=False),
+                                                   UniqueConstraint('position', 'painter_path_id', name='u_painter_path_points_position_in_painter_path'),
+                                                   schema=self.schema)
+        self.tables['polygons'] = Table('polygons', self.metadata,
+                                        Column('id', Integer, Sequence('seq_polygons', schema=self.schema), primary_key=True, nullable=False),
+                                        Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
+                                        Column('pos_x', Integer, nullable=False, server_default='0'),
+                                        Column('pos_y', Integer, nullable=False, server_default='0'),
+                                        Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
+                                        Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
+                                        schema=self.schema)
+        self.tables['polygon_points'] = Table('polygon_points', self.metadata,
+                                              Column('id', Integer, Sequence('seq_polygon_points', schema=self.schema), primary_key=True, nullable=False),
+                                              Column('polygon_id', Integer, ForeignKey('%s.polygons.id' % self.schema), nullable=False),
+                                              Column('x', Integer, nullable=False),
+                                              Column('y', Integer, nullable=False),
+                                              Column('position', Integer, nullable=False),
+                                              UniqueConstraint('position', 'polygon_id', name='u_polygon_points_position_in_polygon'),
+                                              schema=self.schema)
+        self.tables['straight_lines'] = Table('straight_lines', self.metadata,
+                                              Column('id', Integer, Sequence('seq_straight_lines', schema=self.schema), primary_key=True, nullable=False),
+                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
+                                              Column('pos_x', Integer, nullable=False, server_default='0'),
+                                              Column('pos_y', Integer, nullable=False, server_default='0'),
+                                              Column('x1', Integer, nullable=False, server_default='0'),
+                                              Column('y1', Integer, nullable=False, server_default='0'),
+                                              Column('x2', Integer, nullable=False, server_default='0'),
+                                              Column('y2', Integer, nullable=False, server_default='0'),
+                                              Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
+                                              schema=self.schema)
+        self.tables['rectangles'] = Table('rectangles', self.metadata,
+                                          Column('id', Integer, Sequence('seq_rectangles', schema=self.schema), primary_key=True, nullable=False),
+                                          Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
+                                          Column('pos_x', Integer, nullable=False, server_default='0'),
+                                          Column('pos_y', Integer, nullable=False, server_default='0'),
+                                          Column('x1', Integer, nullable=False, server_default='0'),
+                                          Column('y1', Integer, nullable=False, server_default='0'),
+                                          Column('x2', Integer, nullable=False, server_default='0'),
+                                          Column('y2', Integer, nullable=False, server_default='0'),
+                                          Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
+                                          Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
+                                          schema=self.schema)
+        self.tables['ellipses'] = Table('ellipses', self.metadata,
+                                        Column('id', Integer, Sequence('seq_ellipses', schema=self.schema), primary_key=True, nullable=False),
+                                        Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
+                                        Column('pos_x', Integer, nullable=False, server_default='0'),
+                                        Column('pos_y', Integer, nullable=False, server_default='0'),
+                                        Column('x1', Integer, nullable=False, server_default='0'),
+                                        Column('y1', Integer, nullable=False, server_default='0'),
+                                        Column('x2', Integer, nullable=False, server_default='0'),
+                                        Column('y2', Integer, nullable=False, server_default='0'),
+                                        Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
+                                        Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
+                                        schema=self.schema)
 
         self.tables['pens'] = Table('pens', self.metadata,
                                     Column('id', Integer, Sequence('seq_pens', schema=self.schema), primary_key=True, nullable=False),
@@ -631,6 +705,71 @@ class Database:
 
     def setupMapping(self):
         clear_mappers()
+        mapper(PainterPath, self.tables['painter_paths'], properties = {
+                'id': self.tables['painter_paths'].c.id,
+                'drawing': relation(Drawing, backref='painterPaths'),
+                'posX': self.tables['painter_paths'].c.pos_x,
+                'posY': self.tables['painter_paths'].c.pos_y,
+                'pen': relation(Pen, backref='painterPaths'),
+                'brush': relation(Brush, backref='painterPaths')
+                })
+        mapper(PainterPathPoint, self.tables['painter_path_points'], properties = {
+                'id': self.tables['painter_path_points'].c.id,
+                'painterPath': relation(PainterPath, backref='painterPathPoints'),
+                'x': self.tables['painter_path_points'].c.x,
+                'y': self.tables['painter_path_points'].c.y,
+                'position': self.tables['painter_path_points'].c.position
+                })
+        mapper(Polygon, self.tables['polygons'], properties = {
+                'id': self.tables['polygons'].c.id,
+                'drawing': relation(Drawing, backref='polygons'),
+                'posX': self.tables['polygons'].c.pos_x,
+                'posY': self.tables['polygons'].c.pos_y,
+                'pen': relation(Pen, backref='polygons'),
+                'brush': relation(Brush, backref='polygons')
+                })
+        mapper(PolygonPoint, self.tables['polygon_points'], properties = {
+                'id': self.tables['polygon_points'].c.id,
+                'polygon': relation(Polygon, backref='polygonPoints'),
+                'x': self.tables['polygon_points'].c.x,
+                'y': self.tables['polygon_points'].c.y,
+                'position': self.tables['polygon_points'].c.position
+                })
+        mapper(Ellipsis, self.tables['ellipses'], properties = {
+                'id': self.tables['ellipses'].c.id,
+                'posX': self.tables['ellipses'].c.pos_x,
+                'posY': self.tables['ellipses'].c.pos_y,
+                'x1': self.tables['ellipses'].c.x1,
+                'y1': self.tables['ellipses'].c.y1,
+                'x2': self.tables['ellipses'].c.x2,
+                'y2': self.tables['ellipses'].c.y2,
+                'drawing': relation(Drawing, backref='ellipses'),
+                'pen': relation(Pen, backref='ellipses'),
+                'brush': relation(Brush, backref='ellipses')
+                })
+        mapper(Rectangle, self.tables['rectangles'], properties = {
+                'id': self.tables['rectangles'].c.id,
+                'posX': self.tables['rectangles'].c.pos_x,
+                'posY': self.tables['rectangles'].c.pos_y,
+                'x1': self.tables['rectangles'].c.x1,
+                'y1': self.tables['rectangles'].c.y1,
+                'x2': self.tables['rectangles'].c.x2,
+                'y2': self.tables['rectangles'].c.y2,
+                'drawing': relation(Drawing, backref='rectangles'),
+                'pen': relation(Pen, backref='rectangles'),
+                'brush': relation(Brush, backref='rectangles')
+                })
+        mapper(StraightLine, self.tables['straight_lines'], properties = {
+                'id': self.tables['straight_lines'].c.id,
+                'posX': self.tables['straight_lines'].c.pos_x,
+                'posY': self.tables['straight_lines'].c.pos_y,
+                'x1': self.tables['straight_lines'].c.x1,
+                'y1': self.tables['straight_lines'].c.y1,
+                'x2': self.tables['straight_lines'].c.x2,
+                'y2': self.tables['straight_lines'].c.y2,
+                'drawing': relation(Drawing, backref='straightLines'),
+                'pen': relation(Pen, backref='straightLines')
+                })
         mapper(Drawing, self.tables['drawings'], properties = {
                 'id': self.tables['drawings'].c.id,
                 'name': self.tables['drawings'].c.name,
