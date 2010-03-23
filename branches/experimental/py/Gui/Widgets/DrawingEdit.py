@@ -65,8 +65,8 @@ class DrawingEdit(QSplitter):
         self.settingsW.layout().addWidget(self.brushesW, 1, 1)
         self.pensW.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
         self.brushesW.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
-#        self.pensW.currentDatasetChanged.connect(self.canvasS.onPenChange)
-#        self.brushesW.currentDatasetChanged.connect(self.canvasS.onBrushChange)
+        self.pensW.currentDatasetChanged.connect(self.canvasS.onPenChange)
+        self.brushesW.currentDatasetChanged.connect(self.canvasS.onBrushChange)
     def setupToolsWidget(self):
         self.toolBoxW = QWidget(self.toolsW)
         self.toolBoxW.setLayout(QGridLayout(self.toolBoxW))
@@ -97,6 +97,7 @@ class DrawingEdit(QSplitter):
         self.deleteW.clicked.connect(self.onDeleteRequest)
         self.editW.clicked.connect(self.onEditRequest)
         self.moveW.clicked.connect(self.onMoveRequest)
+        self.straightLineW.clicked.connect(self.canvasS.drawStraightLine)
 #        self.editW.clicked.connect(self.canvasS.onEdit)
 #        self.deleteW.clicked.connect(self.canvasS.onDelete)
 #        self.pathW.clicked.connect(self.canvasS.drawPath)
@@ -104,9 +105,9 @@ class DrawingEdit(QSplitter):
 #        self.polygonLineW.clicked.connect(self.canvasS.drawPolygon)
 #        self.moveW.clicked.connect(self.canvasS.onMove)
 #        self.rectangleW.clicked.connect(self.canvasS.drawRectangle)
-#        self.straightLineW.clicked.connect(self.canvasS.drawStraightLine)
     def setValue(self, drawing):
         self.drawing = drawing
+        self.canvasS.drawing = self.drawing
         for l in self.drawing.straightLines:
             self.canvasS.addItem(StraightLineItem(l))
         for r in self.drawing.rectangles:
