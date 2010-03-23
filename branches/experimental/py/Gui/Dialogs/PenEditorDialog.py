@@ -59,7 +59,15 @@ class PenEditorDialog(DatasetEditorDialog):
         self.data.rgbBlue = c.blue()
         self.data.rgbAlpha = c.alpha()
     def addDisplay(self):
-        pass
+        self.previewS = QGraphicsScene(self)
+        self.previewS.addLine(QLineF(0, 0, 100, 100))
+        self.previewL = self.createMultiLineLabel(self.tr("Preview"))
+        self.previewW = QGraphicsView(self.contentW)
+        self.previewW.setRenderHints(QPainter.Antialiasing | QPainter.TextAntialiasing | QPainter.SmoothPixmapTransform | QPainter.HighQualityAntialiasing | QPainter.NonCosmeticDefaultPen)
+        self.line = QGraphicsLineItem(None, self.previewS)
+        self.line.setLine(QLineF(0, 0, 30, 30))
+        self.line.setPen(QPen(Qt.black))
+        self.addLabelWidgetPair(self.previewL, self.previewW)
     def addWidthEdit(self):
         self.widthL = self.createOneLineLabel(self.tr("Width"))
         self.widthW = PixelInputWidget(self.contentW)

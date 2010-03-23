@@ -192,7 +192,8 @@ class ProfileLogger(QApplication):
         d['Qt.BDiagPattern'] = BrushStyle(None, unicode(self.tr("Backward diagonal lines")), '', 12)
         d['Qt.FDiagPattern'] = BrushStyle(None, unicode(self.tr("Forward diagonal lines")), '', 13)
         d['Qt.DiagCrossPattern'] = BrushStyle(None, unicode(self.tr("Diagonal crossing lines")), '', 14)
-
+        d['artistic pen'] = Pen(None, unicode(self.tr("Artistic Pen")), '', 0, 0, 0, 255, 1, d['Qt.RoundCap'], d['Qt.RoundJoin'], d['Qt.SolidLine'])
+        d['test drawing'] = Drawing(None, unicode(self.tr("Test Drawing")))
         d['um'] = LengthUnit(None, 1, unicode(self.tr('um')))
         d['mm'] = LengthUnit(None, 1000, unicode(self.tr('mm')))
         d['cm'] = LengthUnit(None, 10000, unicode(self.tr('cm')))

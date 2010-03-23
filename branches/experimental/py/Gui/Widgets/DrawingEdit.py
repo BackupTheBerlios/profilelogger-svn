@@ -4,12 +4,8 @@ from PyQt4.QtCore import *
 from Gui.Canvas.CanvasScene import *
 from Gui.Canvas.CanvasView import *
 
-from Gui.Widgets.PixelInputWidget import PixelInputWidget
-from Gui.Widgets.ColorSelectionWidget import ColorSelectionWidget
-from Gui.Widgets.PenCapStyleSelector import PenCapStyleSelector
-from Gui.Widgets.PenJoinStyleSelector import PenJoinStyleSelector
-from Gui.Widgets.PenStyleSelector import PenStyleSelector
-from Gui.Widgets.BrushStyleSelector import BrushStyleSelector
+from Gui.ItemViews.PenItemView import *
+from Gui.ItemViews.BrushItemView import *
 
 class DrawingEdit(QSplitter):
     def __init__(self, parent):
@@ -24,7 +20,8 @@ class DrawingEdit(QSplitter):
         self.addWidget(self.toolsW)
         self.addWidget(self.canvasV)
     def configureTools(self):
-        self.toolsW = QToolBox(self)
+        self.toolsW = QWidget(self)
+        self.toolsW.setLayout(QVBoxLayout(self.toolsW))
         self.toolsW.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         self.setupToolsWidget()
@@ -33,26 +30,9 @@ class DrawingEdit(QSplitter):
         self.modeW = QLabel(self.tr("No Tool Selected"), self.toolsW)
         self.modeW.setAlignment(Qt.AlignBottom | Qt.AlignHCenter)
         
-        self.toolsW.addItem(self.toolBoxW, self.tr("Primitives"))
-        self.toolsW.addItem(self.settingsW, self.tr("Pen \& Brush"))
-        self.toolsW.addItem(self.modeW, self.tr("Hint"))
-        
-        self.penWidthW.valueChanged.connect(self.canvasS.onPenWidthChange)
-        self.penColorW.colorChanged.connect(self.canvasS.onPenColorChange)
-        self.brushColorW.colorChanged.connect(self.canvasS.onBrushColorChange)
-        self.penCapStyleW.styleChanged.connect(self.canvasS.onPenCapStyleChange)
-        self.penColorW.colorChanged.connect(self.penCapStyleW.onColorChange)
-        self.penWidthW.valueChanged.connect(self.penCapStyleW.onPenWidthChange)
-        self.penJoinStyleW.styleChanged.connect(self.canvasS.onPenJoinStyleChange)
-        self.penColorW.colorChanged.connect(self.penJoinStyleW.onColorChange)
-        self.penWidthW.valueChanged.connect(self.penJoinStyleW.onPenWidthChange)
-        self.penStyleW.styleChanged.connect(self.canvasS.onPenStyleChange)
-        self.penColorW.colorChanged.connect(self.penStyleW.onColorChange)
-        self.penWidthW.valueChanged.connect(self.penStyleW.onPenWidthChange)
-        self.brushStyleW.styleChanged.connect(self.canvasS.onBrushStyleChange)
-        self.brushColorW.colorChanged.connect(self.brushStyleW.onColorChange)
-        self.brushColorW.colorChanged.connect(self.canvasS.onBrushColorChange)
-
+        self.toolsW.layout().addWidget(self.toolBoxW)
+        self.toolsW.layout().addWidget(self.settingsW)
+        self.toolsW.layout().addWidget(self.modeW)
     def onStraightLineRequest(self):
         self.modeW.setText(self.tr("Straight Line"))
     def onPolygonLineRequest(self):
@@ -71,43 +51,18 @@ class DrawingEdit(QSplitter):
         self.modeW.setText(self.tr("Edit"))
     def setupSettingsWidget(self):
         self.settingsW = QWidget(self.toolsW)
-        self.settingsW.setLayout(QGridLayout(self.settingsW))
-        self.penWidthW = PixelInputWidget(self.settingsW, None)
-        self.penWidthW.setValue(2)
-        self.penColorW = ColorSelectionWidget(self.settingsW, None, Qt.black)
-        self.penCapStyleW = PenCapStyleSelector(self.settingsW)
-
-        self.brushColorW = ColorSelectionWidget(self.settingsW, None, Qt.black)
-        self.penJoinStyleW = PenJoinStyleSelector(self.settingsW)
-        self.penStyleW = PenStyleSelector(self.settingsW)
-        self.brushStyleW = BrushStyleSelector(self.settingsW)
-
-        r = 0
-        lc = 0
-        wc = 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Pen Width"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.penWidthW, r, wc)
-        r += 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Pen Color"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.penColorW, r, wc)
-        r += 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Pen Cap Style"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.penCapStyleW, r, wc)
-        r += 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Pen Join Style"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.penJoinStyleW, r, wc)
-        r += 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Pen Line Style"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.penStyleW, r, wc)
-        r += 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Brush Color"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.brushColorW, r, wc)
-        r += 1
-        self.settingsW.layout().addWidget(QLabel(self.tr("Brush Style"), self.settingsW), r, lc)
-        self.settingsW.layout().addWidget(self.brushStyleW, r, wc)
+        self.settingsW.setLayout(QVBoxLayout(self.settingsW))
+        self.pensW = PenItemView(self.settingsW, QApplication.instance().penModel)
+        self.brushesW = BrushItemView(self.settingsW, QApplication.instance().brushModel)
+        self.settingsW.layout().addWidget(QLabel(self.tr("Pen"), self.settingsW))
+        self.settingsW.layout().addWidget(self.pensW)
+        self.settingsW.layout().addWidget(QLabel(self.tr("Brush"), self.settingsW))
+        self.settingsW.layout().addWidget(self.brushesW)
+#        self.pensW.currentDatasetChanged.connect(self.canvasS.onPenChange)
+#        self.brushesW.currentDatasetChanged.connect(self.canvasS.onBrushChange)
     def setupToolsWidget(self):
         self.toolBoxW = QWidget(self.toolsW)
-        self.toolBoxW.setLayout(QVBoxLayout(self.toolBoxW))
+        self.toolBoxW.setLayout(QGridLayout(self.toolBoxW))
         self.straightLineW = QPushButton(self.tr("Straight Line"), self.toolBoxW)
         self.polygonLineW = QPushButton(self.tr("Polygon Line"), self.toolBoxW)
         self.rectangleW = QPushButton(self.tr("Rectangle"), self.toolBoxW)
@@ -118,30 +73,30 @@ class DrawingEdit(QSplitter):
         self.moveW = QPushButton(self.tr("Move"), self.toolBoxW)
         self.moveW.setEnabled(False)
 
-        self.toolBoxW.layout().addWidget(self.straightLineW)
-        self.toolBoxW.layout().addWidget(self.polygonLineW)
-        self.toolBoxW.layout().addWidget(self.rectangleW)
-        self.toolBoxW.layout().addWidget(self.ellipseW)
-        self.toolBoxW.layout().addWidget(self.pathW)
-        self.toolBoxW.layout().addWidget(self.editW)
-        self.toolBoxW.layout().addWidget(self.moveW)
-        self.toolBoxW.layout().addWidget(self.deleteW)
+        self.toolBoxW.layout().addWidget(self.straightLineW, 0, 0)
+        self.toolBoxW.layout().addWidget(self.polygonLineW, 0, 1)
+        self.toolBoxW.layout().addWidget(self.rectangleW, 0, 2)
+        self.toolBoxW.layout().addWidget(self.ellipseW, 1, 0)
+        self.toolBoxW.layout().addWidget(self.pathW, 1, 1)
+        self.toolBoxW.layout().addWidget(self.editW, 1, 2)
+        self.toolBoxW.layout().addWidget(self.moveW, 2, 0)
+        self.toolBoxW.layout().addWidget(self.deleteW, 2, 1)
 
         self.straightLineW.clicked.connect(self.onStraightLineRequest)
-        self.straightLineW.clicked.connect(self.canvasS.drawStraightLine)
+#        self.straightLineW.clicked.connect(self.canvasS.drawStraightLine)
         self.rectangleW.clicked.connect(self.onRectangleRequest)
-        self.rectangleW.clicked.connect(self.canvasS.drawRectangle)
+#        self.rectangleW.clicked.connect(self.canvasS.drawRectangle)
         self.polygonLineW.clicked.connect(self.onPolygonLineRequest)
-        self.polygonLineW.clicked.connect(self.canvasS.drawPolygon)
+#        self.polygonLineW.clicked.connect(self.canvasS.drawPolygon)
         self.ellipseW.clicked.connect(self.onEllipseRequest)
-        self.ellipseW.clicked.connect(self.canvasS.drawEllipse)
+#        self.ellipseW.clicked.connect(self.canvasS.drawEllipse)
         self.pathW.clicked.connect(self.onPathRequest)
-        self.pathW.clicked.connect(self.canvasS.drawPath)
+#        self.pathW.clicked.connect(self.canvasS.drawPath)
         self.deleteW.clicked.connect(self.onDeleteRequest)
-        self.deleteW.clicked.connect(self.canvasS.onDelete)
+#        self.deleteW.clicked.connect(self.canvasS.onDelete)
         self.editW.clicked.connect(self.onEditRequest)
-        self.editW.clicked.connect(self.canvasS.onEdit)
+#        self.editW.clicked.connect(self.canvasS.onEdit)
         self.moveW.clicked.connect(self.onMoveRequest)
-        self.moveW.clicked.connect(self.canvasS.onMove)
+#        self.moveW.clicked.connect(self.canvasS.onMove)
     def setValue(self, drawing):
         self.drawing = drawing
