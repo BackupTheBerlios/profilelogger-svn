@@ -12,10 +12,19 @@ from EllipseItem import *
 from PolygonItem import *
 from PainterPathItem import *
 
+from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
+
+from sqlalchemy.exc import *
+from sqlalchemy.orm.exc import *
+
 class CanvasScene(QGraphicsScene):
     currentItem = None
     currentPen = None
     currentBrush = None
+    isDeleting = False
+    isDrawing = False
+    isEditing = False
+    isMoving = False
     def __init__(self, parent):
         QGraphicsScene.__init__(self, parent)
         self.drawing = None
@@ -58,43 +67,113 @@ class CanvasScene(QGraphicsScene):
         if self.currentItem.__class__ == RectangleItem:
             if self.currentItem.rectangle is not None:
                 self.currentItem.rectangle.brush = self.currentBrush
+    def setDrawingMode(self):
+        self.isDrawing = True
+        self.isDeleting = False
+        self.isEditing = False
+        self.isMoving = False
+    def setDeletingMode(self):
+        self.isDrawing = False
+        self.isDeleting = True
+        self.isEditing = False
+        self.isMoving = False
+    def setEditingMode(self):
+        self.isDrawing = False
+        self.isDeleting = False
+        self.isEditing = True
+        self.isMoving = False
+    def setMovingMode(self):
+        self.isDrawing = False
+        self.isDeleting = False
+        self.isEditig = False
+        self.isMoving = True
     def drawStraightLine(self):
+        self.setDrawingMode()
         self.currentItem = StraightLineItem()
     def drawRectangle(self):
+        self.setDrawingMode()
         self.currentItem = RectangleItem()
     def drawEllipse(self):
+        self.setDrawingMode()
         self.currentItem = EllipseItem()
     def drawPolygon(self):
+        self.setDrawingMode()
         self.currentItem = PolygonItem()
     def drawPainterPath(self):
+        self.setDrawingMode()
         self.currentItem = PainterPathItem()
     def mousePressEvent(self, e):
         if Qt.LeftButton != e.button():
             e.ignore()
             return
+        if self.isDrawing:
+            self.beginDrawingAt(e.scenePos())
+            return
+        if self.isDeleting:
+            self.deleteAt(e.scenePos())
+            return
+        if self.isEditing:
+            self.editAt(e.scenePos())
+    def deleteAt(self, pos):
+        itm = self.itemAt(pos)
+        if itm is None:
+            return
+        self.removeItem(itm)
+        try:
+            if itm.__class__ == StraightLineItem:
+                QApplication.instance().db.session.delete(itm.straightLine)
+            if itm.__class__ == RectangleItem:
+                QApplication.instance().db.session.delete(itm.rectangle)
+            if itm.__class__ == EllipseItem:
+                QApplication.instance().db.session.delete(itm.ellipse)
+            if itm.__class__ == PolygonItem:
+                QApplication.instance().db.session.delete(itm.polygon)
+            if itm.__class__ == PainterPathItem:
+                QApplication.instance().db.session.delete(itm.painterPath)
+            QApplication.instance().db.session.commit()
+            return True
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+    def editAt(self, pos):
+        pass
+    def beginDrawingAt(self, scenePos):
         if self.currentItem.__class__ == StraightLineItem:
-            self.beginStraightLine(e.scenePos())
+            self.beginStraightLine(scenePos)
         if self.currentItem.__class__ == RectangleItem:
-            self.beginRectangle(e.scenePos())
+            self.beginRectangle(scenePos)
         if self.currentItem.__class__ == EllipseItem:
-            self.beginEllipse(e.scenePos())
+            self.beginEllipse(scenePos)
         if self.currentItem.__class__ == PolygonItem:
-            self.beginPolygon(e.scenePos())
+            self.beginPolygon(scenePos)
         if self.currentItem.__class__ == PainterPathItem:
-            self.beginPainterPath(e.scenePos())
+            self.beginPainterPath(scenePos)
         self.refresh()
     def mouseMoveEvent(self, e):
+        if self.isDrawing:
+            self.continueDrawingAt(e.scenePos())
+            return
+        e.ignore()
+    def continueDrawingAt(self, scenePos):
         if self.currentItem.__class__ == StraightLineItem:
-            self.continueStraightLine(e.scenePos())
+            self.continueStraightLine(scenePos)
         if self.currentItem.__class__ == RectangleItem:
-            self.continueRectangle(e.scenePos())
+            self.continueRectangle(scenePos)
         if self.currentItem.__class__ == EllipseItem:
-            self.continueEllipse(e.scenePos())
+            self.continueEllipse(scenePos)
         if self.currentItem.__class__ == PolygonItem:
-            self.continuePolygon(e.scenePos())
+            self.continuePolygon(scenePos)
         if self.currentItem.__class__ == PainterPathItem:
-            self.continuePainterPath(e.scenePos())
-
+            self.continuePainterPath(scenePos)
         self.refresh()
     def mouseReleaseEvent(self, e):
         if Qt.LeftButton != e.button():
@@ -199,21 +278,26 @@ class CanvasScene(QGraphicsScene):
         if not self.checkForPen():
             return
         self.currentItem.painterPath = PainterPath(None, self.drawing, 
-                                           startPos.x(), startPos.y(),
-                                           [],
-                                           self.currentPen)
+                                                   startPos.x(), startPos.y(),
+                                                   [],
+                                                   self.currentPen)
         self.currentItem.painterPath.pen = self.currentPen
         self.currentItem.painterPath.brush = self.currentBrush
         self.addItem(self.currentItem)
         self.currentItem.updateFromData()
     def continuePainterPath(self, endPos):
         self.currentItem.painterPath.appendPoint(endPos.x() - self.currentItem.painterPath.posX,
-                                             endPos.y() - self.currentItem.painterPath.posY)
+                                                 endPos.y() - self.currentItem.painterPath.posY)
         self.currentItem.updateFromData()
     def finishPainterPath(self, endPos):
         self.currentItem.painterPath.appendPoint(endPos.x() - self.currentItem.painterPath.posX,
-                                             endPos.y() - self.currentItem.painterPath.posY) 
+                                                 endPos.y() - self.currentItem.painterPath.posY) 
         self.currentItem.updateFromData()
         self.currentItem = None
         self.currentItem = PainterPathItem()
-        
+    def onEdit(self):
+        self.setEditingMode()
+    def onDelete(self):
+        self.setDeletingMode()
+    def onMove(self):
+        self.setMovingMode()
