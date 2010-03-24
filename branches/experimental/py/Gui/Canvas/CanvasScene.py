@@ -7,6 +7,7 @@ from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
 from StraightLineItem import *
+from RectangleItem import *
 
 class CanvasScene(QGraphicsScene):
     currentItem = None
@@ -15,47 +16,99 @@ class CanvasScene(QGraphicsScene):
     def __init__(self, parent):
         QGraphicsScene.__init__(self, parent)
         self.drawing = None
+    def refresh(self):
+        self.update(self.sceneRect())
+    def checkForPen(self):
+        if self.currentPen is None:
+            QMessageBox.information(QApplication.activeWindow(),
+                                    self.tr("Usage hint"),
+                                    self.tr("<p>Pen required.</p>"))
+            return False
+        return True
     def onPenChange(self, p):
         self.currentPen = p
         if self.currentItem.__class__ == StraightLineItem:
             if self.currentItem.straightLine is not None:
                 self.currentItem.straightLine.pen = self.currentPen
+            return
+        if self.currentItem.__class__ == RectangleItem:
+            if self.currentItem.rectangle is not None:
+                self.currentItem.rectangle.pen = self.currentPen
+            return
     def onBrushChange(self, b):
         self.currentBrush = b
         if self.currentItem.__class__ == StraightLineItem:
-            pass
+            return
+        if self.currentItem.__class__ == RectangleItem:
+            if self.currentItem.rectangle is not None:
+                self.currentItem.rectangle.brush = self.currentBrush
     def drawStraightLine(self):
         self.currentItem = StraightLineItem()
+    def drawRectangle(self):
+        self.currentItem = RectangleItem()
     def mousePressEvent(self, e):
         if Qt.LeftButton != e.button():
             e.ignore()
             return
         if self.currentItem.__class__ == StraightLineItem:
-            if self.currentPen is None:
-                QMessageBox.information(QApplication.activeWindow(),
-                                        self.tr("Usage hint"),
-                                        self.tr("<p>Pen required.</p>"))
-                return
-            self.currentItem.straightLine = StraightLine(None, self.drawing, 
-                                                         e.scenePos().x(), e.scenePos().y(), 
-                                                         e.scenePos().x(), e.scenePos().y(), 
-                                                         self.currentPen)
-            self.currentItem.straightLine.pen = self.currentPen
-            self.addItem(self.currentItem)
-            self.currentItem.updateFromData()
+            self.beginStraightLine(e.scenePos())
+        if self.currentItem.__class__ == RectangleItem:
+            self.beginRectangle(e.scenePos())
+        self.refresh()
     def mouseMoveEvent(self, e):
         if self.currentItem.__class__ == StraightLineItem:
-            self.currentItem.straightLine.x2 = e.scenePos().x()
-            self.currentItem.straightLine.y2 = e.scenePos().y()
-            print "pos: ", e.scenePos()
-            self.currentItem.updateFromData()
+            self.continueStraightLine(e.scenePos())
+        if self.currentItem.__class__ == RectangleItem:
+            self.continueRectangle(e.scenePos())
+        self.refresh()
     def mouseReleaseEvent(self, e):
         if Qt.LeftButton != e.button():
             e.ignore()
             return;
         if self.currentItem.__class__ == StraightLineItem:
-            self.currentItem.straightLine.x2 = e.scenePos().x()
-            self.currentItem.straightLine.y2 = e.scenePos().y()
-            self.currentItem.updateFromData()
-            self.currentItem = None
-            self.currentItem = StraightLineItem()
+            self.finishStraightLine(e.scenePos())
+        if self.currentItem.__class__ == RectangleItem:
+            self.finishRectangle(e.scenePos())
+    def beginStraightLine(self, startPos):
+        if not self.checkForPen():
+            return
+        self.currentItem.straightLine = StraightLine(None, self.drawing, 
+                                                     startPos.x(), startPos.y(), 
+                                                     startPos.x(), startPos.y(), 
+                                                     self.currentPen)
+        self.currentItem.straightLine.pen = self.currentPen
+        self.addItem(self.currentItem)
+        self.currentItem.updateFromData()
+    def continueStraightLine(self, endPos):
+        self.currentItem.straightLine.x2 = endPos.x()
+        self.currentItem.straightLine.y2 = endPos.y()
+        self.currentItem.updateFromData()
+    def finishStraightLine(self, endPos):
+        self.currentItem.straightLine.x2 = endPos.x()
+        self.currentItem.straightLine.y2 = endPos.y()
+        self.currentItem.updateFromData()
+        self.currentItem = None
+        self.currentItem = StraightLineItem()
+    def beginRectangle(self, startPos):
+        if not self.checkForPen():
+            return
+        self.currentItem.rectangle = Rectangle(None, self.drawing, 
+                                               startPos.x(), startPos.y(),
+                                               0, 0, 
+                                               0, 0, 
+                                               self.currentPen)
+        self.currentItem.rectangle.pen = self.currentPen
+        self.currentItem.rectangle.brush = self.currentBrush
+        self.addItem(self.currentItem)
+        self.currentItem.updateFromData()
+    def continueRectangle(self, endPos):
+        self.currentItem.rectangle.x2 = endPos.x() - self.currentItem.rectangle.posX
+        self.currentItem.rectangle.y2 = endPos.y() - self.currentItem.rectangle.posY
+        self.currentItem.updateFromData()
+    def finishRectangle(self, endPos):
+        self.currentItem.rectangle.x2 = endPos.x() - self.currentItem.rectangle.posX
+        self.currentItem.rectangle.y2 = endPos.y() - self.currentItem.rectangle.posY 
+        self.currentItem.updateFromData()
+        self.currentItem = None
+        self.currentItem = RectangleItem()
+        
