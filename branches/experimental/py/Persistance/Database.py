@@ -50,7 +50,7 @@ from Model.BrushStyle import *
 from Model.Brush import *
 from Model.StraightLine import *
 from Model.Rectangle import *
-from Model.Ellipsis import *
+from Model.Ellipse import *
 from Model.Polygon import *
 from Model.PolygonPoint import *
 from Model.PainterPath import *
@@ -733,7 +733,7 @@ class Database:
                 'y': self.tables['polygon_points'].c.y,
                 'position': self.tables['polygon_points'].c.position
                 })
-        mapper(Ellipsis, self.tables['ellipses'], properties = {
+        mapper(Ellipse, self.tables['ellipses'], properties = {
                 'id': self.tables['ellipses'].c.id,
                 'posX': self.tables['ellipses'].c.pos_x,
                 'posY': self.tables['ellipses'].c.pos_y,

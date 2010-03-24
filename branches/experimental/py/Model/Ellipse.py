@@ -2,7 +2,7 @@ from Dataset import Dataset
 
 from PyQt4.QtCore import *
 
-class Ellipsis(Dataset):
+class Ellipse(Dataset):
     def __init__(self, id=None, drawing=None,
                  posX=0, posY=0,
                  x1=0, y1=0, x2=0, y2=0,

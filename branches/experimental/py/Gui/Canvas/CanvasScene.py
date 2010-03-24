@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import *
 
 from StraightLineItem import *
 from RectangleItem import *
+from EllipseItem import *
 
 class CanvasScene(QGraphicsScene):
     currentItem = None
@@ -35,6 +36,11 @@ class CanvasScene(QGraphicsScene):
             if self.currentItem.rectangle is not None:
                 self.currentItem.rectangle.pen = self.currentPen
             return
+        if self.currentItem.__class__ == EllipseItem:
+            if self.currentItem.ellipse is not None:
+                self.currentItem.ellipse.pen = self.currentPen
+            return
+        
     def onBrushChange(self, b):
         self.currentBrush = b
         if self.currentItem.__class__ == StraightLineItem:
@@ -46,6 +52,8 @@ class CanvasScene(QGraphicsScene):
         self.currentItem = StraightLineItem()
     def drawRectangle(self):
         self.currentItem = RectangleItem()
+    def drawEllipse(self):
+        self.currentItem = EllipseItem()
     def mousePressEvent(self, e):
         if Qt.LeftButton != e.button():
             e.ignore()
@@ -54,12 +62,17 @@ class CanvasScene(QGraphicsScene):
             self.beginStraightLine(e.scenePos())
         if self.currentItem.__class__ == RectangleItem:
             self.beginRectangle(e.scenePos())
+        if self.currentItem.__class__ == EllipseItem:
+            self.beginEllipse(e.scenePos())
         self.refresh()
     def mouseMoveEvent(self, e):
         if self.currentItem.__class__ == StraightLineItem:
             self.continueStraightLine(e.scenePos())
         if self.currentItem.__class__ == RectangleItem:
             self.continueRectangle(e.scenePos())
+        if self.currentItem.__class__ == EllipseItem:
+            self.continueEllipse(e.scenePos())
+
         self.refresh()
     def mouseReleaseEvent(self, e):
         if Qt.LeftButton != e.button():
@@ -69,6 +82,8 @@ class CanvasScene(QGraphicsScene):
             self.finishStraightLine(e.scenePos())
         if self.currentItem.__class__ == RectangleItem:
             self.finishRectangle(e.scenePos())
+        if self.currentItem.__class__ == EllipseItem:
+            self.finishEllipse(e.scenePos())
     def beginStraightLine(self, startPos):
         if not self.checkForPen():
             return
@@ -111,4 +126,26 @@ class CanvasScene(QGraphicsScene):
         self.currentItem.updateFromData()
         self.currentItem = None
         self.currentItem = RectangleItem()
+    def beginEllipse(self, startPos):
+        if not self.checkForPen():
+            return
+        self.currentItem.ellipse = Ellipse(None, self.drawing, 
+                                           startPos.x(), startPos.y(),
+                                           0, 0, 
+                                           0, 0, 
+                                           self.currentPen)
+        self.currentItem.ellipse.pen = self.currentPen
+        self.currentItem.ellipse.brush = self.currentBrush
+        self.addItem(self.currentItem)
+        self.currentItem.updateFromData()
+    def continueEllipse(self, endPos):
+        self.currentItem.ellipse.x2 = endPos.x() - self.currentItem.ellipse.posX
+        self.currentItem.ellipse.y2 = endPos.y() - self.currentItem.ellipse.posY
+        self.currentItem.updateFromData()
+    def finishEllipse(self, endPos):
+        self.currentItem.ellipse.x2 = endPos.x() - self.currentItem.ellipse.posX
+        self.currentItem.ellipse.y2 = endPos.y() - self.currentItem.ellipse.posY 
+        self.currentItem.updateFromData()
+        self.currentItem = None
+        self.currentItem = EllipseItem()
         

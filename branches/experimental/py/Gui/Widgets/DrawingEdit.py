@@ -8,7 +8,7 @@ from Gui.ItemViews.PenItemView import *
 from Gui.ItemViews.BrushItemView import *
 from Gui.Canvas.StraightLineItem import *
 from Gui.Canvas.RectangleItem import *
-from Gui.Canvas.EllipsisItem import *
+from Gui.Canvas.EllipseItem import *
 from Gui.Canvas.PolygonItem import *
 from Gui.Canvas.PainterPathItem import *
 
@@ -99,10 +99,10 @@ class DrawingEdit(QSplitter):
         self.moveW.clicked.connect(self.onMoveRequest)
         self.straightLineW.clicked.connect(self.canvasS.drawStraightLine)
         self.rectangleW.clicked.connect(self.canvasS.drawRectangle)
+        self.ellipseW.clicked.connect(self.canvasS.drawEllipse)
 #        self.editW.clicked.connect(self.canvasS.onEdit)
 #        self.deleteW.clicked.connect(self.canvasS.onDelete)
 #        self.pathW.clicked.connect(self.canvasS.drawPath)
-#        self.ellipseW.clicked.connect(self.canvasS.drawEllipse)
 #        self.polygonLineW.clicked.connect(self.canvasS.drawPolygon)
 #        self.moveW.clicked.connect(self.canvasS.onMove)
     def setValue(self, drawing):
@@ -113,8 +113,9 @@ class DrawingEdit(QSplitter):
         for r in self.drawing.rectangles:
             self.canvasS.addItem(RectangleItem(r))
         for e in self.drawing.ellipses:
-            self.canvasS.addItem(EllipsisItem(e))
+            self.canvasS.addItem(EllipseItem(e))
         for p in self.drawing.polygons:
             self.canvasS.addItem(PolygonItem(p))
         for p in self.drawing.painterPaths:
             self.canvasS.addItem(PainterPathItem(p))
+            
