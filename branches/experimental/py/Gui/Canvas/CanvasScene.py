@@ -10,6 +10,7 @@ from StraightLineItem import *
 from RectangleItem import *
 from EllipseItem import *
 from PolygonItem import *
+from PainterPathItem import *
 
 class CanvasScene(QGraphicsScene):
     currentItem = None
@@ -45,6 +46,10 @@ class CanvasScene(QGraphicsScene):
             if self.currentItem.polygon is not None:
                 self.currentItem.polygon.pen = self.currentPen
             return
+        if self.currentItem.__class__ == PainterPathItem:
+            if self.currentItem.painterPath is not None:
+                self.currentItem.painterPath.pen = self.currentPen
+            return
         
     def onBrushChange(self, b):
         self.currentBrush = b
@@ -61,6 +66,8 @@ class CanvasScene(QGraphicsScene):
         self.currentItem = EllipseItem()
     def drawPolygon(self):
         self.currentItem = PolygonItem()
+    def drawPainterPath(self):
+        self.currentItem = PainterPathItem()
     def mousePressEvent(self, e):
         if Qt.LeftButton != e.button():
             e.ignore()
@@ -73,6 +80,8 @@ class CanvasScene(QGraphicsScene):
             self.beginEllipse(e.scenePos())
         if self.currentItem.__class__ == PolygonItem:
             self.beginPolygon(e.scenePos())
+        if self.currentItem.__class__ == PainterPathItem:
+            self.beginPainterPath(e.scenePos())
         self.refresh()
     def mouseMoveEvent(self, e):
         if self.currentItem.__class__ == StraightLineItem:
@@ -83,6 +92,8 @@ class CanvasScene(QGraphicsScene):
             self.continueEllipse(e.scenePos())
         if self.currentItem.__class__ == PolygonItem:
             self.continuePolygon(e.scenePos())
+        if self.currentItem.__class__ == PainterPathItem:
+            self.continuePainterPath(e.scenePos())
 
         self.refresh()
     def mouseReleaseEvent(self, e):
@@ -97,6 +108,8 @@ class CanvasScene(QGraphicsScene):
             self.finishEllipse(e.scenePos())
         if self.currentItem.__class__ == PolygonItem:
             self.finishPolygon(e.scenePos())
+        if self.currentItem.__class__ == PainterPathItem:
+            self.finishPainterPath(e.scenePos())
     def beginStraightLine(self, startPos):
         if not self.checkForPen():
             return
@@ -182,5 +195,25 @@ class CanvasScene(QGraphicsScene):
         self.currentItem.updateFromData()
         self.currentItem = None
         self.currentItem = PolygonItem()
-        
+    def beginPainterPath(self, startPos):
+        if not self.checkForPen():
+            return
+        self.currentItem.painterPath = PainterPath(None, self.drawing, 
+                                           startPos.x(), startPos.y(),
+                                           [],
+                                           self.currentPen)
+        self.currentItem.painterPath.pen = self.currentPen
+        self.currentItem.painterPath.brush = self.currentBrush
+        self.addItem(self.currentItem)
+        self.currentItem.updateFromData()
+    def continuePainterPath(self, endPos):
+        self.currentItem.painterPath.appendPoint(endPos.x() - self.currentItem.painterPath.posX,
+                                             endPos.y() - self.currentItem.painterPath.posY)
+        self.currentItem.updateFromData()
+    def finishPainterPath(self, endPos):
+        self.currentItem.painterPath.appendPoint(endPos.x() - self.currentItem.painterPath.posX,
+                                             endPos.y() - self.currentItem.painterPath.posY) 
+        self.currentItem.updateFromData()
+        self.currentItem = None
+        self.currentItem = PainterPathItem()
         

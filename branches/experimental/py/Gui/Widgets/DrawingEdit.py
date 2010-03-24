@@ -101,9 +101,9 @@ class DrawingEdit(QSplitter):
         self.rectangleW.clicked.connect(self.canvasS.drawRectangle)
         self.ellipseW.clicked.connect(self.canvasS.drawEllipse)
         self.polygonLineW.clicked.connect(self.canvasS.drawPolygon)
+        self.pathW.clicked.connect(self.canvasS.drawPainterPath)
 #        self.editW.clicked.connect(self.canvasS.onEdit)
 #        self.deleteW.clicked.connect(self.canvasS.onDelete)
-#        self.pathW.clicked.connect(self.canvasS.drawPath)
 #        self.moveW.clicked.connect(self.canvasS.onMove)
     def setValue(self, drawing):
         self.drawing = drawing

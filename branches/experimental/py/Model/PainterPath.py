@@ -3,6 +3,8 @@ from Dataset import Dataset
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from PainterPathPoint import *
+
 class PainterPath(Dataset):
     def __init__(self, id=None, drawing=None,
                  posX=0, posY=0, 
@@ -26,3 +28,6 @@ class PainterPath(Dataset):
         for p in self.painterPathPoints:
             ret.lineTo(p.toPoint())
         return ret
+    def appendPoint(self, x, y):
+        currLen = len(self.painterPathPoints)
+        self.painterPathPoints.append(PainterPathPoint(None, self, x, y, currLen + 1))
