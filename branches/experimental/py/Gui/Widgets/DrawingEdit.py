@@ -11,6 +11,7 @@ from Gui.Canvas.RectangleItem import *
 from Gui.Canvas.EllipseItem import *
 from Gui.Canvas.PolygonItem import *
 from Gui.Canvas.PainterPathItem import *
+from Gui.Widgets.ZoomSlider import *
 
 class DrawingEdit(QSplitter):
     def __init__(self, parent):
@@ -26,7 +27,7 @@ class DrawingEdit(QSplitter):
     def configureTools(self):
         self.toolsW = QWidget(self)
         self.toolsW.setLayout(QHBoxLayout(self.toolsW))
-
+        self.zoomW = ZoomSlider(self.toolsW)
         self.setupToolsWidget()
 
         self.settingsW = QWidget(self.toolsW)
@@ -41,9 +42,11 @@ class DrawingEdit(QSplitter):
 
         self.pensW.currentDatasetChanged.connect(self.canvasS.onPenChange)
         self.brushesW.currentDatasetChanged.connect(self.canvasS.onBrushChange)
+        self.zoomW.valueChanged.connect(self.canvasV.onIntZoomChange)
 
         self.toolsW.layout().addWidget(self.toolBoxW)
         self.toolsW.layout().addWidget(self.settingsW)
+        self.toolsW.layout().addWidget(self.zoomW)
     def setupToolsWidget(self):
         self.toolBoxW = QWidget(self.toolsW)
         self.toolBoxW.setLayout(QVBoxLayout(self.toolBoxW))
