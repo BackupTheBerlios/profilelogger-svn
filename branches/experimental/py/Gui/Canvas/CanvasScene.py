@@ -114,6 +114,9 @@ class CanvasScene(QGraphicsScene):
             return
         if self.isEditing:
             self.editAt(e.scenePos())
+            return
+        if self.isMoving:
+            self.beginMoveAt(e.scenePos())
     def deleteAt(self, pos):
         itm = self.itemAt(pos)
         if itm is None:
@@ -158,9 +161,22 @@ class CanvasScene(QGraphicsScene):
         if self.currentItem.__class__ == PainterPathItem:
             self.beginPainterPath(scenePos)
         self.refresh()
+    def beginMoveAt(self, scenePos):
+        self.currentItem = self.itemAt(scenePos)
+    def continueMoveAt(self, scenePos):
+        if self.currentItem is not None:
+            pass
+    def finishMovingAt(self, scenePos):
+        if self.currentItem is not None:
+            pass
     def mouseMoveEvent(self, e):
         if self.isDrawing:
             self.continueDrawingAt(e.scenePos())
+            e.accept()
+            return
+        if self.isMoving:
+            self.continueMovingAt(e.scenePos())
+            e.accept()
             return
         e.ignore()
     def continueDrawingAt(self, scenePos):
@@ -179,16 +195,27 @@ class CanvasScene(QGraphicsScene):
         if Qt.LeftButton != e.button():
             e.ignore()
             return;
+        if self.isDrawing:
+            self.finishDrawingAt(e.scenePos())
+            e.accept()
+            return
+        if self.isMoving:
+            self.finishMovingAt(e.scenePos())
+            e.accept()
+            return
+        e.ignore()
+        self.refresh()
+    def finishDrawingAt(self, scenePos):
         if self.currentItem.__class__ == StraightLineItem:
-            self.finishStraightLine(e.scenePos())
+            self.finishStraightLine(scenePos)
         if self.currentItem.__class__ == RectangleItem:
-            self.finishRectangle(e.scenePos())
+            self.finishRectangle(scenePos)
         if self.currentItem.__class__ == EllipseItem:
-            self.finishEllipse(e.scenePos())
+            self.finishEllipse(scenePos)
         if self.currentItem.__class__ == PolygonItem:
-            self.finishPolygon(e.scenePos())
+            self.finishPolygon(scenePos)
         if self.currentItem.__class__ == PainterPathItem:
-            self.finishPainterPath(e.scenePos())
+            self.finishPainterPath(scenePos)
     def beginStraightLine(self, startPos):
         if not self.checkForPen():
             return
