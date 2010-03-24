@@ -3,6 +3,8 @@ from Dataset import Dataset
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from PolygonPoint import *
+
 class Polygon(Dataset):
     def __init__(self, id=None, drawing=None,
                  posX=0, posY=0, 
@@ -26,3 +28,6 @@ class Polygon(Dataset):
         for p in self.polygonPoints:
             ret.append(QPointF(p.toPoint()))
         return ret
+    def appendPoint(self, x, y):
+        currLen = len(self.polygonPoints)
+        self.polygonPoints.append(PolygonPoint(None, self, x, y, currLen + 1))

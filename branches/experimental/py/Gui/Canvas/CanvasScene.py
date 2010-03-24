@@ -9,6 +9,7 @@ from sqlalchemy.orm.exc import *
 from StraightLineItem import *
 from RectangleItem import *
 from EllipseItem import *
+from PolygonItem import *
 
 class CanvasScene(QGraphicsScene):
     currentItem = None
@@ -40,6 +41,10 @@ class CanvasScene(QGraphicsScene):
             if self.currentItem.ellipse is not None:
                 self.currentItem.ellipse.pen = self.currentPen
             return
+        if self.currentItem.__class__ == PolygonItem:
+            if self.currentItem.polygon is not None:
+                self.currentItem.polygon.pen = self.currentPen
+            return
         
     def onBrushChange(self, b):
         self.currentBrush = b
@@ -54,6 +59,8 @@ class CanvasScene(QGraphicsScene):
         self.currentItem = RectangleItem()
     def drawEllipse(self):
         self.currentItem = EllipseItem()
+    def drawPolygon(self):
+        self.currentItem = PolygonItem()
     def mousePressEvent(self, e):
         if Qt.LeftButton != e.button():
             e.ignore()
@@ -64,6 +71,8 @@ class CanvasScene(QGraphicsScene):
             self.beginRectangle(e.scenePos())
         if self.currentItem.__class__ == EllipseItem:
             self.beginEllipse(e.scenePos())
+        if self.currentItem.__class__ == PolygonItem:
+            self.beginPolygon(e.scenePos())
         self.refresh()
     def mouseMoveEvent(self, e):
         if self.currentItem.__class__ == StraightLineItem:
@@ -72,6 +81,8 @@ class CanvasScene(QGraphicsScene):
             self.continueRectangle(e.scenePos())
         if self.currentItem.__class__ == EllipseItem:
             self.continueEllipse(e.scenePos())
+        if self.currentItem.__class__ == PolygonItem:
+            self.continuePolygon(e.scenePos())
 
         self.refresh()
     def mouseReleaseEvent(self, e):
@@ -84,6 +95,8 @@ class CanvasScene(QGraphicsScene):
             self.finishRectangle(e.scenePos())
         if self.currentItem.__class__ == EllipseItem:
             self.finishEllipse(e.scenePos())
+        if self.currentItem.__class__ == PolygonItem:
+            self.finishPolygon(e.scenePos())
     def beginStraightLine(self, startPos):
         if not self.checkForPen():
             return
@@ -148,4 +161,26 @@ class CanvasScene(QGraphicsScene):
         self.currentItem.updateFromData()
         self.currentItem = None
         self.currentItem = EllipseItem()
+    def beginPolygon(self, startPos):
+        if not self.checkForPen():
+            return
+        self.currentItem.polygon = Polygon(None, self.drawing, 
+                                           startPos.x(), startPos.y(),
+                                           [],
+                                           self.currentPen)
+        self.currentItem.polygon.pen = self.currentPen
+        self.currentItem.polygon.brush = self.currentBrush
+        self.addItem(self.currentItem)
+        self.currentItem.updateFromData()
+    def continuePolygon(self, endPos):
+        self.currentItem.polygon.appendPoint(endPos.x() - self.currentItem.polygon.posX,
+                                             endPos.y() - self.currentItem.polygon.posY)
+        self.currentItem.updateFromData()
+    def finishPolygon(self, endPos):
+        self.currentItem.polygon.appendPoint(endPos.x() - self.currentItem.polygon.posX,
+                                             endPos.y() - self.currentItem.polygon.posY) 
+        self.currentItem.updateFromData()
+        self.currentItem = None
+        self.currentItem = PolygonItem()
+        
         
