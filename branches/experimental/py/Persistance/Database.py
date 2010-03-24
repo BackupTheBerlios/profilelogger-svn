@@ -339,7 +339,7 @@ class Database:
                                              Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                              Column('name', String, nullable=False, server_default='New Color'),
                                              Column('description', String, nullable=True),
-                                             Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                             Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                              CheckConstraint("name <> ''", name='chk_outcrop_types_name_not_empty'),
                                              UniqueConstraint('name', 'project_id', name='u_outcrop_types_name_in_project'),
                                              schema=self.schema);
@@ -362,7 +362,7 @@ class Database:
                                                    Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                                    Column('name', String, nullable=False, server_default='New Stratigraphic Unit'),                                                 
                                                    Column('description', String, nullable=True),
-                                                   Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                                   Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                                    Column('stratigraphic_unit_type_id', Integer, ForeignKey('%s.stratigraphic_unit_types.id' % self.schema), nullable=False),
                                                    CheckConstraint("name <> ''", name='chk_stratigraphic_units_name_not_empty'),
                                                    UniqueConstraint('name', name='u_stratigraphic_units_name'),
@@ -379,7 +379,7 @@ class Database:
                                               Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                               Column('name', String, nullable=False, server_default='New Tectonic Unit'),                                                 
                                               Column('description', String, nullable=True),
-                                              Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                               Column('tectonic_unit_type_id', Integer, ForeignKey('%s.tectonic_unit_types.id' % self.schema), nullable=False),
                                               CheckConstraint("name <> ''", name='chk_tectonic_units_name_not_empty'),
                                               UniqueConstraint('name', name='u_tectonic_units_name'),
@@ -397,7 +397,7 @@ class Database:
                                            Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                            Column('name', String, nullable=False, server_default='New Lithology'),
                                            Column('description', String, nullable=True),
-                                           Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                           Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                            Column('default_grain_size_id', Integer, ForeignKey('%s.grain_sizes.id' % self.schema), nullable=True),
                                            CheckConstraint("name <> ''", name='chk_lithologies_name_not_empty'),
                                            UniqueConstraint('name', 'project_id', name='u_lithologies_name_in_project'),
@@ -407,7 +407,7 @@ class Database:
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                       Column('name', String, nullable=False, server_default='New Color'),
                                       Column('description', String, nullable=True),
-                                      Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                      Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_colors_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_colors_name_in_project'),
                                       schema=self.schema)
@@ -416,7 +416,7 @@ class Database:
                                                   Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                                   Column('name', String, nullable=False, server_default='New Lithological Unit'),                                                 
                                                   Column('description', String, nullable=True),
-                                                  Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                                  Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                                   Column('lithological_unit_type_id', Integer, ForeignKey('%s.lithological_unit_types.id' % self.schema), nullable=False),
                                                   CheckConstraint("name <> ''", name='chk_lithological_units_name_not_empty'),
                                                   UniqueConstraint('name', name='u_lithological_units_name'),
@@ -426,7 +426,7 @@ class Database:
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                       Column('name', String, nullable=False, server_default='New Facie'),
                                       Column('description', String, nullable=True),
-                                      Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                      Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_facies_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_facies_name_in_project'),
                                       schema=self.schema)
@@ -435,7 +435,7 @@ class Database:
                                       Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                       Column('name', String, nullable=False, server_default='New Color'),
                                       Column('description', String, nullable=True),
-                                      Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                      Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                       CheckConstraint("name <> ''", name='chk_points_of_interest_name_not_empty'),
                                       UniqueConstraint('name', 'project_id', name='u_points_of_interest_name_in_project'),
                                       schema=self.schema)
@@ -444,7 +444,7 @@ class Database:
                                              Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                              Column('name', String, nullable=False, server_default='New Color'),
                                              Column('description', String, nullable=True),
-                                             Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                             Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                              CheckConstraint("name <> ''", name='chk_bedding_types_name_not_empty'),
                                              UniqueConstraint('name', 'project_id', name='u_bedding_types_name_in_project'),
                                              schema=self.schema);
@@ -453,7 +453,7 @@ class Database:
                                                    Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                                    Column('name', String, nullable=False, server_default='New Color'),
                                                    Column('description', String, nullable=True),
-                                                   Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                                   Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                                    CheckConstraint("name <> ''", name='chk_sediment_structures_name_not_empty'),
                                                    UniqueConstraint('name', 'project_id', name='u_sediment_structures_name_in_project'),
                                                    schema=self.schema);
@@ -463,7 +463,7 @@ class Database:
                                        Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                        Column('name', String, nullable=False, server_default='New Fossil'),
                                        Column('description', String, nullable=True),
-                                       Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                       Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                        CheckConstraint("name <> ''", name='chk_fossils_name_not_empty'),
                                        UniqueConstraint('name', 'project_id', name='u_fossils_name_in_project'),
                                        schema=self.schema);
@@ -473,7 +473,7 @@ class Database:
                                               Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                               Column('name', String, nullable=False, server_default='New Fossil'),
                                               Column('description', String, nullable=True),
-                                              Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                               CheckConstraint("name <> ''", name='chk_custom_symbols_name_not_empty'),
                                               UniqueConstraint('name', 'project_id', name='u_custom_symbols_name_in_project'),
                                               schema=self.schema);
@@ -483,7 +483,7 @@ class Database:
                                               Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                               Column('name', String, nullable=False, server_default='New Boundary_Type'),
                                               Column('description', String, nullable=True),
-                                              Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
                                               CheckConstraint("name <> ''", name='chk_boundary_types_name_not_empty'),
                                               UniqueConstraint('name', 'project_id', name='u_boundary_types_name_in_project'),
                                               schema=self.schema);
@@ -859,7 +859,7 @@ class Database:
                 'id': self.tables['lithological_units'].c.id,
                 'name': self.tables['lithological_units'].c.name,
                 'description': self.tables['lithological_units'].c.description,
-                'svgItem': relation(SVGItem, backref='lithologicalUnits'),
+                'drawing': relation(Drawing, backref='lithologicalUnits'),
                 'lithologicalUnitType': relation(LithologicalUnitType, backref='lithologicalUnits')})
         mapper(StratigraphicUnitType, self.tables['stratigraphic_unit_types'], properties = {
                 'id': self.tables['stratigraphic_unit_types'].c.id,
@@ -868,7 +868,7 @@ class Database:
         mapper(StratigraphicUnit, self.tables['stratigraphic_units'], properties = {
                 'id': self.tables['stratigraphic_units'].c.id,
                 'name': self.tables['stratigraphic_units'].c.name,
-                'svgItem': relation(SVGItem, backref='stratigraphicUnits'),
+                'drawing': relation(Drawing, backref='stratigraphicUnits'),
                 'description': self.tables['stratigraphic_units'].c.description,
                 'stratigraphicUnitType': relation(StratigraphicUnitType, backref='stratigraphicUnits')})
         mapper(TectonicUnitType, self.tables['tectonic_unit_types'], properties = {
@@ -878,7 +878,7 @@ class Database:
         mapper(TectonicUnit, self.tables['tectonic_units'], properties = {
                 'id': self.tables['tectonic_units'].c.id,
                 'name': self.tables['tectonic_units'].c.name,
-                'svgItem': relation(SVGItem, backref='tectonicUnits'),
+                'drawing': relation(Drawing, backref='tectonicUnits'),
                 'description': self.tables['tectonic_units'].c.description,
                 'tectonicUnitType': relation(TectonicUnitType, backref='tectonicUnits')})
         mapper(Project, self.tables['projects'], properties = {
@@ -904,57 +904,57 @@ class Database:
                 'id': self.tables['lithologies'].c.id,
                 'name': self.tables['lithologies'].c.name,
                 'description': self.tables['lithologies'].c.description,
-                'svgItem': relation(SVGItem, backref='lithologies'),
+                'drawing': relation(Drawing, backref='lithologies'),
                 'defaultGrainSize': relation(GrainSize)
                 })
         mapper(Color, self.tables['colors'], properties = {
                 'id': self.tables['colors'].c.id,
                 'name': self.tables['colors'].c.name,
                 'description': self.tables['colors'].c.description,
-                'svgItem': relation(SVGItem, backref='colors')
+                'drawing': relation(Drawing, backref='colors')
                 })
         mapper(Facies, self.tables['facies'], properties = {
                 'id': self.tables['facies'].c.id,
                 'name': self.tables['facies'].c.name,
                 'description': self.tables['facies'].c.description,
-                'svgItem': relation(SVGItem, backref='facies'),
+                'drawing': relation(Drawing, backref='facies'),
                 })
         mapper(PointOfInterest, self.tables['points_of_interest'], properties = {
                 'id': self.tables['points_of_interest'].c.id,
                 'name': self.tables['points_of_interest'].c.name,
                 'description': self.tables['points_of_interest'].c.description,
-                'svgItem': relation(SVGItem, backref='pointsOfInterest'),
+                'drawing': relation(Drawing, backref='pointsOfInterest'),
                 })
         mapper(BeddingType, self.tables['bedding_types'], properties = {
                 'id': self.tables['bedding_types'].c.id,
                 'name': self.tables['bedding_types'].c.name,
                 'description': self.tables['bedding_types'].c.description,
-                'svgItem': relation(SVGItem, backref='beddingTypes')
+                'drawing': relation(Drawing, backref='beddingTypes')
                 })
         mapper(SedimentStructure, self.tables['sediment_structures'], properties = {
                 'id': self.tables['sediment_structures'].c.id,
                 'name': self.tables['sediment_structures'].c.name,
                 'description': self.tables['sediment_structures'].c.description,
-                'svgItem': relation(SVGItem, backref='sedimentStructures')
+                'drawing': relation(Drawing, backref='sedimentStructures')
                 })
         mapper(Fossil, self.tables['fossils'], properties = {
                 'id': self.tables['fossils'].c.id,
                 'name': self.tables['fossils'].c.name,
                 'description': self.tables['fossils'].c.description,
-                'svgItem': relation(SVGItem, backref='fossils')
+                'drawing': relation(Drawing, backref='fossils')
                 })
         mapper(CustomSymbol, self.tables['custom_symbols'], properties = {
                 'id': self.tables['custom_symbols'].c.id,
                 'name': self.tables['custom_symbols'].c.name,
                 'description': self.tables['custom_symbols'].c.description,
-                'svgItem': relation(SVGItem, backref='customSymbols')
+                'drawing': relation(Drawing, backref='customSymbols')
                 })
         
         mapper(BoundaryType, self.tables['boundary_types'], properties = {
                 'id': self.tables['boundary_types'].c.id,
                 'name': self.tables['boundary_types'].c.name,
                 'description': self.tables['boundary_types'].c.description,
-                'svgItem': relation(SVGItem, backref='boundaryTypes')
+                'drawing': relation(Drawing, backref='boundaryTypes')
                 })
         mapper(Bed, self.tables['beds'], properties = {
                 'id': self.tables['beds'].c.id,
@@ -1101,7 +1101,7 @@ class Database:
                 'id': self.tables['outcrop_types'].c.id,
                 'name': self.tables['outcrop_types'].c.name,
                 'description': self.tables['outcrop_types'].c.description,
-                'svgItem': relation(SVGItem, backref='outcrop_types'),
+                'drawing': relation(Drawing, backref='outcrop_types'),
                 })
         mapper(OutcropTypeInBed, self.tables['outcrop_types_beds'], properties = {
                 'id': self.tables['outcrop_types_beds'].c.id,

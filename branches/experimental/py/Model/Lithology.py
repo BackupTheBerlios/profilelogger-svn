@@ -1,8 +1,8 @@
-from NamedDescribedDatasetWithSVGItemInProject import NamedDescribedDatasetWithSVGItemInProject
+from NamedDescribedDatasetWithDrawingInProject import NamedDescribedDatasetWithDrawingInProject
 
-class Lithology(NamedDescribedDatasetWithSVGItemInProject):
-    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
-        super(Lithology, self).__init__(project, id, name, svgItem, description)
+class Lithology(NamedDescribedDatasetWithDrawingInProject):
+    def __init__(self, project, id=None, name=None, drawing=None, description=None, defaultGrainSize=None):
+        super(Lithology, self).__init__(project, id, name, drawing, description)
         self.project.registerLithology(self)
         self.defaultGrainSize = None
     def hasDefaultGrainSize(self):

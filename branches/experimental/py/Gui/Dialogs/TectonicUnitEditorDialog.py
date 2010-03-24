@@ -1,11 +1,11 @@
-from Gui.Dialogs.DatasetWithSVGItemInProjectEditorDialog import *
+from Gui.Dialogs.DatasetWithDrawingInProjectEditorDialog import *
 
 from PyQt4.QtCore import *
 
 from Gui.ItemViews.TectonicUnitTypeItemView import TectonicUnitTypeItemView
 from Gui.Widgets.LengthRangeInputWidget import LengthRangeInputWidget
 
-class TectonicUnitEditorDialog(DatasetWithSVGItemInProjectEditorDialog):
+class TectonicUnitEditorDialog(DatasetWithDrawingInProjectEditorDialog):
     def __init__(self, parent, data):
         DatasetEditorDialog.__init__(self, parent, data)
         self.addContentPanel(self.tr("Tectonic Unit"))
@@ -13,7 +13,7 @@ class TectonicUnitEditorDialog(DatasetWithSVGItemInProjectEditorDialog):
 
         self.addIdDisplay()
         self.addProjectSelector()
-        self.addSVGItemSelector()
+        self.addDrawingSelector()
         self.addNameEdit()        
         self.addLabelWidgetPair(self.typeL, self.typeW)
         self.addDescriptionEdit()
@@ -21,7 +21,7 @@ class TectonicUnitEditorDialog(DatasetWithSVGItemInProjectEditorDialog):
 
         self.idW.setValue(self.data.id)
         self.projectW.selectDataset(data.project)
-        self.svgItemW.selectDataset(data.svgItem)
+        self.drawingW.selectDataset(data.drawing)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
         self.typeW.selectDataset(self.data.tectonicUnitType)

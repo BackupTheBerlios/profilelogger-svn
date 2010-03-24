@@ -196,7 +196,7 @@ class ProfileLogger(QApplication):
         d['test drawing'] = Drawing(None, unicode(self.tr("Test Drawing")))
         d['straight line'] = StraightLine(None, d['test drawing'], 0, 0, 20, 20, d['artistic pen'])
         d['rectangle'] = Rectangle(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
-        d['ellipsis'] = Ellipsis(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
+        d['ellipsis'] = Ellipse(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
         d['polygon'] = Polygon(None, d['test drawing'], 0, 0, [], d['artistic pen'])
         d['polygon'].polygonPoints = [PolygonPoint(None, d['polygon'], 0, 0, 0),
                                       PolygonPoint(None, d['polygon'], 10, 10, 1),
