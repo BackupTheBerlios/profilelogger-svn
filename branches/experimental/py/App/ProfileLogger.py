@@ -62,8 +62,6 @@ from Gui.ItemModels.DrawingItemModel import DrawingItemModel
 from Gui.ItemModels.PenItemModel import PenItemModel
 from Gui.ItemModels.BrushItemModel import BrushItemModel
 
-from Gui.Graphics.ProfileScene import ProfileScene
-
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
     databaseClosed = pyqtSignal(QString)
@@ -117,7 +115,6 @@ class ProfileLogger(QApplication):
         self.geologicalMeasurementTypeModel = GeologicalMeasurementTypeItemModel(self)
         self.geologicalMeasurementInBedModel = GeologicalMeasurementInBedItemModel(self)
         self.profileInProfileAssemblyModel = ProfileInProfileAssemblyItemModel(self)
-        self.profileScene = ProfileScene(self)
         self.penStyleModel = PenStyleItemModel(self)
         self.penJoinStyleModel = PenJoinStyleItemModel(self)
         self.penCapStyleModel = PenCapStyleItemModel(self)
@@ -212,11 +209,34 @@ class ProfileLogger(QApplication):
         d['m'] = LengthUnit(None, 1000000, unicode(self.tr('m')))
         d['Krumbein1963'] = GrainSizeType(None, unicode('Krumbein, 1963'),
                                           unicode('W.C. Krumbein and L.L. Sloss(1963): Stratigraphy and Sedimentation, 2nd edition. Freeman, San Francisco'))
-        d['Folk1964'] = GrainSizeType(None, unicode('Folk, 1964'),
+        d['Folk1964'] = GrainSizeType(None, unicode('Folk, 1964 (Wentworth Scale)'),
                                       unicode('Folk, 1964: A Review of Grain-Size Parameters. Sedimentology 6:2:73-93'))
-        d['clay'] = GrainSize(d['Krumbein1963'], None, unicode('Clay'), '', 1, d['um'], 4, d['um'])
+        d['Dunham1962'] = GrainSizeType(None, unicode('Dunhame, 1962'),
+                                        unicode('Dunhame, 1962: Classification of carbonate rocks according to depositional texture, in Ham, W.E. ed., Classification of carbonate rocks: Amierican Association of Petroleum Geologists Memoir 1, p. 108-121'))
+        d['colloid'] = GrainSize(d['Folk1964'], None, unicode('Colloid'), '', None, None, 1, d['um'], 6)
+        d['clay'] = GrainSize(d['Folk1964'], None, unicode('Clay'), '', 1, d['um'], 4, d['um'], 12)
+        d['silt'] = GrainSize(d['Folk1964'], None, unicode('Silt'), '', 4, d['um'], 62, d['um'], 18)
+        d['vfs'] = GrainSize(d['Folk1964'], None, unicode('Very Fine Sand'), '', 62, d['um'], 125, d['um'], 24)
+        d['fs'] = GrainSize(d['Folk1964'], None, unicode('Fine Sand'), '', 125, d['um'], 250, d['um'], 30)
+        d['mfs'] = GrainSize(d['Folk1964'], None, unicode('Medium Sand'), '', 250, d['um'], 500, d['um'], 36)
+        d['cs'] = GrainSize(d['Folk1964'], None, unicode('Coarse Sand'), '', 500, d['um'], 1, d['mm'], 42)
+        d['vcs'] = GrainSize(d['Folk1964'], None, unicode('Very Coarse Sand'), '', 1, d['mm'], 2, d['mm'], 48)
+        d['granule'] = GrainSize(d['Folk1964'], None, unicode('Granule'), '', 2, d['mm'], 4, d['mm'], 54)
+        d['vfp'] = GrainSize(d['Folk1964'], None, unicode('Very Fine Pebble'), '', 4, d['mm'], 8, d['mm'], 60)
+        d['fp'] = GrainSize(d['Folk1964'], None, unicode('Fine Pebble'), '', 8, d['mm'], 16, d['mm'], 66)
+        d['p'] = GrainSize(d['Folk1964'], None, unicode('Pebble'), '', 16, d['mm'], 32, d['mm'], 72)
+        d['cp'] = GrainSize(d['Folk1964'], None, unicode('Coarse Pebble'), '', 32, d['mm'], 64, d['mm'], 78)
+        d['cobble'] = GrainSize(d['Folk1964'], None, unicode('Cobble'), '', 64, d['mm'], 256, d['mm'], 84)
+        d['boulder'] = GrainSize(d['Folk1964'], None, unicode('Boulder'), '', 256, d['mm'], None, None, 100)
+        d['mudstone'] = GrainSize(d['Dunham1962'], None, unicode('Mudstone'), '', None, None, None, None, 16)
+        d['wackestone'] = GrainSize(d['Dunham1962'], None, unicode('Wackestone'), '', None, None, None, None, 32)
+        d['packstone'] = GrainSize(d['Dunham1962'], None, unicode('Packstone'), '', None, None, None, None, 48)
+        d['grainstone'] = GrainSize(d['Dunham1962'], None, unicode('Grainstone'), '', None, None, None, None, 64)
+        d['boundstone'] = GrainSize(d['Dunham1962'], None, unicode('Boundstone'), '', None, None, None, None, 80)
+        d['crystalline'] = GrainSize(d['Dunham1962'], None, unicode('Crystalline'), '', None, None, None, None, 100)
+
         d['Test project'] = Project(None, unicode('Test Project'))
-        d['Limestone Mudstone'] = Lithology(d['Test project'], None, unicode('Limestone Mudstone'), None, unicode(''), d['clay'])
+        d['Limestone Mudstone'] = Lithology(d['Test project'], None, unicode('Limestone Mudstone'), None, unicode(''), d['mudstone'])
         d['red'] = Color(d['Test project'], None, unicode('Red'), None, unicode(''))
         d['massive'] = BeddingType(d['Test project'], None, unicode('Massive'), None, unicode(''))
         d['slump'] = SedimentStructure(d['Test project'], None, unicode('Slump'), None, unicode(''))

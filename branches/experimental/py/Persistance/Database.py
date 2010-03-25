@@ -331,7 +331,9 @@ class Database:
                                            Column('min_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=True),
                                            Column('max', Integer, nullable=True),
                                            Column('max_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=True),
+                                           Column('percent_from_minimum', Integer, nullable=False, server_default='0'),
                                            CheckConstraint("name <> ''", name='chk_grain_sizes_name_not_empty'),
+                                           CheckConstraint('percent_from_minimum between 0 and 100', name='chk_grain_size_percent_from_minimum_in_range'),
                                            UniqueConstraint('name', name='u_grain_sizes_name'),
                                            schema=self.schema)
         self.tables['outcrop_types'] = Table('outcrop_types', self.metadata,
@@ -837,6 +839,7 @@ class Database:
                 'description': self.tables['grain_sizes'].c.description,
                 'grainSizeType': relation(GrainSizeType, backref='grainSizes'),
                 'minSize': self.tables['grain_sizes'].c.min,
+                'percentFromMinimum': self.tables['grain_sizes'].c.percent_from_minimum,
                 'minSizeLengthUnit': relation(LengthUnit,
                                               primaryjoin=self.tables['grain_sizes'].c.min_length_unit_id==self.tables['length_units'].c.id),
                 'maxSize': self.tables['grain_sizes'].c.max,
@@ -1176,8 +1179,6 @@ class Database:
         self.engine.connect()
         self.session = create_session(bind=self.engine, autocommit=False, autoflush=False)
         self.metadata.bind = self.engine
-        if connectionData.dropSchema:
-            self.metadata.drop_all()
         if connectionData.createSchema:
             self.metadata.create_all()
 

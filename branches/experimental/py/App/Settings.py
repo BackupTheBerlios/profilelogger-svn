@@ -12,7 +12,6 @@ class Settings:
         s.setValue('ConnectionData/Database', unicode(c.dbName))
         s.setValue('ConnectionData/Schema', unicode(c.schema))
         s.setValue('ConnectionData/User', unicode(c.user))
-        s.setValue('ConnectionData/DropSchema', self.boolToString(c.dropSchema))
         s.setValue('ConnectionData/CreateSchema', self.boolToString(c.createSchema))
         s.setValue('ConnectionData/InsertTemplateData', self.boolToString(c.insertTemplateData))
 
@@ -24,7 +23,6 @@ class Settings:
                               unicode(s.value('ConnectionData/Schema').toString()),
                               unicode(s.value('ConnectionData/User').toString()),
                               '',
-                              self.stringToBool(unicode(s.value('ConnectionData/DropSchema').toString())),
                               self.stringToBool(unicode(s.value('ConnectionData/CreateSchema').toString())),
                               self.stringToBool(unicode(s.value('ConnectionData/InsertTemplateData').toString())))
 

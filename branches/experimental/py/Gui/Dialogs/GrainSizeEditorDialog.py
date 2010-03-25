@@ -4,6 +4,7 @@ from PyQt4.QtCore import *
 
 from Gui.ItemViews.GrainSizeTypeItemView import GrainSizeTypeItemView
 from Gui.Widgets.LengthRangeInputWidget import LengthRangeInputWidget
+from Gui.Widgets.PercentEditorWidget import PercentEditorWidget
 
 class GrainSizeEditorDialog(DatasetEditorDialog):
     def __init__(self, parent, data):
@@ -15,6 +16,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.addNameEdit()        
         self.addLabelWidgetPair(self.typeL, self.typeW)
         self.addLabelWidgetPair(self.sizeRangeL, self.sizeRangeW)
+        self.addLabelWidgetPair(self.percentL, self.percentW)
         self.addDescriptionEdit()
         self.addButtons()
 
@@ -22,6 +24,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
         self.typeW.selectDataset(self.data.grainSizeType)
+        self.percentW.setValue(self.data.percentFromMinimum)
         self.sizeRangeW.setRange(self.data.minSize, self.data.minSizeLengthUnit,
                                  self.data.maxSize, self.data.maxSizeLengthUnit)
 
@@ -32,6 +35,9 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.sizeRangeW.minLengthUnitChanged.connect(self.onMinLengthUnitChange)
         self.sizeRangeW.maxValueChanged.connect(self.onMaxValueChange)
         self.sizeRangeW.maxLengthUnitChanged.connect(self.onMaxLengthUnitChange)
+        self.percentW.valueChanged.connect(self.onPercentFromMinimumChange)
+    def onPercentFromMinimumChange(self, v):
+        self.data.percentFromMinimum = v
     def onNameChange(self, txt):
         self.data.name = unicode(txt)
     def onDescriptionChange(self, txt):
@@ -54,3 +60,5 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.sizeRangeL = self.createOneLineLabel(self.tr("Size Range"))
         self.sizeRangeW = LengthRangeInputWidget(self.contentW)
 
+        self.percentL = self.createOneLineLabel(self.tr("Show at % from Minimum\nin graphic presentation:"))
+        self.percentW = PercentEditorWidget(self.contentW)

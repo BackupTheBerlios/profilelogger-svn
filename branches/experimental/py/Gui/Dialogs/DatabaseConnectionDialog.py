@@ -27,8 +27,6 @@ class DatabaseConnectionDialog(Dialog):
         self.schemaW.setText(unicode(self.cd.schema))
         self.loginW.setText(unicode(self.cd.user))
         self.passwordW.setText(unicode(self.cd.password))
-        if self.cd.dropSchema:
-            self.dropSchemaW.setCheckState(Qt.Checked)
         if self.cd.createSchema:
             self.createSchemaW.setCheckState(Qt.Checked)
         if self.cd.insertTemplateData:
@@ -91,11 +89,6 @@ class DatabaseConnectionDialog(Dialog):
         self.passwordW.textChanged.connect(self.onPasswordChange)
         r += 1
 
-        self.dropSchemaW = QCheckBox(self.tr("Drop Schema"), self.gb)
-        self.gb.layout().addWidget(self.dropSchemaW, r, wC);
-        self.dropSchemaW.toggled.connect(self.onDropSchemaToggle)
-        r += 1
-
         self.createSchemaW = QCheckBox(self.tr("Create Schema"), self.gb)
         self.gb.layout().addWidget(self.createSchemaW, r, wC);
         self.createSchemaW.toggled.connect(self.onCreateSchemaToggle)
@@ -117,8 +110,6 @@ class DatabaseConnectionDialog(Dialog):
         self.cd.user = unicode(l)
     def onPasswordChange(self, p):
         self.cd.password = unicode(p)
-    def onDropSchemaToggle(self, t):
-        self.cd.dropSchema = t
     def onCreateSchemaToggle(self, t):
         self.cd.createSchema = t
     def onInsertTemplateDataToggle(self, t):

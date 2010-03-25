@@ -26,7 +26,6 @@ from Gui.ItemViews.FaciesItemView import FaciesItemView
 from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
 from Gui.ItemViews.GeologicalMeasurementTypeItemView import GeologicalMeasurementTypeItemView
 from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
-from Gui.Graphics.ProfileView import ProfileView
 from Gui.ItemViews.PenStyleSelector import PenStyleSelector
 from Gui.ItemViews.PenJoinStyleSelector import PenJoinStyleSelector
 from Gui.ItemViews.PenCapStyleSelector import PenCapStyleSelector
@@ -34,6 +33,8 @@ from Gui.ItemViews.BrushStyleSelector import BrushStyleSelector
 from Gui.ItemViews.DrawingItemView import DrawingItemView
 from Gui.ItemViews.PenItemView import PenItemView
 from Gui.ItemViews.BrushItemView import BrushItemView
+
+from Gui.Graphics.SimpleProfileView import SimpleProfileView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -277,6 +278,6 @@ class MainWindow(QMainWindow):
         self.dbStatusW.setText(msg)
         self.centralWidget().setEnabled(True)
     def setupProfileViewer(self):
-        self.profileViewW = ProfileView(self.centralWidget())
+        self.profileViewW = SimpleProfileView(self.centralWidget())
         self.centralWidget().addWidget(self.profileViewW)
-        self.profilesW.currentDatasetChanged.connect(QApplication.instance().profileScene.onProfileChange)
+        self.profilesW.currentDatasetChanged.connect(self.profileViewW.onProfileChange)
