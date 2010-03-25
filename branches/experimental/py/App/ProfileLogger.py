@@ -151,10 +151,10 @@ class ProfileLogger(QApplication):
             Settings().saveConnectionData(cd)
             try:
                 self.db.open(cd)
-                self.databaseConnected.emit(cd.makeInfoString())
                 if (cd.insertTemplateData):
                     self.insertTemplateData()
                     self.lengthUnitModel.reload()
+                self.databaseConnected.emit(cd.makeInfoString())
             except OperationalError, e:
                 dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
                 dlg.exec_()

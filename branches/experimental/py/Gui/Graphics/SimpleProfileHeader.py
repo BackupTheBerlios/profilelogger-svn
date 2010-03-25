@@ -16,28 +16,42 @@ from FaciesHeaderItem import *
 from OutcropTypeHeaderItem import *
 
 class SimpleProfileHeader(QGraphicsRectItem):
-    def __init__(self, parent, scene, profile, rect, pos, pen):
+    def __init__(self, parent, scene, profile, rect, pos, pen, columnWidths):
         QGraphicsRectItem.__init__(self, parent, scene)
         self.profile = profile
+        self.columnWidths = columnWidths
         self.setRect(rect)
         self.setPos(pos)
         self.setPen(pen)
         self.setupRects()
         self.drawHeaderItems()
     def setupRects(self):
-        self.heightRect = QRectF(0, 0, 50, self.rect().height())
-        self.bedRect = QRectF(0, 0, 50, self.rect().height())
-        self.lithologyRect = QRectF(0, 0, 70, self.rect().height())
-        self.grainSizeRect = QRectF(0, 0, 300, self.rect().height())
-        self.colorRect = QRectF(0, 0, 25, self.rect().height())
-        self.fossilRect = QRectF(0, 0, 50, self.rect().height())
-        self.sedimentStructureRect = QRectF(0, 0, 50, self.rect().height())
-        self.customSymbolRect = QRectF(0, 0, 50, self.rect().height())
-        self.tectonicUnitRect = QRectF(0, 0, 25, self.rect().height())
-        self.stratigraphicUnitRect = QRectF(0, 0, 25, self.rect().height())
-        self.lithologicalUnitRect = QRectF(0, 0, 25, self.rect().height())
-        self.faciesRect = QRectF(0, 0, 25, self.rect().height())
-        self.outcropTypeRect = QRectF(0, 0, 25, self.rect().height())
+        self.heightRect = QRectF(0, 0, self.columnWidths[HeightHeaderItem], 
+                                 self.rect().height())
+        self.bedRect = QRectF(0, 0, self.columnWidths[BedHeaderItem], 
+                              self.rect().height())
+        self.lithologyRect = QRectF(0, 0, self.columnWidths[LithologyHeaderItem], 
+                                    self.rect().height())
+        self.grainSizeRect = QRectF(0, 0, self.columnWidths[GrainSizeHeaderItem], 
+                                    self.rect().height())
+        self.colorRect = QRectF(0, 0, self.columnWidths[ColorHeaderItem], 
+                                self.rect().height())
+        self.fossilRect = QRectF(0, 0, self.columnWidths[FossilHeaderItem], 
+                                 self.rect().height())
+        self.sedimentStructureRect = QRectF(0, 0, self.columnWidths[SedimentStructureHeaderItem], 
+                                            self.rect().height())
+        self.customSymbolRect = QRectF(0, 0, self.columnWidths[CustomSymbolHeaderItem], 
+                                       self.rect().height())
+        self.tectonicUnitRect = QRectF(0, 0, self.columnWidths[TectonicUnitHeaderItem], 
+                                       self.rect().height())
+        self.stratigraphicUnitRect = QRectF(0, 0, self.columnWidths[StratigraphicUnitHeaderItem], 
+                                            self.rect().height())
+        self.lithologicalUnitRect = QRectF(0, 0, self.columnWidths[LithologicalUnitHeaderItem], 
+                                           self.rect().height())
+        self.faciesRect = QRectF(0, 0, self.columnWidths[FaciesHeaderItem], 
+                                 self.rect().height())
+        self.outcropTypeRect = QRectF(0, 0, self.columnWidths[OutcropTypeHeaderItem], 
+                                      self.rect().height())
     def drawHeaderItems(self):
         x = 0
         self.heightItm = HeightHeaderItem(self, self.scene(), self.heightRect, self.pen())
