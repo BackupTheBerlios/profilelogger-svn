@@ -22,12 +22,14 @@ class SimpleProfileModel(QGraphicsScene):
         QGraphicsScene.__init__(self, parent)
         self.profile = None
         self.columnWidths = dict()
+        self.columnSequence = []
         self.totalWidth = 0
         self.graphicPen = QPen(Qt.black)
         self.graphicPen.setStyle(Qt.SolidLine)
         self.graphicPen.setCapStyle(Qt.RoundCap)
         self.graphicPen.setJoinStyle(Qt.RoundJoin)
         self.setupColumnWidths()
+        self.setupColumnSequence()
     def setProfile(self, profile):
         self.profile = profile
         self.updateItems()
@@ -48,6 +50,19 @@ class SimpleProfileModel(QGraphicsScene):
         self.totalWidth = 0
         for k,v in self.columnWidths.iteritems():
             self.totalWidth += v
+    def setupColumnSequence(self):
+        self.columnSequence.append(HeightHeaderItem)
+        self.columnSequence.append(BedHeaderItem)
+        self.columnSequence.append(LithologyHeaderItem)
+        self.columnSequence.append(GrainSizeHeaderItem)
+        self.columnSequence.append(ColorHeaderItem)
+        self.columnSequence.append(FossilHeaderItem)
+        self.columnSequence.append(SedimentStructureHeaderItem)
+        self.columnSequence.append(CustomSymbolHeaderItem)
+        self.columnSequence.append(TectonicUnitHeaderItem)
+        self.columnSequence.append(LithologicalUnitHeaderItem)
+        self.columnSequence.append(FaciesHeaderItem)
+        self.columnSequence.append(OutcropTypeHeaderItem)
     def updateItems(self):
         self.clear()
         self.updateLegend()
@@ -60,6 +75,7 @@ class SimpleProfileModel(QGraphicsScene):
                                              QRectF(0, 0, self.totalWidth, 120),
                                              QPointF(0, 0),
                                              self.graphicPen,
-                                             self.columnWidths)
+                                             self.columnWidths,
+                                             self.columnSequence)
     def updateProfile(self):
         pass
