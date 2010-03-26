@@ -11,3 +11,5 @@ class LithologicalUnitInBed(DatasetInBed):
         return u'Lithological Unit %s from %i to %i Percent of bed' % (self.lithologicalUnit,
                                                                        self.begin,
                                                                        self.end)
+    def hasLithologicalUnit(self):
+        return self.lithologicalUnit is not None

@@ -1,11 +1,18 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class ColorItem(QGraphicsRectItem):
+from FilledRectInBed import *
+
+class ColorItem(FilledRectInBed):
     def __init__(self, parent, scene,
                  rect, pen,
                  bed):
-        QGraphicsRectItem.__init__(self, parent, scene)
-        self.setRect(rect)
-        self.setPen(pen)
+        FilledRectInBed.__init__(self, parent, scene,
+                                 rect, pen,
+                                 bed)
+        self.drawColorPatterns()
+    def drawColorPatterns(self):
+        for l in self.bed.colors:
+            if l.hasColor():
+                self.fillPercentRectWithDrawing(l.begin, l.end, l.color.drawing)
         

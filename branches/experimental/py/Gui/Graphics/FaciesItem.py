@@ -1,11 +1,18 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class FaciesItem(QGraphicsRectItem):
+from FilledRectInBed import *
+
+class FaciesItem(FilledRectInBed):
     def __init__(self, parent, scene,
                  rect, pen,
                  bed):
-        QGraphicsRectItem.__init__(self, parent, scene)
-        self.setRect(rect)
-        self.setPen(pen)
+        FilledRectInBed.__init__(self, parent, scene,
+                                 rect, pen,
+                                 bed)
+        self.drawFaciesPatterns()
+    def drawFaciesPatterns(self):
+        for l in self.bed.facies:
+            if l.hasFacies():
+                self.fillPercentRectWithDrawing(l.begin, l.end, l.facies.drawing)
         

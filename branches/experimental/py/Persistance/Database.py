@@ -705,32 +705,47 @@ class Database:
 
     def setupMapping(self):
         clear_mappers()
+        mapper(Drawing, self.tables['drawings'], properties = {
+                'id': self.tables['drawings'].c.id,
+                'name': self.tables['drawings'].c.name,
+                'description': self.tables['drawings'].c.description,
+                'painterPaths': relation(PainterPath, backref='drawing',
+                                         cascade='all'),
+                'polygons': relation(Polygon, backref='drawing',
+                                     cascade='all'),
+                'ellipses': relation(Ellipse, backref='drawing',
+                                     cascade='all'),
+                'rectangles': relation(Rectangle, backref='drawing',
+                                       cascade='all'),
+                'straightLines': relation(StraightLine, backref='drawing',
+                                          cascade='all')
+                })
         mapper(PainterPath, self.tables['painter_paths'], properties = {
                 'id': self.tables['painter_paths'].c.id,
-                'drawing': relation(Drawing, backref='painterPaths'),
                 'posX': self.tables['painter_paths'].c.pos_x,
                 'posY': self.tables['painter_paths'].c.pos_y,
                 'pen': relation(Pen, backref='painterPaths'),
-                'brush': relation(Brush, backref='painterPaths')
+                'brush': relation(Brush, backref='painterPaths'),
+                'painterPathPoints': relation(PainterPathPoint, backref='painterPath',
+                                              cascade='all, delete-orphan')
                 })
         mapper(PainterPathPoint, self.tables['painter_path_points'], properties = {
                 'id': self.tables['painter_path_points'].c.id,
-                'painterPath': relation(PainterPath, backref='painterPathPoints'),
                 'x': self.tables['painter_path_points'].c.x,
                 'y': self.tables['painter_path_points'].c.y,
                 'position': self.tables['painter_path_points'].c.position
                 })
         mapper(Polygon, self.tables['polygons'], properties = {
                 'id': self.tables['polygons'].c.id,
-                'drawing': relation(Drawing, backref='polygons'),
                 'posX': self.tables['polygons'].c.pos_x,
                 'posY': self.tables['polygons'].c.pos_y,
                 'pen': relation(Pen, backref='polygons'),
-                'brush': relation(Brush, backref='polygons')
+                'brush': relation(Brush, backref='polygons'),
+                'polygonPoints': relation(PolygonPoint, backref='polygon',
+                                          cascade='all, delete-orphan')
                 })
         mapper(PolygonPoint, self.tables['polygon_points'], properties = {
                 'id': self.tables['polygon_points'].c.id,
-                'polygon': relation(Polygon, backref='polygonPoints'),
                 'x': self.tables['polygon_points'].c.x,
                 'y': self.tables['polygon_points'].c.y,
                 'position': self.tables['polygon_points'].c.position
@@ -743,7 +758,6 @@ class Database:
                 'y1': self.tables['ellipses'].c.y1,
                 'x2': self.tables['ellipses'].c.x2,
                 'y2': self.tables['ellipses'].c.y2,
-                'drawing': relation(Drawing, backref='ellipses'),
                 'pen': relation(Pen, backref='ellipses'),
                 'brush': relation(Brush, backref='ellipses')
                 })
@@ -755,7 +769,6 @@ class Database:
                 'y1': self.tables['rectangles'].c.y1,
                 'x2': self.tables['rectangles'].c.x2,
                 'y2': self.tables['rectangles'].c.y2,
-                'drawing': relation(Drawing, backref='rectangles'),
                 'pen': relation(Pen, backref='rectangles'),
                 'brush': relation(Brush, backref='rectangles')
                 })
@@ -765,13 +778,7 @@ class Database:
                 'y1': self.tables['straight_lines'].c.y1,
                 'x2': self.tables['straight_lines'].c.x2,
                 'y2': self.tables['straight_lines'].c.y2,
-                'drawing': relation(Drawing, backref='straightLines'),
                 'pen': relation(Pen, backref='straightLines')
-                })
-        mapper(Drawing, self.tables['drawings'], properties = {
-                'id': self.tables['drawings'].c.id,
-                'name': self.tables['drawings'].c.name,
-                'description': self.tables['drawings'].c.description
                 })
         mapper(Pen, self.tables['pens'], properties = {
                 'id': self.tables['pens'].c.id,

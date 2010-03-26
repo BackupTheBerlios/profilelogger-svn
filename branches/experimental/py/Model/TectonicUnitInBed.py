@@ -11,3 +11,5 @@ class TectonicUnitInBed(DatasetInBed):
         return u'Tectonic Unit %s from %i to %i Percent of bed' % (self.tectonicUnit,
                                                                    self.begin,
                                                                    self.end)
+    def hasTectonicUnit(self):
+        return self.tectonicUnit is not None

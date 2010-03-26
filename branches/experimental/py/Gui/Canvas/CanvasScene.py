@@ -25,9 +25,11 @@ class CanvasScene(QGraphicsScene):
     isDrawing = False
     isEditing = False
     isMoving = False
+
     def __init__(self, parent):
         QGraphicsScene.__init__(self, parent)
         self.drawing = None
+        self.drawHelpLines()
     def refresh(self):
         self.update(self.sceneRect())
     def checkForPen(self):
@@ -120,6 +122,8 @@ class CanvasScene(QGraphicsScene):
     def deleteAt(self, pos):
         itm = self.itemAt(pos)
         if itm is None:
+            return
+        if itm.__class__ not in [StraightLineItem, RectangleItem, EllipseItem, PolygonItem, PainterPathItem]:
             return
         self.removeItem(itm)
         try:
@@ -328,3 +332,40 @@ class CanvasScene(QGraphicsScene):
         self.setDeletingMode()
     def onMove(self):
         self.setMovingMode()
+    def drawHelpLines(self):
+        patternHintRect = QGraphicsRectItem(0, 0, 150, 150)
+        txt = QGraphicsTextItem(self.tr("Suggested Pattern Size"))
+        txt.setPos(0, 0 - txt.boundingRect().height())
+        pen = QPen(Qt.gray)
+        pen.setStyle(Qt.DashLine)
+        pen.setWidth(1)
+        patternHintRect.setPen(pen)
+        self.addItem(patternHintRect)
+        self.addItem(txt)
+
+        beddingHintRect = QGraphicsRectItem(0, 0, patternHintRect.rect().width() * 3, patternHintRect.rect().height())
+        beddingHintRect.setPen(pen)
+        txt2 = QGraphicsTextItem(self.tr("Suggested Bedding Type Pattern Size"))
+        txt2.setPos(beddingHintRect.rect().width() - txt2.boundingRect().width(),
+                    0 - txt2.boundingRect().height())
+        self.addItem(beddingHintRect)
+        self.addItem(txt2)
+
+        x = 0
+        while x < beddingHintRect.rect().width():
+            p = QPen(Qt.gray)
+            p.setWidth(1)
+            p.setStyle(Qt.DotLine)
+            l = QGraphicsLineItem(x, 0, x, beddingHintRect.rect().height())
+            l.setPen(p)
+            self.addItem(l)
+            x += beddingHintRect.rect().width() / 30
+        y = 0
+        while y < beddingHintRect.rect().height():
+            p = QPen(Qt.gray)
+            p.setWidth(1)
+            p.setStyle(Qt.DotLine)
+            l = QGraphicsLineItem(0, y, beddingHintRect.rect().width(), y)
+            l.setPen(p)
+            self.addItem(l)
+            y += beddingHintRect.rect().height() / 10

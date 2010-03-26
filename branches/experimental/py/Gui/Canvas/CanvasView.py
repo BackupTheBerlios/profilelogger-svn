@@ -7,5 +7,5 @@ class CanvasView(QGraphicsView):
         self.setRenderHints(QPainter.Antialiasing | QPainter.TextAntialiasing | QPainter.SmoothPixmapTransform | QPainter.HighQualityAntialiasing | QPainter.NonCosmeticDefaultPen)
     def onIntZoomChange(self, z):
         m = QMatrix()
-        m.scale(1 + z/10, 1 + z/10)
+        m.scale(1 + z/100.0, 1 + z/100.0)
         self.setMatrix(m)

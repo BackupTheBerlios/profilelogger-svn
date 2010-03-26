@@ -11,3 +11,5 @@ class OutcropTypeInBed(DatasetInBed):
         return u'Outcrop Type %s from %i to %i Percent of bed' % (self.outcropType,
                                                                  self.begin,
                                                                  self.end)
+    def hasOutcropType(self):
+        return self.outcropType is not None

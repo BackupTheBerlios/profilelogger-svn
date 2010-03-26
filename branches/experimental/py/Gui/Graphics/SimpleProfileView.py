@@ -6,6 +6,7 @@ from SimpleProfileModel import *
 class SimpleProfileView(QGraphicsView):
     def __init__(self, parent):
         QGraphicsView.__init__(self, parent)
+        self.setRenderHints(QPainter.Antialiasing | QPainter.TextAntialiasing | QPainter.SmoothPixmapTransform | QPainter.HighQualityAntialiasing | QPainter.NonCosmeticDefaultPen)
         self.model = SimpleProfileModel(self)
         self.setScene(self.model)
         self.setEnabled(False)

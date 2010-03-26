@@ -11,3 +11,5 @@ class FaciesInBed(DatasetInBed):
         return u'Facies %s from %i to %i Percent of bed' % (self.facies,
                                                        self.begin,
                                                        self.end)
+    def hasFacies(self):
+        return self.facies is not None

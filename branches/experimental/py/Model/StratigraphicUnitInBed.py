@@ -11,3 +11,5 @@ class StratigraphicUnitInBed(DatasetInBed):
         return u'Stratigraphic Unit %s from %i to %i Percent of bed' % (self.stratigraphicUnit,
                                                                         self.begin,
                                                                         self.end)
+    def hasStratigraphicUnit(self):
+        return self.stratigraphicUnit is not None

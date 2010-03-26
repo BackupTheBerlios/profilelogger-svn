@@ -3,6 +3,11 @@ from StandardItemModel import StandardItemModel
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
+from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
+
+from sqlalchemy.exc import *
+from sqlalchemy.orm.exc import *
+
 class DataManagementItemModel(StandardItemModel):
     reloaded = pyqtSignal()
     selectItemRequest = pyqtSignal(QModelIndex)
@@ -47,9 +52,22 @@ class DataManagementItemModel(StandardItemModel):
     def onDeleteRequest(self, idx):
         itm = self.itemFromIndex(idx)
         data = itm.data
-        self.getSession().delete(data)
-        self.getSession().commit();
-        self.reload()
+        try:
+            self.getSession().delete(data)
+            self.getSession().commit();
+            self.reload()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
     def findItemForId(self, id):
         r = 0
         while r < self.rowCount():
