@@ -1,7 +1,7 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class TectonicUnitItem(QGraphicsRectItem):
+class FaciesItem(QGraphicsRectItem):
     def __init__(self, parent, scene,
                  rect, pen,
                  bed):

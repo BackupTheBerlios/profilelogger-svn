@@ -2,6 +2,7 @@ from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
 from SimpleProfileHeader import *
+from SimpleProfile import *
 
 from HeightHeaderItem import *
 from BedHeaderItem import *
@@ -61,6 +62,7 @@ class SimpleProfileModel(QGraphicsScene):
         self.columnSequence.append(CustomSymbolHeaderItem)
         self.columnSequence.append(TectonicUnitHeaderItem)
         self.columnSequence.append(LithologicalUnitHeaderItem)
+        self.columnSequence.append(StratigraphicUnitHeaderItem)
         self.columnSequence.append(FaciesHeaderItem)
         self.columnSequence.append(OutcropTypeHeaderItem)
     def updateItems(self):
@@ -78,4 +80,12 @@ class SimpleProfileModel(QGraphicsScene):
                                              self.columnWidths,
                                              self.columnSequence)
     def updateProfile(self):
-        pass
+        self.profileItm = SimpleProfile(None, self, self.profile,
+                                        QRectF(0, 0, 
+                                               self.totalWidth, self.profileHeight()),
+                                        QPointF(0, self.headerItm.rect().height()),
+                                        self.graphicPen,
+                                        self.columnWidths,
+                                        self.columnSequence)
+    def profileHeight(self):
+        return self.profile.heightInMillimetres()

@@ -12,3 +12,8 @@ class Profile(NamedDescribedDatasetInProject):
         if self.beds.count(b) > 0:
             return
         self.beds.append(b)
+    def heightInMillimetres(self):
+        r = 0
+        for b in self.beds:
+            r += b.height * b.lengthUnit.microMetre / 1000
+        return r

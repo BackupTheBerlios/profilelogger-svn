@@ -28,7 +28,6 @@ class SimpleProfileHeader(QGraphicsRectItem):
         self.setRect(rect)
         self.setPos(pos)
         self.setPen(pen)
-        self.setupRects()
         self.drawHeaderItems()
     def drawHeaderItems(self):
         self.headerItems = dict()

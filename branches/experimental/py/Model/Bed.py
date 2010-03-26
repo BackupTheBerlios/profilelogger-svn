@@ -79,3 +79,5 @@ class Bed(NamedDescribedDataset):
         self.stratigraphicUnits.append(c)
     def registerGeologicalMeasurement(self, m):
         self.geologicalMeasurements.append(m)
+    def heightInMillimetres(self):
+        return self.height * self.lengthUnit.microMetre / 1000

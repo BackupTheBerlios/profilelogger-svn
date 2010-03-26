@@ -1,5 +1,11 @@
-from SymbolItem import SymbolItem
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
 
-class StratigraphicUnitItem(GraphicsRectItem):
-    def __init__(self, parent, scene, symbol):
-        def __init__(self, parent, scene, symbol)
+class StratigraphicUnitItem(QGraphicsRectItem):
+    def __init__(self, parent, scene,
+                 rect, pen,
+                 bed):
+        QGraphicsRectItem.__init__(self, parent, scene)
+        self.setRect(rect)
+        self.setPen(pen)
+        
