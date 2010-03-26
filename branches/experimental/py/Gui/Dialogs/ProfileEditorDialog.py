@@ -2,7 +2,7 @@ from Gui.Dialogs.DatasetInProjectEditorDialog import *
 
 from PyQt4.QtCore import *
 
-from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
+from Gui.ItemViews.GrainSizeTypeInProfileManagementItemView import GrainSizeTypeInProfileManagementItemView
 from Gui.Widgets.LengthInputWidget import *
 
 class ProfileEditorDialog(DatasetInProjectEditorDialog):
@@ -13,6 +13,7 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.addProjectSelector()
         self.addNameEdit()
         self.addBaseHeightEditor()
+        self.addGrainSizesEditor()
         self.addDescriptionEdit()
         self.addButtons()
 
@@ -39,4 +40,10 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.data.startHeightValue = v
     def onBaseHeightLengthUnitChanged(self, u):
         self.data.startHeightLengthUnit = u
+    def addGrainSizesEditor(self):
+        self.grainSizesL = self.createMultiLineLabel(self.tr("Grain Sizes Types"))
+        self.grainSizesW = GrainSizeTypeInProfileManagementItemView(self,
+                                                                    QApplication.instance().grainSizeTypeInProfileModel)
+        self.addLabelWidgetPair(self.grainSizesL, self.grainSizesW)
+        self.grainSizesW.model().setProfile(self.data)
 

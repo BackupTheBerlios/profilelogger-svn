@@ -6,6 +6,7 @@ class Profile(NamedDescribedDatasetInProject):
         self.project.registerProfile(self)
         self.startHeightValue = startHeightValue
         self.startHeightLengthUnit = startHeightLengthUnit
+        self.grainSizeTypes = []
         self.beds = []
 
     def registerBed(self, b):

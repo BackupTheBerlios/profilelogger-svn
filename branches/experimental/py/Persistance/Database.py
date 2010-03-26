@@ -55,6 +55,7 @@ from Model.Polygon import *
 from Model.PolygonPoint import *
 from Model.PainterPath import *
 from Model.PainterPathPoint import *
+from Model.GrainSizeTypeInProfile import *
 
 class Database:
     def __init__(self):
@@ -66,6 +67,12 @@ class Database:
     def setupTables(self):
         self.metadata = MetaData()
         self.tables = dict()
+        self.tables['grain_size_types_profiles'] = Table('grain_size_types_profiles', self.metadata,
+                                                         Column('id', Integer, Sequence('seq_grain_size_types_profiles', schema=self.schema), primary_key=True, nullable=False),
+                                                         Column('grain_size_type_id', Integer, ForeignKey('%s.grain_size_types.id' % self.schema), nullable=False),
+                                                         Column('profile_id', Integer, ForeignKey('%s.profiles.id' % self.schema), nullable=False),
+                                                         UniqueConstraint('grain_size_type_id', 'profile_id', name='u_grain_size_types_profiles'),
+                                                         schema=self.schema)
         self.tables['painter_paths'] = Table('painter_paths', self.metadata,
                                              Column('id', Integer, Sequence('seq_painter_paths', schema=self.schema), primary_key=True, nullable=False),
                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
@@ -705,6 +712,11 @@ class Database:
 
     def setupMapping(self):
         clear_mappers()
+        mapper(GrainSizeTypeInProfile, self.tables['grain_size_types_profiles'], properties = {
+                'id': self.tables['grain_size_types_profiles'].c.id,
+                'grainSizeType': relation(GrainSizeType),
+                'profile': relation(Profile, backref='grainSizeTypes')
+                })
         mapper(Drawing, self.tables['drawings'], properties = {
                 'id': self.tables['drawings'].c.id,
                 'name': self.tables['drawings'].c.name,

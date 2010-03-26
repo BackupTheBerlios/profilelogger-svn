@@ -11,8 +11,9 @@ class DataManagementItemView(TreeView):
     deleteRequest = pyqtSignal(QModelIndex)
     currentDatasetChanged = pyqtSignal(Dataset)
 
-    def __init__(self, parent, model):
+    def __init__(self, parent, model, askForConfirmationBeforeDeleting=True):
         TreeView.__init__(self, parent)
+        self.askForConfirmationBeforeDeleting = askForConfirmationBeforeDeleting
         self.setModel(model)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
 
@@ -68,20 +69,22 @@ class DataManagementItemView(TreeView):
         self.editRequest.emit(lst[0])
     def onDeleteRequest(self):
         lst = self.selectedIndexes()
-        names = QStringList()
+        if self.askForConfirmationBeforeDeleting:
+            names = QStringList()
 
-        for idx in lst:
-            itm = self.model().itemFromIndex(idx)
-            if itm is not None:
-                names.append(itm.data.name)
-
-        if QMessageBox.Yes == QMessageBox.warning(self,
-                                                  self.tr("Really Delete?"),
-                                                  self.tr("Really delete this Datasets?\n%1")
-                                                  .arg(names.join(", ")),
-                                                  QMessageBox.Yes | QMessageBox.No):
             for idx in lst:
-                self.deleteRequest.emit(idx);
+                itm = self.model().itemFromIndex(idx)
+                if itm is not None:
+                    names.append(itm.data.name)
+
+            if QMessageBox.Yes != QMessageBox.warning(self,
+                                                      self.tr("Really Delete?"),
+                                                      self.tr("Really delete this Datasets?\n%1")
+                                                      .arg(names.join(", ")),
+                                                      QMessageBox.Yes | QMessageBox.No):
+                return
+        for idx in lst:
+            self.deleteRequest.emit(idx);
     def onSelectItemRequest(self, idx):
         if self.selectionModel() is None:
             self.setSelectionModel(QItemSelectionModel(self.model()))

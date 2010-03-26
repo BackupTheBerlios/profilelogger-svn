@@ -61,6 +61,7 @@ from Gui.ItemModels.BrushStyleItemModel import BrushStyleItemModel
 from Gui.ItemModels.DrawingItemModel import DrawingItemModel
 from Gui.ItemModels.PenItemModel import PenItemModel
 from Gui.ItemModels.BrushItemModel import BrushItemModel
+from Gui.ItemModels.GrainSizeTypeInProfileItemModel import GrainSizeTypeInProfileItemModel
 
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
@@ -122,6 +123,8 @@ class ProfileLogger(QApplication):
         self.drawingModel = DrawingItemModel(self)
         self.penModel = PenItemModel(self)
         self.brushModel = BrushItemModel(self)
+        self.grainSizeTypeInProfileModel = GrainSizeTypeInProfileItemModel(self)
+
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))
