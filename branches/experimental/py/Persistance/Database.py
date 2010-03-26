@@ -959,7 +959,9 @@ class Database:
                 'description': self.tables['boundary_types'].c.description,
                 'drawing': relation(Drawing, backref='boundaryTypes')
                 })
-        mapper(Bed, self.tables['beds'], properties = {
+        mapper(Bed, self.tables['beds'],
+               order_by=self.tables['beds'].c.bed_number,
+               properties = {
                 'id': self.tables['beds'].c.id,
                 'number': self.tables['beds'].c.bed_number,
                 'name':  self.tables['beds'].c.name,
@@ -978,8 +980,7 @@ class Database:
                 'fossils': relation(FossilInBed, backref='bed'),
                 'grainSizes': relation(GrainSizeInBed, backref='bed'),
                 'boundaryTypes': relation(BoundaryTypeInBed, backref='bed'),
-                'geologicalMeasurements': relation(GeologicalMeasurementInBed, backref='bed')
-                })
+                'geologicalMeasurements': relation(GeologicalMeasurementInBed, backref='bed')})
         mapper(Profile, self.tables['profiles'], properties = {
                 'id': self.tables['profiles'].c.id,
                 'name': self.tables['profiles'].c.name,
