@@ -2,6 +2,7 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
 from FilledRectInBed import *
+from GrainSizePolygonItem import *
 
 class GrainSizeItem(FilledRectInBed):
     def __init__(self, parent, scene,
@@ -11,6 +12,7 @@ class GrainSizeItem(FilledRectInBed):
                                  rect, pen,
                                  bed)
         self.drawGrainSizes(parent.bed.grainSizes)
+        self.grainSizePolygon = None
     def drawGrainSizes(self, lst):
         bottomLeft = QPointF(0, self.yFromBedPercent(lst[0].begin))
         topLeft = QPointF(0, 0)
@@ -46,7 +48,9 @@ class GrainSizeItem(FilledRectInBed):
         for i in pointLst:
             poly.append(i)
         poly.append(topLeft)
-        itm = QGraphicsPolygonItem(poly, self, self.scene())
+
+        self.grainSizePolygon = GrainSizePolygonItem(self, self.scene(), poly, 
+                                                     self.pen(), self.bed)
     def xFromGrainSize(self, grainSize):
         return self.rect().width() * grainSize.percentFromMinimum / 100
     def yFromBedPercent(self, percent):
