@@ -10,21 +10,9 @@ class GrainSizeItem(FilledRectInBed):
         FilledRectInBed.__init__(self, parent, scene,
                                  rect, pen,
                                  bed)
-        if len(parent.bed.grainSizes) > 0:
-            self.drawGrainSizes(parent.bed.grainSizes)
-    def drawGrainSizes(self, itmList):
-        if len(itmList) == 1:
-            self.drawRectangularEntry(itmList[0])
-        else:
-            self.drawPolygonalEntry(itmList)
-    def drawRectangularEntry(self, grainSizeInBed):
-        rect = QRectF(QPointF(0, 
-                              self.rect().height() - self.rect().height() * grainSizeInBed.end / 100),
-                      QPointF(self.rect().width() * grainSizeInBed.grainSize.percentFromMinimum / 100,
-                              self.rect().height() - self.rect().height() * grainSizeInBed.begin / 100))
-        r = QGraphicsRectItem(rect, self, self.scene())
-    def drawPolygonalEntry(self, lst):
-        bottomLeft = QPointF(0, self.rect().height())
+        self.drawGrainSizes(parent.bed.grainSizes)
+    def drawGrainSizes(self, lst):
+        bottomLeft = QPointF(0, self.yFromBedPercent(lst[0].begin))
         topLeft = QPointF(0, 0)
         pointLst = []
         
