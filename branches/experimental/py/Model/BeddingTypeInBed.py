@@ -11,3 +11,5 @@ class BeddingTypeInBed(DatasetInBed):
         return u'Bedding Type %s from %i to %i Percent of bed' % (self.beddingType,
                                                                   self.begin,
                                                                   self.end)
+    def hasBeddingType(self):
+        return self.beddingType is not None

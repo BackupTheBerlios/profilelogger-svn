@@ -1,11 +1,21 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class CustomSymbolItem(QGraphicsRectItem):
+from SymbolFilledRectItem import *
+
+class CustomSymbolItem(SymbolFilledRectItem):
     def __init__(self, parent, scene,
                  rect, pen,
                  bed):
-        QGraphicsRectItem.__init__(self, parent, scene)
+        SymbolFilledRectItem.__init__(self, parent, scene, rect, pen, bed)
         self.setRect(rect)
         self.setPen(pen)
-        
+        self.bed = bed
+        self.showCustomSymbols()
+    def showCustomSymbols(self):
+        drawings = dict()
+
+        for f in self.bed.customSymbols:
+            if f.customSymbol.hasDrawing():
+                drawings[f.customSymbol] = [f.begin, f.end]
+        self.showSymbols(drawings)

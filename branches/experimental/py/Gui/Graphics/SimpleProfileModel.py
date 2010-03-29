@@ -17,6 +17,7 @@ from StratigraphicUnitHeaderItem import *
 from LithologicalUnitHeaderItem import *
 from FaciesHeaderItem import *
 from OutcropTypeHeaderItem import *
+from BeddingTypeHeaderItem import *
 
 class SimpleProfileModel(QGraphicsScene):
     def __init__(self, parent):
@@ -38,7 +39,8 @@ class SimpleProfileModel(QGraphicsScene):
         self.columnWidths[HeightHeaderItem] = 50
         self.columnWidths[BedHeaderItem] = 50
         self.columnWidths[LithologyHeaderItem] = 100
-        self.columnWidths[GrainSizeHeaderItem] = 300
+        self.columnWidths[BeddingTypeHeaderItem] = 100
+        self.columnWidths[GrainSizeHeaderItem] = 200
         self.columnWidths[ColorHeaderItem] = 25
         self.columnWidths[FossilHeaderItem] = 50
         self.columnWidths[SedimentStructureHeaderItem] = 50
@@ -54,6 +56,7 @@ class SimpleProfileModel(QGraphicsScene):
     def setupColumnSequence(self):
         self.columnSequence.append(HeightHeaderItem)
         self.columnSequence.append(BedHeaderItem)
+        self.columnSequence.append(BeddingTypeHeaderItem)
         self.columnSequence.append(LithologyHeaderItem)
         self.columnSequence.append(GrainSizeHeaderItem)
         self.columnSequence.append(ColorHeaderItem)

@@ -14,6 +14,7 @@ from StratigraphicUnitHeaderItem import *
 from LithologicalUnitHeaderItem import *
 from FaciesHeaderItem import *
 from OutcropTypeHeaderItem import *
+from BeddingTypeHeaderItem import *
 
 from BedNumberText import *
 from LithologyItem import *
@@ -27,6 +28,7 @@ from LithologicalUnitItem import *
 from StratigraphicUnitItem import *
 from FaciesItem import *
 from OutcropTypeItem import *
+from BeddingTypeItem import *
 
 class BedItem(QGraphicsRectItem):
     def __init__(self, parent, scene, 
@@ -35,12 +37,14 @@ class BedItem(QGraphicsRectItem):
                  columnWidths, columnSequence):
         QGraphicsRectItem.__init__(self, parent, scene)
         self.bed = bed
+        self.p = QPen(Qt.lightGray)
+        self.p.setStyle(Qt.DotLine)
         self.columnWidths = columnWidths
         self.columnSequence = columnSequence
         self.headerItems = dict()
         self.setRect(rect)
         self.setPos(pos)
-        self.setPen(pen)
+        self.setPen(QPen(Qt.NoPen))
         self.showFields()
     def showFields(self):
         x = 0
@@ -71,6 +75,8 @@ class BedItem(QGraphicsRectItem):
                 self.drawFacies(self.columnWidths[headerClass], x)
             if headerClass == OutcropTypeHeaderItem:
                 self.drawOutcropType(self.columnWidths[headerClass], x)
+            if headerClass == BeddingTypeHeaderItem:
+                self.drawBeddingType(self.columnWidths[headerClass], x)
             x += self.columnWidths[headerClass]
     def drawVerticalSeparator(self, x, pen = None):
         l = QGraphicsLineItem(self)
@@ -78,7 +84,7 @@ class BedItem(QGraphicsRectItem):
         l.setLine(QLineF(0, 0, 0, self.rect().height()))
         l.setPos(x, 0)
         if pen is None:
-            l.setPen(self.pen())
+            l.setPen(self.p)
         else:
             l.setPen(pen)
     def drawHeight(self, w, y):
@@ -91,7 +97,7 @@ class BedItem(QGraphicsRectItem):
     def drawLithology(self, w, x):
         self.lithologyItm = LithologyItem(self, self.scene(),
                                           QRectF(0, 0, w, self.rect().height()),
-                                          self.pen(),
+                                          self.p,
                                           self.bed)
         self.lithologyItm.setPos(QPointF(x, 0))
     def drawGrainSize(self, w, x):
@@ -99,61 +105,67 @@ class BedItem(QGraphicsRectItem):
             return
         self.grainSizeItm = GrainSizeItem(self, self.scene(),
                                           QRectF(0, 0, w, self.rect().height()),
-                                          self.pen(),
+                                          self.p,
                                           self.bed)
         self.grainSizeItm.setPos(x, 0)
     def drawColor(self, w, x):
         self.colorItm = ColorItem(self, self.scene(),
                                   QRectF(0, 0, w, self.rect().height()),
-                                  self.pen(),
+                                  self.p,
                                   self.bed)
         self.colorItm.setPos(QPointF(x, 0))
+    def drawBeddingType(self, w, x):
+        self.beddingTypeItm = BeddingTypeItem(self, self.scene(),
+                                              QRectF(0, 0, w, self.rect().height()),
+                                              self.p,
+                                              self.bed)
+        self.beddingTypeItm.setPos(QPointF(x, 0))
     def drawFossils(self, w, x):
         self.fossilItm = FossilItem(self, self.scene(),
                                     QRectF(0, 0, w, self.rect().height()),
-                                    self.pen(),
+                                    self.p,
                                     self.bed)
         self.fossilItm.setPos(QPointF(x, 0))
     def drawSedimentStructures(self, w, x):
         self.sedimentStructureItm = SedimentStructureItem(self, self.scene(),
                                                           QRectF(0, 0, w, self.rect().height()),
-                                                          self.pen(),
+                                                          self.p,
                                                           self.bed)
         self.sedimentStructureItm.setPos(QPointF(x, 0))
     def drawCustomSymbols(self, w, x):
         self.customSymbolItm = CustomSymbolItem(self, self.scene(),
                                                 QRectF(0, 0, w, self.rect().height()),
-                                                self.pen(),
+                                                self.p,
                                                 self.bed)
         self.customSymbolItm.setPos(QPointF(x, 0))
     def drawTectonicUnit(self, w, x):
         self.tectonicUnitItm = TectonicUnitItem(self, self.scene(),
                                                 QRectF(0, 0, w, self.rect().height()),
-                                                self.pen(),
+                                                self.p,
                                                 self.bed)
         self.tectonicUnitItm.setPos(QPointF(x, 0))
     def drawLithologicalUnit(self, w, x):
         self.lithologicalUnitItm = LithologicalUnitItem(self, self.scene(),
                                                         QRectF(0, 0, w, self.rect().height()),
-                                                        self.pen(),
+                                                        self.p,
                                                         self.bed)
         self.lithologicalUnitItm.setPos(QPointF(x, 0))
     def drawStratigraphicUnit(self, w, x):
         self.stratigraphicUnitItm = StratigraphicUnitItem(self, self.scene(),
                                                         QRectF(0, 0, w, self.rect().height()),
-                                                        self.pen(),
+                                                        self.p,
                                                         self.bed)
         self.stratigraphicUnitItm.setPos(QPointF(x, 0))
     def drawFacies(self, w, x):
         self.faciesItm = FaciesItem(self, self.scene(),
                                     QRectF(0, 0, w, self.rect().height()),
-                                    self.pen(),
+                                    self.p,
                                     self.bed)
         self.faciesItm.setPos(QPointF(x, 0))
     def drawOutcropType(self, w, x):
         self.outcropTypeItm = OutcropTypeItem(self, self.scene(),
                                               QRectF(0, 0, w, self.rect().height()),
-                                              self.pen(),
+                                              self.p,
                                               self.bed)
         self.outcropTypeItm.setPos(QPointF(x, 0))
 

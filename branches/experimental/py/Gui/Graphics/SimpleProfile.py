@@ -24,5 +24,5 @@ class SimpleProfile(QGraphicsRectItem):
             BedItem(self, self.scene(), b,
                     QRectF(0, 0, self.rect().width(), b.heightInMillimetres()),
                     QPointF(0, y),
-                    QPen(Qt.red),
+                    self.pen(),
                     self.columnWidths, self.columnSequence)

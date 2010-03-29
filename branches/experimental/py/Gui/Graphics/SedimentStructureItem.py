@@ -1,11 +1,21 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class SedimentStructureItem(QGraphicsRectItem):
+from SymbolFilledRectItem import *
+
+class SedimentStructureItem(SymbolFilledRectItem):
     def __init__(self, parent, scene,
                  rect, pen,
                  bed):
-        QGraphicsRectItem.__init__(self, parent, scene)
+        SymbolFilledRectItem.__init__(self, parent, scene, rect, pen, bed)
         self.setRect(rect)
         self.setPen(pen)
-        
+        self.bed = bed
+        self.showSedimentStructures()
+    def showSedimentStructures(self):
+        drawings = dict()
+
+        for f in self.bed.sedimentStructures:
+            if f.sedimentStructure.hasDrawing():
+                drawings[f.sedimentStructure] = [f.begin, f.end]
+        self.showSymbols(drawings)
