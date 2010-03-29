@@ -8,11 +8,12 @@ class HeaderItem(QGraphicsRectItem):
         QGraphicsRectItem.__init__(self, parent, scene)
         self.setRect(rect)
         self.setPen(pen)
-        self.lbl = HeaderText(self, scene, QFont(), lbl, lblAngle)
-        self.lbl.adjustSize()
-        if lblAngle != 0:
-            self.lbl.setPos(QPointF((self.rect().width() - self.lbl.boundingRect().height()) / 2, 
-                                    self.rect().height()))
-        else:
-            self.lbl.setPos(QPointF((self.rect().width() - self.lbl.boundingRect().width()) / 2, 
-                                    self.rect().height() - self.lbl.boundingRect().height()))
+        if lbl is not None:
+            self.lbl = HeaderText(self, scene, QFont(), lbl, lblAngle)
+            self.lbl.adjustSize()
+            if lblAngle != 0:
+                self.lbl.setPos(QPointF((self.rect().width() - self.lbl.boundingRect().height()) / 2, 
+                                        self.rect().height()))
+            else:
+                self.lbl.setPos(QPointF((self.rect().width() - self.lbl.boundingRect().width()) / 2, 
+                                        self.rect().height() - self.lbl.boundingRect().height()))

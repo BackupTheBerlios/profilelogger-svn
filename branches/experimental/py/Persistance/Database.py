@@ -333,6 +333,7 @@ class Database:
                                            Column('id', Integer, Sequence('seq_grain_sizes', schema=self.schema), primary_key=True, nullable=False),
                                            Column('grain_size_type_id', Integer, ForeignKey('%s.grain_size_types.id' % self.schema), nullable=False),
                                            Column('name', String, nullable=False, server_default='New Grain_Size'),
+                                           Column('short_name', String, nullable=False, server_default=''),
                                            Column('description', String, nullable=True),
                                            Column('min', Integer, nullable=True),
                                            Column('min_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=True),
@@ -342,6 +343,7 @@ class Database:
                                            CheckConstraint("name <> ''", name='chk_grain_sizes_name_not_empty'),
                                            CheckConstraint('percent_from_minimum between 0 and 100', name='chk_grain_size_percent_from_minimum_in_range'),
                                            UniqueConstraint('name', name='u_grain_sizes_name'),
+                                           UniqueConstraint('short_name', name='u_grain_sizes_short_name'),
                                            schema=self.schema)
         self.tables['outcrop_types'] = Table('outcrop_types', self.metadata,
                                              Column('id', Integer, Sequence('seq_outcrop_types', schema=self.schema), primary_key=True, nullable=False),
@@ -855,6 +857,7 @@ class Database:
         mapper(GrainSize, self.tables['grain_sizes'], properties = {
                 'id': self.tables['grain_sizes'].c.id,
                 'name': self.tables['grain_sizes'].c.name,
+                'shortName': self.tables['grain_sizes'].c.short_name,
                 'description': self.tables['grain_sizes'].c.description,
                 'grainSizeType': relation(GrainSizeType, backref='grainSizes'),
                 'minSize': self.tables['grain_sizes'].c.min,
@@ -863,7 +866,8 @@ class Database:
                                               primaryjoin=self.tables['grain_sizes'].c.min_length_unit_id==self.tables['length_units'].c.id),
                 'maxSize': self.tables['grain_sizes'].c.max,
                 'maxSizeLengthUnit': relation(LengthUnit,
-                                              primaryjoin=self.tables['grain_sizes'].c.max_length_unit_id==self.tables['length_units'].c.id)})
+                                              primaryjoin=self.tables['grain_sizes'].c.max_length_unit_id==self.tables['length_units'].c.id)},
+               order_by=self.tables['grain_sizes'].c.percent_from_minimum)
         mapper(GrainSizeType, self.tables['grain_size_types'], properties = {
                 'id': self.tables['grain_size_types'].c.id,
                 'name': self.tables['grain_size_types'].c.name,
@@ -1189,7 +1193,8 @@ class Database:
                 'description': self.tables['grain_sizes_beds'].c.description,
                 'grainSize': relation(GrainSize, backref='grainSizesInBed'),
                 'name': self.tables['grain_sizes_beds'].c.name
-                })
+                },
+               order_by=self.tables['grain_sizes_beds'].c.begin_from_base)
 
     def open(self, connectionData):
         self.schema = unicode(connectionData.schema)

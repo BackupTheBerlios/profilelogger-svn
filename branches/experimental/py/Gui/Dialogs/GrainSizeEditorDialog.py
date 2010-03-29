@@ -5,6 +5,7 @@ from PyQt4.QtCore import *
 from Gui.ItemViews.GrainSizeTypeItemView import GrainSizeTypeItemView
 from Gui.Widgets.LengthRangeInputWidget import LengthRangeInputWidget
 from Gui.Widgets.PercentEditorWidget import PercentEditorWidget
+from Gui.Widgets.NameEdit import NameEdit
 
 class GrainSizeEditorDialog(DatasetEditorDialog):
     def __init__(self, parent, data):
@@ -14,6 +15,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
 
         self.addIdDisplay()
         self.addNameEdit()        
+        self.addShortNameEdit()
         self.addLabelWidgetPair(self.typeL, self.typeW)
         self.addLabelWidgetPair(self.sizeRangeL, self.sizeRangeW)
         self.addLabelWidgetPair(self.percentL, self.percentW)
@@ -22,6 +24,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
 
         self.idW.setValue(self.data.id)
         self.nameW.setValue(unicode(self.data.name))
+        self.shortNameW.setValue(unicode(self.data.shortName))
         self.descriptionW.setValue(unicode(self.data.description))
         self.typeW.selectDataset(self.data.grainSizeType)
         self.percentW.setValue(self.data.percentFromMinimum)
@@ -36,6 +39,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.sizeRangeW.maxValueChanged.connect(self.onMaxValueChange)
         self.sizeRangeW.maxLengthUnitChanged.connect(self.onMaxLengthUnitChange)
         self.percentW.valueChanged.connect(self.onPercentFromMinimumChange)
+        self.shortNameW.nameChanged.connect(self.onShortNameChange)
     def onPercentFromMinimumChange(self, v):
         self.data.percentFromMinimum = v
     def onNameChange(self, txt):
@@ -62,3 +66,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
 
         self.percentL = self.createOneLineLabel(self.tr("Show at % from Minimum\nin graphic presentation:"))
         self.percentW = PercentEditorWidget(self.contentW)
+    def addShortNameEdit(self):
+        self.shortNameL = self.createOneLineEdit(self.tr("Short Name"))
+        self.shortNameW = NameEdit(self.contentW)
+        self.addLabelWidgetPair(self.shortNameL, self.shortNameW)

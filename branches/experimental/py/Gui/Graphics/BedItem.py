@@ -95,11 +95,13 @@ class BedItem(QGraphicsRectItem):
                                           self.bed)
         self.lithologyItm.setPos(QPointF(x, 0))
     def drawGrainSize(self, w, x):
+        if len(self.bed.grainSizes) < 1:
+            return
         self.grainSizeItm = GrainSizeItem(self, self.scene(),
                                           QRectF(0, 0, w, self.rect().height()),
                                           self.pen(),
                                           self.bed)
-        self.grainSizeItm.setPos(QPointF(x, 0))
+        self.grainSizeItm.setPos(x, 0)
     def drawColor(self, w, x):
         self.colorItm = ColorItem(self, self.scene(),
                                   QRectF(0, 0, w, self.rect().height()),
