@@ -4,6 +4,7 @@ from PyQt4.QtCore import *
 
 from Gui.ItemViews.GrainSizeTypeInProfileManagementItemView import GrainSizeTypeInProfileManagementItemView
 from Gui.Widgets.LengthInputWidget import *
+from Gui.Widgets.IntLineEdit import *
 
 class ProfileEditorDialog(DatasetInProjectEditorDialog):
     def __init__(self, parent, data):
@@ -13,6 +14,7 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.addProjectSelector()
         self.addNameEdit()
         self.addBaseHeightEditor()
+        self.addScaleEditor()
         self.addGrainSizesEditor()
         self.addDescriptionEdit()
         self.addButtons()
@@ -20,6 +22,7 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.idW.setValue(self.data.id)
         self.projectW.selectDataset(data.project)
         self.nameW.setValue(unicode(self.data.name))
+        self.scaleW.setValue(data.scale)
         self.baseHeightW.setValue(self.data.startHeightValue, self.data.startHeightLengthUnit)
         self.descriptionW.setValue(unicode(self.data.description))
 
@@ -30,12 +33,19 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
     def onDescriptionChange(self, txt):
         self.data.description = unicode(txt)
     def addBaseHeightEditor(self):
-        self.baseHeightL = QLabel(self.tr("Profile starts at height:"), self.contentW)
+        self.baseHeightL = self.createOneLineLabel(self.tr("Profile starts at height:"))
         self.baseHeightW = LengthInputWidget(self.contentW)
         self.baseHeightL.setBuddy(self.baseHeightW)
         self.addLabelWidgetPair(self.baseHeightL, self.baseHeightW)
         self.baseHeightW.valueChanged.connect(self.onBaseHeightChanged)
         self.baseHeightW.lengthUnitChanged.connect(self.onBaseHeightLengthUnitChanged)
+    def addScaleEditor(self):
+        self.scaleL = self.createOneLineLabel(self.tr("Scale:"))
+        self.scaleW = IntLineEdit(self.contentW)
+        self.addLabelWidgetPair(self.scaleL, self.scaleW)
+        self.scaleW.valueChanged.connect(self.onScaleChange)
+    def onScaleChange(self, v):
+        self.data.scale = v
     def onBaseHeightChanged(self, v):
         self.data.startHeightValue = v
     def onBaseHeightLengthUnitChanged(self, u):
