@@ -281,3 +281,4 @@ class MainWindow(QMainWindow):
         self.profileViewW = SimpleProfileView(self.centralWidget())
         self.centralWidget().addWidget(self.profileViewW)
         self.profilesW.currentDatasetChanged.connect(self.profileViewW.onProfileChange)
+        self.profilesW.exportToSvgRequest.connect(self.profileViewW.onExportToSvg)

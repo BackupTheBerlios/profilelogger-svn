@@ -8,6 +8,7 @@ from Model.Dataset import Dataset
 class DataManagementItemView(TreeView):
     reloadRequest = pyqtSignal()
     editRequest = pyqtSignal(QModelIndex)
+    exportToSvgRequest = pyqtSignal(Dataset)
     deleteRequest = pyqtSignal(QModelIndex)
     currentDatasetChanged = pyqtSignal(Dataset)
 
@@ -44,21 +45,31 @@ class DataManagementItemView(TreeView):
         createA = QAction(self.tr("Create..."), self)
         reloadA = QAction(self.tr("Reload"), self)
         editA = QAction(self.tr("Edit..."), self)
+        exportSvgA = QAction(self.tr("Export to SVG..."), self)
         deleteA = QAction(self.tr("Delete"), self)
 
         createA.triggered.connect(self.model().onCreateNewRequest)
         reloadA.triggered.connect(self.onReloadRequest)
         editA.triggered.connect(self.onEditRequest)
         deleteA.triggered.connect(self.onDeleteRequest)
+        exportSvgA.triggered.connect(self.onExportSvgRequest)
 
         m.addAction(createA)
         if len(self.selectedIndexes()) == 1:
             m.addAction(editA)
+            m.addAction(exportSvgA)
         if len(self.selectedIndexes()) > 0:
             m.addAction(deleteA)
         m.insertSeparator(reloadA)
         m.addAction(reloadA)
         m.exec_(self.mapToGlobal(pos))
+    def onExportSvgRequest(self):
+        lst = self.selectedIndexes()
+        if len(lst) != 1:
+            return
+        itm = self.model().itemFromIndex(lst[0])
+        if itm is not None:
+            self.exportToSvgRequest.emit(itm.data)
     def onReloadRequest(self):
         self.currentDatasetChanged.emit(None)
         self.reloadRequest.emit()

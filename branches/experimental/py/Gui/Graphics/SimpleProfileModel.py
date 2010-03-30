@@ -3,6 +3,7 @@ from PyQt4.QtGui import *
 
 from SimpleProfileHeader import *
 from SimpleProfile import *
+from SimpleLegend import *
 
 from HeightHeaderItem import *
 from BedHeaderItem import *
@@ -74,7 +75,10 @@ class SimpleProfileModel(QGraphicsScene):
         self.updateHeader()
         self.updateProfile()
     def updateLegend(self):
-        pass
+        self.legendItm = SimpleLegend(None, self, self.profile,
+                                      QRectF(0, 0, self.totalWidth, 10),
+                                      self.graphicPen,
+                                      8)
     def updateHeader(self):
         self.headerItm = SimpleProfileHeader(None, self, self.profile,
                                              QRectF(0, 0, self.totalWidth, 120),
