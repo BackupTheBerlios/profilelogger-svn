@@ -32,6 +32,47 @@ class SimpleProfile(QGraphicsRectItem):
         self.drawSmallHeightMarks()
         self.drawBigHeightMarks()
     def drawSmallHeightMarks(self):
-        pass
+        height = self.profile.startHeightValue * self.profile.startHeightLengthUnit.microMetre / 1000
+        y = self.rect().height()
+        mmStep = self.profile.bigMarksDistanceValue * self.profile.bigMarksDistanceLengthUnit.microMetre / 1000
+        pixelStep = self.scene().scaleMillimetresToPixel(mmStep)
+        pos = QPointF(0, 0)
+        for i in self.columnSequence:
+            if i != HeightHeaderItem:
+                x = pos.x()
+                x += self.columnWidths[i]
+                pos.setX(x)
+            else:
+                break
+        f = QFont()
+        f.setPointSize(9)
+        while y > 0:
+            pos.setY(y)
+            mark = QGraphicsLineItem(QLineF(pos, QPointF(pos.x() + 10, pos.y())), self)
+            lbl = QGraphicsTextItem(unicode(QString("%1").arg(height)), self)
+            lbl.setFont(f)
+            lbl.adjustSize()
+            lbl.setPos(QPointF(pos.x() + 15, pos.y() - lbl.boundingRect().height() / 2))
+            height += mmStep
+            y -= pixelStep
     def drawBigHeightMarks(self):
-        pass
+        height = self.profile.startHeightValue * self.profile.startHeightLengthUnit.microMetre / 1000
+        y = self.rect().height()
+        mmStep = self.profile.smallMarksDistanceValue * self.profile.smallMarksDistanceLengthUnit.microMetre / 1000
+        pixelStep = self.scene().scaleMillimetresToPixel(mmStep)
+        pos = QPointF(0, 0)
+        for i in self.columnSequence:
+            if i != HeightHeaderItem:
+                x = pos.x()
+                x += self.columnWidths[i]
+                pos.setX(x)
+            else:
+                break
+        f = QFont()
+        f.setPointSize(9)
+        while y > 0:
+            pos.setY(y)
+            mark = QGraphicsLineItem(QLineF(pos, QPointF(pos.x() + 5, pos.y())), self)
+            height += mmStep
+            y -= pixelStep
+

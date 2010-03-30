@@ -507,6 +507,10 @@ class Database:
                                         Column('start_height_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
                                         Column('description', String, nullable=True),
                                         Column('scale', Integer, nullable=False, server_default='1'),
+                                        Column('big_marks_distance_value', Integer, nullable=False, server_default='0'),
+                                        Column('big_marks_distance_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
+                                        Column('small_marks_distance_value', Integer, nullable=False, server_default='0'),
+                                        Column('small_marks_distance_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
                                         CheckConstraint("name <> ''", name='chk_profiles_name_not_empty'),
                                         UniqueConstraint('name', 'project_id', name='u_profiles_name_in_project'),
                                         schema=self.schema);
@@ -1011,8 +1015,15 @@ class Database:
                 'description': self.tables['profiles'].c.description,
                 'beds': relation(Bed, backref='profile'),
                 'startHeightValue': self.tables['profiles'].c.start_height_value,
-                'startHeightLengthUnit': relation(LengthUnit),
-                'scale': self.tables['profiles'].c.scale
+                'startHeightLengthUnit': relation(LengthUnit,
+                                                  primaryjoin=self.tables['profiles'].c.start_height_length_unit_id==self.tables['length_units'].c.id),
+                'scale': self.tables['profiles'].c.scale,
+                'bigMarksDistanceValue': self.tables['profiles'].c.big_marks_distance_value,
+                'bigMarksDistanceLengthUnit': relation(LengthUnit,
+                                               primaryjoin=self.tables['profiles'].c.big_marks_distance_length_unit_id==self.tables['length_units'].c.id),
+                'smallMarksDistanceValue': self.tables['profiles'].c.small_marks_distance_value,
+                'smallMarksDistanceLengthUnit': relation(LengthUnit,
+                                                 primaryjoin=self.tables['profiles'].c.small_marks_distance_length_unit_id==self.tables['length_units'].c.id)
                 })
         mapper(ProfileAssembly, self.tables['profile_assemblies'], properties = {
                 'id': self.tables['profile_assemblies'].c.id,

@@ -36,7 +36,7 @@ class SimpleProfileModel(QGraphicsScene):
         self.profile = profile
         self.updateItems()
     def setupColumnWidths(self):
-        self.columnWidths[HeightHeaderItem] = 50
+        self.columnWidths[HeightHeaderItem] = 80
         self.columnWidths[BedHeaderItem] = 50
         self.columnWidths[LithologyHeaderItem] = 100
         self.columnWidths[BeddingTypeHeaderItem] = 100

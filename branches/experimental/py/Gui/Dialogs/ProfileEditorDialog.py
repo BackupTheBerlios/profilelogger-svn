@@ -15,6 +15,8 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.addNameEdit()
         self.addBaseHeightEditor()
         self.addScaleEditor()
+        self.addBigMarksEditor()
+        self.addSmallMarksEditor()
         self.addGrainSizesEditor()
         self.addDescriptionEdit()
         self.addButtons()
@@ -22,7 +24,9 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.idW.setValue(self.data.id)
         self.projectW.selectDataset(data.project)
         self.nameW.setValue(unicode(self.data.name))
-        self.scaleW.setValue(data.scale)
+        self.scaleW.setValue(self.data.scale)
+        self.bigMarksW.setValue(self.data.bigMarksDistanceValue, self.data.bigMarksDistanceLengthUnit)
+        self.smallMarksW.setValue(self.data.smallMarksDistanceValue, self.data.smallMarksDistanceLengthUnit)
         self.baseHeightW.setValue(self.data.startHeightValue, self.data.startHeightLengthUnit)
         self.descriptionW.setValue(unicode(self.data.description))
 
@@ -56,4 +60,23 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
                                                                     QApplication.instance().grainSizeTypeInProfileModel)
         self.addLabelWidgetPair(self.grainSizesL, self.grainSizesW)
         self.grainSizesW.model().setProfile(self.data)
-
+    def addBigMarksEditor(self):
+        self.bigMarksL = self.createOneLineLabel(self.tr("Big Marks Distance"))
+        self.bigMarksW = LengthInputWidget(self.contentW)
+        self.addLabelWidgetPair(self.bigMarksL, self.bigMarksW)
+        self.bigMarksW.valueChanged.connect(self.onBigMarksDistanceValueChange)
+        self.bigMarksW.lengthUnitChanged.connect(self.onBigMarksDistanceLenghtUnitChange)
+    def onBigMarksDistanceValueChange(self, v):
+        self.data.bigMarksDistanceValue = v
+    def onBigMarksDistanceLenghtUnitChange(self, u):
+        self.data.bigMarksDistanceLenghtUnit = u
+    def addSmallMarksEditor(self):
+        self.smallMarksL = self.createOneLineLabel(self.tr("Small Marks Distance"))
+        self.smallMarksW = LengthInputWidget(self.contentW)
+        self.addLabelWidgetPair(self.smallMarksL, self.smallMarksW)
+        self.smallMarksW.valueChanged.connect(self.onSmallMarksDistanceValueChange)
+        self.smallMarksW.lengthUnitChanged.connect(self.onSmallMarksDistanceLenghtUnitChange)
+    def onSmallMarksDistanceValueChange(self, v):
+        self.data.smallMarksDistanceValue = v
+    def onSmallMarksDistanceLenghtUnitChange(self, u):
+        self.data.smallMarksDistanceLenghtUnit = u
