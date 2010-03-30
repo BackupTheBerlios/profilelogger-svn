@@ -91,4 +91,8 @@ class SimpleProfileModel(QGraphicsScene):
                                         self.columnWidths,
                                         self.columnSequence)
     def profileHeight(self):
-        return self.profile.heightInMillimetres()
+        return self.profile.heightInMillimetres() / self.profile.scale
+    def scaleLengthToPixel(self, value, unit):
+        return self.scaleMillimetresToPixel(value * unit.microMetre/1000)
+    def scaleMillimetresToPixel(self, mm):
+        return mm / self.profile.scale

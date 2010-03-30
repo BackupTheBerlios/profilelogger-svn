@@ -21,10 +21,10 @@ class SimpleProfile(QGraphicsRectItem):
     def drawBeds(self):
         y = self.rect().height()
         for b in self.profile.beds:
-            y -= b.heightInMillimetres()
+            y -= self.scene().scaleMillimetresToPixel(b.heightInMillimetres())
             BedItem(self, self.scene(), b,
                     QRectF(0, 0, self.rect().width(),
-                           self.scaleLengthToPixel(b.height, b.lengthUnit)),
+                           self.scene().scaleLengthToPixel(b.height, b.lengthUnit)),
                     QPointF(0, y),
                     self.pen(),
                     self.columnWidths, self.columnSequence)
@@ -35,6 +35,3 @@ class SimpleProfile(QGraphicsRectItem):
         pass
     def drawBigHeightMarks(self):
         pass
-    def scaleLengthToPixel(self, value, unit):
-        mm = value * unit.microMetre/1000
-        return mm
