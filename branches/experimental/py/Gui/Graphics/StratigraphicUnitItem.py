@@ -14,5 +14,5 @@ class StratigraphicUnitItem(FilledRectInBed):
     def drawStratigraphicUnitPatterns(self):
         for l in self.bed.stratigraphicUnits:
             if l.hasStratigraphicUnit():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.stratigraphicUnit.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.stratigraphicUnit.svgItem)
         

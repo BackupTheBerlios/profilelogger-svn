@@ -1,6 +1,6 @@
-from NamedDescribedDatasetWithDrawingInProject import NamedDescribedDatasetWithDrawingInProject
+from NamedDescribedDatasetWithSvgItemInProject import NamedDescribedDatasetWithSvgItemInProject
 
-class TectonicUnit(NamedDescribedDatasetWithDrawingInProject):
-    def __init__(self, project, id=None, name=None, drawing=None, description=None, defaultGrainSize=None):
-        super(TectonicUnit, self).__init__(project, id, name, drawing, description)
+class TectonicUnit(NamedDescribedDatasetWithSvgItemInProject):
+    def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
+        super(TectonicUnit, self).__init__(project, id, name, svgItem, description)
         self.project.registerTectonicUnit(self)

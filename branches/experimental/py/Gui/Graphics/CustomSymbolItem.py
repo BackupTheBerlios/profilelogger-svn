@@ -13,9 +13,9 @@ class CustomSymbolItem(SymbolFilledRectItem):
         self.bed = bed
         self.showCustomSymbols()
     def showCustomSymbols(self):
-        drawings = dict()
+        svgItems = dict()
 
         for f in self.bed.customSymbols:
-            if f.customSymbol.hasDrawing():
-                drawings[f.customSymbol] = [f.begin, f.end]
-        self.showSymbols(drawings)
+            if f.customSymbol.hasSvgItem():
+                svgItems[f.customSymbol] = [f.begin, f.end]
+        self.showSymbols(svgItems)

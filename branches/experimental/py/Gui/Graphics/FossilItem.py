@@ -13,9 +13,9 @@ class FossilItem(SymbolFilledRectItem):
         self.bed = bed
         self.showFossils()
     def showFossils(self):
-        drawings = dict()
+        svgItems = dict()
 
         for f in self.bed.fossils:
-            if f.fossil.hasDrawing():
-                drawings[f.fossil] = [f.begin, f.end]
-        self.showSymbols(drawings)
+            if f.fossil.hasSvgItem():
+                svgItems[f.fossil] = [f.begin, f.end]
+        self.showSymbols(svgItems)

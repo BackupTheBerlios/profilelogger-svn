@@ -1,16 +1,16 @@
-from Gui.Dialogs.DatasetWithDrawingInProjectEditorDialog import *
+from Gui.Dialogs.DatasetWithSvgItemInProjectEditorDialog import *
 
 from PyQt4.QtCore import *
 
 from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
 
-class LithologyEditorDialog(DatasetWithDrawingInProjectEditorDialog):
+class LithologyEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
     def __init__(self, parent, data):
-        DatasetWithDrawingInProjectEditorDialog.__init__(self, parent, data)
+        DatasetWithSvgItemInProjectEditorDialog.__init__(self, parent, data)
         self.addContentPanel(self.tr("Lithology"))
         self.addIdDisplay()
         self.addProjectSelector()
-        self.addDrawingSelector()
+        self.addSvgItemSelector()
         self.addGrainSizeSelector()
         self.addNameEdit()
         self.addDescriptionEdit()
@@ -19,7 +19,7 @@ class LithologyEditorDialog(DatasetWithDrawingInProjectEditorDialog):
         self.idW.setValue(self.data.id)
         self.projectW.selectDataset(data.project)
         self.grainSizeW.selectDataset(data.defaultGrainSize)
-        self.drawingW.selectDataset(data.drawing)
+        self.svgItemW.selectDataset(data.svgItem)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
 

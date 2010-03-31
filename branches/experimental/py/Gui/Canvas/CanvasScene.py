@@ -136,6 +136,8 @@ class CanvasScene(QGraphicsScene):
             if itm.__class__ == PolygonItem:
                 QApplication.instance().db.session.delete(itm.polygon)
             if itm.__class__ == PainterPathItem:
+                for pitm in itm.painterPathPoint:
+                    QApplication.instance().db.session.delete(pitm)
                 QApplication.instance().db.session.delete(itm.painterPath)
             QApplication.instance().db.session.commit()
             return True

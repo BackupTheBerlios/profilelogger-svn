@@ -13,9 +13,9 @@ class PatternLegendItem(LegendItem):
         self.patternItm = QGraphicsRectItem(self, self.scene())
         self.patternItm.setRect(QRectF(0, 0, w, w))
         self.patternItm.setPen(Qt.black)
-        if self.dataset.hasDrawing():
+        if self.dataset.hasSvgItem():
             f = BrushFactory()
-            brush = f.fromDrawing(self.dataset.drawing)
+            brush = f.fromSvgItem(self.dataset.svgItem)
             self.patternItm.setBrush(brush)
 
         self.patternItm.setPos(QPointF(self.rect().width() * 0.2 / 2,

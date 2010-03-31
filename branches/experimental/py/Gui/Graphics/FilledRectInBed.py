@@ -11,14 +11,22 @@ class FilledRectInBed(QGraphicsRectItem):
         self.bed = bed
         self.setRect(rect)
         self.setPen(pen)
+    def createRect(self, begin, end):
+        self.rectItm = QGraphicsRectItem(self, self.scene())
+        self.rectItm.setRect(QRectF(0, 0, 
+                                    self.rect().width(), 
+                                    self.rect().height() * (end - begin) / 100.0))
+        self.rectItm.setPos(QPointF(0, 
+                                    self.rect().height() - (self.rect().height() * end / 100)))
     def fillPercentRectWithDrawing(self, begin, end, drawing):
-        itm = QGraphicsRectItem(self, self.scene())
-        itm.setRect(QRectF(0, 0, 
-                           self.rect().width(), 
-                           self.rect().height() * (end - begin) / 100.0))
-        itm.setPos(QPointF(0, 
-                           self.rect().height() - (self.rect().height() * end / 100)))
+        self.createRect(begin, end)
         if drawing is not None:
             fac = BrushFactory()
             b = fac.fromDrawing(drawing)
-            itm.setBrush(b)
+            self.rectItm.setBrush(b)
+    def fillPercentRectWithSvgItem(self, begin, end, svgItem):
+        self.createRect(begin, end)
+        if svgItem is not None:
+            fac = BrushFactory()
+            b = fac.fromSvgItem(svgItem)
+            self.rectItm.setBrush(b)

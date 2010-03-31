@@ -14,5 +14,5 @@ class FaciesItem(FilledRectInBed):
     def drawFaciesPatterns(self):
         for l in self.bed.facies:
             if l.hasFacies():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.facies.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.facies.svgItem)
         

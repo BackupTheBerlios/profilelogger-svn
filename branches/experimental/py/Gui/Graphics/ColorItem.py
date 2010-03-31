@@ -14,5 +14,5 @@ class ColorItem(FilledRectInBed):
     def drawColorPatterns(self):
         for l in self.bed.colors:
             if l.hasColor():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.color.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.color.svgItem)
         

@@ -14,5 +14,5 @@ class OutcropTypeItem(FilledRectInBed):
     def drawOutcropTypePatterns(self):
         for l in self.bed.outcropTypes:
             if l.hasOutcropType():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.outcropType.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.outcropType.svgItem)
         

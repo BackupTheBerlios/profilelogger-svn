@@ -9,10 +9,10 @@ class SymbolFilledRectItem(QGraphicsRectItem):
         self.setRect(rect)
         self.setPen(pen)
         self.bed = bed
-    def createColRect(self, begin, end, colWidth, colNum, drawing):
+    def createColRect(self, begin, end, colWidth, colNum, svgItem):
         itm = QGraphicsRectItem(self, self.scene())
         fac = BrushFactory()
-        brush = fac.fromDrawing(drawing)
+        brush = fac.fromSvgItem(svgItem, colWidth)
         itm.setBrush(brush)
         itm.setPen(self.pen())
         itm.setRect(QRectF(0, 0, 
@@ -26,5 +26,5 @@ class SymbolFilledRectItem(QGraphicsRectItem):
         colWidth = self.rect().width() / cols
         col = 0
         for k, v in symbolMap.iteritems():
-            self.createColRect(v[0], v[1], colWidth, col, k.drawing)
+            self.createColRect(v[0], v[1], colWidth, col, k.svgItem)
             col += 1

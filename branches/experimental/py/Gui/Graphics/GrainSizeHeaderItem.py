@@ -11,6 +11,8 @@ class GrainSizeHeaderItem(HeaderItem):
         self.grainSizeTypesInProfile = parent.profile.grainSizeTypes
         self.drawGrainSizeLegends()
     def drawGrainSizeLegends(self):
+        if len(self.grainSizeTypesInProfile) < 1:
+            return
         y = self.rect().height()
         itemHeight = y / len(self.grainSizeTypesInProfile)
 

@@ -14,5 +14,5 @@ class LithologyItem(FilledRectInBed):
     def drawLithologyPatterns(self):
         for l in self.bed.lithologies:
             if l.hasLithology():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.lithology.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.lithology.svgItem)
         

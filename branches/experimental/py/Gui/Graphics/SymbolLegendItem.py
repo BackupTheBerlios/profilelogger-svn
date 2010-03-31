@@ -12,9 +12,9 @@ class SymbolLegendItem(LegendItem):
         w = self.rect().width() * 0.8
         self.symbolItm = QGraphicsRectItem(self, self.scene())
         self.symbolItm.setRect(QRectF(0, 0, w, w))
-        if self.dataset.hasDrawing():
+        if self.dataset.hasSvgItem():
             f = SymbolFactory()
-            pm = f.pixmapFromDrawing(self.dataset.drawing, w)
+            pm = f.pixmapFromSvgItem(self.dataset.svgItem, w)
             pmItm = QGraphicsPixmapItem(self.symbolItm, self.scene())
             pmItm.setPixmap(pm)
             pmItm.setPos(QPointF(0, 0))

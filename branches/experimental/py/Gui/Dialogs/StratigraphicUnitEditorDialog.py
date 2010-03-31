@@ -1,11 +1,11 @@
-from Gui.Dialogs.DatasetWithDrawingInProjectEditorDialog import *
+from Gui.Dialogs.DatasetWithSvgItemInProjectEditorDialog import *
 
 from PyQt4.QtCore import *
 
 from Gui.ItemViews.StratigraphicUnitTypeItemView import StratigraphicUnitTypeItemView
 from Gui.Widgets.LengthRangeInputWidget import LengthRangeInputWidget
 
-class StratigraphicUnitEditorDialog(DatasetWithDrawingInProjectEditorDialog):
+class StratigraphicUnitEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
     def __init__(self, parent, data):
         DatasetEditorDialog.__init__(self, parent, data)
         self.addContentPanel(self.tr("Stratigraphic Unit"))
@@ -13,7 +13,7 @@ class StratigraphicUnitEditorDialog(DatasetWithDrawingInProjectEditorDialog):
 
         self.addIdDisplay()
         self.addProjectSelector()
-        self.addDrawingSelector()
+        self.addSvgItemSelector()
         self.addNameEdit()        
         self.addLabelWidgetPair(self.typeL, self.typeW)
         self.addDescriptionEdit()
@@ -21,7 +21,7 @@ class StratigraphicUnitEditorDialog(DatasetWithDrawingInProjectEditorDialog):
 
         self.idW.setValue(self.data.id)
         self.projectW.selectDataset(data.project)
-        self.drawingW.selectDataset(data.drawing)
+        self.svgItemW.selectDataset(data.svgItem)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
         self.typeW.selectDataset(self.data.stratigraphicUnitType)

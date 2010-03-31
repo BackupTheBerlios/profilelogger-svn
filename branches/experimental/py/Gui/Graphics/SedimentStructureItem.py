@@ -13,9 +13,9 @@ class SedimentStructureItem(SymbolFilledRectItem):
         self.bed = bed
         self.showSedimentStructures()
     def showSedimentStructures(self):
-        drawings = dict()
+        svgItems = dict()
 
         for f in self.bed.sedimentStructures:
-            if f.sedimentStructure.hasDrawing():
-                drawings[f.sedimentStructure] = [f.begin, f.end]
-        self.showSymbols(drawings)
+            if f.sedimentStructure.hasSvgItem():
+                svgItems[f.sedimentStructure] = [f.begin, f.end]
+        self.showSymbols(svgItems)

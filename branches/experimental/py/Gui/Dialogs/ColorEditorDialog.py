@@ -1,21 +1,21 @@
-from Gui.Dialogs.DatasetWithDrawingInProjectEditorDialog import *
+from Gui.Dialogs.DatasetWithSvgItemInProjectEditorDialog import *
 
 from PyQt4.QtCore import *
 
-class ColorEditorDialog(DatasetWithDrawingInProjectEditorDialog):
+class ColorEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
     def __init__(self, parent, data):
-        DatasetWithDrawingInProjectEditorDialog.__init__(self, parent, data)
+        DatasetWithSvgItemInProjectEditorDialog.__init__(self, parent, data)
         self.addContentPanel(self.tr("Color"))
         self.addIdDisplay()
         self.addProjectSelector()
-        self.addDrawingSelector()
+        self.addSvgItemSelector()
         self.addNameEdit()
         self.addDescriptionEdit()
         self.addButtons()
 
         self.idW.setValue(self.data.id)
         self.projectW.selectDataset(data.project)
-        self.drawingW.selectDataset(data.drawing)
+        self.svgItemW.selectDataset(data.svgItem)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
 

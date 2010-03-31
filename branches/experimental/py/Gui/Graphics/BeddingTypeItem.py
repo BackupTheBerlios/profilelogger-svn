@@ -14,5 +14,5 @@ class BeddingTypeItem(FilledRectInBed):
     def drawBeddingTypePatterns(self):
         for l in self.bed.beddingTypes:
             if l.hasBeddingType():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.beddingType.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.beddingType.svgItem)
         

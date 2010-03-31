@@ -14,5 +14,5 @@ class TectonicUnitItem(FilledRectInBed):
     def drawTectonicUnitPatterns(self):
         for l in self.bed.tectonicUnits:
             if l.hasTectonicUnit():
-                self.fillPercentRectWithDrawing(l.begin, l.end, l.tectonicUnit.drawing)
+                self.fillPercentRectWithSvgItem(l.begin, l.end, l.tectonicUnit.svgItem)
         
