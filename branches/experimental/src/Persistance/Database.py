@@ -41,20 +41,6 @@ from Model.StratigraphicUnitInBed import StratigraphicUnitInBed
 from Model.TectonicUnitInBed import TectonicUnitInBed
 from Model.GeologicalMeasurementType import GeologicalMeasurementType
 from Model.GeologicalMeasurementInBed import GeologicalMeasurementInBed
-from Model.Drawing import *
-from Model.PenStyle import *
-from Model.PenCapStyle import *
-from Model.PenJoinStyle import *
-from Model.Pen import *
-from Model.BrushStyle import *
-from Model.Brush import *
-from Model.StraightLine import *
-from Model.Rectangle import *
-from Model.Ellipse import *
-from Model.Polygon import *
-from Model.PolygonPoint import *
-from Model.PainterPath import *
-from Model.PainterPathPoint import *
 from Model.GrainSizeTypeInProfile import *
 
 class Database:
@@ -73,158 +59,6 @@ class Database:
                                                          Column('profile_id', Integer, ForeignKey('%s.profiles.id' % self.schema), nullable=False),
                                                          UniqueConstraint('grain_size_type_id', 'profile_id', name='u_grain_size_types_profiles'),
                                                          schema=self.schema)
-        self.tables['painter_paths'] = Table('painter_paths', self.metadata,
-                                             Column('id', Integer, Sequence('seq_painter_paths', schema=self.schema), primary_key=True, nullable=False),
-                                             Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                             Column('pos_x', Integer, nullable=False, server_default='0'),
-                                             Column('pos_y', Integer, nullable=False, server_default='0'),
-                                             Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
-                                             Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
-                                             schema=self.schema)
-        self.tables['painter_path_points'] = Table('painter_path_points', self.metadata,
-                                                   Column('id', Integer, Sequence('seq_painter_path_points', schema=self.schema), primary_key=True, nullable=False),
-                                                   Column('painter_path_id', Integer, ForeignKey('%s.painter_paths.id' % self.schema), nullable=False),
-                                                   Column('x', Integer, nullable=False),
-                                                   Column('y', Integer, nullable=False),
-                                                   Column('position', Integer, nullable=False),
-                                                   UniqueConstraint('position', 'painter_path_id', name='u_painter_path_points_position_in_painter_path'),
-                                                   schema=self.schema)
-        self.tables['polygons'] = Table('polygons', self.metadata,
-                                        Column('id', Integer, Sequence('seq_polygons', schema=self.schema), primary_key=True, nullable=False),
-                                        Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                        Column('pos_x', Integer, nullable=False, server_default='0'),
-                                        Column('pos_y', Integer, nullable=False, server_default='0'),
-                                        Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
-                                        Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
-                                        schema=self.schema)
-        self.tables['polygon_points'] = Table('polygon_points', self.metadata,
-                                              Column('id', Integer, Sequence('seq_polygon_points', schema=self.schema), primary_key=True, nullable=False),
-                                              Column('polygon_id', Integer, ForeignKey('%s.polygons.id' % self.schema), nullable=False),
-                                              Column('x', Integer, nullable=False),
-                                              Column('y', Integer, nullable=False),
-                                              Column('position', Integer, nullable=False),
-                                              UniqueConstraint('position', 'polygon_id', name='u_polygon_points_position_in_polygon'),
-                                              schema=self.schema)
-        self.tables['straight_lines'] = Table('straight_lines', self.metadata,
-                                              Column('id', Integer, Sequence('seq_straight_lines', schema=self.schema), primary_key=True, nullable=False),
-                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                              Column('x1', Float, nullable=False, server_default='0.0'),
-                                              Column('y1', Float, nullable=False, server_default='0.0'),
-                                              Column('x2', Float, nullable=False, server_default='0.0'),
-                                              Column('y2', Float, nullable=False, server_default='0.0'),
-                                              Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
-                                              schema=self.schema)
-        self.tables['rectangles'] = Table('rectangles', self.metadata,
-                                          Column('id', Integer, Sequence('seq_rectangles', schema=self.schema), primary_key=True, nullable=False),
-                                          Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                          Column('pos_x', Integer, nullable=False, server_default='0'),
-                                          Column('pos_y', Integer, nullable=False, server_default='0'),
-                                          Column('x1', Integer, nullable=False, server_default='0'),
-                                          Column('y1', Integer, nullable=False, server_default='0'),
-                                          Column('x2', Integer, nullable=False, server_default='0'),
-                                          Column('y2', Integer, nullable=False, server_default='0'),
-                                          Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
-                                          Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
-                                          schema=self.schema)
-        self.tables['ellipses'] = Table('ellipses', self.metadata,
-                                        Column('id', Integer, Sequence('seq_ellipses', schema=self.schema), primary_key=True, nullable=False),
-                                        Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                        Column('pos_x', Integer, nullable=False, server_default='0'),
-                                        Column('pos_y', Integer, nullable=False, server_default='0'),
-                                        Column('x1', Integer, nullable=False, server_default='0'),
-                                        Column('y1', Integer, nullable=False, server_default='0'),
-                                        Column('x2', Integer, nullable=False, server_default='0'),
-                                        Column('y2', Integer, nullable=False, server_default='0'),
-                                        Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
-                                        Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
-                                        schema=self.schema)
-
-        self.tables['pens'] = Table('pens', self.metadata,
-                                    Column('id', Integer, Sequence('seq_pens', schema=self.schema), primary_key=True, nullable=False),
-                                    Column('name', String, nullable=False),
-                                    Column('description', String, nullable=True),
-                                    Column('red', Integer, nullable=False, server_default='0'),
-                                    Column('green', Integer, nullable=False, server_default='0'),
-                                    Column('blue', Integer, nullable=False, server_default='0'),
-                                    Column('alpha', Integer, nullable=False, server_default='255'),
-                                    Column('width', Integer, nullable=False, server_default='1'),
-                                    Column('pen_cap_style_id', Integer, ForeignKey('%s.pen_cap_styles.id' % self.schema), nullable=True),
-                                    Column('pen_join_style_id', Integer, ForeignKey('%s.pen_join_styles.id' % self.schema), nullable=True),
-                                    Column('pen_style_id', Integer, ForeignKey('%s.pen_styles.id' % self.schema), nullable=True),
-                                    Column('brush_id', Integer, ForeignKey('%s.brushes.id' % self.schema), nullable=True),
-                                    UniqueConstraint('name', name='u_pens_name'),
-                                    UniqueConstraint('red', 'green', 'blue', 'alpha', 'pen_cap_style_id', 'pen_join_style_id', 'pen_style_id', 'brush_id', 'width', name='u_pens_values'),
-                                    schema=self.schema)
-
-        self.tables['brushes'] = Table('brushes', self.metadata,
-                                    Column('id', Integer, Sequence('seq_brushes', schema=self.schema), primary_key=True, nullable=False),
-                                    Column('name', String, nullable=False),
-                                    Column('description', String, nullable=True),
-                                    Column('red', Integer, nullable=False, server_default='0'),
-                                    Column('green', Integer, nullable=False, server_default='0'),
-                                    Column('blue', Integer, nullable=False, server_default='0'),
-                                    Column('alpha', Integer, nullable=False, server_default='255'),
-                                    Column('width', Integer, nullable=False, server_default='1'),
-                                    Column('brush_style_id', Integer, ForeignKey('%s.brush_styles.id' % self.schema), nullable=True),
-                                    UniqueConstraint('name', name='u_brushes_name'),
-                                    UniqueConstraint('red', 'green', 'blue', 'alpha', 'brush_style_id', 'width', name='u_brushes_values'),
-                                    schema=self.schema)
-        self.tables['pen_styles'] = Table('pen_styles', self.metadata,
-                                          Column('id', Integer, Sequence('seq_pen_styles', schema=self.schema), primary_key=True, nullable=False),
-                                          Column('name', String, nullable=False, server_default='New Drawing'),
-                                          Column('description', String, nullable=True),
-                                          Column('qt_enum_value', Integer, nullable=False),
-                                          CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
-                                          UniqueConstraint('name', name='u_pen_styles_name'),
-                                          UniqueConstraint('qt_enum_value', name='u_pen_styles_qt_enum_value'),
-                                          schema=self.schema)
-        self.tables['brush_styles'] = Table('brush_styles', self.metadata,
-                                          Column('id', Integer, Sequence('seq_brush_styles', schema=self.schema), primary_key=True, nullable=False),
-                                          Column('name', String, nullable=False, server_default='new brush style'),
-                                          Column('description', String, nullable=True),
-                                          Column('qt_enum_value', Integer, nullable=False),
-                                          CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
-                                          UniqueConstraint('name', name='u_brush_styles_name'),
-                                          UniqueConstraint('qt_enum_value', name='u_brush_styles_qt_enum_value'),
-                                          schema=self.schema)
-
-        self.tables['pen_cap_styles'] = Table('pen_cap_styles', self.metadata,
-                                              Column('id', Integer, Sequence('seq_pen_cap_styles', schema=self.schema), primary_key=True, nullable=False),
-                                              Column('name', String, nullable=False, server_default='New pen cap style'),
-                                              Column('description', String, nullable=True),
-                                              Column('qt_enum_value', Integer, nullable=False),
-                                              CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
-                                              UniqueConstraint('name', name='u_pen_cap_styles_name'),
-                                              UniqueConstraint('qt_enum_value', name='u_pen_cap_styles_qt_enum_value'),
-                                              schema=self.schema)
-        self.tables['pen_join_styles'] = Table('pen_join_styles', self.metadata,
-                                               Column('id', Integer, Sequence('seq_pen_join_styles', schema=self.schema), primary_key=True, nullable=False),
-                                               Column('name', String, nullable=False, server_default='New pen join style'),
-                                               Column('description', String, nullable=True),
-                                               Column('qt_enum_value', Integer, nullable=False),
-                                               CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
-                                               UniqueConstraint('name', name='u_pen_join_styles_name'),
-                                               UniqueConstraint('qt_enum_value', name='u_pen_join_styles_qt_enum_value'),
-                                               schema=self.schema)
-
-        self.tables['line_items'] = Table('line_items', self.metadata,
-                                          Column('id', Integer, Sequence('seq_line_items', schema=self.schema), nullable=False, primary_key=True),
-                                          Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=False),
-                                          Column('x1', Float, nullable=False),
-                                          Column('y1', Float, nullable=False),
-                                          Column('x2', Float, nullable=False),
-                                          Column('y2', Float, nullable=False),
-                                          Column('pos_x', Float, nullable=False),
-                                          Column('pos_y', Float, nullable=False),
-                                          Column('pen_id', Integer, ForeignKey('%s.pens.id' % self.schema), nullable=False),
-                                          schema=self.schema)
-        self.tables['drawings'] = Table('drawings', self.metadata,
-                                        Column('id', Integer, Sequence('seq_drawings', schema=self.schema), primary_key=True, nullable=False),
-                                        Column('name', String, nullable=False, server_default='New Drawing'),
-                                        Column('description', String, nullable=True),
-                                        CheckConstraint("name <> ''", name='chk_drawigns_name_not_empty'),
-                                        UniqueConstraint('name', name='u_drawings_name_in_project'),
-                                        schema=self.schema)
         self.tables['length_units'] = Table('length_units', self.metadata,
                                             Column('id', Integer, Sequence('seq_length_units', schema=self.schema), primary_key=True, nullable=False),
                                             Column('micrometres', Integer, nullable=False),
@@ -442,14 +276,14 @@ class Database:
                                       UniqueConstraint('name', 'project_id', name='u_facies_name_in_project'),
                                       schema=self.schema)
         self.tables['points_of_interest'] = Table('points_of_interest', self.metadata,
-                                      Column('id', Integer, Sequence('seq_points_of_interest', schema=self.schema), primary_key=True, nullable=False),
-                                      Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
-                                      Column('name', String, nullable=False, server_default='New Color'),
-                                      Column('description', String, nullable=True),
-                                      Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
-                                      CheckConstraint("name <> ''", name='chk_points_of_interest_name_not_empty'),
-                                      UniqueConstraint('name', 'project_id', name='u_points_of_interest_name_in_project'),
-                                      schema=self.schema)
+                                                  Column('id', Integer, Sequence('seq_points_of_interest', schema=self.schema), primary_key=True, nullable=False),
+                                                  Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
+                                                  Column('name', String, nullable=False, server_default='New Color'),
+                                                  Column('description', String, nullable=True),
+                                                  Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
+                                                  CheckConstraint("name <> ''", name='chk_points_of_interest_name_not_empty'),
+                                                  UniqueConstraint('name', 'project_id', name='u_points_of_interest_name_in_project'),
+                                                  schema=self.schema)
         self.tables['bedding_types'] = Table('bedding_types', self.metadata,
                                              Column('id', Integer, Sequence('seq_bedding_types', schema=self.schema), primary_key=True, nullable=False),
                                              Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
@@ -494,7 +328,7 @@ class Database:
                                               Column('project_id', Integer, ForeignKey('%s.projects.id' % self.schema), nullable=False),
                                               Column('name', String, nullable=False, server_default='New Boundary_Type'),
                                               Column('description', String, nullable=True),
-                                              Column('drawing_id', Integer, ForeignKey('%s.drawings.id' % self.schema), nullable=True),
+                                              Column('svg_item_id', Integer, ForeignKey('%s.svg_items.id' % self.schema), nullable=True),
                                               CheckConstraint("name <> ''", name='chk_boundary_types_name_not_empty'),
                                               UniqueConstraint('name', 'project_id', name='u_boundary_types_name_in_project'),
                                               schema=self.schema);
@@ -724,129 +558,6 @@ class Database:
                 'grainSizeType': relation(GrainSizeType),
                 'profile': relation(Profile, backref='grainSizeTypes')
                 })
-        mapper(Drawing, self.tables['drawings'], properties = {
-                'id': self.tables['drawings'].c.id,
-                'name': self.tables['drawings'].c.name,
-                'description': self.tables['drawings'].c.description,
-                'painterPaths': relation(PainterPath, backref='drawing',
-                                         cascade='all'),
-                'polygons': relation(Polygon, backref='drawing',
-                                     cascade='all'),
-                'ellipses': relation(Ellipse, backref='drawing',
-                                     cascade='all'),
-                'rectangles': relation(Rectangle, backref='drawing',
-                                       cascade='all'),
-                'straightLines': relation(StraightLine, backref='drawing',
-                                          cascade='all')
-                })
-        mapper(PainterPath, self.tables['painter_paths'], properties = {
-                'id': self.tables['painter_paths'].c.id,
-                'posX': self.tables['painter_paths'].c.pos_x,
-                'posY': self.tables['painter_paths'].c.pos_y,
-                'pen': relation(Pen, backref='painterPaths'),
-                'brush': relation(Brush, backref='painterPaths'),
-                'painterPathPoints': relation(PainterPathPoint, backref='painterPath',
-                                              cascade='all, delete-orphan')
-                })
-        mapper(PainterPathPoint, self.tables['painter_path_points'], properties = {
-                'id': self.tables['painter_path_points'].c.id,
-                'x': self.tables['painter_path_points'].c.x,
-                'y': self.tables['painter_path_points'].c.y,
-                'position': self.tables['painter_path_points'].c.position
-                })
-        mapper(Polygon, self.tables['polygons'], properties = {
-                'id': self.tables['polygons'].c.id,
-                'posX': self.tables['polygons'].c.pos_x,
-                'posY': self.tables['polygons'].c.pos_y,
-                'pen': relation(Pen, backref='polygons'),
-                'brush': relation(Brush, backref='polygons'),
-                'polygonPoints': relation(PolygonPoint, backref='polygon',
-                                          cascade='all, delete-orphan')
-                })
-        mapper(PolygonPoint, self.tables['polygon_points'], properties = {
-                'id': self.tables['polygon_points'].c.id,
-                'x': self.tables['polygon_points'].c.x,
-                'y': self.tables['polygon_points'].c.y,
-                'position': self.tables['polygon_points'].c.position
-                })
-        mapper(Ellipse, self.tables['ellipses'], properties = {
-                'id': self.tables['ellipses'].c.id,
-                'posX': self.tables['ellipses'].c.pos_x,
-                'posY': self.tables['ellipses'].c.pos_y,
-                'x1': self.tables['ellipses'].c.x1,
-                'y1': self.tables['ellipses'].c.y1,
-                'x2': self.tables['ellipses'].c.x2,
-                'y2': self.tables['ellipses'].c.y2,
-                'pen': relation(Pen, backref='ellipses'),
-                'brush': relation(Brush, backref='ellipses')
-                })
-        mapper(Rectangle, self.tables['rectangles'], properties = {
-                'id': self.tables['rectangles'].c.id,
-                'posX': self.tables['rectangles'].c.pos_x,
-                'posY': self.tables['rectangles'].c.pos_y,
-                'x1': self.tables['rectangles'].c.x1,
-                'y1': self.tables['rectangles'].c.y1,
-                'x2': self.tables['rectangles'].c.x2,
-                'y2': self.tables['rectangles'].c.y2,
-                'pen': relation(Pen, backref='rectangles'),
-                'brush': relation(Brush, backref='rectangles')
-                })
-        mapper(StraightLine, self.tables['straight_lines'], properties = {
-                'id': self.tables['straight_lines'].c.id,
-                'x1': self.tables['straight_lines'].c.x1,
-                'y1': self.tables['straight_lines'].c.y1,
-                'x2': self.tables['straight_lines'].c.x2,
-                'y2': self.tables['straight_lines'].c.y2,
-                'pen': relation(Pen, backref='straightLines')
-                })
-        mapper(Pen, self.tables['pens'], properties = {
-                'id': self.tables['pens'].c.id,
-                'name': self.tables['pens'].c.name,
-                'description': self.tables['pens'].c.description,
-                'rgbRed': self.tables['pens'].c.red,
-                'rgbGreen': self.tables['pens'].c.green,
-                'rgbBlue': self.tables['pens'].c.blue,
-                'rgbAlpha': self.tables['pens'].c.alpha,
-                'width': self.tables['pens'].c.width,
-                'penCapStyle': relation(PenCapStyle),
-                'penJoinStyle': relation(PenJoinStyle),
-                'penStyle': relation(PenStyle),
-                'brush': relation(Brush)
-            })
-        mapper(Brush, self.tables['brushes'], properties = {
-                'id': self.tables['brushes'].c.id,
-                'name': self.tables['brushes'].c.name,
-                'description': self.tables['brushes'].c.description,
-                'rgbRed': self.tables['brushes'].c.red,
-                'rgbGreen': self.tables['brushes'].c.green,
-                'rgbBlue': self.tables['brushes'].c.blue,
-                'rgbAlpha': self.tables['brushes'].c.alpha,
-                'brushStyle': relation(BrushStyle)
-            })
-        mapper(PenStyle, self.tables['pen_styles'], properties = {
-                'id': self.tables['pen_styles'].c.id,
-                'name': self.tables['pen_styles'].c.name,
-                'description': self.tables['pen_styles'].c.description,
-                'qtEnumValue': self.tables['pen_styles'].c.qt_enum_value
-                })
-        mapper(BrushStyle, self.tables['brush_styles'], properties = {
-                'id': self.tables['brush_styles'].c.id,
-                'name': self.tables['brush_styles'].c.name,
-                'description': self.tables['brush_styles'].c.description,
-                'qtEnumValue': self.tables['brush_styles'].c.qt_enum_value
-                })
-        mapper(PenCapStyle, self.tables['pen_cap_styles'], properties = {
-                'id': self.tables['pen_cap_styles'].c.id,
-                'name': self.tables['pen_cap_styles'].c.name,
-                'description': self.tables['pen_cap_styles'].c.description,
-                'qtEnumValue': self.tables['pen_cap_styles'].c.qt_enum_value
-                })
-        mapper(PenJoinStyle, self.tables['pen_join_styles'], properties = {
-                'id': self.tables['pen_join_styles'].c.id,
-                'name': self.tables['pen_join_styles'].c.name,
-                'description': self.tables['pen_join_styles'].c.description,
-                'qtEnumValue': self.tables['pen_join_styles'].c.qt_enum_value
-                })
         mapper(LengthUnit, self.tables['length_units'], properties = {
                 'id': self.tables['length_units'].c.id,
                 'microMetre': self.tables['length_units'].c.micrometres,
@@ -954,7 +665,7 @@ class Database:
                 'id': self.tables['points_of_interest'].c.id,
                 'name': self.tables['points_of_interest'].c.name,
                 'description': self.tables['points_of_interest'].c.description,
-                'drawing': relation(Drawing, backref='pointsOfInterest'),
+                'svgItem': relation(SVGItem, backref='pointsOfInterest'),
                 })
         mapper(BeddingType, self.tables['bedding_types'], properties = {
                 'id': self.tables['bedding_types'].c.id,
@@ -985,7 +696,7 @@ class Database:
                 'id': self.tables['boundary_types'].c.id,
                 'name': self.tables['boundary_types'].c.name,
                 'description': self.tables['boundary_types'].c.description,
-                'drawing': relation(Drawing, backref='boundaryTypes')
+                'svgItem': relation(SVGItem, backref='boundaryTypes')
                 })
         mapper(Bed, self.tables['beds'],
                order_by=self.tables['beds'].c.bed_number,
