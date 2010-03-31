@@ -269,9 +269,9 @@ class ProfileLogger(QApplication):
                                'silty_limestone_637.svg', 
                                'silty_marl.svg',
                                'sparytic_limestone.svg']
-        self.outcropQualityFiles = ['medium.svg', 
-                                    'optimum.svg', 
-                                    'pessimum.svg']
+        self.outcropTypeFiles = ['medium.svg', 
+                                 'optimum.svg', 
+                                 'pessimum.svg']
         self.sedimentStructureFiles = ['arenitlinsen.svg', 
                                        'gipsknolle.svg', 
                                        'gipsknollen_kalzitgefuellt.svg', 
@@ -283,6 +283,8 @@ class ProfileLogger(QApplication):
                                        'sandsteinschnuere.svg', 
                                        'slumps.svg', 
                                        'trogfuellungen.svg']
+    def toItemName(self, str):
+        return unicode(QString(str).replace('.svg', '').replace('_', ' '))
     def insertTemplateData(self):
         self.setupSvgFiles()
         d = dict()
@@ -319,35 +321,45 @@ class ProfileLogger(QApplication):
         d['boundstone'] = GrainSize(d['Dunham1962'], None, unicode('Boundstone'), '', None, None, None, None, 80, unicode('bound'))
         d['crystalline'] = GrainSize(d['Dunham1962'], None, unicode('Crystalline'), '', None, None, None, None, 96, unicode('cryst'))
 
+        d['Test project'] = Project(None, unicode('Test Project'))
+
         for f in self.beddingTypeFiles:
             fn = QString("../artwork/bedding_types/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['lithology %s' % fn] = BeddingType(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.boundaryTypeFiles:
             fn = QString("../artwork/boundary_types/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['boundary type %s' % fn] = BoundaryType(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.colorFiles:
             fn = QString("../artwork/colors/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['color %s' % fn] = Color(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.customSymbolFiles:
             fn = QString("../artwork/custom_symbols/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['custom symbol %s' % fn] = CustomSymbol(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.faciesFiles:
             fn = QString("../artwork/facies/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['facies %s' % fn] = Facies(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.fossilFiles:
             fn = QString("../artwork/fossils/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['fossil %s' % fn] = Fossil(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.lithologyFiles:
             fn = QString("../artwork/lithological_patterns/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
-        for f in self.outcropQualityFiles:
-            fn = QString("../artwork/outcrop_qualities/%1").arg(f)
+            d['lithology %s' % fn] = Lithology(d['Test project'], None, self.toItemName(f), d[fn], '', None)
+        for f in self.outcropTypeFiles:
+            fn = QString("../artwork/outcrop_types/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['outcrop type %s' % fn] = OutcropType(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         for f in self.sedimentStructureFiles:
             fn = QString("../artwork/sediment_structures/%1").arg(f)
             d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+            d['sediment structure %s' % fn] = SedimentStructure(d['Test project'], None, self.toItemName(f), d[fn], '', None)
         
-        d['Test project'] = Project(None, unicode('Test Project'))
         d['Limestone Mudstone'] = Lithology(d['Test project'], None, unicode('Limestone Mudstone'), None, unicode(''), d['mudstone'])
         d['red'] = Color(d['Test project'], None, unicode('Red'), None, unicode(''))
         d['massive'] = BeddingType(d['Test project'], None, unicode('Massive'), None, unicode(''))
