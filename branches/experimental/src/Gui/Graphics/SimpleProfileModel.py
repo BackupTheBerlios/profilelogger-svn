@@ -71,9 +71,10 @@ class SimpleProfileModel(QGraphicsScene):
         self.columnSequence.append(OutcropTypeHeaderItem)
     def updateItems(self):
         self.clear()
-        self.updateLegend()
-        self.updateHeader()
-        self.updateProfile()
+        if self.profile is not None:
+            self.updateLegend()
+            self.updateHeader()
+            self.updateProfile()
     def updateLegend(self):
         self.legendItm = SimpleLegend(None, self, self.profile,
                                       QRectF(0, 0, self.totalWidth, 10),

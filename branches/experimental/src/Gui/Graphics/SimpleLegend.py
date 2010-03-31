@@ -13,6 +13,7 @@ from FossilLegendItem import *
 from CustomSymbolLegendItem import *
 from FaciesLegendItem import *
 from OutcropTypeLegendItem import *
+from BoundaryTypeLegendItem import *
 
 class SimpleLegend(QGraphicsRectItem):
     def __init__(self, parent, scene, 
@@ -44,6 +45,7 @@ class SimpleLegend(QGraphicsRectItem):
         self.drawSedimentStructures()
         self.drawFossils()
         self.drawCustomSymbols()
+        self.drawBoundaryTypes()
         r = self.rect()
         r.setHeight(self.currY)
         self.setRect(r)
@@ -76,6 +78,24 @@ class SimpleLegend(QGraphicsRectItem):
             itm = BeddingTypeLegendItem(self, self.scene(), 
                                         self.cellRect, self.pen(), 
                                         self.legendFont, l)
+            itm.setPos(QPointF(c * self.cellRect.width(), self.currY))
+
+            c += 1
+            if c == self.colCount:
+                c = 0
+                self.currY += self.cellRect.height()
+        self.currY += self.cellRect.height()
+    def drawBoundaryTypes(self):
+        self.boundaryTypesT = LegendTitle(self, self.scene(), self.headerFont,
+                                         QCoreApplication.translate("Graphic Legend Item", "Boundary Types"))
+        self.boundaryTypesT.setPos(QPointF(0, self.currY))
+        self.currY = self.boundaryTypesT.pos().y() + self.boundaryTypesT.boundingRect().height()
+
+        c = 0
+        for l in self.profile.project.boundaryTypes:
+            itm = BoundaryTypeLegendItem(self, self.scene(), 
+                                         self.cellRect, self.pen(), 
+                                         self.legendFont, l)
             itm.setPos(QPointF(c * self.cellRect.width(), self.currY))
 
             c += 1

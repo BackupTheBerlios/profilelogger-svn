@@ -5,7 +5,7 @@ from PyQt4.QtSvg import *
 class SymbolFactory(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent)
-    def pixmapFromSvgItem(self, itm, scaleTo):
+    def pixmapFromSvgItem(self, itm, scaleTo, aspectRatioStrategy=Qt.KeepAspectRatio):
         xmlStrm = QXmlStreamReader(itm.svgData)
         gen = QSvgRenderer()
         gen.load(xmlStrm)
@@ -20,4 +20,7 @@ class SymbolFactory(QObject):
                             QPainter.NonCosmeticDefaultPen)
         gen.render(pntr)
         pntr.end()
-        return pm.scaled(scaleTo, scaleTo, Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        if aspectRatioStrategy == Qt.KeepAspectRatio:
+            return pm.scaled(scaleTo, scaleTo, aspectRatioStrategy, Qt.SmoothTransformation)
+        else:
+            return pm.scaled(scaleTo, pm.height(), aspectRatioStrategy, Qt.SmoothTransformation)

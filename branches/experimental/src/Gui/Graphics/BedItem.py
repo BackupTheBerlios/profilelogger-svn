@@ -30,6 +30,8 @@ from FaciesItem import *
 from OutcropTypeItem import *
 from BeddingTypeItem import *
 
+from SymbolFactory import *
+
 class BedItem(QGraphicsRectItem):
     def __init__(self, parent, scene, 
                  bed, 
@@ -37,7 +39,7 @@ class BedItem(QGraphicsRectItem):
                  columnWidths, columnSequence):
         QGraphicsRectItem.__init__(self, parent, scene)
         self.bed = bed
-        self.p = QPen(Qt.lightGray)
+        self.p = QPen(Qt.NoPen)
         self.p.setStyle(Qt.DotLine)
         self.columnWidths = columnWidths
         self.columnSequence = columnSequence
@@ -77,6 +79,7 @@ class BedItem(QGraphicsRectItem):
                 self.drawOutcropType(self.columnWidths[headerClass], x)
             if headerClass == BeddingTypeHeaderItem:
                 self.drawBeddingType(self.columnWidths[headerClass], x)
+            self.drawBoundaryTypes()
             x += self.columnWidths[headerClass]
     def drawVerticalSeparator(self, x, pen = None):
         l = QGraphicsLineItem(self)
@@ -169,3 +172,11 @@ class BedItem(QGraphicsRectItem):
                                               self.bed)
         self.outcropTypeItm.setPos(QPointF(x, 0))
 
+    def drawBoundaryTypes(self):
+        f = SymbolFactory()
+        for bt in self.bed.boundaryTypes:
+            if bt.boundaryType.hasSvgItem():
+                pm = f.pixmapFromSvgItem(bt.boundaryType.svgItem, self.rect().width(), Qt.IgnoreAspectRatio)
+                itm = QGraphicsPixmapItem(self, self.scene())
+                itm.setPixmap(pm)
+                itm.setPos(0, self.rect().height() - bt.begin * self.rect().height() / 100)

@@ -7,14 +7,14 @@ class SymbolFilledRectItem(QGraphicsRectItem):
     def __init__(self, parent, scene, rect, pen, bed):
         QGraphicsRectItem.__init__(self, parent, scene)
         self.setRect(rect)
-        self.setPen(pen)
+        self.setPen(QPen(Qt.NoPen))
         self.bed = bed
     def createColRect(self, begin, end, colWidth, colNum, svgItem):
         itm = QGraphicsRectItem(self, self.scene())
         fac = BrushFactory()
         brush = fac.fromSvgItem(svgItem, colWidth)
         itm.setBrush(brush)
-        itm.setPen(self.pen())
+        itm.setPen(Qt.black)
         itm.setRect(QRectF(0, 0, 
                            colWidth, self.rect().height() * (end - begin) / 100.0))
         itm.setPos(QPointF(colNum * colWidth, 

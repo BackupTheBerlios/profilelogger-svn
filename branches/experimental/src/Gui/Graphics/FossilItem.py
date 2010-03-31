@@ -9,7 +9,6 @@ class FossilItem(SymbolFilledRectItem):
                  bed):
         SymbolFilledRectItem.__init__(self, parent, scene, rect, pen, bed)
         self.setRect(rect)
-        self.setPen(pen)
         self.bed = bed
         self.showFossils()
     def showFossils(self):

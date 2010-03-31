@@ -10,7 +10,7 @@ class FilledRectInBed(QGraphicsRectItem):
         QGraphicsRectItem.__init__(self, parent, scene)
         self.bed = bed
         self.setRect(rect)
-        self.setPen(pen)
+        self.setPen(QPen(Qt.NoPen))
     def createRect(self, begin, end):
         self.rectItm = QGraphicsRectItem(self, self.scene())
         self.rectItm.setRect(QRectF(0, 0, 
