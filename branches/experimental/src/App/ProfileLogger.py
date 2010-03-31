@@ -54,13 +54,6 @@ from Gui.ItemModels.StratigraphicUnitInBedItemModel import StratigraphicUnitInBe
 from Gui.ItemModels.TectonicUnitInBedItemModel import TectonicUnitInBedItemModel
 from Gui.ItemModels.GeologicalMeasurementTypeItemModel import GeologicalMeasurementTypeItemModel
 from Gui.ItemModels.GeologicalMeasurementInBedItemModel import GeologicalMeasurementInBedItemModel
-from Gui.ItemModels.PenStyleItemModel import PenStyleItemModel
-from Gui.ItemModels.PenJoinStyleItemModel import PenJoinStyleItemModel
-from Gui.ItemModels.PenCapStyleItemModel import PenCapStyleItemModel
-from Gui.ItemModels.BrushStyleItemModel import BrushStyleItemModel
-from Gui.ItemModels.DrawingItemModel import DrawingItemModel
-from Gui.ItemModels.PenItemModel import PenItemModel
-from Gui.ItemModels.BrushItemModel import BrushItemModel
 from Gui.ItemModels.GrainSizeTypeInProfileItemModel import GrainSizeTypeInProfileItemModel
 
 class ProfileLogger(QApplication):
@@ -116,13 +109,6 @@ class ProfileLogger(QApplication):
         self.geologicalMeasurementTypeModel = GeologicalMeasurementTypeItemModel(self)
         self.geologicalMeasurementInBedModel = GeologicalMeasurementInBedItemModel(self)
         self.profileInProfileAssemblyModel = ProfileInProfileAssemblyItemModel(self)
-        self.penStyleModel = PenStyleItemModel(self)
-        self.penJoinStyleModel = PenJoinStyleItemModel(self)
-        self.penCapStyleModel = PenCapStyleItemModel(self)
-        self.brushStyleModel = BrushStyleItemModel(self)
-        self.drawingModel = DrawingItemModel(self)
-        self.penModel = PenItemModel(self)
-        self.brushModel = BrushItemModel(self)
         self.grainSizeTypeInProfileModel = GrainSizeTypeInProfileItemModel(self)
 
     def setupActions(self):
@@ -164,47 +150,6 @@ class ProfileLogger(QApplication):
                 
     def insertTemplateData(self):
         d = dict()
-        d['Qt.NoPen'] = PenStyle(None, unicode(self.tr("No Pen")), '', 0)
-        d['Qt.SolidLine'] = PenStyle(None, unicode(self.tr("Solid Line")), '', 1)
-        d['Qt.DashLine'] = PenStyle(None, unicode(self.tr("Dash Line")), '', 2)
-        d['Qt.DotLine'] = PenStyle(None, unicode(self.tr("Dot Line")), '', 3)
-        d['Qt.DashDotLine'] = PenStyle(None, unicode(self.tr("Dash Dot Line")), '', 4)
-        d['Qt.DashDoDottLine'] = PenStyle(None, unicode(self.tr("Dash Dot Dot Line")), '', 5)
-        d['Qt.FlatCap'] = PenCapStyle(None, unicode(self.tr("Flat Cap")), '', 0x00)
-        d['Qt.SquareCap'] = PenCapStyle(None, unicode(self.tr("Square Cap")), '', 0x10)
-        d['Qt.RoundCap'] = PenCapStyle(None, unicode(self.tr("Round Cap")), '', 0x20)
-        d['Qt.MiterJoin'] = PenJoinStyle(None, unicode(self.tr("Miter Join")), '', 0x00)
-        d['Qt.BevelJoin'] = PenJoinStyle(None, unicode(self.tr("Bevel Join")), '', 0x40)
-        d['Qt.RoundJoin'] = PenJoinStyle(None, unicode(self.tr("Round Join")), '', 0x80)
-        d['Qt.SvgMiterJoin'] = PenJoinStyle(None, unicode(self.tr("SVG Miter Join")), '', 0x100)
-        d['Qt.NoBrush'] = BrushStyle(None, unicode(self.tr("No brush pattern")), '', 0)
-        d['Qt.SolidPattern'] = BrushStyle(None, unicode(self.tr("Uniform Color")), '', 1)
-        d['Qt.Dense1Pattern'] = BrushStyle(None, unicode(self.tr("Extremely dense brush pattern")), '', 2)
-        d['Qt.Dense2Pattern'] = BrushStyle(None, unicode(self.tr("Very dense brush pattern")), '', 3)
-        d['Qt.Dense3Pattern'] = BrushStyle(None, unicode(self.tr("Somewhat dense brush apttern")), '', 4)
-        d['Qt.Dense4Pattern'] = BrushStyle(None, unicode(self.tr("Half dense brush pattern")), '', 5)
-        d['Qt.Dense5Pattern'] = BrushStyle(None, unicode(self.tr("Somewhat sparse brush pattern")), '', 6)
-        d['Qt.Dense6Pattern'] = BrushStyle(None, unicode(self.tr("Very sparse brush pattern")), '', 7)
-        d['Qt.Dense7Pattern'] = BrushStyle(None, unicode(self.tr("Extremely sparse brush pattern")), '', 8)
-        d['Qt.HorPattern'] = BrushStyle(None, unicode(self.tr("Horizontal Lines")), '', 9)
-        d['Qt.VerPattern'] = BrushStyle(None, unicode(self.tr("Vertical Lines")), '', 10)
-        d['Qt.CrossPattern'] = BrushStyle(None, unicode(self.tr("Crossing horizontal and vertical lines")), '', 11)
-        d['Qt.BDiagPattern'] = BrushStyle(None, unicode(self.tr("Backward diagonal lines")), '', 12)
-        d['Qt.FDiagPattern'] = BrushStyle(None, unicode(self.tr("Forward diagonal lines")), '', 13)
-        d['Qt.DiagCrossPattern'] = BrushStyle(None, unicode(self.tr("Diagonal crossing lines")), '', 14)
-        d['artistic pen'] = Pen(None, unicode(self.tr("Artistic Pen")), '', 0, 0, 0, 255, 1, d['Qt.RoundCap'], d['Qt.RoundJoin'], d['Qt.SolidLine'])
-        d['test drawing'] = Drawing(None, unicode(self.tr("Test Drawing")))
-        d['straight line'] = StraightLine(None, d['test drawing'], 0, 0, 20, 20, d['artistic pen'])
-        d['rectangle'] = Rectangle(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
-        d['ellipsis'] = Ellipse(None, d['test drawing'], 0, 0, 0, 0, 40, 40, d['artistic pen'])
-        d['polygon'] = Polygon(None, d['test drawing'], 0, 0, [], d['artistic pen'])
-        d['polygon'].polygonPoints = [PolygonPoint(None, d['polygon'], 0, 0, 0),
-                                      PolygonPoint(None, d['polygon'], 10, 10, 1),
-                                      PolygonPoint(None, d['polygon'], 20, 10, 2)]
-        d['painter path'] = PainterPath(None, d['test drawing'], 0, 0, [], d['artistic pen'])
-        d['painter path'].painterPathPoints = [PainterPathPoint(None, d['painter path'], 0, 0, 0),
-                                               PainterPathPoint(None, d['painter path'], 10, 10, 1),
-                                               PainterPathPoint(None, d['painter path'], 20, 10, 2)]        
         d['um'] = LengthUnit(None, 1, unicode(self.tr('um')))
         d['mm'] = LengthUnit(None, 1000, unicode(self.tr('mm')))
         d['cm'] = LengthUnit(None, 10000, unicode(self.tr('cm')))
