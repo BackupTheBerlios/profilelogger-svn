@@ -7,5 +7,5 @@ class GrainSizePolygonItem(QGraphicsPolygonItem):
                  bed):
         QGraphicsPolygonItem.__init__(self, parent, scene)
         self.setPolygon(polygon)
-        self.setPen(Qt.black),
+        self.setPen(pen),
         self.bed = bed

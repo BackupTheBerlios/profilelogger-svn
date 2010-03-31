@@ -50,7 +50,7 @@ class GrainSizeItem(FilledRectInBed):
         poly.append(topLeft)
 
         self.grainSizePolygon = GrainSizePolygonItem(self, self.scene(), poly, 
-                                                     self.pen(), self.bed)
+                                                     QPen(Qt.black), self.bed)
     def xFromGrainSize(self, grainSize):
         return self.rect().width() * grainSize.percentFromMinimum / 100
     def yFromBedPercent(self, percent):
