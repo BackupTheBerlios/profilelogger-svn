@@ -148,7 +148,143 @@ class ProfileLogger(QApplication):
                 dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
                 dlg.exec_()
                 
+    def loadSvgFileContent(self, path):
+        f = QFile(unicode(path))
+        if not f.open(QIODevice.ReadOnly):
+            print "Could not read file %s: %s" % (path, f.error())
+            print "offending file: ", unicode(path)
+            0/0
+            return
+        istrm = QTextStream(f)
+        svgData = istrm.readAll()
+        f.close()
+        return unicode(svgData)
+    def setupSvgFiles(self):
+        self.beddingTypeFiles = ['breccie.svg', 'hummocky_cross_stratification.svg',
+                                 'intraclast_breccie.svg', 'knollig.svg',
+                                 'massive_bedding.svg', 'planar_lamination.svg',
+                                 'planar_layered.svg', 'rippled.svg', 
+                                 'schraegschichtung.svg', 'unsure_planar_lamination.svg',
+                                 'unsure_planar_layered.svg', 'unsure_rippled.svg']
+        self.boundaryTypeFiles = ['erosiv.svg', 'graduell.svg', 'nicht_aufgeschlossen.svg',
+                                  'planar_sharp.svg', 'planar_unsure.svg', 'rippled_sharp.svg',
+                                  'rippled_unsure.svg', 'tectonic.svg']
+        self.colorFiles = ['black.svg']
+        self.customSymbolFiles = ['sampling_possible.svg']
+        self.faciesFiles = ['continental.svg', 'marin.svg']
+        self.fossilFiles = ['akritarchen.svg', 
+                            'algen.svg', 
+                            'ammoniten.svg', 
+                            'amphibien.svg', 
+                            'anneliden.svg', 
+                            'arachniden.svg', 
+                            'arthropoden.svg', 
+                            'belemniten.svg', 
+                            'bioturbation.svg', 
+                            'blaetter.svg', 
+                            'bluetenpflanzen.svg', 
+                            'bryozoa.svg', 
+                            'cephalopoda.svg', 
+                            'chitinozoa.svg', 
+                            'cnidaria.svg', 
+                            'conodonten.svg', 
+                            'crustacea.svg', 
+                            'diatomeen.svg', 
+                            'dinoflagellata.svg', 
+                            'echinodermen.svg', 
+                            'echinoiden.svg', 
+                            'farne.svg', 
+                            'fische.svg', 
+                            'foraminiferen.svg', 
+                            'grabbauten.svg', 
+                            'graptoliten.svg', 
+                            'grossforams_fussuliniden.svg', 
+                            'holz.svg', 
+                            'insekten.svg', 
+                            'invertebraten.svg', 
+                            'kleine_bent_foraminiferen.svg', 
+                            'kleine_plankt_foraminiferen.svg', 
+                            'koniferen.svg', 
+                            'koproliten.svg', 
+                            'korallen.svg', 
+                            'krinoiden.svg', 
+                            'makrofossilien.svg', 
+                            'mikrofossilien.svg', 
+                            'mollusken.svg', 
+                            'nannofossilien.svg', 
+                            'nautiloiden.svg', 
+                            'ostrakoden.svg', 
+                            'palynomorphe.svg', 
+                            'pelecypoden.svg', 
+                            'pflanzen.svg', 
+                            'pilze.svg', 
+                            'radiolarien.svg', 
+                            'reptilien.svg', 
+                            'rudstone.svg', 
+                            'saeugetiere.svg', 
+                            'schwaemme.svg', 
+                            'silicoflagellata.svg', 
+                            'spiculn.svg', 
+                            'sporen_pollen.svg', 
+                            'spurenfossilien.svg', 
+                            'stromatoliten.svg', 
+                            'stromatopora.svg', 
+                            'trilobiten.svg', 
+                            'usgs_fossils.svg', 
+                            'wirbeltiere.svg', 
+                            'wurzeln.svg']
+        self.lithologyFiles = ['argillaceous_dolostone_or_dolomite_647a.svg', 
+                               'argillaceous_or_shaly_dolostone_or_dolomite_647.svg', 
+                               'argillaceous_or_shaly_limestone_638.svg', 
+                               'argillaceous_or_shaly_sandstone_612.svg', 
+                               'calcareous_sandstone_613.svg', 
+                               'calcareous_shale_or_marl_623.svg', 
+                               'calcareous_siltstone_617.svg', 
+                               'clay_or_clay_shale_620.svg', 
+                               'coal.svg', 
+                               'dolomitic_limestone_or_limy_dolostone_or_limy_dolomite_641.svg', 
+                               'dolomitic_sandstone_614.svg', 
+                               'dolomitic_shale_622.svg', 
+                               'dolomitic_siltstone_618.svg', 
+                               'dolostone_or_dolomite_642.svg', 
+                               'dolostone_or_dolomite_mudstone.svg', 
+                               'dolostone_or_dolomite_wackestone.svg', 
+                               'elements.svg', 
+                               'gypsum.svg', 
+                               'limestone_627.svg', 
+                               'limestone_grainstone.svg', 
+                               'limestone_mudstone.svg', 
+                               'limestone_packstone.svg', 
+                               'limestone_wackestone.svg', 
+                               'marl.svg', 
+                               'oolitic_dolostone_or_dolomite_644.svg', 
+                               'oolitic_limestone_635.svg', 
+                               'sandstone_607.svg', 
+                               'sandy_dolostone_or_dolomite_645.svg', 
+                               'sandy_limestone_636.svg', 
+                               'sandy_marl.svg', 
+                               'sandy_or_silty_shale_619.svg', 
+                               'silt_siltstone_or_shaly_silt_616.svg', 
+                               'silty_dolostone_or_dolomite_646.svg', 
+                               'silty_limestone_637.svg', 
+                               'silty_marl.svg',
+                               'sparytic_limestone.svg']
+        self.outcropQualityFiles = ['medium.svg', 
+                                    'optimum.svg', 
+                                    'pessimum.svg']
+        self.sedimentStructureFiles = ['arenitlinsen.svg', 
+                                       'gipsknolle.svg', 
+                                       'gipsknollen_kalzitgefuellt.svg', 
+                                       'gipsknollen_leer.svg', 
+                                       'gipslagen.svg', 
+                                       'kalksteinlinsen.svg', 
+                                       'konkretionen.svg', 
+                                       'sandsteinlinsen.svg', 
+                                       'sandsteinschnuere.svg', 
+                                       'slumps.svg', 
+                                       'trogfuellungen.svg']
     def insertTemplateData(self):
+        self.setupSvgFiles()
         d = dict()
         d['um'] = LengthUnit(None, 1, unicode(self.tr('um')))
         d['mm'] = LengthUnit(None, 1000, unicode(self.tr('mm')))
@@ -183,6 +319,34 @@ class ProfileLogger(QApplication):
         d['boundstone'] = GrainSize(d['Dunham1962'], None, unicode('Boundstone'), '', None, None, None, None, 80, unicode('bound'))
         d['crystalline'] = GrainSize(d['Dunham1962'], None, unicode('Crystalline'), '', None, None, None, None, 96, unicode('cryst'))
 
+        for f in self.beddingTypeFiles:
+            fn = QString("../artwork/bedding_types/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.boundaryTypeFiles:
+            fn = QString("../artwork/boundary_types/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.colorFiles:
+            fn = QString("../artwork/colors/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.customSymbolFiles:
+            fn = QString("../artwork/custom_symbols/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.faciesFiles:
+            fn = QString("../artwork/facies/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.fossilFiles:
+            fn = QString("../artwork/fossils/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.lithologyFiles:
+            fn = QString("../artwork/lithological_patterns/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.outcropQualityFiles:
+            fn = QString("../artwork/outcrop_qualities/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        for f in self.sedimentStructureFiles:
+            fn = QString("../artwork/sediment_structures/%1").arg(f)
+            d[fn] = SVGItem(None, unicode(fn), '', self.loadSvgFileContent(fn), unicode(fn))
+        
         d['Test project'] = Project(None, unicode('Test Project'))
         d['Limestone Mudstone'] = Lithology(d['Test project'], None, unicode('Limestone Mudstone'), None, unicode(''), d['mudstone'])
         d['red'] = Color(d['Test project'], None, unicode('Red'), None, unicode(''))
