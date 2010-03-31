@@ -75,40 +75,50 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.contentW.layout().addWidget(self.saveBedW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
         self.saveBedW.clicked.connect(self.onSaveRequest)
+    def addDetailPage(self, page, title):
+        self.stackW.addWidget(page)
+        self.pageSelectorW.addItem(title)
+    def onPageSelectionChange(self, name):
+        if name is None:
+            return
+        for k,v in self.detailPageMap.iteritems():
+            if v[0] == name:
+                self.stackW.setCurrentWidget(self.detailPages[k])
+                return
     def addDetailsWidget(self):
-        self.detailsW = QTabWidget(self.contentW)
+        self.detailsW = QWidget(self.contentW)
+        self.detailsW.setLayout(QHBoxLayout(self.detailsW))
+        self.pageSelectorW = QListWidget(self.detailsW)
+        self.stackW = QStackedWidget(self.detailsW)
+        self.pageSelectorW.currentTextChanged.connect(self.onPageSelectionChange)
+        self.pageSelectorW.setSortingEnabled(False)
+        self.detailsW.layout().addWidget(self.pageSelectorW)
+        self.detailsW.layout().addWidget(self.stackW)
         self.contentW.layout().addWidget(self.detailsW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
 
-        self.lithologyInBedW = LithologyInBedItemView(self.detailsW, QApplication.instance().lithologyInBedModel)
-        self.colorInBedW = ColorInBedItemView(self.detailsW, QApplication.instance().colorInBedModel)
-        self.beddingTypeInBedW = BeddingTypeInBedItemView(self.detailsW, QApplication.instance().beddingTypeInBedModel)
-        self.customSymbolInBedW = CustomSymbolInBedItemView(self.detailsW, QApplication.instance().customSymbolInBedModel)
-        self.sedimentStructureInBedW = SedimentStructureInBedItemView(self.detailsW, QApplication.instance().sedimentStructureInBedModel)
-        self.fossilInBedW = FossilInBedItemView(self.detailsW, QApplication.instance().fossilInBedModel)
-        self.grainSizeInBedW = GrainSizeInBedItemView(self.detailsW, QApplication.instance().grainSizeInBedModel)
-        self.boundaryTypeInBedW = BoundaryTypeInBedItemView(self.detailsW, QApplication.instance().boundaryTypeInBedModel)
-        self.outcropTypeInBedW = OutcropTypeInBedItemView(self.detailsW, QApplication.instance().outcropTypeInBedModel)
-        self.faciesInBedW = FaciesInBedItemView(self.detailsW, QApplication.instance().faciesInBedModel)
-        self.lithologicalUnitInBedW = LithologicalUnitInBedItemView(self.detailsW, QApplication.instance().lithologicalUnitInBedModel)
-        self.stratigraphicUnitInBedW = StratigraphicUnitInBedItemView(self.detailsW, QApplication.instance().stratigraphicUnitInBedModel)
-        self.tectonicUnitInBedW = TectonicUnitInBedItemView(self.detailsW, QApplication.instance().tectonicUnitInBedModel)
-        self.geologicalMeasurementInBedW = GeologicalMeasurementInBedItemView(self.detailsW, QApplication.instance().geologicalMeasurementInBedModel)
+        self.detailPageMap = dict()
+        self.detailPageMap['lithologies'] = [self.tr("Lithology"), LithologyInBedItemView, QApplication.instance().lithologyInBedModel]
+        self.detailPageMap['colors'] = [self.tr("Color"), ColorInBedItemView, QApplication.instance().colorInBedModel]
+        self.detailPageMap['bedding types'] = [self.tr("Bedding Type"), BeddingTypeInBedItemView, QApplication.instance().beddingTypeInBedModel]
+        self.detailPageMap['custom symbols'] = [self.tr("Custom Symbols"), CustomSymbolInBedItemView, QApplication.instance().customSymbolInBedModel]
+        self.detailPageMap['sediment structure'] = [self.tr("Sediment Structures"), SedimentStructureInBedItemView, QApplication.instance().sedimentStructureInBedModel]
+        self.detailPageMap['fossil'] = [self.tr("Fossils"), FossilInBedItemView, QApplication.instance().fossilInBedModel]
+        self.detailPageMap['grain sizes'] = [self.tr("Grain Size"), GrainSizeInBedItemView, QApplication.instance().grainSizeInBedModel]
+        self.detailPageMap['boundary types'] = [self.tr("Boundary Type"), BoundaryTypeInBedItemView, QApplication.instance().boundaryTypeInBedModel]
+        self.detailPageMap['outcrop types'] = [self.tr("Outcrop Type"), OutcropTypeInBedItemView, QApplication.instance().outcropTypeInBedModel]
+        self.detailPageMap['facies'] = [self.tr("Facies"), FaciesInBedItemView, QApplication.instance().faciesInBedModel]
+        self.detailPageMap['lithological units'] = [self.tr("Lithological Unit"), LithologicalUnitInBedItemView, QApplication.instance().lithologicalUnitInBedModel]
+        self.detailPageMap['geological measurements'] = [self.tr("Geological Measurement"), GeologicalMeasurementInBedItemView, QApplication.instance().geologicalMeasurementInBedModel]
+        self.detailPageMap['lithological units'] = [self.tr("Lithological Unit"), LithologicalUnitInBedItemView, QApplication.instance().lithologicalUnitInBedModel]
+        self.detailPageMap['stratigraphic units'] = [self.tr("Stratigraphic Unit"), StratigraphicUnitInBedItemView, QApplication.instance().stratigraphicUnitInBedModel]
+        self.detailPageMap['tectonic units'] = [self.tr("Tectonic Unit"), TectonicUnitInBedItemView, QApplication.instance().tectonicUnitInBedModel]
 
-        self.detailsW.addTab(self.lithologyInBedW, self.tr("Lithologies"))
-        self.detailsW.addTab(self.colorInBedW, self.tr("Colors"))
-        self.detailsW.addTab(self.beddingTypeInBedW, self.tr("Bedding Types"))
-        self.detailsW.addTab(self.customSymbolInBedW, self.tr("Custom Symbols"))
-        self.detailsW.addTab(self.sedimentStructureInBedW, self.tr("Sediment Structures"))
-        self.detailsW.addTab(self.fossilInBedW, self.tr("Fossils"))
-        self.detailsW.addTab(self.grainSizeInBedW, self.tr("Grain Sizes"))
-        self.detailsW.addTab(self.boundaryTypeInBedW, self.tr("Boundary Types"))
-        self.detailsW.addTab(self.outcropTypeInBedW, self.tr("Outcrop Types"))
-        self.detailsW.addTab(self.faciesInBedW, self.tr("Facies"))
-        self.detailsW.addTab(self.lithologicalUnitInBedW, self.tr("Lithological Units"))
-        self.detailsW.addTab(self.stratigraphicUnitInBedW, self.tr("Stratigraphic Units"))
-        self.detailsW.addTab(self.tectonicUnitInBedW, self.tr("Tectonic Units"))
-        self.detailsW.addTab(self.geologicalMeasurementInBedW, self.tr("Geological Measurements"))
+        self.detailPages = dict()
+        for k,v in self.detailPageMap.iteritems():
+            self.detailPages[k] = v[1](self.detailsW, v[2])
+            self.addDetailPage(self.detailPages[k], v[0])
+
         self.detailsW.setEnabled(False)
     def onSaveRequest(self):
         if self.save():
@@ -122,32 +132,8 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
     def setDetailsWidgetStatus(self, isEnabled):
         self.detailsW.setEnabled(isEnabled)
         if isEnabled:
-            QApplication.instance().lithologyInBedModel.setBed(self.data)
-            QApplication.instance().colorInBedModel.setBed(self.data)
-            QApplication.instance().beddingTypeInBedModel.setBed(self.data)
-            QApplication.instance().customSymbolInBedModel.setBed(self.data)
-            QApplication.instance().sedimentStructureInBedModel.setBed(self.data)
-            QApplication.instance().fossilInBedModel.setBed(self.data)
-            QApplication.instance().grainSizeInBedModel.setBed(self.data)
-            QApplication.instance().boundaryTypeInBedModel.setBed(self.data)
-            QApplication.instance().outcropTypeInBedModel.setBed(self.data)
-            QApplication.instance().faciesInBedModel.setBed(self.data)
-            QApplication.instance().lithologicalUnitInBedModel.setBed(self.data)
-            QApplication.instance().stratigraphicUnitInBedModel.setBed(self.data)
-            QApplication.instance().tectonicUnitInBedModel.setBed(self.data)
-            QApplication.instance().geologicalMeasurementInBedModel.setBed(self.data)
+            for k,v in self.detailPageMap.iteritems():
+                v[2].setBed(self.data)
         else:
-            QApplication.instance().lithologyInBedModel.setBed(None)
-            QApplication.instance().colorInBedModel.setBed(None)
-            QApplication.instance().beddingTypeInBedModel.setBed(None)
-            QApplication.instance().customSymbolInBedModel.setBed(None)
-            QApplication.instance().sedimentStructureInBedModel.setBed(None)
-            QApplication.instance().fossilInBedModel.setBed(None)
-            QApplication.instance().grainSizeInBedModel.setBed(None)
-            QApplication.instance().boundaryTypeInBedModel.setBed(None)
-            QApplication.instance().outcropTypeInBedModel.setBed(None)
-            QApplication.instance().faciesInBedModel.setBed(None)
-            QApplication.instance().lithologicalUnitInBedModel.setBed(None)
-            QApplication.instance().stratigraphicUnitInBedModel.setBed(None)
-            QApplication.instance().tectonicUnitInBedModel.setBed(None)
-            QApplication.instance().geologicalMeasurementInBedModel.setBed(None)
+            for k,v in self.detailPageMap.iteritems():
+                v[2].setBed(None)
