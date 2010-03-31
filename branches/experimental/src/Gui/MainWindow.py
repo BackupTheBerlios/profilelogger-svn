@@ -26,13 +26,6 @@ from Gui.ItemViews.FaciesItemView import FaciesItemView
 from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
 from Gui.ItemViews.GeologicalMeasurementTypeItemView import GeologicalMeasurementTypeItemView
 from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
-from Gui.ItemViews.PenStyleSelector import PenStyleSelector
-from Gui.ItemViews.PenJoinStyleSelector import PenJoinStyleSelector
-from Gui.ItemViews.PenCapStyleSelector import PenCapStyleSelector
-from Gui.ItemViews.BrushStyleSelector import BrushStyleSelector
-from Gui.ItemViews.DrawingItemView import DrawingItemView
-from Gui.ItemViews.PenItemView import PenItemView
-from Gui.ItemViews.BrushItemView import BrushItemView
 
 from Gui.Graphics.SimpleProfileView import SimpleProfileView
 
@@ -53,9 +46,6 @@ class MainWindow(QMainWindow):
     def setupGlobalTools(self):
         self.globalToolsW = QToolBox(self.centralWidget())
         self.setupProjectManagement()
-        self.setupDrawingManagement()
-        self.setupPenManagement()
-        self.setupBrushManagement()
         self.setupLengthUnitManagement()
         self.setupSVGItemManagement()
         self.setupLithologicalUnitTypeManagement()
@@ -64,10 +54,6 @@ class MainWindow(QMainWindow):
         self.setupGeologicalMeasurementTypeManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
-        self.setupPenStyleSelector()
-        self.setupPenJoinStyleSelector()
-        self.setupPenCapStyleSelector()
-        self.setupBrushStyleSelector()
         self.centralWidget().addWidget(self.globalToolsW)
     def setupBedTools(self):
         self.bedToolsW = QToolBox(self.centralWidget())
@@ -159,18 +145,6 @@ class MainWindow(QMainWindow):
         self.projectsW = ProjectItemView(self.globalToolsW,
                                          QApplication.instance().projectModel)
         self.globalToolsW.addItem(self.projectsW, self.tr("Projects"))
-    def setupDrawingManagement(self):
-        self.drawingsW = DrawingItemView(self.globalToolsW,
-                                         QApplication.instance().drawingModel)
-        self.globalToolsW.addItem(self.drawingsW, self.tr("Drawings"))
-    def setupPenManagement(self):
-        self.pensW = PenItemView(self.globalToolsW,
-                                 QApplication.instance().penModel)
-        self.globalToolsW.addItem(self.pensW, self.tr("Pens"))
-    def setupBrushManagement(self):
-        self.brushsW = BrushItemView(self.globalToolsW,
-                                 QApplication.instance().brushModel)
-        self.globalToolsW.addItem(self.brushsW, self.tr("Brushes"))
     def setupGrainSizeManagement(self):
         self.grainSizesW = GrainSizeItemView(self.globalToolsW,
                                              QApplication.instance().grainSizeModel)
@@ -224,35 +198,6 @@ class MainWindow(QMainWindow):
                                                    QApplication.instance().tectonicUnitModel)
         self.projectToolsW.addItem(self.tectonicUnitsW, self.tr("Tectonic Units"))
         self.projectsW.currentDatasetChanged.connect(QApplication.instance().tectonicUnitModel.onProjectChange)
-    def setupPenStyleSelector(self):
-        self.penStylesW = PenStyleSelector(self.globalToolsW,
-                                           QApplication.instance().penStyleModel)
-        self.globalToolsW.addItem(self.penStylesW, self.tr("Pen Styles"))
-        self.penStylesW.currentDatasetChanged.connect(self.onPenStyleChange)
-    def onPenStyleChange(self, s):
-        print "style: ", s
-    def setupBrushStyleSelector(self):
-        self.brushStylesW = BrushStyleSelector(self.globalToolsW,
-                                           QApplication.instance().brushStyleModel)
-        self.globalToolsW.addItem(self.brushStylesW, self.tr("Brush Styles"))
-        self.brushStylesW.currentDatasetChanged.connect(self.onBrushStyleChange)
-    def onBrushStyleChange(self, s):
-        print "style: ", s
-    def setupPenJoinStyleSelector(self):
-        self.penJoinStylesW = PenJoinStyleSelector(self.globalToolsW,
-                                                   QApplication.instance().penJoinStyleModel)
-        self.globalToolsW.addItem(self.penJoinStylesW, self.tr("Pen Join Styles"))
-        self.penJoinStylesW.currentDatasetChanged.connect(self.onPenJoinStyleChange)
-    def onPenJoinStyleChange(self, s):
-        print "joinStyle: ", s
-    def setupPenCapStyleSelector(self):
-        self.penCapStylesW = PenCapStyleSelector(self.globalToolsW,
-                                                   QApplication.instance().penCapStyleModel)
-        self.globalToolsW.addItem(self.penCapStylesW, self.tr("Pen Cap Styles"))
-        self.penCapStylesW.currentDatasetChanged.connect(self.onPenCapStyleChange)
-    def onPenCapStyleChange(self, s):
-        print "capStyle: ", s
-
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())
