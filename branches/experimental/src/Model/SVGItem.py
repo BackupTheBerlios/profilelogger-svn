@@ -5,7 +5,7 @@ class SVGItem(NamedDescribedDataset):
                  svgData=None, originalPath=None):
         NamedDescribedDataset.__init__(self, id, name, description)
         self.svgData = svgData
-        self.orginialPath = originalPath
+        self.originalPath = originalPath
     def hasSVGData(self):
         return self.svgData is not None
     def hasOriginalPath(self):
