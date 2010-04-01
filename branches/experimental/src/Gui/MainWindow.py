@@ -27,7 +27,7 @@ from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
 from Gui.ItemViews.GeologicalMeasurementTypeItemView import GeologicalMeasurementTypeItemView
 from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
 
-from Gui.Graphics.SimpleProfileView import SimpleProfileView
+from Gui.SimpleGraphicProfile.SimpleProfileView import SimpleProfileView
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -37,7 +37,7 @@ class MainWindow(QMainWindow):
         self.setupCentralWidget()
         QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
     def setupCentralWidget(self):
-        self.setCentralWidget(QSplitter(Qt.Horizontal, self))
+        self.setCentralWidget(QTabWidget(self))
         self.setupGlobalTools()
         self.setupProjectTools()
         self.setupBedTools()
@@ -54,11 +54,11 @@ class MainWindow(QMainWindow):
         self.setupGeologicalMeasurementTypeManagement()
         self.setupGrainSizeTypeManagement()
         self.setupGrainSizeManagement()
-        self.centralWidget().addWidget(self.globalToolsW)
+        self.centralWidget().addTab(self.globalToolsW, self.tr("Global"))
     def setupBedTools(self):
         self.bedToolsW = QToolBox(self.centralWidget())
         self.setupBedManagement()
-        self.centralWidget().addWidget(self.bedToolsW)
+        self.centralWidget().addTab(self.bedToolsW, self.tr("Bed"))
     def setupProjectTools(self):
         self.projectToolsW = QToolBox(self.centralWidget())
         self.setupProfileManagement()
@@ -76,7 +76,7 @@ class MainWindow(QMainWindow):
         self.setupCustomSymbolManagement()
         self.setupBoundaryTypeManagement()
         self.setupPointOfInterestManagement()
-        self.centralWidget().addWidget(self.projectToolsW)
+        self.centralWidget().addTab(self.projectToolsW, self.tr("Project"))
     def setupBedManagement(self):
         self.bedsW = ColorItemView(self.bedToolsW,
                                    QApplication.instance().bedModel)
@@ -224,6 +224,6 @@ class MainWindow(QMainWindow):
         self.centralWidget().setEnabled(True)
     def setupProfileViewer(self):
         self.profileViewW = SimpleProfileView(self.centralWidget())
-        self.centralWidget().addWidget(self.profileViewW)
+        self.centralWidget().addTab(self.profileViewW, self.tr("View"))
         self.profilesW.currentDatasetChanged.connect(self.profileViewW.onProfileChange)
         self.profilesW.exportToSvgRequest.connect(self.profileViewW.onExportToSvg)
