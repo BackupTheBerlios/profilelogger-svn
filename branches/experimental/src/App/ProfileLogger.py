@@ -11,6 +11,16 @@ from App.Settings import Settings
 from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
 from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 
+from Gui.ManagementDialogs.ProjectManagementDialog import *
+from Gui.ManagementDialogs.LithologicalUnitTypeManagementDialog import *
+from Gui.ManagementDialogs.StratigraphicUnitTypeManagementDialog import *
+from Gui.ManagementDialogs.TectonicUnitTypeManagementDialog import *
+from Gui.ManagementDialogs.GeologicalMeasurementTypeManagementDialog import *
+from Gui.ManagementDialogs.GrainSizeTypeManagementDialog import *
+from Gui.ManagementDialogs.GrainSizeManagementDialog import *
+from Gui.ManagementDialogs.LengthUnitManagementDialog import *
+from Gui.ManagementDialogs.SVGItemManagementDialog import *
+
 from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
 from Gui.ItemModels.ProjectItemModel import ProjectItemModel
 from Gui.ItemModels.SVGItemModel import SVGItemModel
@@ -119,6 +129,69 @@ class ProfileLogger(QApplication):
 
         self.closeDbA = QAction(self.tr('&Close Database...'), self)
         self.closeDbA.triggered.connect(self.onCloseDatabase)
+
+        self.manageProjectsA = QAction(self.tr('&Projects...'), self)
+        self.manageProjectsA.triggered.connect(QApplication.instance().onManageProjects)
+
+        self.manageLengthUnitsA = QAction(self.tr('&Length Units...'), self)
+        self.manageLengthUnitsA.triggered.connect(QApplication.instance().onManageLengthUnits)
+
+        self.manageSVGItemsA = QAction(self.tr('&SVG Items...'), self)
+        self.manageSVGItemsA.triggered.connect(QApplication.instance().onManageSVGItems)
+        self.manageLithologicalUnitTypesA = QAction(self.tr('&Lithological Unit Types...'), self)
+        self.manageLithologicalUnitTypesA.triggered.connect(QApplication.instance().onManageLithologicalUnitTypes)
+
+        self.manageStratigraphicUnitTypesA = QAction(self.tr('&Stratigraphic Unit Types...'), self)
+        self.manageStratigraphicUnitTypesA.triggered.connect(QApplication.instance().onManageStratigraphicUnitTypes)
+
+        self.manageTectonicUnitTypesA = QAction(self.tr('&Tectonic Unit Types...'), self)
+        self.manageTectonicUnitTypesA.triggered.connect(QApplication.instance().onManageTectonicUnitTypes)
+
+        self.manageGeologicalMeasurementTypesA = QAction(self.tr('&Geological Measurement Types...'), self)
+        self.manageGeologicalMeasurementTypesA.triggered.connect(QApplication.instance().onManageGeologicalMeasurementTypes)
+        self.manageGrainSizeTypesA = QAction(self.tr('&Grain Size Types...'), self)
+        self.manageGrainSizeTypesA.triggered.connect(QApplication.instance().onManageGrainSizeTypes)    
+        self.manageGrainSizesA = QAction(self.tr('&Grain Sizes...'), self)
+        self.manageGrainSizesA.triggered.connect(QApplication.instance().onManageGrainSizes)
+    def onManageProjects(self):
+        dlg = ProjectManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageLengthUnits(self):
+        dlg = LengthUnitManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageSVGItems(self):
+        dlg = SVGItemManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageLithologicalUnitTypes(self):
+        dlg = LithologicalUnitTypeManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageStratigraphicUnitTypes(self):
+        dlg = StratigraphicUnitTypeManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageTectonicUnitTypes(self):
+        dlg = TectonicUnitTypeManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageGeologicalMeasurementTypes(self):
+        dlg = GeologicalMeasurementTypeManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageGrainSizeTypes(self):
+        dlg = GrainSizeTypeManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def onManageGrainSizes(self):
+        dlg = GrainSizeManagementDialog(self.activeWindow())
+        dlg.exec_()
+    def getGlobalManagementActions(self):
+        ret = []
+        ret.append(self.manageProjectsA)
+        ret.append(self.manageLithologicalUnitTypesA)
+        ret.append(self.manageStratigraphicUnitTypesA)
+        ret.append(self.manageTectonicUnitTypesA)
+        ret.append(self.manageGeologicalMeasurementTypesA)
+        ret.append(self.manageGrainSizeTypesA)
+        ret.append(self.manageGrainSizesA)
+        ret.append(self.manageLengthUnitsA)
+        ret.append(self.manageSVGItemsA)
+        return ret
     def getFileActions(self):
         ret = []
         ret.append(self.quitA)

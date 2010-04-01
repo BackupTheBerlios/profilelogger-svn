@@ -29,190 +29,39 @@ from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
 
 from Gui.SimpleGraphicProfile.SimpleProfileView import SimpleProfileView
 
+from Gui.ToolBars.GlobalToolsToolBar import *
+from Gui.ToolBars.ProjectToolsToolBar import *
+
 class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         self.setupMenu()
+        self.setupToolBar()
         self.setupStatusBar()
         self.setupCentralWidget()
         QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
     def setupCentralWidget(self):
         self.setCentralWidget(QTabWidget(self))
-        self.setupGlobalTools()
-        self.setupProjectTools()
-        self.setupBedTools()
-        self.setupProfileViewer()
         self.centralWidget().setEnabled(False)    
-    def setupGlobalTools(self):
-        self.globalToolsW = QToolBox(self.centralWidget())
-        self.setupProjectManagement()
-        self.setupLengthUnitManagement()
-        self.setupSVGItemManagement()
-        self.setupLithologicalUnitTypeManagement()
-        self.setupStratigraphicUnitTypeManagement()
-        self.setupTectonicUnitTypeManagement()
-        self.setupGeologicalMeasurementTypeManagement()
-        self.setupGrainSizeTypeManagement()
-        self.setupGrainSizeManagement()
-        self.centralWidget().addTab(self.globalToolsW, self.tr("Global"))
-    def setupBedTools(self):
-        self.bedToolsW = QToolBox(self.centralWidget())
-        self.setupBedManagement()
-        self.centralWidget().addTab(self.bedToolsW, self.tr("Bed"))
-    def setupProjectTools(self):
-        self.projectToolsW = QToolBox(self.centralWidget())
-        self.setupProfileManagement()
-        self.setupProfileAssemblyManagement()
-        self.setupLithologyManagement()
-        self.setupColorManagement()
-        self.setupOutcropTypeManagement()
-        self.setupFaciesManagement()
-        self.setupLithologicalUnitManagement()
-        self.setupStratigraphicUnitManagement()
-        self.setupTectonicUnitManagement()
-        self.setupBeddingTypeManagement()
-        self.setupSedimentStructureManagement()
-        self.setupFossilManagement()
-        self.setupCustomSymbolManagement()
-        self.setupBoundaryTypeManagement()
-        self.setupPointOfInterestManagement()
-        self.centralWidget().addTab(self.projectToolsW, self.tr("Project"))
-    def setupBedManagement(self):
-        self.bedsW = ColorItemView(self.bedToolsW,
-                                   QApplication.instance().bedModel)
-        self.bedToolsW.addItem(self.bedsW, self.tr("Beds"))
-        self.profilesW.currentDatasetChanged.connect(QApplication.instance().bedModel.onProfileChange)
-    def setupLithologyManagement(self):
-        self.lithologiesW = LithologyItemView(self.globalToolsW,
-                                              QApplication.instance().lithologyModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Lithologies"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().lithologyModel.onProjectChange)
-    def setupColorManagement(self):
-        self.colorsW = ColorItemView(self.globalToolsW,
-                                          QApplication.instance().colorModel)
-        self.projectToolsW.addItem(self.colorsW, self.tr("Colors"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().colorModel.onProjectChange)
-    def setupFaciesManagement(self):
-        self.faciessW = FaciesItemView(self.globalToolsW,
-                                       QApplication.instance().faciesModel)
-        self.projectToolsW.addItem(self.faciessW, self.tr("Facies"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().faciesModel.onProjectChange)
-    def setupProfileManagement(self):
-        self.profilesW = ProfileItemView(self.globalToolsW,
-                                         QApplication.instance().profileModel)
-        self.projectToolsW.addItem(self.profilesW, self.tr("Profiles"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().profileModel.onProjectChange)
-    def setupProfileAssemblyManagement(self):
-        self.profileAssemblysW = ProfileAssemblyItemView(self.globalToolsW,
-                                                         QApplication.instance().profileAssemblyModel)
-        self.projectToolsW.addItem(self.profileAssemblysW, self.tr("Profile Assemblies"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().profileAssemblyModel.onProjectChange)
-    def setupPointOfInterestManagement(self):
-        self.pointsOfInterestW = PointOfInterestItemView(self.globalToolsW,
-                                                         QApplication.instance().pointOfInterestModel)
-        self.projectToolsW.addItem(self.pointsOfInterestW, self.tr("Points Of Interest"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().pointOfInterestModel.onProjectChange)
-    def setupBoundaryTypeManagement(self):
-        self.boundaryTypeView = BoundaryTypeItemView(self.globalToolsW,
-                                                     QApplication.instance().boundaryTypeModel)
-        self.projectToolsW.addItem(self.boundaryTypeView, self.tr("BoundaryTypes"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().boundaryTypeModel.onProjectChange)
-    def setupCustomSymbolManagement(self):
-        self.customSymbolView = CustomSymbolItemView(self.globalToolsW,
-                                                     QApplication.instance().customSymbolModel)
-        self.projectToolsW.addItem(self.customSymbolView, self.tr("Custom Symbols"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().customSymbolModel.onProjectChange)
-    def setupFossilManagement(self):
-        self.fossilsW = FossilItemView(self.globalToolsW,
-                                       QApplication.instance().fossilModel)
-        self.projectToolsW.addItem(self.fossilsW, self.tr("Fossils"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().fossilModel.onProjectChange)
-    def setupSedimentStructureManagement(self):
-        self.sedimentStructuresW = SedimentStructureItemView(self.globalToolsW,
-                                                             QApplication.instance().sedimentStructureModel)
-        self.projectToolsW.addItem(self.sedimentStructuresW, self.tr("Sediment Structures"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().sedimentStructureModel.onProjectChange)
-    def setupBeddingTypeManagement(self):
-        self.lithologiesW = BeddingTypeItemView(self.globalToolsW,
-                                                QApplication.instance().beddingTypeModel)
-        self.projectToolsW.addItem(self.lithologiesW, self.tr("Bedding Types"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().beddingTypeModel.onProjectChange)
-    def setupLengthUnitManagement(self):
-        self.lengthUnitsW = LengthUnitItemView(self.globalToolsW,
-                                               QApplication.instance().lengthUnitModel)
-        self.globalToolsW.addItem(self.lengthUnitsW, self.tr("Length Units"))
-    def setupProjectManagement(self):
-        self.projectsW = ProjectItemView(self.globalToolsW,
-                                         QApplication.instance().projectModel)
-        self.globalToolsW.addItem(self.projectsW, self.tr("Projects"))
-    def setupGrainSizeManagement(self):
-        self.grainSizesW = GrainSizeItemView(self.globalToolsW,
-                                             QApplication.instance().grainSizeModel)
-        self.globalToolsW.addItem(self.grainSizesW, self.tr("Grain Sizes"))
-    def setupSVGItemManagement(self):
-        self.SVGItemsW = SVGItemView(self.globalToolsW,
-                                     QApplication.instance().svgItemModel)
-        self.globalToolsW.addItem(self.SVGItemsW, self.tr("SVG Items"))
-    def setupGrainSizeTypeManagement(self):
-        self.grainSizeTypesW = GrainSizeTypeItemView(self.globalToolsW,
-                                                     QApplication.instance().grainSizeTypeModel)
-        self.globalToolsW.addItem(self.grainSizeTypesW, self.tr("Grain Size Types"))
-    def setupLithologicalUnitTypeManagement(self):
-        self.lithologicalUnitTypesW = LithologicalUnitTypeItemView(self.globalToolsW,
-                                                                   QApplication.instance().lithologicalUnitTypeModel)
-        self.globalToolsW.addItem(self.lithologicalUnitTypesW, self.tr("Lithological Unit Types"))
-    def setupGeologicalMeasurementTypeManagement(self):
-        self.geologicalMeasurementTypesW = GeologicalMeasurementTypeItemView(self.globalToolsW,
-                                                                   QApplication.instance().geologicalMeasurementTypeModel)
-        self.globalToolsW.addItem(self.geologicalMeasurementTypesW, self.tr("Geological Measurement Types"))
-    def setupOutcropTypeManagement(self):
-        self.outcropTypesW = OutcropTypeItemView(self.globalToolsW,
-                                                 QApplication.instance().outcropTypeModel)
-        self.projectToolsW.addItem(self.outcropTypesW, self.tr("Outcrop Types"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().outcropTypeModel.onProjectChange)
-    def setupLithologicalUnitManagement(self):
-        self.lithologicalUnitsW = LithologicalUnitItemView(self.globalToolsW,
-                                                           QApplication.instance().lithologicalUnitModel)
-        self.projectToolsW.addItem(self.lithologicalUnitsW, self.tr("Lithological Units"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().lithologicalUnitModel.onProjectChange)
-    def setupStratigraphicUnitTypeManagement(self):
-        self.stratigraphicUnitTypesW = StratigraphicUnitTypeItemView(self.globalToolsW,
-                                                                     QApplication.instance().stratigraphicUnitTypeModel)
-        self.globalToolsW.addItem(self.stratigraphicUnitTypesW, self.tr("Stratigraphic Unit Types"))
-    def setupStratigraphicUnitManagement(self):
-        self.stratigraphicUnitsW = StratigraphicUnitItemView(self.projectToolsW,
-                                                             QApplication.instance().stratigraphicUnitModel)
-        self.projectToolsW.addItem(self.stratigraphicUnitsW, self.tr("Stratigraphic Units"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().stratigraphicUnitModel.onProjectChange)
-    def setupTectonicUnitTypeManagement(self):
-        self.tectonicUnitTypesW = TectonicUnitTypeItemView(self.globalToolsW,
-                                                           QApplication.instance().tectonicUnitTypeModel)
-        self.globalToolsW.addItem(self.tectonicUnitTypesW, self.tr("Tectonic Unit Types"))
-    def setupStratigraphicUnitManagement(self):
-        self.stratigraphicUnitsW = StratigraphicUnitItemView(self.projectToolsW,
-                                                             QApplication.instance().stratigraphicUnitModel)
-        self.projectToolsW.addItem(self.stratigraphicUnitsW, self.tr("Stratigraphic Units"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().stratigraphicUnitModel.onProjectChange)
-    def setupTectonicUnitManagement(self):
-        self.tectonicUnitsW = TectonicUnitItemView(self.projectToolsW,
-                                                   QApplication.instance().tectonicUnitModel)
-        self.projectToolsW.addItem(self.tectonicUnitsW, self.tr("Tectonic Units"))
-        self.projectsW.currentDatasetChanged.connect(QApplication.instance().tectonicUnitModel.onProjectChange)
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())
         self.dbM = QMenu(self.tr('&Database'), self.menuBar())
         self.toolM = QMenu(self.tr("&Tools"), self.menuBar())
+        self.globalM = QMenu(self.tr("&Global"), self.menuBar())
 
         for a in QApplication.instance().getFileActions():
             self.fileM.addAction(a)
         for a in QApplication.instance().getDatabaseActions():
             self.dbM.addAction(a)
+        for a in QApplication.instance().getGlobalManagementActions():
+            self.globalM.addAction(a)
         for a in QApplication.instance().getToolActions():
             self.toolM.addAction(a)
 
         self.menuBar().addMenu(self.fileM)
         self.menuBar().addMenu(self.dbM)
         self.menuBar().addMenu(self.toolM)
+        self.menuBar().addMenu(self.globalM)
 
     def setupStatusBar(self):
         self.dbStatusW = QLabel(self.statusBar())
@@ -225,5 +74,9 @@ class MainWindow(QMainWindow):
     def setupProfileViewer(self):
         self.profileViewW = SimpleProfileView(self.centralWidget())
         self.centralWidget().addTab(self.profileViewW, self.tr("View"))
-        self.profilesW.currentDatasetChanged.connect(self.profileViewW.onProfileChange)
-        self.profilesW.exportToSvgRequest.connect(self.profileViewW.onExportToSvg)
+    def setupToolBar(self):
+        self.globalToolsTb = GlobalToolsToolBar(self.tr("Global Tools"), self)
+        self.projectToolsTb = ProjectToolsToolBar(self.tr("Project Tools"), self)
+
+        self.addToolBar(Qt.RightToolBarArea, self.globalToolsTb)
+        self.addToolBar(Qt.LeftToolBarArea, self.projectToolsTb)
