@@ -1,5 +1,7 @@
 from NamedDescribedDataset import NamedDescribedDataset
 
+from PyQt4.QtCore import *
+
 class Bed(NamedDescribedDataset):
     def __init__(self, profile, id=None, 
                  height=0, lengthUnit=None,
@@ -81,3 +83,5 @@ class Bed(NamedDescribedDataset):
         self.geologicalMeasurements.append(m)
     def heightInMillimetres(self):
         return self.height * self.lengthUnit.microMetre / 1000
+    def updateName(self):
+        self.name = unicode(QCoreApplication.translate('bed', "%1/%2/Bed #%3").arg(self.profile.project.name).arg(self.profile.name).arg(self.number, 5, 10, QChar('0')))

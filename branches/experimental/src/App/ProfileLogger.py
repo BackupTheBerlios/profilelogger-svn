@@ -6,9 +6,6 @@ from sqlalchemy.exc import *
 from Persistance.Database import *
 from Persistance.ConnectionData import *
 
-from Model.LengthUnit import LengthUnit
-from Model.Project import Project
-
 from App.Settings import Settings
 
 from Gui.Dialogs.DatabaseConnectionDialog import DatabaseConnectionDialog
@@ -371,7 +368,13 @@ class ProfileLogger(QApplication):
         d['Profile 1'] = Profile(d['Test project'], None, unicode('Profile 1'), unicode(''), 0, d['m'],
                                  10,
                                  1, d['m'], 10, d['cm'])
-        d['Bed 1'] = Bed(d['Profile 1'], None, 1, d['cm'], 1, unicode('Bed 1'), unicode(''))
+        bedNumber = 1
+        while bedNumber < 100:
+            n = 'Bed %s' % bedNumber
+            d[n] = Bed(d['Profile 1'], None, 15, d['cm'], bedNumber, unicode('Bed %s') % bedNumber, unicode(''))
+            d[n].updateName()
+            LithologyInBed(d[n], None,  d['Limestone Mudstone'], 0, 100, unicode('limestone in %s' %n))
+            bedNumber += 1
         try: 
             s = self.db.session
             for k, v in d.iteritems():

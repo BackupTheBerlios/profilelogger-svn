@@ -16,7 +16,8 @@ class PatternLegendItem(LegendItem):
         if self.dataset.hasSvgItem():
             f = BrushFactory()
             brush = f.fromSvgItem(self.dataset.svgItem)
-            self.patternItm.setBrush(brush)
+            if brush is not None:
+                self.patternItm.setBrush(brush)
 
         self.patternItm.setPos(QPointF(self.rect().width() * 0.2 / 2,
                                        self.rect().width() * 0.2 / 2))

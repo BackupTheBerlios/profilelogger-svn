@@ -12,12 +12,14 @@ class SymbolLegendItem(LegendItem):
         w = self.rect().width() * 0.8
         self.symbolItm = QGraphicsRectItem(self, self.scene())
         self.symbolItm.setRect(QRectF(0, 0, w, w))
+        self.symbolItm.setPen(QPen(Qt.NoPen))
         if self.dataset.hasSvgItem():
             f = SymbolFactory()
             pm = f.pixmapFromSvgItem(self.dataset.svgItem, w)
             pmItm = QGraphicsPixmapItem(self.symbolItm, self.scene())
             pmItm.setPixmap(pm)
-            pmItm.setPos(QPointF(0, 0))
+            pmItm.setPos(QPointF((self.symbolItm.rect().width() - pmItm.boundingRect().width()) / 2, 
+                                 (self.symbolItm.rect().height() - pmItm.boundingRect().height()) / 2))
         self.symbolItm.setPos(QPointF(self.rect().width() * 0.2 / 2,
                                        self.rect().width() * 0.2 / 2))
     def drawDatasetNumber(self):

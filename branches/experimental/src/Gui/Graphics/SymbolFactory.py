@@ -6,6 +6,8 @@ class SymbolFactory(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent)
     def pixmapFromSvgItem(self, itm, scaleTo, aspectRatioStrategy=Qt.KeepAspectRatio):
+        if itm.svgData is None:
+            return None
         xmlStrm = QXmlStreamReader(itm.svgData)
         gen = QSvgRenderer()
         gen.load(xmlStrm)

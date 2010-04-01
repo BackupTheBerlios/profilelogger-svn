@@ -63,7 +63,7 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.addLabelWidgetPair(self.bedNumberL, self.bedNumberW)
         self.bedNumberW.valueChanged.connect(self.onBedNumberChange)
     def onBedNumberChange(self, v):
-        self.data.name = unicode(self.tr("%1/%2/Bed #%3").arg(self.data.profile.project.name).arg(self.data.profile.name).arg(v, 5, 10, QChar('0')))
+        self.data.updateName()
         self.data.number = v
         self.nameW.setText(self.data.name)
     def onHeightValueChange(self, v):

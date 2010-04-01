@@ -6,6 +6,9 @@ class BrushFactory(QObject):
     def __init__(self, parent=None):
         QObject.__init__(self, parent)
     def fromSvgItem(self, itm, scaleTo=None):
+        if itm.svgData is None:
+            return None
+
         xmlStrm = QXmlStreamReader(itm.svgData)
         gen = QSvgRenderer()
         gen.load(xmlStrm)
