@@ -1,33 +1,10 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from Gui.ItemViews.LengthUnitItemView import LengthUnitItemView
-from Gui.ItemViews.ProjectItemView import ProjectItemView
-from Gui.ItemViews.SVGItemView import SVGItemView
-from Gui.ItemViews.GrainSizeTypeItemView import GrainSizeTypeItemView
-from Gui.ItemViews.GrainSizeItemView import GrainSizeItemView
-from Gui.ItemViews.LithologyItemView import LithologyItemView
-from Gui.ItemViews.ColorItemView import ColorItemView
-from Gui.ItemViews.BeddingTypeItemView import BeddingTypeItemView
-from Gui.ItemViews.SedimentStructureItemView import SedimentStructureItemView
-from Gui.ItemViews.FossilItemView import FossilItemView
-from Gui.ItemViews.CustomSymbolItemView import CustomSymbolItemView
-from Gui.ItemViews.BoundaryTypeItemView import BoundaryTypeItemView
-from Gui.ItemViews.PointOfInterestItemView import PointOfInterestItemView
-from Gui.ItemViews.ProfileItemView import ProfileItemView
-from Gui.ItemViews.BedItemView import BedItemView
-from Gui.ItemViews.LithologicalUnitTypeItemView import LithologicalUnitTypeItemView
-from Gui.ItemViews.LithologicalUnitItemView import LithologicalUnitItemView
-from Gui.ItemViews.StratigraphicUnitTypeItemView import StratigraphicUnitTypeItemView
-from Gui.ItemViews.StratigraphicUnitItemView import StratigraphicUnitItemView
-from Gui.ItemViews.TectonicUnitTypeItemView import TectonicUnitTypeItemView
-from Gui.ItemViews.TectonicUnitItemView import TectonicUnitItemView
-from Gui.ItemViews.FaciesItemView import FaciesItemView
-from Gui.ItemViews.OutcropTypeItemView import OutcropTypeItemView
-from Gui.ItemViews.GeologicalMeasurementTypeItemView import GeologicalMeasurementTypeItemView
-from Gui.ItemViews.ProfileAssemblyItemView import ProfileAssemblyItemView
-
 from Gui.SimpleGraphicProfile.SimpleProfileView import SimpleProfileView
+
+from Gui.InteractiveProfileView.InteractiveProfileView import *
+from Gui.InteractiveProfileView.InteractiveProfileScene import *
 
 from Gui.ToolBars.GlobalToolsToolBar import *
 from Gui.ToolBars.ProjectToolsToolBar import *
@@ -42,6 +19,12 @@ class MainWindow(QMainWindow):
         QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
     def setupCentralWidget(self):
         self.setCentralWidget(QTabWidget(self))
+        self.interactiveView = InteractiveProfileView(self.centralWidget(),
+                                                      InteractiveProfileScene)
+        self.centralWidget().addTab(self.interactiveView, 
+                                    self.tr("Interactive View"))
+        self.interactiveView.setEnabled(False)
+        self.projectToolsTb.currentProfileChanged.connect(self.interactiveView.scene().onProfileChange)
         self.centralWidget().setEnabled(False)    
     def setupMenu(self):
         self.fileM = QMenu(self.tr('&File'), self.menuBar())

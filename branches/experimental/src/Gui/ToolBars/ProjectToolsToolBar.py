@@ -18,6 +18,7 @@ from Gui.Widgets.CustomSymbolSelectionComboBox import *
 from Gui.Widgets.BoundaryTypeSelectionComboBox import *
 
 class ProjectToolsToolBar(ToolBar):
+    currentProfileChanged = pyqtSignal(Profile)
     def __init__(self, title, parent):
         ToolBar.__init__(self, title, parent)
 
@@ -70,3 +71,7 @@ class ProjectToolsToolBar(ToolBar):
         self.addWidget(self.beddingTypesW)
         self.addWidget(self.boundaryTypesW)
         self.addWidget(self.pointOfInterestsW)
+
+        self.profilesW.currentDatasetChanged.connect(self.onCurrentProfileChanged)
+    def onCurrentProfileChanged(self, p):
+        self.currentProfileChanged.emit(p)
