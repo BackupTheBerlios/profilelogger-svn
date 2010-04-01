@@ -8,3 +8,4 @@ class CustomSymbolSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 CustomSymbolManagementDialog,
                                                 CustomSymbolFinder)
+        self.setToolTip(self.tr("Custom Symbols"))

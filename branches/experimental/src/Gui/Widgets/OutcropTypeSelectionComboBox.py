@@ -8,3 +8,4 @@ class OutcropTypeSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 OutcropTypeManagementDialog,
                                                 OutcropTypeFinder)
+        self.setToolTip(self.tr("Outcrop Types"))

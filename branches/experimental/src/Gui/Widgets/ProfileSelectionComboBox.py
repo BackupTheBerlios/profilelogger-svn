@@ -9,3 +9,4 @@ class ProfileSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 ProfileManagementDialog,
                                                 ProfileFinder)
+        self.setToolTip(self.tr("Profiles"))

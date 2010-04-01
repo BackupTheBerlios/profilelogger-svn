@@ -8,3 +8,4 @@ class PointOfInterestSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 PointOfInterestManagementDialog,
                                                 PointOfInterestFinder)
+        self.setToolTip(self.tr("Points Of Interest"))

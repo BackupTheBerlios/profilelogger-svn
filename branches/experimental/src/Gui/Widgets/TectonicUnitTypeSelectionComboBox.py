@@ -8,3 +8,4 @@ class TectonicUnitTypeSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        TectonicUnitTypeManagementDialog,
                                        TectonicUnitTypeFinder)
+        self.setToolTip(self.tr("Tectonic Unit Types"))

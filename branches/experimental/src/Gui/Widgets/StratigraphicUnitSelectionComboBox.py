@@ -8,3 +8,4 @@ class StratigraphicUnitSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 StratigraphicUnitManagementDialog,
                                                 StratigraphicUnitFinder)
+        self.setToolTip(self.tr("Stratigraphic Units"))

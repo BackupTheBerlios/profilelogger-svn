@@ -9,3 +9,4 @@ class ProfileAssemblySelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 ProfileAssemblyManagementDialog,
                                                 ProfileAssemblyFinder)
+        self.setToolTip(self.tr("Profile Assemblies"))

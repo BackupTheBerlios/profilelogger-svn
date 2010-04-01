@@ -8,3 +8,4 @@ class LithologicalUnitTypeSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        LithologicalUnitTypeManagementDialog,
                                        LithologicalUnitTypeFinder)
+        self.setToolTip(self.tr("Lithological Unit Types"))

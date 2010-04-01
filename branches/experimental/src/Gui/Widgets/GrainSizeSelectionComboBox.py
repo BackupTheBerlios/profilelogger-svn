@@ -8,3 +8,4 @@ class GrainSizeSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        GrainSizeManagementDialog,
                                        GrainSizeFinder)
+        self.setToolTip(self.tr("Grain Sizes"))

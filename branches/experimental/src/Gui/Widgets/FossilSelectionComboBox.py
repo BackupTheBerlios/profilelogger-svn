@@ -8,3 +8,4 @@ class FossilSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 FossilManagementDialog,
                                                 FossilFinder)
+        self.setToolTip(self.tr("Fossils"))

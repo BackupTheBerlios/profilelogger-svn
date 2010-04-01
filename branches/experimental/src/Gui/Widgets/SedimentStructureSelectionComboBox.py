@@ -8,3 +8,4 @@ class SedimentStructureSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 SedimentStructureManagementDialog,
                                                 SedimentStructureFinder)
+        self.setToolTip(self.tr("Sediment Structures"))

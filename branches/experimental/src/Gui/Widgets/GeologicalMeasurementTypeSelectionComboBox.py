@@ -8,3 +8,4 @@ class GeologicalMeasurementTypeSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        GeologicalMeasurementTypeManagementDialog,
                                        GeologicalMeasurementTypeFinder)
+        self.setToolTip(self.tr("Geological Measurement Types"))

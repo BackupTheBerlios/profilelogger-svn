@@ -8,3 +8,4 @@ class ProjectSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        ProjectManagementDialog,
                                        ProjectFinder)
+        self.setToolTip(self.tr("Projects"))

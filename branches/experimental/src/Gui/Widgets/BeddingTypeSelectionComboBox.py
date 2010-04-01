@@ -8,3 +8,4 @@ class BeddingTypeSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 BeddingTypeManagementDialog,
                                                 BeddingTypeFinder)
+        self.setToolTip(self.tr("Bedding Types"))

@@ -8,3 +8,4 @@ class LengthUnitSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        LengthUnitManagementDialog,
                                        LengthUnitFinder)
+        self.setToolTip(self.tr("Length Units"))

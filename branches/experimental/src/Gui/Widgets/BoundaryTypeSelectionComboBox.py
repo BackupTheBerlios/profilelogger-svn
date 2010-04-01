@@ -8,3 +8,4 @@ class BoundaryTypeSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 BoundaryTypeManagementDialog,
                                                 BoundaryTypeFinder)
+        self.setToolTip(self.tr("Boundary Types"))

@@ -8,3 +8,4 @@ class SvgItemSelectionComboBox(DataSelectionComboBox):
         DataSelectionComboBox.__init__(self, parent, 
                                        SVGItemManagementDialog,
                                        SvgItemFinder)
+        self.setToolTip(self.tr("SVG Items"))

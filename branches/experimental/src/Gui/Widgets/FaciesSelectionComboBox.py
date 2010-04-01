@@ -8,3 +8,4 @@ class FaciesSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 FaciesManagementDialog,
                                                 FaciesFinder)
+        self.setToolTip(self.tr("Facies"))

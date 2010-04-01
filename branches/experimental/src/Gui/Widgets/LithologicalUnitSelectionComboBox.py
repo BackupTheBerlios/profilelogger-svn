@@ -8,3 +8,4 @@ class LithologicalUnitSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 LithologicalUnitManagementDialog,
                                                 LithologicalUnitFinder)
+        self.setToolTip(self.tr("Lithological Units"))

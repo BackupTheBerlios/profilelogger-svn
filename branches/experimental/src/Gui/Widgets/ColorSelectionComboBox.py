@@ -8,3 +8,4 @@ class ColorSelectionComboBox(DataInProjectSelectionComboBox):
         DataInProjectSelectionComboBox.__init__(self, parent, 
                                                 ColorManagementDialog,
                                                 ColorFinder)
+        self.setToolTip(self.tr("Colors"))
