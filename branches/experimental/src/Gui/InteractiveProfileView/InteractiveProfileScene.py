@@ -14,13 +14,15 @@ from Gui.ManagementDialogs.StratigraphicUnitManagementDialog import *
 from Gui.ManagementDialogs.FossilManagementDialog import *
 from Gui.ManagementDialogs.SedimentStructureManagementDialog import *
 from Gui.ManagementDialogs.CustomSymbolManagementDialog import *
+
+from Gui.Dialogs.ProfileEditorDialog import *
+
 class InteractiveProfileScene(QGraphicsScene):
     enableViews = pyqtSignal()
     disableViews = pyqtSignal()
     def __init__(self, parent):
         QGraphicsScene.__init__(self, parent)
         self.profile = None
-        self.profileWidth = 1000
     def onProfileChange(self, p):
         self.profile = p
         self.reload()
@@ -34,7 +36,7 @@ class InteractiveProfileScene(QGraphicsScene):
             self.disableViews.emit()
             return
         self.profileItm = ProfileItem(None, self, 
-                                      QRectF(0, 0, self.profileWidth, 100), 
+                                      QRectF(0, 0, 0, 0), 
                                       QPointF(0, 0),
                                       self.profile)
     def manageLithologies(self):
@@ -90,5 +92,10 @@ class InteractiveProfileScene(QGraphicsScene):
     def manageSedimentStructures(self):
         dlg = SedimentStructureManagementDialog(QApplication.activeWindow(),
                                                 self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def editProfile(self):
+        dlg = ProfileEditorDialog(QApplication.activeWindow(),
+                                  self.profile)
         dlg.exec_()
         self.reload()

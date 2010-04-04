@@ -29,10 +29,12 @@ class InteractiveProfileView(QGraphicsView):
 
         m = QMenu(self)
 
+        editA = QAction(self.tr("Edit Profile..."), self)
+        editA.triggered.connect(self.scene().editProfile)
+
         reloadA = QAction(self.tr("Reload"), self)
         reloadA.triggered.connect(self.scene().reload)
-        m.addAction(reloadA)
-
+        m.addAction(editA)
         for i in items:
             if i.__class__ == LithologyLegend:
                 self.addActionsToMenu(self.createLithologyLegendItemActions(), m)
@@ -57,7 +59,7 @@ class InteractiveProfileView(QGraphicsView):
             if i.__class__ == SedimentStructureLegend:
                 self.addActionsToMenu(self.createSedimentStructureLegendItemActions(), m)
 
-
+        m.addAction(reloadA)
         m.exec_(pos)
     def addActionsToMenu(self, actionList, menu):
         for a in actionList:

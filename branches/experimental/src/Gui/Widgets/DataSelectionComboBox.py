@@ -14,6 +14,7 @@ class DataSelectionComboBox(ComboBox):
         QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
         QApplication.instance().databaseClosed.connect(self.onDatabaseDisconnected)
     def contextMenuEvent(self, e):
+        e.accept()
         m = QMenu(self)
         reloadA = QAction(self.tr("Reload..."), self)
         reloadA.triggered.connect(self.onReload)

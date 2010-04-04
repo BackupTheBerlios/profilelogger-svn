@@ -1,6 +1,8 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
 
+from Model.ColumnInProfile import ColumnInProfile
+from Model.ProfileColumn import ProfileColumn
 from Model.ProfileAssembly import ProfileAssembly
 from Model.Project import Project
 from Model.LengthUnit import LengthUnit
@@ -53,6 +55,21 @@ class Database:
     def setupTables(self):
         self.metadata = MetaData()
         self.tables = dict()
+        self.tables['profiles_profile_columns'] = Table('profiles_profile_columns', self.metadata,
+                                                        Column('id', Integer, Sequence('seq_profiles_profile_columns', schema=self.schema), nullable=False, primary_key=True),
+                                                        Column('profile_id', ForeignKey('%s.profiles.id' % self.schema), nullable=False),
+                                                        Column('profile_column_id', ForeignKey('%s.profile_columns.id' % self.schema), nullable=False),
+                                                        Column('position', Integer, nullable=False),
+                                                        Column('width', Integer, nullable=False, server_default='50'),
+                                                        schema=self.schema)
+        self.tables['profile_columns'] = Table('profile_columns', self.metadata,
+                                               Column('id', Integer, Sequence('seq_profile_columns', schema=self.schema), nullable=False, primary_key=True),
+                                               Column('name', String, nullable=False),
+                                               Column('description', String, nullable=True),
+                                               Column('header_class_name', String, nullable=False),
+                                               Column('bed_part_class_name', String, nullable=False),
+                                               UniqueConstraint('name', name='u_profile_columns'),
+                                               schema=self.schema)
         self.tables['grain_size_types_profiles'] = Table('grain_size_types_profiles', self.metadata,
                                                          Column('id', Integer, Sequence('seq_grain_size_types_profiles', schema=self.schema), primary_key=True, nullable=False),
                                                          Column('grain_size_type_id', Integer, ForeignKey('%s.grain_size_types.id' % self.schema), nullable=False),
@@ -555,6 +572,20 @@ class Database:
 
     def setupMapping(self):
         clear_mappers()
+        mapper(ColumnInProfile, self.tables['profiles_profile_columns'], properties = {
+                'id': self.tables['profiles_profile_columns'].c.id,
+                'position': self.tables['profiles_profile_columns'].c.position,
+                'width': self.tables['profiles_profile_columns'].c.width,
+                'profile': relation(Profile, backref='columns'),
+                'profileColumn': relation(ProfileColumn)
+                })
+        mapper(ProfileColumn, self.tables['profile_columns'], properties = {
+                'id': self.tables['profile_columns'].c.id,
+                'name': self.tables['profile_columns'].c.name,
+                'description': self.tables['profile_columns'].c.description,
+                'headerClassName': self.tables['profile_columns'].c.header_class_name,
+                'bedPartClassName': self.tables['profile_columns'].c.bed_part_class_name
+                })
         mapper(GrainSizeTypeInProfile, self.tables['grain_size_types_profiles'], properties = {
                 'id': self.tables['grain_size_types_profiles'].c.id,
                 'grainSizeType': relation(GrainSizeType),

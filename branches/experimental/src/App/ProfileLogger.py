@@ -358,6 +358,19 @@ class ProfileLogger(QApplication):
     def insertTemplateData(self):
         self.setupSvgFiles()
         d = dict()
+        d['Bed Height Column'] = ProfileColumn(None, 'Bed Height', '', 'BedHeightHeader', 'BedHeightBedField')
+        d['Bedding Type Column'] = ProfileColumn(None, 'Bedding Type', '', 'BeddingTypeHeader', 'BeddingTypeBedField')
+        d['Lithology Column'] = ProfileColumn(None, 'Lithology', '', 'LithologyHeader', 'LithologyBedField')
+        d['Fossils Column'] = ProfileColumn(None, 'Fossils', '', 'FossilHeader', 'FossilBedField')
+        d['Sediment Structures'] = ProfileColumn(None, 'Sediment Structures', '', 'SedimentStructureHeader', 'SedimentStructureBedField')
+        d['Custom Symbols'] = ProfileColumn(None, 'Custom Symbols', '', 'CustomSymbolHeader', 'CustomSymbolBedField')
+        d['Lithological Unit Column'] = ProfileColumn(None, 'Lithological Unit', '', 'LithologicalUnitHeader', 'LithologicalUnitBedField')
+        d['Tectonic Unit Column'] = ProfileColumn(None, 'Tectonic Unit', '', 'TectonicUnitHeader', 'TectonicUnitBedField')
+        d['Stratigraphic Unit Column'] = ProfileColumn(None, 'Stratigraphic Unit', '', 'StratigraphicUnitHeader', 'StratigraphicUnitBedField')
+        d['Facies Column'] = ProfileColumn(None, 'Facies', '', 'FaciesHeader', 'FaciesBedField')
+        d['Colors Column'] = ProfileColumn(None, 'Color', '', 'ColorHeader', 'ColorBedField')
+        d['Grain Size Column'] = ProfileColumn(None, 'Grain Size', '', 'GrainSizeHeader', 'GrainSizeBedField')
+
         d['um'] = LengthUnit(None, 1, unicode(self.tr('um')))
         d['mm'] = LengthUnit(None, 1000, unicode(self.tr('mm')))
         d['cm'] = LengthUnit(None, 10000, unicode(self.tr('cm')))
@@ -441,6 +454,22 @@ class ProfileLogger(QApplication):
         d['Profile 1'] = Profile(d['Test project'], None, unicode('Profile 1'), unicode(''), 0, d['m'],
                                  10,
                                  1, d['m'], 10, d['cm'])
+        d['folk in 1'] = GrainSizeTypeInProfile(None,  d['Folk1964'], d['Profile 1'])
+        d['dunham in 1'] = GrainSizeTypeInProfile(None, d['Dunham1962'], d['Profile 1'])
+
+        d['Height in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Bed Height Column'], 0, 50)
+        d['bedding type in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Bedding Type Column'], 1, 50)
+        d['lithology in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Lithology Column'], 2, 50)
+        d['fossils in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Fossils Column'], 3, 50)
+        d['sediment structures in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Sediment Structures'], 4, 50)
+        d['custom symbols in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Custom Symbols'], 5, 50)
+        d['lithological units in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Lithological Unit Column'], 6, 50)
+        d['tectonic units in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Tectonic Unit Column'], 7, 50)
+        d['stratigraphic units in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Stratigraphic Unit Column'], 8, 50)
+        d['facies in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Facies Column'], 9, 50)
+        d['colors in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Colors Column'], 10, 50)
+        d['grain sizes in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Grain Size Column'], 11, 200)
+
         bedNumber = 1
         while bedNumber < 100:
             n = 'Bed %s' % bedNumber

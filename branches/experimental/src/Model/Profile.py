@@ -29,3 +29,8 @@ class Profile(NamedDescribedDatasetInProject):
         for b in self.beds:
             r += b.height * b.lengthUnit.microMetre / 1000
         return r
+    def displayWidth(self):
+        tot = 0
+        for c in self.columns:
+            tot += c.width
+        return tot

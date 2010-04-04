@@ -8,6 +8,7 @@ from Gui.Widgets.GeologicalMeasurementTypeSelectionComboBox import *
 from Gui.Widgets.LithologicalUnitTypeSelectionComboBox import *
 from Gui.Widgets.TectonicUnitTypeSelectionComboBox import *
 from Gui.Widgets.StratigraphicUnitTypeSelectionComboBox import *
+from Gui.Widgets.ProfileColumnSelectionComboBox import *
 
 class GlobalToolsToolBar(ToolBar):
     def __init__(self, title, parent):
@@ -21,6 +22,7 @@ class GlobalToolsToolBar(ToolBar):
         self.lithologicalUnitTypesW = LithologicalUnitTypeSelectionComboBox(self)
         self.tectonicUnitTypesW = TectonicUnitTypeSelectionComboBox(self)
         self.stratigraphicUnitTypesW = StratigraphicUnitTypeSelectionComboBox(self)
+        self.profileColumnsW = ProfileColumnSelectionComboBox(self)
 
         self.addWidget(self.grainSizeTypesW)
         self.addWidget(self.grainSizesW)
@@ -30,4 +32,5 @@ class GlobalToolsToolBar(ToolBar):
         self.addWidget(self.lithologicalUnitTypesW)
         self.addWidget(self.tectonicUnitTypesW)
         self.addWidget(self.stratigraphicUnitTypesW)
+        self.addWidget(self.profileColumnsW)
 
