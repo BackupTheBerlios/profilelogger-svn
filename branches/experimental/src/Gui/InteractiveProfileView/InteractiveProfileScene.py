@@ -11,7 +11,9 @@ from Gui.ManagementDialogs.FaciesManagementDialog import *
 from Gui.ManagementDialogs.LithologicalUnitManagementDialog import *
 from Gui.ManagementDialogs.TectonicUnitManagementDialog import *
 from Gui.ManagementDialogs.StratigraphicUnitManagementDialog import *
-
+from Gui.ManagementDialogs.FossilManagementDialog import *
+from Gui.ManagementDialogs.SedimentStructureManagementDialog import *
+from Gui.ManagementDialogs.CustomSymbolManagementDialog import *
 class InteractiveProfileScene(QGraphicsScene):
     enableViews = pyqtSignal()
     disableViews = pyqtSignal()
@@ -72,6 +74,21 @@ class InteractiveProfileScene(QGraphicsScene):
         self.reload()
     def manageStratigraphicUnits(self):
         dlg = StratigraphicUnitManagementDialog(QApplication.activeWindow(),
+                                                self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageFossils(self):
+        dlg = FossilManagementDialog(QApplication.activeWindow(),
+                                     self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageCustomSymbols(self):
+        dlg = CustomSymbolManagementDialog(QApplication.activeWindow(),
+                                           self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageSedimentStructures(self):
+        dlg = SedimentStructureManagementDialog(QApplication.activeWindow(),
                                                 self.profile.project)
         dlg.exec_()
         self.reload()

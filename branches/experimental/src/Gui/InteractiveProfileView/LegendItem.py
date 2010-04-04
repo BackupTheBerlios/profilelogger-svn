@@ -8,6 +8,9 @@ from FaciesLegend import *
 from LithologicalUnitLegend import *
 from TectonicUnitLegend import *
 from StratigraphicUnitLegend import *
+from FossilLegend import *
+from CustomSymbolLegend import *
+from SedimentStructureLegend import *
 
 class LegendItem(InteractiveRectItem):
     def __init__(self, parent, scene, rect, pos, headerFont, legendFont, profile):
@@ -24,6 +27,9 @@ class LegendItem(InteractiveRectItem):
         self.drawLithologicalUnits()
         self.drawTectonicUnits()
         self.drawStratigraphicUnits()
+        self.drawFossils()
+        self.drawSedimentStructures()
+        self.drawCustomSymbols()
         self.setRect(QRectF(0, 0, self.rect().width(), self.maxY))
     def drawLithologies(self):
         self.lithologyL = LithologyLegend(self, 
@@ -97,3 +103,30 @@ class LegendItem(InteractiveRectItem):
                                                           self.legendFont,
                                                           self.profile)
         self.maxY += self.stratigraphicUnitL.rect().height()
+    def drawFossils(self):
+        self.fossilL = FossilLegend(self, 
+                                    self.scene(),
+                                    QRectF(0, 0, self.rect().width(), 0),
+                                    QPointF(0, self.maxY),
+                                    self.headerFont,
+                                    self.legendFont,
+                                    self.profile)
+        self.maxY += self.fossilL.rect().height()
+    def drawSedimentStructures(self):
+        self.sedimentStructureL = SedimentStructureLegend(self, 
+                                                          self.scene(),
+                                                          QRectF(0, 0, self.rect().width(), 0),
+                                                          QPointF(0, self.maxY),
+                                                          self.headerFont,
+                                                          self.legendFont,
+                                                          self.profile)
+        self.maxY += self.sedimentStructureL.rect().height()
+    def drawCustomSymbols(self):
+        self.customSymbolL = CustomSymbolLegend(self, 
+                                                self.scene(),
+                                                QRectF(0, 0, self.rect().width(), 0),
+                                                QPointF(0, self.maxY),
+                                                self.headerFont,
+                                                self.legendFont,
+                                                self.profile)
+        self.maxY += self.customSymbolL.rect().height()

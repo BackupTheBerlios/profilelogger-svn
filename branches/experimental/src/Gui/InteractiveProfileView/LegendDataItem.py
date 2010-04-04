@@ -13,7 +13,7 @@ class LegendDataItem(RectItem):
         self.displayItm.setRect(QRectF(0, 0, 
                                        self.rect().width() * 0.8, 
                                        self.rect().width() * 0.8))
-        self.displayItm.setPen(Qt.blue)
+        self.displayItm.setPen(Qt.black)
         self.displayItm.setPos(QPointF(self.rect().width() * 0.2 / 2,
                                        self.rect().width() * 0.2 / 2))
         self.maxY += self.displayItm.pos().y() + self.displayItm.rect().height()

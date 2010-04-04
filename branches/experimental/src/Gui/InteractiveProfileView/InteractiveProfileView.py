@@ -9,7 +9,9 @@ from FaciesLegend import *
 from LithologicalUnitLegend import *
 from TectonicUnitLegend import *
 from StratigraphicUnitLegend import *
-
+from FossilLegend import *
+from CustomSymbolLegend import *
+from SedimentStructureLegend import *
 
 class InteractiveProfileView(QGraphicsView):
     def __init__(self, parent, modelClass):
@@ -48,6 +50,14 @@ class InteractiveProfileView(QGraphicsView):
                 self.addActionsToMenu(self.createTectonicUnitLegendItemActions(), m)            
             if i.__class__ == StratigraphicUnitLegend:
                 self.addActionsToMenu(self.createStratigraphicUnitLegendItemActions(), m)
+            if i.__class__ == FossilLegend:
+                self.addActionsToMenu(self.createFossilLegendItemActions(), m)
+            if i.__class__ == CustomSymbolLegend:
+                self.addActionsToMenu(self.createCustomSymbolLegendItemActions(), m)
+            if i.__class__ == SedimentStructureLegend:
+                self.addActionsToMenu(self.createSedimentStructureLegendItemActions(), m)
+
+
         m.exec_(pos)
     def addActionsToMenu(self, actionList, menu):
         for a in actionList:
@@ -98,5 +108,23 @@ class InteractiveProfileView(QGraphicsView):
         l = []
         manageA = QAction(self.tr("Manage Stratigraphic Units"), self)
         manageA.triggered.connect(self.scene().manageStratigraphicUnits)
+        l.append(manageA)
+        return l
+    def createFossilLegendItemActions(self):
+        l = []
+        manageA = QAction(self.tr("Manage Fossils"), self)
+        manageA.triggered.connect(self.scene().manageFossils)
+        l.append(manageA)
+        return l
+    def createCustomSymbolLegendItemActions(self):
+        l = []
+        manageA = QAction(self.tr("Manage Custom Symbols"), self)
+        manageA.triggered.connect(self.scene().manageCustomSymbols)
+        l.append(manageA)
+        return l
+    def createSedimentStructureLegendItemActions(self):
+        l = []
+        manageA = QAction(self.tr("Manage Sediment Structures"), self)
+        manageA.triggered.connect(self.scene().manageSedimentStructures)
         l.append(manageA)
         return l
