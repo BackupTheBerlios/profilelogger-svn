@@ -3,6 +3,15 @@ from PyQt4.QtGui import *
 
 from ProfileItem import *
 
+from Gui.ManagementDialogs.LithologyManagementDialog import *
+from Gui.ManagementDialogs.BeddingTypeManagementDialog import *
+from Gui.ManagementDialogs.ColorManagementDialog import *
+from Gui.ManagementDialogs.OutcropTypeManagementDialog import *
+from Gui.ManagementDialogs.FaciesManagementDialog import *
+from Gui.ManagementDialogs.LithologicalUnitManagementDialog import *
+from Gui.ManagementDialogs.TectonicUnitManagementDialog import *
+from Gui.ManagementDialogs.StratigraphicUnitManagementDialog import *
+
 class InteractiveProfileScene(QGraphicsScene):
     enableViews = pyqtSignal()
     disableViews = pyqtSignal()
@@ -26,4 +35,43 @@ class InteractiveProfileScene(QGraphicsScene):
                                       QRectF(0, 0, self.profileWidth, 100), 
                                       QPointF(0, 0),
                                       self.profile)
-        
+    def manageLithologies(self):
+        dlg = LithologyManagementDialog(QApplication.activeWindow(),
+                                        self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageBeddingTypes(self):
+        dlg = BeddingTypeManagementDialog(QApplication.activeWindow(),
+                                          self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageColors(self):
+        dlg = ColorManagementDialog(QApplication.activeWindow(),
+                                    self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageOutcropTypes(self):
+        dlg = OutcropTypeManagementDialog(QApplication.activeWindow(),
+                                          self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageFacies(self):
+        dlg = FaciesManagementDialog(QApplication.activeWindow(),
+                                     self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageLithologicalUnits(self):
+        dlg = LithologicalUnitManagementDialog(QApplication.activeWindow(),
+                                               self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageTectonicUnits(self):
+        dlg = TectonicUnitManagementDialog(QApplication.activeWindow(),
+                                           self.profile.project)
+        dlg.exec_()
+        self.reload()
+    def manageStratigraphicUnits(self):
+        dlg = StratigraphicUnitManagementDialog(QApplication.activeWindow(),
+                                                self.profile.project)
+        dlg.exec_()
+        self.reload()

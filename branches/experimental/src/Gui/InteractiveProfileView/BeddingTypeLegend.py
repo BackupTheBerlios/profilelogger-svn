@@ -1,8 +1,8 @@
 from LegendItemGroup import *
 
-from LithologyLegendItem import *
+from BeddingTypeLegendItem import *
 
-class LithologyLegend(LegendItemGroup):
+class BeddingTypeLegend(LegendItemGroup):
     def __init__(self, parent, scene, rect, pos, headerFont, legendFont, profile):
         LegendItemGroup.__init__(self, 
                                  parent, 
@@ -11,7 +11,7 @@ class LithologyLegend(LegendItemGroup):
                                  pos, 
                                  headerFont, 
                                  legendFont,
-                                 unicode(QCoreApplication.translate('legend header', 'Lithologies')), 
+                                 unicode(QCoreApplication.translate('legend header', 'Bedding Types')), 
                                  profile,
-                                 LithologyLegendItem)
-        self.createItems(self.profile.project.lithologies)
+                                 BeddingTypeLegendItem)
+        self.createItems(self.profile.project.beddingTypes)

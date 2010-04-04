@@ -11,9 +11,7 @@ class PatternLegendItem(LegendDataItem):
         self.fillDisplay()
     def fillDisplay(self):
         if not self.hasData():
-            print "no data!"
-            100/0
-        print "drawing: ", self.data
+            return
         f = BrushFactory(self.scene())
         if self.data.hasSvgItem():
             brush = f.fromSvgItem(self.data.svgItem)
