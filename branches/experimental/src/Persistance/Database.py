@@ -345,7 +345,9 @@ class Database:
                                         Column('big_marks_distance_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
                                         Column('small_marks_distance_value', Integer, nullable=False, server_default='0'),
                                         Column('small_marks_distance_length_unit_id', Integer, ForeignKey('%s.length_units.id' % self.schema), nullable=False),
+                                        Column('cols_in_legend', Integer, nullable=False, server_default='10'),
                                         CheckConstraint("name <> ''", name='chk_profiles_name_not_empty'),
+                                        CheckConstraint('cols_in_legend between 1 and 50', name='chk_profiles_cols_in_legend_sensible'),
                                         UniqueConstraint('name', 'project_id', name='u_profiles_name_in_project'),
                                         schema=self.schema);
         self.tables['profile_assemblies'] = Table('profile_assemblies', self.metadata,
@@ -729,6 +731,7 @@ class Database:
                 'startHeightLengthUnit': relation(LengthUnit,
                                                   primaryjoin=self.tables['profiles'].c.start_height_length_unit_id==self.tables['length_units'].c.id),
                 'scale': self.tables['profiles'].c.scale,
+                'colsInLegend': self.tables['profiles'].c.cols_in_legend,
                 'bigMarksDistanceValue': self.tables['profiles'].c.big_marks_distance_value,
                 'bigMarksDistanceLengthUnit': relation(LengthUnit,
                                                primaryjoin=self.tables['profiles'].c.big_marks_distance_length_unit_id==self.tables['length_units'].c.id),

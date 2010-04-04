@@ -9,16 +9,16 @@ class FaciesToolBar(ToolBar):
     def __init__(self, title, parent):
         ToolBar.__init__(self, title, parent)
         self.project=None
-        self.faciessW = FaciesSelectionComboBox(self)
-        self.faciessW.currentDatasetChanged.connect(self.onFaciesChange)
+        self.faciesW = FacieselectionComboBox(self)
+        self.faciesW.currentDatasetChanged.connect(self.onFaciesChange)
         self.addWidget(QLabel(self.tr("Facies:"), self))
-        self.addWidget(self.faciessW)
+        self.addWidget(self.faciesW)
         self.setEnabled(False)
     def onFaciesChange(self, p):
         self.currentFaciesChanged.emit(p)
     def onProjectChange(self, p):
         self.project = p
-        self.faciessW.setProject(p)
+        self.faciesW.setProject(p)
         self.setEnabled(self.hasProject())
     def hasProject(self):
         return self.project is not None

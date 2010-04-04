@@ -6,7 +6,8 @@ class Profile(NamedDescribedDatasetInProject):
                  startHeightValue=0, startHeightLengthUnit=None,
                  scale=1,
                  bigMarksDistanceValue=None, bigMarksDistanceLengthUnit=None,
-                 smallMarksDistanceValue=None, smallMarksDistanceLengthUnit=None):
+                 smallMarksDistanceValue=None, smallMarksDistanceLengthUnit=None,
+                 colsInLegend=10):
         super(Profile, self).__init__(project, id, name, description)
         self.project.registerProfile(self)
         self.startHeightValue = startHeightValue
@@ -18,7 +19,7 @@ class Profile(NamedDescribedDatasetInProject):
         self.bigMarksDistanceLengthUnit = bigMarksDistanceLengthUnit
         self.smallMarksDistanceValue = smallMarksDistanceValue
         self.smallMarksDistanceLengthUnit = smallMarksDistanceLengthUnit
-
+        self.colsInLegend = self.colsInLegend
     def registerBed(self, b):
         if self.beds.count(b) > 0:
             return

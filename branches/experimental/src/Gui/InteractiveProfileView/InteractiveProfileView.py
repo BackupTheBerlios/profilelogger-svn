@@ -11,3 +11,12 @@ class InteractiveProfileView(QGraphicsView):
         self.setEnabled(False)
     def onEnableMe(self):
         self.setEnabled(True)
+    def contextMenuEvent(self, e):
+        m = QMenu(self)
+
+        reloadA = QAction(self.tr("Reload"), self)
+        m.addAction(reloadA)
+        reloadA.triggered.connect(self.scene().reload)
+
+        m.exec_(self.mapToGlobal(e.pos()))
+        
