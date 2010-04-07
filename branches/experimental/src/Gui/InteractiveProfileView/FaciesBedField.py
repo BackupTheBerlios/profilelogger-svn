@@ -5,3 +5,5 @@ class FaciesBedField(PatternInteractiveRectItem):
         PatternInteractiveRectItem.__init__(self, parent, scene, 
                                             rect, pos, 
                                             font, col, bed)
+        for l in self.bed.facies:
+            self.fillPercentRectWithSvgItem(l.begin, l.end, l.facies.svgItem)
