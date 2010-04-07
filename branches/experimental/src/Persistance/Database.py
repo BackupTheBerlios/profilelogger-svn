@@ -753,7 +753,8 @@ class Database:
                 'fossils': relation(FossilInBed, backref='bed'),
                 'grainSizes': relation(GrainSizeInBed, backref='bed'),
                 'boundaryTypes': relation(BoundaryTypeInBed, backref='bed'),
-                'geologicalMeasurements': relation(GeologicalMeasurementInBed, backref='bed')})
+                'geologicalMeasurements': relation(GeologicalMeasurementInBed, backref='bed')},
+               order_by=[desc(self.tables['beds'].c.bed_number)])
         mapper(Profile, self.tables['profiles'], properties = {
                 'id': self.tables['profiles'].c.id,
                 'name': self.tables['profiles'].c.name,

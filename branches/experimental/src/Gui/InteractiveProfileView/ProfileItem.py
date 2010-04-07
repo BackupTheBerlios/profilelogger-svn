@@ -2,6 +2,7 @@ from InteractiveRectItem import *
 
 from LegendItem import *
 from ProfileHeaderItem import *
+from ProfileColumnItem import *
 
 class ProfileItem(InteractiveRectItem):
     def __init__(self, parent, scene, rect, pos, profile):
@@ -15,15 +16,15 @@ class ProfileItem(InteractiveRectItem):
         self.spacing = 10
         self.drawLegend()
         self.drawProfileHeader()
+        self.drawProfile()
         self.setRect(QRectF(0, 0, self.profile.displayWidth(), self.maxY))
     def drawLegend(self):
         self.legendItm = LegendItem(self, self.scene(),
                                     QRectF(0, 0, self.profile.displayWidth(), 0),
-                                    QPoint(0, 0),
+                                    QPoint(0, self.maxY),
                                     self.headerFont,
                                     self.legendFont,
                                     self.profile)
-        self.legendItm.setPen(QPen(Qt.black))
         self.maxY += self.legendItm.rect().height()
     def drawProfileHeader(self):
         self.headerItm = ProfileHeaderItem(self, self.scene(),
@@ -32,7 +33,11 @@ class ProfileItem(InteractiveRectItem):
                                            self.headerFont,
                                            self.legendFont,
                                            self.profile)
-        self.headerItm.setPen(QPen(Qt.black))
         self.maxY += self.headerItm.rect().height() + self.spacing
     def drawProfile(self):
-        pass
+        self.profileItm = ProfileColumnItem(self, self.scene(),
+                                            QRectF(0, 0, self.profile.displayWidth(), 0),
+                                            QPointF(0, self.maxY),
+                                            self.legendFont,
+                                            self.profile)
+        self.maxY += self.profileItm.rect().height()

@@ -358,6 +358,7 @@ class ProfileLogger(QApplication):
     def insertTemplateData(self):
         self.setupSvgFiles()
         d = dict()
+        d['Bed Number Column'] = ProfileColumn(None, 'Bed Number', '', 'BedNumberHeader', 'BedNumberBedField')
         d['Bed Height Column'] = ProfileColumn(None, 'Bed Height', '', 'BedHeightHeader', 'BedHeightBedField')
         d['Bedding Type Column'] = ProfileColumn(None, 'Bedding Type', '', 'BeddingTypeHeader', 'BeddingTypeBedField')
         d['Lithology Column'] = ProfileColumn(None, 'Lithology', '', 'LithologyHeader', 'LithologyBedField')
@@ -457,6 +458,7 @@ class ProfileLogger(QApplication):
         d['folk in 1'] = GrainSizeTypeInProfile(None,  d['Folk1964'], d['Profile 1'])
         d['dunham in 1'] = GrainSizeTypeInProfile(None, d['Dunham1962'], d['Profile 1'])
 
+        d['Number in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Bed Number Column'], 0, 50)
         d['Height in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Bed Height Column'], 0, 50)
         d['bedding type in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Bedding Type Column'], 1, 50)
         d['lithology in profile 1'] = ColumnInProfile(None, d['Profile 1'], d['Lithology Column'], 2, 50)

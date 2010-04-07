@@ -1,6 +1,7 @@
 from InteractiveRectItem import *
 
 from BedHeightHeader import *
+from BedNumberHeader import *
 from BeddingTypeHeader import *
 from LithologyHeader import *
 from FossilHeader import *
@@ -30,8 +31,7 @@ class ProfileHeaderItem(InteractiveRectItem):
                     self.scene(),
                     QRectF(0, 0, 
                            col.width, self.rect().height()),
-                    QPointF(self.maxX,
-                            self.rect().height()),
+                    QPointF(self.maxX, 0),
                     self.headerFont,
                     col,
                     -90)
@@ -39,6 +39,8 @@ class ProfileHeaderItem(InteractiveRectItem):
         className = col.profileColumn.headerClassName
         if className == 'BedHeightHeader':
             self.drawHeader(col, BedHeightHeader)
+        if className == 'BedNumberHeader':
+            self.drawHeader(col, BedNumberHeader)
         if className == 'BeddingTypeHeader':
             self.drawHeader(col, BeddingTypeHeader)
         if className == 'LithologyHeader':

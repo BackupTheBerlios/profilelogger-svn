@@ -34,3 +34,8 @@ class Profile(NamedDescribedDatasetInProject):
         for c in self.columns:
             tot += c.width
         return tot
+    def heightInPixel(self):
+        ret = 0
+        for b in self.beds:
+            ret += b.heightInPixel()
+        return ret
