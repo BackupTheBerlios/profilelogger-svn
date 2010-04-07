@@ -70,7 +70,10 @@ class InteractiveProfileView(QGraphicsView):
         m.exec_(pos)
     def addActionsToMenu(self, actionList, menu):
         for a in actionList:
-            menu.addAction(a)
+            if a is not None:
+                menu.addAction(a)
+            else:
+                menu.insertSeparator(a)
     def createLithologyLegendItemActions(self):
         l = []
         manageA = QAction(self.tr("Manage Lithologies"), self)
@@ -155,7 +158,12 @@ class InteractiveProfileView(QGraphicsView):
         createBedAtBottomA = QAction(self.tr("Create Bed At Bottom..."), self)
         createBedAboveA = QAction(self.tr("Create Bed Above..."), self)
         createBedBelowA = QAction(self.tr("Create Bed Below..."), self)
-
+        renumberBedsFromBaseA = QAction(self.tr("Renumber Beds From Base..."), self)
+        renumberBedsFromTopA = QAction(self.tr("Renumber Beds From Top..."), self)
+        splitProfileAboveBedA = QAction(self.tr("Split Profile Above Bed..."), self)
+        splitProfileBelowBedA = QAction(self.tr("Split Profile Below Bed..."), self)
+        insertProfileAboveBedA = QAction(self.tr("Insert Profile Above Bed..."), self)
+        insertProfileBelowBedA = QAction(self.tr("Insert Profile Below Bed..."), self)
         splitBedA.triggered.connect(self.scene().splitBedAtContextMenuClickPoint)
         editBedA.triggered.connect(self.scene().editBedAtContextMenuClickPoint)
         deleteBedA.triggered.connect(self.scene().deleteBedAtContextMenuClickPoint)
@@ -165,14 +173,34 @@ class InteractiveProfileView(QGraphicsView):
         createBedAtBottomA.triggered.connect(self.scene().createBedAtBottomAtContextMenuClickPoint)
         createBedAboveA.triggered.connect(self.scene().createBedAboveAtContextMenuClickPoint)
         createBedBelowA.triggered.connect(self.scene().createBedBelowAtContextMenuClickPoint)
+        renumberBedsFromBaseA.triggered.connect(self.scene().renumbeBedsAtContextMenuClickPointFromBase)
+        renumberBedsFromTopA.triggered.connect(self.scene().renumbeBedsAtContextMenuClickPointFromTop)
+        splitProfileAboveBedA.triggered.connect(self.scene().splitProfileAboveBedAtContextMenuClickPoint)
+        splitProfileBelowBedA.triggered.connect(self.scene().splitProfileBelowBedAtContextMenuClickPoint)
+        insertProfileAboveBedA.triggered.connect(self.scene().insertProfileAboveBedAtContextMenuClickPoint)
+        insertProfileBelowBedA.triggered.connect(self.scene().insertProfileBelowBedAtContextMenuClickPoint)
 
         l.append(editBedA)
-        l.append(splitBedA)
-        l.append(deleteBedA)
-        l.append(mergeWithAboveBedA)
-        l.append(mergeWithBelowBedA)
+        l.append(None)
         l.append(createBedAtTopA)
         l.append(createBedAtBottomA)
         l.append(createBedAboveA)
         l.append(createBedBelowA)
+        l.append(None)
+        l.append(splitBedA)
+        l.append(None)
+        l.append(deleteBedA)
+        l.append(None)
+        l.append(mergeWithAboveBedA)
+        l.append(mergeWithBelowBedA)
+        l.append(None)
+        l.append(renumberBedsFromBaseA)
+        l.append(renumberBedsFromTopA)
+        l.append(None)
+        l.append(splitProfileAboveBedA)
+        l.append(splitProfileBelowBedA)
+        l.append(None)
+        l.append(insertProfileAboveBedA)
+        l.append(insertProfileBelowBedA)
+        
         return l

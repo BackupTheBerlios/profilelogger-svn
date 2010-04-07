@@ -35,6 +35,8 @@ class InteractiveProfileScene(QGraphicsScene):
     def hasProfile(self):
         return self.profile is not None
     def reload(self):
+        self.expireAndReload()
+    def expireAndReload(self):
         self.clear()
         if self.hasProfile():
             self.enableViews.emit()
@@ -42,6 +44,8 @@ class InteractiveProfileScene(QGraphicsScene):
             self.disableViews.emit()
             return
         self.getSession().expire(self.profile)
+        self.drawProfile()
+    def drawProfile(self):
         self.profileItm = ProfileItem(None, self, 
                                       QRectF(0, 0, 0, 0), 
                                       QPointF(0, 0),
@@ -115,10 +119,15 @@ class InteractiveProfileScene(QGraphicsScene):
         bed = self.getBedAtContextMenuClickPoint()
         if bed is None:
             return
+        oldH = bed.heightInMillimetres()
+        oldPos = bed.number
         dlg = BedEditorDialog(QApplication.activeWindow(), bed)
         if QDialog.Accepted == dlg.exec_():
             self.getSession().expire(bed)
-            self.reload()
+            if bed.heightInMillimetres() == oldH and bed.number == oldPos:
+                self.drawProfile()
+            else:
+                self.reload()
     def splitBedAtContextMenuClickPoint(self):
         pass
     def deleteBedAtContextMenuClickPoint(self):
@@ -134,4 +143,16 @@ class InteractiveProfileScene(QGraphicsScene):
     def createBedAboveAtContextMenuClickPoint(self):
         pass
     def createBedBelowAtContextMenuClickPoint(self):
+        pass
+    def renumbeBedsAtContextMenuClickPointFromBase(self):
+        pass
+    def renumbeBedsAtContextMenuClickPointFromTop(self):
+        pass
+    def splitProfileAboveBedAtContextMenuClickPoint(self):
+        pass
+    def splitProfileBelowBedAtContextMenuClickPoint(self):
+        pass
+    def insertProfileAboveBedAtContextMenuClickPoint(self):
+        pass
+    def insertProfileBelowBedAtContextMenuClickPoint(self):
         pass
