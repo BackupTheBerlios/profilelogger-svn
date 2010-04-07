@@ -578,7 +578,8 @@ class Database:
                 'width': self.tables['profiles_profile_columns'].c.width,
                 'profile': relation(Profile, backref='columns'),
                 'profileColumn': relation(ProfileColumn)
-                })
+                },
+               order_by=self.tables['profiles_profile_columns'].c.position)
         mapper(ProfileColumn, self.tables['profile_columns'], properties = {
                 'id': self.tables['profile_columns'].c.id,
                 'name': self.tables['profile_columns'].c.name,
