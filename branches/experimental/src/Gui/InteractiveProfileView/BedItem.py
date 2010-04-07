@@ -3,6 +3,7 @@ from InteractiveRectItem import *
 from BedNumberBedField import *
 from BedHeightBedField import *
 from BeddingTypeBedField import *
+from OutcropTypeBedField import *
 from LithologyBedField import *
 from LithologicalUnitBedField import *
 from TectonicUnitBedField import *
@@ -20,7 +21,6 @@ class BedItem(InteractiveRectItem):
         self.legendFont = legendFont
         self.bed = bed
         self.maxX = 0
-        self.setRect(QRectF(0, 0, self.rect().width(), 500))
         self.drawFields()
     def drawFields(self):
         for c in self.bed.profile.columns:
@@ -34,6 +34,8 @@ class BedItem(InteractiveRectItem):
             self.drawField(col, BedHeightBedField)
         if className == 'BeddingTypeBedField':
             self.drawField(col, BeddingTypeBedField)
+        if className == 'OutcropTypeBedField':
+            self.drawField(col, OutcropTypeBedField)
         if className == 'LithologyBedField':
             self.drawField(col, LithologyBedField)
         if className == 'LithologicalUnitBedField':

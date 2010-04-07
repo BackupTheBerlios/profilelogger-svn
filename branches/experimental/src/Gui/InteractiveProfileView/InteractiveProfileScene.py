@@ -16,6 +16,7 @@ from Gui.ManagementDialogs.SedimentStructureManagementDialog import *
 from Gui.ManagementDialogs.CustomSymbolManagementDialog import *
 
 from Gui.Dialogs.ProfileEditorDialog import *
+from Gui.Dialogs.BedEditorDialog import *
 
 class InteractiveProfileScene(QGraphicsScene):
     enableViews = pyqtSignal()
@@ -23,6 +24,11 @@ class InteractiveProfileScene(QGraphicsScene):
     def __init__(self, parent):
         QGraphicsScene.__init__(self, parent)
         self.profile = None
+        self.itemsAtContextMenu = []
+    def getSession(self):
+        return QApplication.instance().db.session
+    def setItemsAtContextMenuPoint(self, l):
+        self.itemsAtContextMenu = l
     def onProfileChange(self, p):
         self.profile = p
         self.reload()
@@ -35,6 +41,7 @@ class InteractiveProfileScene(QGraphicsScene):
         else:
             self.disableViews.emit()
             return
+        self.getSession().expire(self.profile)
         self.profileItm = ProfileItem(None, self, 
                                       QRectF(0, 0, 0, 0), 
                                       QPointF(0, 0),
@@ -99,3 +106,32 @@ class InteractiveProfileScene(QGraphicsScene):
                                   self.profile)
         dlg.exec_()
         self.reload()
+    def getBedAtContextMenuClickPoint(self):
+        for i in self.itemsAtContextMenu:
+            if i.__class__ == BedItem:
+                return i.bed
+        return None
+    def editBedAtContextMenuClickPoint(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        dlg = BedEditorDialog(QApplication.activeWindow(), bed)
+        if QDialog.Accepted == dlg.exec_():
+            self.getSession().expire(bed)
+            self.reload()
+    def splitBedAtContextMenuClickPoint(self):
+        pass
+    def deleteBedAtContextMenuClickPoint(self):
+        pass
+    def mergeWithAboveBedAtContextMenuClickPoint(self):
+        pass
+    def mergeWithBelowBedAtContextMenuClickPoint(self):
+        pass
+    def createBedAtTopAtContextMenuClickPoint(self):
+        pass
+    def createBedAtBottomAtContextMenuClickPoint(self):
+        pass
+    def createBedAboveAtContextMenuClickPoint(self):
+        pass
+    def createBedBelowAtContextMenuClickPoint(self):
+        pass

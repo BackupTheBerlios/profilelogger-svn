@@ -3,6 +3,7 @@ from InteractiveRectItem import *
 from BedHeightHeader import *
 from BedNumberHeader import *
 from BeddingTypeHeader import *
+from OutcropTypeHeader import *
 from LithologyHeader import *
 from FossilHeader import *
 from SedimentStructureHeader import *
@@ -43,6 +44,8 @@ class ProfileHeaderItem(InteractiveRectItem):
             self.drawHeader(col, BedNumberHeader)
         if className == 'BeddingTypeHeader':
             self.drawHeader(col, BeddingTypeHeader)
+        if className == 'OutcropTypeHeader':
+            self.drawHeader(col, OutcropTypeHeader)
         if className == 'LithologyHeader':
             self.drawHeader(col, LithologyHeader)
         if className == 'FossilHeader':

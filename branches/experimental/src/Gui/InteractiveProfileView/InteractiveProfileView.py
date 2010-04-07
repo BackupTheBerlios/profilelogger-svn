@@ -13,6 +13,9 @@ from FossilLegend import *
 from CustomSymbolLegend import *
 from SedimentStructureLegend import *
 
+from ProfileHeaderItem import *
+from BedItem import *
+
 class InteractiveProfileView(QGraphicsView):
     def __init__(self, parent, modelClass):
         QGraphicsView.__init__(self, parent)
@@ -25,7 +28,7 @@ class InteractiveProfileView(QGraphicsView):
         self.setEnabled(True)
     def contextMenuEvent(self, e):
         pos = self.mapToGlobal(e.pos())
-        items = self.items(e.pos())
+        self.scene().setItemsAtContextMenuPoint(self.items(e.pos()))
 
         m = QMenu(self)
 
@@ -35,7 +38,8 @@ class InteractiveProfileView(QGraphicsView):
         reloadA = QAction(self.tr("Reload"), self)
         reloadA.triggered.connect(self.scene().reload)
         m.addAction(editA)
-        for i in items:
+        for i in self.scene().itemsAtContextMenu:
+            print i.__class__.__name__
             if i.__class__ == LithologyLegend:
                 self.addActionsToMenu(self.createLithologyLegendItemActions(), m)
             if i.__class__ == BeddingTypeLegend:
@@ -58,7 +62,10 @@ class InteractiveProfileView(QGraphicsView):
                 self.addActionsToMenu(self.createCustomSymbolLegendItemActions(), m)
             if i.__class__ == SedimentStructureLegend:
                 self.addActionsToMenu(self.createSedimentStructureLegendItemActions(), m)
-
+            if i.__class__ == ProfileHeaderItem:
+                self.addActionsToMenu(self.createProfileHeaderActions(), m)
+            if i.__class__ == BedItem:
+                self.addActionsToMenu(self.createBedActions(), m)
         m.addAction(reloadA)
         m.exec_(pos)
     def addActionsToMenu(self, actionList, menu):
@@ -129,4 +136,43 @@ class InteractiveProfileView(QGraphicsView):
         manageA = QAction(self.tr("Manage Sediment Structures"), self)
         manageA.triggered.connect(self.scene().manageSedimentStructures)
         l.append(manageA)
+        return l
+    def createProfileHeaderActions(self):
+        l = []
+        createBedAtBottomA = QAction(self.tr("Create Bed At Bottom..."), self)
+        createBedAtBottomA.triggered.connect(self.scene().createBedAtBottomAtContextMenuClickPoint)
+        l.append(createBedAtBottomA)
+        return l
+    def createBedActions(self):
+        l = []
+
+        splitBedA = QAction(self.tr("Split Bed..."), self)
+        editBedA = QAction(self.tr("Edit Bed..."), self)
+        deleteBedA = QAction(self.tr("Delete Bed..."), self)
+        mergeWithAboveBedA = QAction(self.tr("Merge With Bed Above..."), self)
+        mergeWithBelowBedA = QAction(self.tr("Merge With Bed Below..."), self)
+        createBedAtTopA = QAction(self.tr("Create Bed At Top..."), self)
+        createBedAtBottomA = QAction(self.tr("Create Bed At Bottom..."), self)
+        createBedAboveA = QAction(self.tr("Create Bed Above..."), self)
+        createBedBelowA = QAction(self.tr("Create Bed Below..."), self)
+
+        splitBedA.triggered.connect(self.scene().splitBedAtContextMenuClickPoint)
+        editBedA.triggered.connect(self.scene().editBedAtContextMenuClickPoint)
+        deleteBedA.triggered.connect(self.scene().deleteBedAtContextMenuClickPoint)
+        mergeWithAboveBedA.triggered.connect(self.scene().mergeWithAboveBedAtContextMenuClickPoint)
+        mergeWithBelowBedA.triggered.connect(self.scene().mergeWithBelowBedAtContextMenuClickPoint)
+        createBedAtTopA.triggered.connect(self.scene().createBedAtTopAtContextMenuClickPoint)
+        createBedAtBottomA.triggered.connect(self.scene().createBedAtBottomAtContextMenuClickPoint)
+        createBedAboveA.triggered.connect(self.scene().createBedAboveAtContextMenuClickPoint)
+        createBedBelowA.triggered.connect(self.scene().createBedBelowAtContextMenuClickPoint)
+
+        l.append(editBedA)
+        l.append(splitBedA)
+        l.append(deleteBedA)
+        l.append(mergeWithAboveBedA)
+        l.append(mergeWithBelowBedA)
+        l.append(createBedAtTopA)
+        l.append(createBedAtBottomA)
+        l.append(createBedAboveA)
+        l.append(createBedBelowA)
         return l

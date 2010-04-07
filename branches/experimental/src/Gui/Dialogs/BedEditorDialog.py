@@ -63,8 +63,8 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.addLabelWidgetPair(self.bedNumberL, self.bedNumberW)
         self.bedNumberW.valueChanged.connect(self.onBedNumberChange)
     def onBedNumberChange(self, v):
-        self.data.updateName()
         self.data.number = v
+        self.data.updateName()
         self.nameW.setText(self.data.name)
     def onHeightValueChange(self, v):
         self.data.height = v

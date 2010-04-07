@@ -86,6 +86,6 @@ class Bed(NamedDescribedDataset):
     def updateName(self):
         self.name = unicode(QCoreApplication.translate('bed', "%1/%2/Bed #%3").arg(self.profile.project.name).arg(self.profile.name).arg(self.number, 5, 10, QChar('0')))
     def heightInPixel(self):
-        return self.heightInMillimetres()
+        return self.heightInMillimetres() / self.profile.scale
     def getFormattedHeight(self):
         return unicode(QString('%1 %2').arg(self.height).arg(unicode(self.lengthUnit.name)))
