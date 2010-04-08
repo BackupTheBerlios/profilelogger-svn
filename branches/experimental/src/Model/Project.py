@@ -19,58 +19,6 @@ class Project(NamedDescribedDataset):
         self.stratigraphicUnits = []
         self.geologicalMeasurementTypes = []
         self.profileAssemblies = []
-    def registerProfile(self, p):
-        if self.profiles.count(p) > 0:
-            return
-        self.profiles.append(p)
-    def registerPointOfInterest(self, p):
-        if self.pointsOfInterest.count(p) > 0:
-            return
-        self.pointsOfInterest.append(p)
-
-    def registerBoundaryType(self, t):
-        if self.boundaryTypes.count(t) > 0:
-            return
-        self.boundaryTypes.append(t)
-
-    def registerCustomSymbol(self, s):
-        if self.customSymbols.count(s) > 0:
-            return
-        self.customSymbols.append(s)
-
-    def registerFossil(self, f):
-        if self.fossils.count(f) > 0:
-            return
-        self.fossils.append(f)
-
-    def registerSedimentStructure(self, s):
-        if self.sedimentStructures.count(s) > 0:
-            return
-        self.sedimentStructures.append(s)
-
-    def registerBeddingType(self, t):
-        if self.beddingTypes.count(t) > 0:
-            return
-        self.beddingTypes.append(t)
-
-    def registerLithology(self, l):
-        if self.lithologies.count(l) > 0:
-            return
-        self.lithologies.append(l)
-        
-    def registerColor(self, c):
-        if self.colors.count(c) > 0:
-            return
-        self.colors.append(c)
-    def registerOutcropType(self, c):
-        if self.outcropTypes.count(c) > 0:
-            return
-        self.outcropTypes.append(c)
-    def registerFacies(self, c):
-        if self.facies.count(c) > 0:
-            return
-        self.facies.append(c)
-
     def debug(self):
         print 'Project: %s' % self.name
         print '\tLithologies:'
@@ -114,19 +62,3 @@ class Project(NamedDescribedDataset):
                     print '\t\t\t\t\t%s' % s
                 for f in b.fossils:
                     print '\t\t\t\t\t%s' % f
-    def registerLithologicalUnit(self, c):
-        if self.lithologicalUnits.count(c) > 0:
-            return
-        self.lithologicalUnits.append(c)
-    def registerTectonicUnit(self, c):
-        if self.tectonicUnits.count(c) > 0:
-            return
-        self.tectonicUnits.append(c)
-    def registerStratigraphicUnit(self, c):
-        if self.stratigraphicUnits.count(c) > 0:
-            return
-        self.stratigraphicUnits.append(c)
-    def registerProfileAssembly(self, p):
-        if self.profileAssemblies.count(p) > 0:
-            return
-        self.profileAssemblies.append(p)

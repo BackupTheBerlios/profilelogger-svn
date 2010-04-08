@@ -1,5 +1,7 @@
 from NamedDescribedDatasetInProject import NamedDescribedDatasetInProject
 
+from Bed import Bed
+
 class Profile(NamedDescribedDatasetInProject):
     def __init__(self, project, 
                  id=None, name=None, description=None, 
@@ -9,7 +11,6 @@ class Profile(NamedDescribedDatasetInProject):
                  smallMarksDistanceValue=None, smallMarksDistanceLengthUnit=None,
                  colsInLegend=10):
         super(Profile, self).__init__(project, id, name, description)
-        self.project.registerProfile(self)
         self.startHeightValue = startHeightValue
         self.startHeightLengthUnit = startHeightLengthUnit
         self.grainSizeTypes = []
@@ -20,10 +21,42 @@ class Profile(NamedDescribedDatasetInProject):
         self.smallMarksDistanceValue = smallMarksDistanceValue
         self.smallMarksDistanceLengthUnit = smallMarksDistanceLengthUnit
         self.colsInLegend = self.colsInLegend
-    def registerBed(self, b):
-        if self.beds.count(b) > 0:
-            return
-        self.beds.append(b)
+    def createBedOnTop(self):
+        newBedNumber = self.getMaxBedNumber()
+        if newBedNumber is None:
+            newBedNumber = 1
+        else:
+            newBedNumber += 1
+        return Bed(self, None,
+                   0, None,
+                   newBedNumber)
+    def createBedAtBottom(self):
+        newBedNumber = self.getMinBedNumber()
+        if newBedNumber is None:
+            newBedNumber = 1
+        else:
+            newBedNumber -= 1
+        return Bed(self, None,
+                   0, None,
+                   newBedNumber)
+    def getMinBedNumber(self):
+        ret = None
+        for b in self.beds:
+            if ret is None:
+                ret = b.number 
+            else:
+                if b.number < ret:
+                    ret = b.number
+        return ret
+    def getMaxBedNumber(self):
+        ret = None
+        for b in self.beds:
+            if ret is None:
+                ret = b.number 
+            else:
+                if b.number > ret:
+                    ret = b.number
+        return ret
     def heightInMillimetres(self):
         r = 0
         for b in self.beds:

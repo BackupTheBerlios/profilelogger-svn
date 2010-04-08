@@ -5,8 +5,6 @@ class TectonicUnitInBed(DatasetInBed):
                  name=None, description=None):
         super(TectonicUnitInBed, self).__init__(bed, id, begin, end, name, description)
         self.tectonicUnit = tectonicUnit
-        self.bed.registerTectonicUnit(self)
-
     def __str__(self):
         return u'Tectonic Unit %s from %i to %i Percent of bed' % (self.tectonicUnit,
                                                                    self.begin,

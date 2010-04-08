@@ -41,3 +41,37 @@ class ProfileItem(InteractiveRectItem):
                                             self.legendFont,
                                             self.profile)
         self.maxY += self.profileItm.rect().height()
+    def editBed(self, bed):
+        self.profileItm.editBed(bed)
+    def createBedAtTop(self):
+        self.profileItm.createBedOnTop()
+    def splitBed(self, bed):
+        pass
+    def deleteBed(self, bed):
+        pass
+    def deleteBedsAbove(self, bed):
+        pass
+    def deleteBedsBelow(self, bed):
+        pass
+    def mergeWithAbove(self, bed):
+        pass
+    def mergeWithBelow(self, bed):
+        pass
+    def createBedAtBottom(self):
+        self.profileItm.createBedAtBottom()
+    def createBedAbove(self, bed):
+        pass
+    def createBedBelow(self, bed):
+        pass
+    def renumberFromBase(self):
+        pass
+    def renumberFromTop(self):
+        pass
+    def splitProfileAbove(self, bed):
+        pass
+    def splitProfileBelow(self, bed):
+        pass
+    def insertProfileAbove(self, bed):
+        pass
+    def insertProfileBelow(self, bed):
+        pass

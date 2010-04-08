@@ -16,7 +16,6 @@ from Gui.ManagementDialogs.SedimentStructureManagementDialog import *
 from Gui.ManagementDialogs.CustomSymbolManagementDialog import *
 
 from Gui.Dialogs.ProfileEditorDialog import *
-from Gui.Dialogs.BedEditorDialog import *
 
 class InteractiveProfileScene(QGraphicsScene):
     enableViews = pyqtSignal()
@@ -119,40 +118,78 @@ class InteractiveProfileScene(QGraphicsScene):
         bed = self.getBedAtContextMenuClickPoint()
         if bed is None:
             return
-        oldH = bed.heightInMillimetres()
-        oldPos = bed.number
-        dlg = BedEditorDialog(QApplication.activeWindow(), bed)
-        if QDialog.Accepted == dlg.exec_():
-            self.getSession().expire(bed)
-            if bed.heightInMillimetres() == oldH and bed.number == oldPos:
-                self.drawProfile()
-            else:
-                self.reload()
+        self.profileItm.editBed(bed)
     def splitBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.splitBed(bed)
     def deleteBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.deleteBed(bed)
+    def deleteBedsAboveAtContextMenuClickPoint(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.deleteBedsAbove(bed)
+    def deleteBedsBelowAtContextMenuClickPoint(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.deleteBedsBelow(bed)
     def mergeWithAboveBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.mergeWithAbove(bed)
     def mergeWithBelowBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.mergeWithBelow(bed)
     def createBedAtTopAtContextMenuClickPoint(self):
-        pass
+        self.profileItm.createBedAtTop()
     def createBedAtBottomAtContextMenuClickPoint(self):
-        pass
+        self.profileItm.createBedAtBottom()
     def createBedAboveAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.createBedAbove(bed)
     def createBedBelowAtContextMenuClickPoint(self):
-        pass
-    def renumbeBedsAtContextMenuClickPointFromBase(self):
-        pass
-    def renumbeBedsAtContextMenuClickPointFromTop(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.createBedBelow(bed)
+    def renumberBedsAtContextMenuClickPointFromBase(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.renumberFromBase()
+    def renumberBedsAtContextMenuClickPointFromTop(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.renumberFromTop()
     def splitProfileAboveBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.splitProfileAbove(bed)
     def splitProfileBelowBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.splitProfileBelow(bed)
     def insertProfileAboveBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.insertProfileAbove(bed)
     def insertProfileBelowBedAtContextMenuClickPoint(self):
-        pass
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.insertProfileBelow(bed)

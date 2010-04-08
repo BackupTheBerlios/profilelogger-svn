@@ -137,3 +137,5 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         else:
             for k,v in self.detailPageMap.iteritems():
                 v[2].setBed(None)
+    def validate(self):
+        return self.data.hasValidHeight() and self.data.hasNumber()

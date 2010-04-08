@@ -29,8 +29,8 @@ class Bed(NamedDescribedDataset):
         self.tectonicUnits = []
         self.geologicalMeasurements = []
         self.poi = None
-        
-        self.profile.registerBed(self)
+
+        self.updateName()
     def hasNumber(self):
         return self.number is not None
     def hasLithology(self):
@@ -49,38 +49,10 @@ class Bed(NamedDescribedDataset):
         return self.topGrainSize is not None
     def hasCustomSymbol(self):
         return len(self.customSymbols) > 0
-    def registerLithology(self, l):
-        self.lithologies.append(l)
-    def registerColor(self, c):
-        self.colors.append(c)
-    def registerOutcropType(self, c):
-        self.outcropTypes.append(c)
-    def registerBeddingType(self, t):
-        self.beddingTypes.append(t)
-    def registerCustomSymbol(self, t):
-        self.customSymbols.append(t)
-    def registerSedimentStructure(self, s):
-        self.sedimentStructures.append(s)
-    def registerFossil(self, f):
-        self.fossils.append(f)
-    def registerGrainSize(self, s):
-        self.grainSizes.append(s)
-    def registerBoundaryType(self, s):
-        self.boundaryTypes.append(s)
     def __str__(self):
         return self.name
     def hasOutcropType(self):
         return len(self.outcropTypes) > 0
-    def registerFacies(self, c):
-        self.facies.append(c)
-    def registerLithologicalUnit(self, c):
-        self.lithologicalUnits.append(c)
-    def registerTectonicUnit(self, c):
-        self.tectonicUnits.append(c)
-    def registerStratigraphicUnit(self, c):
-        self.stratigraphicUnits.append(c)
-    def registerGeologicalMeasurement(self, m):
-        self.geologicalMeasurements.append(m)
     def heightInMillimetres(self):
         return self.height * self.lengthUnit.microMetre / 1000
     def updateName(self):
@@ -89,3 +61,11 @@ class Bed(NamedDescribedDataset):
         return self.heightInMillimetres() / self.profile.scale
     def getFormattedHeight(self):
         return unicode(QString('%1 %2').arg(self.height).arg(unicode(self.lengthUnit.name)))
+    def hasValidHeight(self):
+        if self.height is None:
+            return False
+        if self.height <= 0:
+            return False
+        if self.lengthUnit is None:
+            return False
+        return True

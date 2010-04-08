@@ -5,7 +5,6 @@ class ColorInBed(DatasetInBed):
                  name=None, description=None):
         super(ColorInBed, self).__init__(bed, id, begin, end, name, description)
         self.color = color
-        self.bed.registerColor(self)
     def __str__(self):
         return u'Color %s from %i to %i Percent of bed' % (self.color,
                                                        self.begin,

@@ -5,8 +5,6 @@ class SedimentStructureInBed(DatasetInBed):
                  name=None, description=None):
         super(SedimentStructureInBed, self).__init__(bed, id, begin, end, name, description)
         self.sedimentStructure = sedimentStructure
-        self.bed.registerSedimentStructure(self)
-
     def __str__(self):
         return u'Sediment Structure %s from %i to %i Percent of bed' % (self.sedimentStructure,
                                                                         self.begin,

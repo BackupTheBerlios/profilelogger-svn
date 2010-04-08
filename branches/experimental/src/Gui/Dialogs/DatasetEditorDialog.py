@@ -81,7 +81,14 @@ class DatasetEditorDialog(Dialog):
         return lbl
     def validate(self):
         return True
+    def showFailedValidation(self):
+        QMessageBox.information(self,
+                                self.tr("Input incomplete"),
+                                self.tr("Please Check Your Data. It's incomplete"))
     def save(self):
+        if not self.validate():
+            self.showFailedValidation()
+            return
         try:
             if not self.data.hasId():
                 QApplication.instance().db.session.add(self.data)
@@ -102,6 +109,7 @@ class DatasetEditorDialog(Dialog):
         return False
     def accept(self):
         if not self.validate():
+            self.showFailedValidation()
             return
         if self.save():
             self.done(QDialog.Accepted)

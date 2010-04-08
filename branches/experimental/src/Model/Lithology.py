@@ -3,7 +3,6 @@ from NamedDescribedDatasetWithSvgItemInProject import NamedDescribedDatasetWithS
 class Lithology(NamedDescribedDatasetWithSvgItemInProject):
     def __init__(self, project, id=None, name=None, svgItem=None, description=None, defaultGrainSize=None):
         super(Lithology, self).__init__(project, id, name, svgItem, description)
-        self.project.registerLithology(self)
         self.defaultGrainSize = defaultGrainSize
     def hasDefaultGrainSize(self):
         return self.defaultGrainSize is not None

@@ -5,8 +5,6 @@ class BoundaryTypeInBed(DatasetInBed):
                  name=None, description=None):
         super(BoundaryTypeInBed, self).__init__(bed, id, begin, end, name, description)
         self.boundaryType = boundaryType
-        self.bed.registerBoundaryType(self)
-
     def __str__(self):
         return u'Boundary Type %s from %i to %i Percent of bed' % (self.boundaryType,
                                                                    self.begin,

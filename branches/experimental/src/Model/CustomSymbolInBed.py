@@ -5,8 +5,6 @@ class CustomSymbolInBed(DatasetInBed):
                  name=None, description=None):
         super(CustomSymbolInBed, self).__init__(bed, id, begin, end, name, description)
         self.customSymbol = customSymbol
-        self.bed.registerCustomSymbol(self)
-
     def __str__(self):
         return u'Custom Symbol %s from %i to %i Percent of bed' % (self.customSymbol,
                                                                    self.begin,

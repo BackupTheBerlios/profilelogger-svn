@@ -477,7 +477,7 @@ class ProfileLogger(QApplication):
         bedNumber = 1
         while bedNumber < 100:
             n = 'Bed %s' % bedNumber
-            d[n] = Bed(d['Profile 1'], None, 15, d['cm'], bedNumber, unicode('Bed %s') % bedNumber, unicode(''))
+            d[n] = Bed(d['Profile 1'], None, 15, d['cm'], bedNumber)
             d[n].updateName()
             LithologyInBed(d[n], None,  d['Limestone Mudstone'], 0, 100, unicode('limestone in %s' %n))
             bedNumber += 1

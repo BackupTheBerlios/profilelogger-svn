@@ -5,7 +5,6 @@ class LithologyInBed(DatasetInBed):
                  name=None, description=None):
         super(LithologyInBed, self).__init__(bed, id, begin, end, name, description)
         self.lithology = lithology
-        self.bed.registerLithology(self)
     def hasLithology(self):
         return self.lithology is not None
     def __str__(self):

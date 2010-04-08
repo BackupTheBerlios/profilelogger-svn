@@ -5,8 +5,6 @@ class FaciesInBed(DatasetInBed):
                  name=None, description=None):
         super(FaciesInBed, self).__init__(bed, id, begin, end, name, description)
         self.facies = facies
-        self.bed.registerFacies(self)
-
     def __str__(self):
         return u'Facies %s from %i to %i Percent of bed' % (self.facies,
                                                        self.begin,
