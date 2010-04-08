@@ -45,13 +45,13 @@ class ProfileItem(InteractiveRectItem):
         self.profileItm.editBed(bed)
     def createBedAtTop(self):
         self.profileItm.createBedOnTop()
-    def splitBed(self, bed):
-        pass
     def deleteBed(self, bed):
-        pass
+        self.profileItm.deleteBed(bed)
     def deleteBedsAbove(self, bed):
-        pass
+        self.profileItm.deleteBedsAbove(bed)
     def deleteBedsBelow(self, bed):
+        self.profileItm.deleteBedsBelow(bed)
+    def splitBed(self, bed):
         pass
     def mergeWithAbove(self, bed):
         pass
@@ -59,13 +59,13 @@ class ProfileItem(InteractiveRectItem):
         pass
     def createBedAtBottom(self):
         self.profileItm.createBedAtBottom()
+    def renumberFromBase(self):
+        self.profileItm.renumberFromBase()
+    def renumberFromTop(self):
+        self.profileItm.renumberFromTop()
     def createBedAbove(self, bed):
         pass
     def createBedBelow(self, bed):
-        pass
-    def renumberFromBase(self):
-        pass
-    def renumberFromTop(self):
         pass
     def splitProfileAbove(self, bed):
         pass

@@ -72,3 +72,17 @@ class Profile(NamedDescribedDatasetInProject):
         for b in self.beds:
             ret += b.heightInPixel()
         return ret
+    def getBedsAbove(self, bed):
+        ret = []
+        for b in self.beds:
+            if b.number > bed.number:
+                ret.append(b)
+        return ret
+    def getBedsBelow(self, bed):
+        ret = []
+        for b in self.beds:
+            if b.number < bed.number:
+                ret.append(b)
+        return ret
+    def hasBeds(self):
+        return len(self.beds) > 0
