@@ -1,10 +1,15 @@
 from InteractiveRectItem import *
 
+from PyQt4.QtGui import *
+from PyQt4.QtCore import *
+
 from BedItem import *
 
 from Gui.Dialogs.DatabaseExceptionDialog import DatabaseExceptionDialog
 from Gui.Dialogs.BedEditorDialog import *
 from Gui.Dialogs.IntInputDialog import *
+
+from Gui.ManagementDialogs.ProfileManagementDialog import ProfileManagementDialog
 
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
@@ -323,14 +328,6 @@ class ProfileColumnItem(InteractiveRectItem):
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
             QApplication.instance().db.session.rollback()
-    def splitProfileAbove(self, bed):
-        pass
-    def splitProfileBelow(self, bed):
-        pass
-    def insertProfileAbove(self, bed):
-        pass
-    def insertProfileBelow(self, bed):
-        pass
     def moveUp(self, bed):
         above = self.profile.bedAbove(bed)
         if above is None:
@@ -471,3 +468,23 @@ class ProfileColumnItem(InteractiveRectItem):
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
             QApplication.instance().db.session.rollback()
+    def insertProfileAbove(self, bed):
+        if bed is None:
+            return
+        dlg = ProfileManagementDialog(QApplication.activeWindow(),
+                                      bed.profile.project)
+        dlg.exec_()
+        p = dlg.currentDataset
+        if p is None:
+            print "nothing selected"
+            return
+    def insertProfileBelow(self, bed):
+        if bed is None:
+            return
+        dlg = ProfileManagementDialog(QApplication.activeWindow(),
+                                      self.profile.project)
+        dlg.exec_()
+        p = dlg.currentDataset
+        if p is None:
+            print "nothing selected"
+            return

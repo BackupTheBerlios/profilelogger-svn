@@ -9,4 +9,5 @@ class DataInProjectManagementDialog(ManagementDialog):
         self.view = viewClass(self, modelClass(self))
         self.view.model().setProject(self.project)
         self.view.model().reload()
+        self.view.currentDatasetChanged.connect(self.onCurrentDatasetChanged)
         self.layout().addWidget(self.view)
