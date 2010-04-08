@@ -149,8 +149,9 @@ class InteractiveProfileView(QGraphicsView):
     def createBedActions(self):
         l = []
 
-        splitBedA = QAction(self.tr("Split Bed..."), self)
         editBedA = QAction(self.tr("Edit Bed..."), self)
+        moveBedUpA = QAction(self.tr("Move up"), self)
+        moveBedDownA = QAction(self.tr("Move down"), self)
         deleteBedA = QAction(self.tr("Delete Bed..."), self)
         deleteBedsAboveA = QAction(self.tr("Delete Beds Above..."), self)
         deleteBedsBelowA = QAction(self.tr("Delete Beds Below..."), self)
@@ -166,7 +167,6 @@ class InteractiveProfileView(QGraphicsView):
         splitProfileBelowBedA = QAction(self.tr("Split Profile Below Bed..."), self)
         insertProfileAboveBedA = QAction(self.tr("Insert Profile Above Bed..."), self)
         insertProfileBelowBedA = QAction(self.tr("Insert Profile Below Bed..."), self)
-        splitBedA.triggered.connect(self.scene().splitBedAtContextMenuClickPoint)
         editBedA.triggered.connect(self.scene().editBedAtContextMenuClickPoint)
         deleteBedA.triggered.connect(self.scene().deleteBedAtContextMenuClickPoint)
         mergeWithAboveBedA.triggered.connect(self.scene().mergeWithAboveBedAtContextMenuClickPoint)
@@ -183,6 +183,8 @@ class InteractiveProfileView(QGraphicsView):
         insertProfileBelowBedA.triggered.connect(self.scene().insertProfileBelowBedAtContextMenuClickPoint)
         deleteBedsAboveA.triggered.connect(self.scene().deleteBedsAboveAtContextMenuClickPoint)
         deleteBedsBelowA.triggered.connect(self.scene().deleteBedsBelowAtContextMenuClickPoint)
+        moveBedUpA.triggered.connect(self.scene().moveBedAtContextMenuClickPointUp)
+        moveBedDownA.triggered.connect(self.scene().moveBedAtContextMenuClickPointDown)
 
         l.append(editBedA)
         l.append(None)
@@ -191,11 +193,12 @@ class InteractiveProfileView(QGraphicsView):
         l.append(createBedAboveA)
         l.append(createBedBelowA)
         l.append(None)
+        l.append(moveBedUpA)
+        l.append(moveBedDownA)
+        l.append(None)
         l.append(deleteBedA)
         l.append(deleteBedsAboveA)
         l.append(deleteBedsBelowA)
-        l.append(None)
-        l.append(splitBedA)
         l.append(None)
         l.append(mergeWithAboveBedA)
         l.append(mergeWithBelowBedA)

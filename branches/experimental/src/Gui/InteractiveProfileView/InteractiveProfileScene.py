@@ -193,3 +193,13 @@ class InteractiveProfileScene(QGraphicsScene):
         if bed is None:
             return
         self.profileItm.insertProfileBelow(bed)
+    def moveBedAtContextMenuClickPointDown(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.moveDown(bed)
+    def moveBedAtContextMenuClickPointUp(self):
+        bed = self.getBedAtContextMenuClickPoint()
+        if bed is None:
+            return
+        self.profileItm.moveUp(bed)

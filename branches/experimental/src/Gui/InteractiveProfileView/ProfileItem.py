@@ -62,9 +62,13 @@ class ProfileItem(InteractiveRectItem):
     def mergeWithBelow(self, bed):
         self.profileItm.mergeWithBelow(bed)
     def createBedAbove(self, bed):
-        pass
+        self.profileItm.createBedAbove(bed)
     def createBedBelow(self, bed):
-        pass
+        self.profileItm.createBedBelow(bed)
+    def moveUp(self, bed):
+        self.profileItm.moveUp(bed)
+    def moveDown(self, bed):
+        self.profileItm.moveDown(bed)
     def splitProfileAbove(self, bed):
         pass
     def splitProfileBelow(self, bed):
@@ -72,6 +76,4 @@ class ProfileItem(InteractiveRectItem):
     def insertProfileAbove(self, bed):
         pass
     def insertProfileBelow(self, bed):
-        pass
-    def splitBed(self, bed):
         pass

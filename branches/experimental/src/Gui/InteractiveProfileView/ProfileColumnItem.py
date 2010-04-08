@@ -9,6 +9,8 @@ from Gui.Dialogs.IntInputDialog import *
 from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
+from Model.Bed import *
+
 class ProfileColumnItem(InteractiveRectItem):
     def __init__(self, parent, scene, rect, pos, legendFont, profile):
         InteractiveRectItem.__init__(self, parent, scene, rect, pos)
@@ -270,9 +272,55 @@ class ProfileColumnItem(InteractiveRectItem):
             dlg.exec_()
             QApplication.instance().db.session.rollback()
     def createBedAbove(self, bed):
-        pass
+        if bed is None:
+            return
+        nmbr = bed.number + 1
+        try:
+            for b in reversed(self.profile.beds):
+                if b.number > nmbr:
+                    b.number += 1
+            bed = Bed(self.profile, None, 0, None, nmbr)
+            self.editBed(bed)
+            self.getSession().commit();
+            self.getSession().expire(self.profile)
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
     def createBedBelow(self, bed):
-        pass
+        if bed is None:
+            return
+        nmbr = bed.number - 1
+        try:
+            for b in reversed(self.profile.beds):
+                if b.number < nmbr:
+                    b.number -= 1
+            bed = Bed(self.profile, None, 0, None, nmbr)
+            self.editBed(bed)
+            self.getSession().commit();
+            self.getSession().expire(self.profile)
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
     def splitProfileAbove(self, bed):
         pass
     def splitProfileBelow(self, bed):
@@ -281,5 +329,57 @@ class ProfileColumnItem(InteractiveRectItem):
         pass
     def insertProfileBelow(self, bed):
         pass
-    def splitBed(self, bed):
-        pass
+    def moveUp(self, bed):
+        above = self.profile.bedAbove(bed)
+        if above is None:
+            QMessageBox.information(QApplication.activeWindow(),
+                                    QApplication.translate('profile column item', 'No Item'),
+                                    QApplication.translate('profile column item', 'No Bed Above'))
+            return
+        try:
+            aboveNum = above.number
+            myNum = bed.number
+            above.number = myNum
+            bed.number = aboveNum
+            self.getSession().commit();
+            self.getSession().expire(self.profile)
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()        
+    def moveDown(self, bed):
+        below = self.profile.bedBelow(bed)
+        if below is None:
+            QMessageBox.information(QApplication.activeWindow(),
+                                    QApplication.translate('profile column item', 'No Item'),
+                                    QApplication.translate('profile column item', 'No Bed Below'))
+            return
+        try:
+            belowNum = below.number
+            myNum = bed.number
+            below.number = myNum
+            bed.number = belowNum
+            self.getSession().commit();
+            self.getSession().expire(self.profile)
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()        
