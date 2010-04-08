@@ -86,3 +86,18 @@ class Profile(NamedDescribedDatasetInProject):
         return ret
     def hasBeds(self):
         return len(self.beds) > 0
+    def bedAbove(self, bed):
+        idx = self.beds.index(bed)
+        if idx > 0:
+            return self.beds[idx - 1]
+        else:
+            return None
+    def bedBelow(self, bed):
+        idx = self.beds.index(bed)
+        if idx < len(self.beds) - 1:
+            return self.beds[idx + 1]
+        else:
+            return None
+
+    def mergeBeds(self, below, above):
+        below.height += above.height

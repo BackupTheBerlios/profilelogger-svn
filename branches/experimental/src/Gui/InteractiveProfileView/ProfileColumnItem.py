@@ -68,8 +68,6 @@ class ProfileColumnItem(InteractiveRectItem):
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
             QApplication.instance().db.session.rollback()
-    def splitBed(self, bed):
-        pass
     def deleteBedsAbove(self, bed):
         delBeds = self.profile.getBedsAbove(bed)
         
@@ -200,9 +198,77 @@ class ProfileColumnItem(InteractiveRectItem):
             QApplication.instance().db.session.rollback()
 
     def mergeWithAbove(self, bed):
-        pass
+        above = self.profile.bedAbove(bed)
+        if above is None:
+            QMessageBox.information(QApplication.activeWindow(),
+                                    QApplication.translate('profile column item', 'No Item'),
+                                    QApplication.translate('profile column item', 'No Bed Above'))
+            return
+        if above.lengthUnit != bed.lengthUnit:
+            QMessageBox.error(QApplication.activeWindow(),
+                              QApplication.translate('profile column item', 'Error'),
+                              QApplication.translate('profile column item', 'Beds must have same length unit.'))
+            return
+        if QMessageBox.question(QApplication.activeWindow(),
+                                QApplication.translate('profile column item', 'Merge?'),
+                                QApplication.translate('profile column item', 
+                                                       QString('Merge %1 and %2?').arg(bed.number).arg(above.number)),
+                                QMessageBox.Yes | QMessageBox.No) != QMessageBox.Yes:
+            return
+        try:
+            self.profile.mergeBeds(bed, above)
+            self.getSession().delete(above)
+            self.getSession().commit();
+            self.getSession().expire(self.profile)
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
     def mergeWithBelow(self, bed):
-        pass
+        below = self.profile.bedBelow(bed)
+        if below is None:
+            QMessageBox.information(QApplication.activeWindow(),
+                                    QApplication.translate('profile column item', 'No Item'),
+                                    QApplication.translate('profile column item', 'No Bed Below'))
+            return
+        if below.lengthUnit != bed.lengthUnit:
+            QMessageBox.error(QApplication.activeWindow(),
+                              QApplication.translate('profile column item', 'Error'),
+                              QApplication.translate('profile column item', 'Beds must have same length unit.'))
+            return
+        if QMessageBox.question(QApplication.activeWindow(),
+                                QApplication.translate('profile column item', 'Merge?'),
+                                QApplication.translate('profile column item', 
+                                                       QString('Merge %1 and %2?').arg(bed.number).arg(below.number)),
+                                QMessageBox.Yes | QMessageBox.No) != QMessageBox.Yes:
+            return
+        try:
+            self.profile.mergeBeds(below, bed)
+            self.getSession().delete(below)
+            self.getSession().commit();
+            self.getSession().expire(self.profile)
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
     def createBedAbove(self, bed):
         pass
     def createBedBelow(self, bed):
@@ -214,4 +280,6 @@ class ProfileColumnItem(InteractiveRectItem):
     def insertProfileAbove(self, bed):
         pass
     def insertProfileBelow(self, bed):
+        pass
+    def splitBed(self, bed):
         pass
