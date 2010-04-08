@@ -70,9 +70,9 @@ class ProfileItem(InteractiveRectItem):
     def moveDown(self, bed):
         self.profileItm.moveDown(bed)
     def splitProfileAbove(self, bed):
-        pass
+        self.profileItm.splitProfileAbove(bed)
     def splitProfileBelow(self, bed):
-        pass
+        self.profileItm.splitProfileBelow(bed)
     def insertProfileAbove(self, bed):
         pass
     def insertProfileBelow(self, bed):

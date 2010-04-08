@@ -10,6 +10,8 @@ from sqlalchemy.exc import *
 from sqlalchemy.orm.exc import *
 
 from Model.Bed import *
+from Model.Profile import *
+from Model.ColumnInProfile import *
 
 class ProfileColumnItem(InteractiveRectItem):
     def __init__(self, parent, scene, rect, pos, legendFont, profile):
@@ -383,3 +385,89 @@ class ProfileColumnItem(InteractiveRectItem):
             dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
             dlg.exec_()
             QApplication.instance().db.session.rollback()        
+    def splitProfileAbove(self, bed):
+        if bed is None:
+            return
+        if QMessageBox.question(QApplication.activeWindow(),
+                                QApplication.translate('profile column item', 'Split?'),
+                                QApplication.translate('profile column item', 
+                                                       QString('Split above bed %1?').arg(bed.number)),
+                                QMessageBox.Yes | QMessageBox.No) != QMessageBox.Yes:
+            return
+        try:
+            newProfile = Profile(self.profile.project,
+                                 None,
+                                 unicode(QString('Top of %1').arg(bed.profile.name)),
+                                 '',
+                                 0, self.profile.startHeightLengthUnit,
+                                 self.profile.scale,
+                                 self.profile.bigMarksDistanceValue,
+                                 self.profile.bigMarksDistanceLengthUnit,
+                                 self.profile.smallMarksDistanceValue,
+                                 self.profile.smallMarksDistanceLengthUnit,
+                                 self.profile.colsInLegend)
+            self.getSession().add(newProfile)
+            for c in self.profile.columns:
+                self.getSession().add(ColumnInProfile(None, newProfile, c.profileColumn, c.position, c.width))
+            b = self.profile.beds[0]
+            while b.number > bed.number:
+                b.profile = newProfile
+                print b.profile.name,"/",b.number
+                b = self.profile.beds[0]
+            self.getSession().commit()
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()        
+    def splitProfileBelow(self, bed):
+        if bed is None:
+            return
+        if QMessageBox.question(QApplication.activeWindow(),
+                                QApplication.translate('profile column item', 'Split?'),
+                                QApplication.translate('profile column item', 
+                                                       QString('Split below bed %1?').arg(bed.number)),
+                                QMessageBox.Yes | QMessageBox.No) != QMessageBox.Yes:
+            return
+        try:
+            newProfile = Profile(self.profile.project,
+                                 None,
+                                 unicode(QString('Bottom of %1').arg(bed.profile.name)),
+                                 '',
+                                 0, self.profile.startHeightLengthUnit,
+                                 self.profile.scale,
+                                 self.profile.bigMarksDistanceValue,
+                                 self.profile.bigMarksDistanceLengthUnit,
+                                 self.profile.smallMarksDistanceValue,
+                                 self.profile.smallMarksDistanceLengthUnit,
+                                 self.profile.colsInLegend)
+            self.getSession().add(newProfile)
+            for c in self.profile.columns:
+                self.getSession().add(ColumnInProfile(None, newProfile, c.profileColumn, c.position, c.width))
+            b = self.profile.beds[-1]
+            while b.number < bed.number:
+                b.profile = newProfile
+                print b.profile.name,"/",b.number
+                b = self.profile.beds[-1]
+            self.getSession().commit()
+            self.drawBeds()
+        except IntegrityError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ConcurrentModificationError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()
+        except ProgrammingError, e:
+            dlg = DatabaseExceptionDialog(QApplication.activeWindow(), e)
+            dlg.exec_()
+            QApplication.instance().db.session.rollback()

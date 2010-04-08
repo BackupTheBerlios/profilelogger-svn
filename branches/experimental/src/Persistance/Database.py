@@ -771,7 +771,7 @@ class Database:
                 'id': self.tables['profiles'].c.id,
                 'name': self.tables['profiles'].c.name,
                 'description': self.tables['profiles'].c.description,
-                'beds': relation(Bed, backref='profile'),
+                'beds': relation(Bed, backref='profile', cascade="all, delete"),
                 'startHeightValue': self.tables['profiles'].c.start_height_value,
                 'startHeightLengthUnit': relation(LengthUnit,
                                                   primaryjoin=self.tables['profiles'].c.start_height_length_unit_id==self.tables['length_units'].c.id),
