@@ -6,5 +6,5 @@ from Gui.ItemViews.LithologicalUnitTypeItemView import *
 class LithologicalUnitTypeManagementDialog(ManagementDialog):
     def __init__(self, parent):
         ManagementDialog.__init__(self, parent)
-        self.addManagementWidget(LithologicalUnitTypeItemView, LithologicalUnitTypeItemModel)
+        self.addManagementWidget(LithologicalUnitTypeItemView)
         self.addCloseButton()

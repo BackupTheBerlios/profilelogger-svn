@@ -1,7 +1,7 @@
 class Dataset(object):
     id = None
     def __init__(self, id=None):
-        super(Dataset, self).__init__()
+        object.__init__(self)
         self.id = id
     def hasId(self):
         return self.id is not None

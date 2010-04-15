@@ -21,48 +21,6 @@ from Gui.ManagementDialogs.GrainSizeManagementDialog import *
 from Gui.ManagementDialogs.LengthUnitManagementDialog import *
 from Gui.ManagementDialogs.SVGItemManagementDialog import *
 
-from Gui.ItemModels.LengthUnitItemModel import LengthUnitItemModel
-from Gui.ItemModels.ProjectItemModel import ProjectItemModel
-from Gui.ItemModels.SVGItemModel import SVGItemModel
-from Gui.ItemModels.GrainSizeTypeItemModel import GrainSizeTypeItemModel
-from Gui.ItemModels.GrainSizeItemModel import GrainSizeItemModel
-from Gui.ItemModels.LithologyItemModel import LithologyItemModel
-from Gui.ItemModels.ColorItemModel import ColorItemModel
-from Gui.ItemModels.BeddingTypeItemModel import BeddingTypeItemModel
-from Gui.ItemModels.SedimentStructureItemModel import SedimentStructureItemModel
-from Gui.ItemModels.FossilItemModel import FossilItemModel
-from Gui.ItemModels.CustomSymbolItemModel import CustomSymbolItemModel
-from Gui.ItemModels.BoundaryTypeItemModel import BoundaryTypeItemModel
-from Gui.ItemModels.PointOfInterestItemModel import PointOfInterestItemModel
-from Gui.ItemModels.ProfileItemModel import ProfileItemModel
-from Gui.ItemModels.ProfileAssemblyItemModel import ProfileAssemblyItemModel
-from Gui.ItemModels.ProfileInProfileAssemblyItemModel import ProfileInProfileAssemblyItemModel
-from Gui.ItemModels.BedItemModel import BedItemModel
-from Gui.ItemModels.LithologyInBedItemModel import LithologyInBedItemModel
-from Gui.ItemModels.ColorInBedItemModel import ColorInBedItemModel
-from Gui.ItemModels.BeddingTypeInBedItemModel import BeddingTypeInBedItemModel
-from Gui.ItemModels.CustomSymbolInBedItemModel import CustomSymbolInBedItemModel
-from Gui.ItemModels.SedimentStructureInBedItemModel import SedimentStructureInBedItemModel
-from Gui.ItemModels.FossilInBedItemModel import FossilInBedItemModel
-from Gui.ItemModels.GrainSizeInBedItemModel import GrainSizeInBedItemModel
-from Gui.ItemModels.BoundaryTypeInBedItemModel import BoundaryTypeInBedItemModel
-from Gui.ItemModels.LithologicalUnitTypeItemModel import LithologicalUnitTypeItemModel
-from Gui.ItemModels.LithologicalUnitItemModel import LithologicalUnitItemModel
-from Gui.ItemModels.StratigraphicUnitTypeItemModel import StratigraphicUnitTypeItemModel
-from Gui.ItemModels.StratigraphicUnitItemModel import StratigraphicUnitItemModel
-from Gui.ItemModels.TectonicUnitTypeItemModel import TectonicUnitTypeItemModel
-from Gui.ItemModels.TectonicUnitItemModel import TectonicUnitItemModel
-from Gui.ItemModels.FaciesItemModel import FaciesItemModel
-from Gui.ItemModels.OutcropTypeItemModel import OutcropTypeItemModel
-from Gui.ItemModels.OutcropTypeInBedItemModel import OutcropTypeInBedItemModel
-from Gui.ItemModels.FaciesInBedItemModel import FaciesInBedItemModel
-from Gui.ItemModels.LithologicalUnitInBedItemModel import LithologicalUnitInBedItemModel
-from Gui.ItemModels.StratigraphicUnitInBedItemModel import StratigraphicUnitInBedItemModel
-from Gui.ItemModels.TectonicUnitInBedItemModel import TectonicUnitInBedItemModel
-from Gui.ItemModels.GeologicalMeasurementTypeItemModel import GeologicalMeasurementTypeItemModel
-from Gui.ItemModels.GeologicalMeasurementInBedItemModel import GeologicalMeasurementInBedItemModel
-from Gui.ItemModels.GrainSizeTypeInProfileItemModel import GrainSizeTypeInProfileItemModel
-
 class ProfileLogger(QApplication):
     databaseConnected = pyqtSignal(QString)
     databaseClosed = pyqtSignal(QString)
@@ -76,48 +34,6 @@ class ProfileLogger(QApplication):
 
         self.setupActions()
         self.db = Database()
-        self.lengthUnitModel = LengthUnitItemModel(self)
-        self.projectModel = ProjectItemModel(self)
-        self.svgItemModel = SVGItemModel(self)
-        self.grainSizeTypeModel = GrainSizeTypeItemModel(self)
-        self.grainSizeModel = GrainSizeItemModel(self)
-        self.lithologyModel = LithologyItemModel(self)
-        self.colorModel = ColorItemModel(self)
-        self.beddingTypeModel = BeddingTypeItemModel(self)
-        self.sedimentStructureModel = SedimentStructureItemModel(self)
-        self.fossilModel = FossilItemModel(self)
-        self.customSymbolModel = CustomSymbolItemModel(self)
-        self.boundaryTypeModel = BoundaryTypeItemModel(self)
-        self.pointOfInterestModel = PointOfInterestItemModel(self)
-        self.profileModel = ProfileItemModel(self)
-        self.profileAssemblyModel = ProfileAssemblyItemModel(self)
-        self.bedModel = BedItemModel(self)
-        self.lithologyInBedModel = LithologyInBedItemModel(self)
-        self.colorInBedModel = ColorInBedItemModel(self)
-        self.beddingTypeInBedModel = BeddingTypeInBedItemModel(self)
-        self.customSymbolInBedModel = CustomSymbolInBedItemModel(self)
-        self.sedimentStructureInBedModel = SedimentStructureInBedItemModel(self)
-        self.fossilInBedModel = FossilInBedItemModel(self)
-        self.grainSizeInBedModel = GrainSizeInBedItemModel(self)
-        self.boundaryTypeInBedModel = BoundaryTypeInBedItemModel(self)
-        self.lithologicalUnitTypeModel = LithologicalUnitTypeItemModel(self)
-        self.lithologicalUnitModel = LithologicalUnitItemModel(self)
-        self.stratigraphicUnitTypeModel = StratigraphicUnitTypeItemModel(self)
-        self.stratigraphicUnitModel = StratigraphicUnitItemModel(self)
-        self.tectonicUnitTypeModel = TectonicUnitTypeItemModel(self)
-        self.tectonicUnitModel = TectonicUnitItemModel(self)
-        self.faciesModel = FaciesItemModel(self)
-        self.outcropTypeModel = OutcropTypeItemModel(self)
-        self.outcropTypeInBedModel = OutcropTypeInBedItemModel(self)
-        self.faciesInBedModel = FaciesInBedItemModel(self)
-        self.lithologicalUnitInBedModel = LithologicalUnitInBedItemModel(self)
-        self.stratigraphicUnitInBedModel = StratigraphicUnitInBedItemModel(self)
-        self.tectonicUnitInBedModel = TectonicUnitInBedItemModel(self)
-        self.geologicalMeasurementTypeModel = GeologicalMeasurementTypeItemModel(self)
-        self.geologicalMeasurementInBedModel = GeologicalMeasurementInBedItemModel(self)
-        self.profileInProfileAssemblyModel = ProfileInProfileAssemblyItemModel(self)
-        self.grainSizeTypeInProfileModel = GrainSizeTypeInProfileItemModel(self)
-
     def setupActions(self):
         self.quitA = QAction(self.tr('&Quit'), self)
         self.quitA.setShortcut(QKeySequence('Ctrl+q'))

@@ -6,8 +6,8 @@ class ManagementDialog(QDialog):
         QDialog.__init__(self, parent)
         self.setLayout(QVBoxLayout(self))
         self.currentDataset = None
-    def addManagementWidget(self, viewClass, modelClass):
-        self.view = viewClass(self, modelClass(self))
+    def addManagementWidget(self, viewClass):
+        self.view = viewClass(self)
         self.view.model().reload()
         self.view.currentDatasetChanged.connect(self.onCurrentDatasetChanged)
         self.layout().addWidget(self.view)

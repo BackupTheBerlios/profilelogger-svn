@@ -11,7 +11,9 @@ from sqlalchemy.orm.exc import *
 class DataManagementItemModel(StandardItemModel):
     reloaded = pyqtSignal()
     selectItemRequest = pyqtSignal(QModelIndex)
-
+    enableViews = pyqtSignal()
+    disableViews = pyqtSignal()
+    
     def __init__(self, parent,
                  dataClass=None,
                  itemClass=None,

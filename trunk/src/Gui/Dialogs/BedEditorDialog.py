@@ -1,4 +1,4 @@
-from Gui.Dialogs.DatasetInProfileEditorDialog import *
+from DatasetInProfileEditorDialog import *
 
 from PyQt4.QtCore import *
 
@@ -98,21 +98,36 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.currentContentRow += 1
 
         self.detailPageMap = dict()
-        self.detailPageMap['lithologies'] = [self.tr("Lithology"), LithologyInBedItemView, QApplication.instance().lithologyInBedModel]
-        self.detailPageMap['colors'] = [self.tr("Color"), ColorInBedItemView, QApplication.instance().colorInBedModel]
-        self.detailPageMap['bedding types'] = [self.tr("Bedding Type"), BeddingTypeInBedItemView, QApplication.instance().beddingTypeInBedModel]
-        self.detailPageMap['custom symbols'] = [self.tr("Custom Symbols"), CustomSymbolInBedItemView, QApplication.instance().customSymbolInBedModel]
-        self.detailPageMap['sediment structure'] = [self.tr("Sediment Structures"), SedimentStructureInBedItemView, QApplication.instance().sedimentStructureInBedModel]
-        self.detailPageMap['fossil'] = [self.tr("Fossils"), FossilInBedItemView, QApplication.instance().fossilInBedModel]
-        self.detailPageMap['grain sizes'] = [self.tr("Grain Size"), GrainSizeInBedItemView, QApplication.instance().grainSizeInBedModel]
-        self.detailPageMap['boundary types'] = [self.tr("Boundary Type"), BoundaryTypeInBedItemView, QApplication.instance().boundaryTypeInBedModel]
-        self.detailPageMap['outcrop types'] = [self.tr("Outcrop Type"), OutcropTypeInBedItemView, QApplication.instance().outcropTypeInBedModel]
-        self.detailPageMap['facies'] = [self.tr("Facies"), FaciesInBedItemView, QApplication.instance().faciesInBedModel]
-        self.detailPageMap['lithological units'] = [self.tr("Lithological Unit"), LithologicalUnitInBedItemView, QApplication.instance().lithologicalUnitInBedModel]
-        self.detailPageMap['geological measurements'] = [self.tr("Geological Measurement"), GeologicalMeasurementInBedItemView, QApplication.instance().geologicalMeasurementInBedModel]
-        self.detailPageMap['lithological units'] = [self.tr("Lithological Unit"), LithologicalUnitInBedItemView, QApplication.instance().lithologicalUnitInBedModel]
-        self.detailPageMap['stratigraphic units'] = [self.tr("Stratigraphic Unit"), StratigraphicUnitInBedItemView, QApplication.instance().stratigraphicUnitInBedModel]
-        self.detailPageMap['tectonic units'] = [self.tr("Tectonic Unit"), TectonicUnitInBedItemView, QApplication.instance().tectonicUnitInBedModel]
+        self.detailPageMap['lithologies'] = [self.tr("Lithology"), 
+                                             LithologyInBedItemView]
+        self.detailPageMap['colors'] = [self.tr("Color"), 
+                                        ColorInBedItemView]
+        self.detailPageMap['bedding types'] = [self.tr("Bedding Type"), 
+                                               BeddingTypeInBedItemView]
+        self.detailPageMap['custom symbols'] = [self.tr("Custom Symbols"), 
+                                                CustomSymbolInBedItemView]
+        self.detailPageMap['sediment structure'] = [self.tr("Sediment Structures"), 
+                                                    SedimentStructureInBedItemView]
+        self.detailPageMap['fossil'] = [self.tr("Fossils"), 
+                                        FossilInBedItemView]
+        self.detailPageMap['grain sizes'] = [self.tr("Grain Size"), 
+                                             GrainSizeInBedItemView]
+        self.detailPageMap['boundary types'] = [self.tr("Boundary Type"), 
+                                                BoundaryTypeInBedItemView]
+        self.detailPageMap['outcrop types'] = [self.tr("Outcrop Type"), 
+                                               OutcropTypeInBedItemView]
+        self.detailPageMap['facies'] = [self.tr("Facies"), 
+                                        FaciesInBedItemView]
+        self.detailPageMap['lithological units'] = [self.tr("Lithological Unit"),
+                                                    LithologicalUnitInBedItemView]
+        self.detailPageMap['geological measurements'] = [self.tr("Geological Measurement"), 
+                                                         GeologicalMeasurementInBedItemView]
+        self.detailPageMap['lithological units'] = [self.tr("Lithological Unit"),
+                                                    LithologicalUnitInBedItemView]
+        self.detailPageMap['stratigraphic units'] = [self.tr("Stratigraphic Unit"), 
+                                                     StratigraphicUnitInBedItemView]
+        self.detailPageMap['tectonic units'] = [self.tr("Tectonic Unit"), 
+                                                TectonicUnitInBedItemView]
 
         self.detailPages = dict()
         for k,v in self.detailPageMap.iteritems():

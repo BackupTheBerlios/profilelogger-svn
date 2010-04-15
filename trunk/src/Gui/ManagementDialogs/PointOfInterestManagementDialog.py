@@ -6,5 +6,5 @@ from Gui.ItemViews.PointOfInterestItemView import *
 class PointOfInterestManagementDialog(DataInProjectManagementDialog):
     def __init__(self, parent, project):
         DataInProjectManagementDialog.__init__(self, parent, project)
-        self.addManagementWidget(PointOfInterestItemView, PointOfInterestItemModel)
+        self.addManagementWidget(PointOfInterestItemView)
         self.addCloseButton()

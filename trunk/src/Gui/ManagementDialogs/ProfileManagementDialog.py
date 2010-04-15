@@ -6,5 +6,5 @@ from Gui.ItemViews.ProfileItemView import *
 class ProfileManagementDialog(DataInProjectManagementDialog):
     def __init__(self, parent, project):
         DataInProjectManagementDialog.__init__(self, parent, project)
-        self.addManagementWidget(ProfileItemView, ProfileItemModel)
+        self.addManagementWidget(ProfileItemView)
         self.addCloseButton()

@@ -12,25 +12,27 @@ class DataManagementItemView(TreeView):
     deleteRequest = pyqtSignal(QModelIndex)
     currentDatasetChanged = pyqtSignal(Dataset)
 
-    def __init__(self, parent, model, askForConfirmationBeforeDeleting=True):
+    def __init__(self, parent, askForConfirmationBeforeDeleting=True):
         TreeView.__init__(self, parent)
         self.askForConfirmationBeforeDeleting = askForConfirmationBeforeDeleting
-        self.setModel(model)
         self.setContextMenuPolicy(Qt.CustomContextMenu)
 
         QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
         QApplication.instance().databaseClosed.connect(self.onDatabaseClosed)
 
+        self.customContextMenuRequested.connect(self.onCustomContextMenuRequest)
+        self.activated.connect(self.onIndexActivation)
+        self.clicked.connect(self.onIndexActivation)
+    def configureModel(self, model):
+        self.setModel(model)
         self.model().reloaded.connect(self.onReloaded)
         self.model().selectItemRequest.connect(self.onSelectItemRequest)
 
         self.reloadRequest.connect(self.model().reload)
         self.editRequest.connect(self.model().onEditRequest)
         self.deleteRequest.connect(self.model().onDeleteRequest)
-
-        self.customContextMenuRequested.connect(self.onCustomContextMenuRequest)
-        self.activated.connect(self.onIndexActivation)
-        self.clicked.connect(self.onIndexActivation)
+        self.model().enableViews.connect(self.onEnableViews)
+        self.model().disableViews.connect(self.onDisableViews)
     def onReloaded(self):
         self.sortByColumn(0, Qt.AscendingOrder)
     def onDatabaseConnected(self):
@@ -122,3 +124,7 @@ class DataManagementItemView(TreeView):
         idx = self.model().findIndexForDataset(dataset)
         if idx.isValid():
             self.selectItemByIndex(idx)
+    def onEnableViews(self):
+        self.setEnabled(True)
+    def onDisableViews(self):
+        self.setEnabled(False)

@@ -1,9 +1,9 @@
-from Gui.Dialogs.DatasetEditorDialog import *
+from DatasetEditorDialog import *
 
 from PyQt4.QtCore import *
 
-from Gui.ItemViews.BedItemView import BedItemView
-from Gui.Widgets.PercentRangeEditorWidget import PercentRangeEditorWidget
+from Gui.ItemViews.BedItemView import *
+from Gui.Widgets.PercentRangeEditorWidget import *
 
 class DatasetInBedEditorDialog(DatasetEditorDialog):
     def __init__(self, parent, data):

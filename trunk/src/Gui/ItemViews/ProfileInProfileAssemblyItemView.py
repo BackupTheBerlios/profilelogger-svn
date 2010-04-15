@@ -3,6 +3,9 @@ from DataInProfileAssemblyManagementItemView import DataInProfileAssemblyManagem
 from PyQt4.QtCore import *
 from PyQt4.QtGui import *
 
+from Gui.ItemModels.ProfileInProfileAssemblyItemModel import *
+
 class ProfileInProfileAssemblyItemView(DataInProfileAssemblyManagementItemView):
-    def __init__(self, parent, model):
-        DataInProfileAssemblyManagementItemView.__init__(self, parent, model)
+    def __init__(self, parent):
+        DataInProfileAssemblyManagementItemView.__init__(self, parent)
+        self.configureModel(ProfileInProfileAssemblyItemModel(self))

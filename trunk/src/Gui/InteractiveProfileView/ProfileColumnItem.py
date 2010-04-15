@@ -147,11 +147,9 @@ class ProfileColumnItem(InteractiveRectItem):
         try:
             tmpV = self.profile.getMaxBedNumber() + 1
             for bed in reversed(self.profile.beds):
-                print bed.number," -> ",tmpV
                 bed.number = tmpV
                 tmpV += 1
             for bed in reversed(self.profile.beds):
-                print bed.number," -> ",v
                 bed.number = v
                 v += 1
             self.getSession().commit();
@@ -183,11 +181,9 @@ class ProfileColumnItem(InteractiveRectItem):
         try:
             tmpV = self.profile.getMaxBedNumber() + 1
             for bed in reversed(self.profile.beds):
-                print bed.number," -> ",tmpV
                 bed.number = tmpV
                 tmpV += 1
             for bed in self.profile.beds:
-                print bed.number," -> ",v
                 bed.number = v
                 v -= 1
             self.getSession().commit();
@@ -409,7 +405,6 @@ class ProfileColumnItem(InteractiveRectItem):
             b = self.profile.beds[0]
             while b.number > bed.number:
                 b.profile = newProfile
-                print b.profile.name,"/",b.number
                 b = self.profile.beds[0]
             self.getSession().commit()
             self.drawBeds()
@@ -452,7 +447,6 @@ class ProfileColumnItem(InteractiveRectItem):
             b = self.profile.beds[-1]
             while b.number < bed.number:
                 b.profile = newProfile
-                print b.profile.name,"/",b.number
                 b = self.profile.beds[-1]
             self.getSession().commit()
             self.drawBeds()
@@ -476,7 +470,6 @@ class ProfileColumnItem(InteractiveRectItem):
         dlg.exec_()
         p = dlg.currentDataset
         if p is None:
-            print "nothing selected"
             return
     def insertProfileBelow(self, bed):
         if bed is None:
@@ -486,5 +479,4 @@ class ProfileColumnItem(InteractiveRectItem):
         dlg.exec_()
         p = dlg.currentDataset
         if p is None:
-            print "nothing selected"
             return

@@ -6,5 +6,5 @@ from Gui.ItemViews.GrainSizeTypeItemView import *
 class GrainSizeTypeManagementDialog(ManagementDialog):
     def __init__(self, parent):
         ManagementDialog.__init__(self, parent)
-        self.addManagementWidget(GrainSizeTypeItemView, GrainSizeTypeItemModel)
+        self.addManagementWidget(GrainSizeTypeItemView)
         self.addCloseButton()

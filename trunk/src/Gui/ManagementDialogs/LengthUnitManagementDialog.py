@@ -6,5 +6,5 @@ from Gui.ItemViews.LengthUnitItemView import *
 class LengthUnitManagementDialog(ManagementDialog):
     def __init__(self, parent):
         ManagementDialog.__init__(self, parent)
-        self.addManagementWidget(LengthUnitItemView, LengthUnitItemModel)
+        self.addManagementWidget(LengthUnitItemView)
         self.addCloseButton()

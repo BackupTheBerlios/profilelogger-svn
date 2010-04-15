@@ -5,8 +5,8 @@ class DataInProjectManagementDialog(ManagementDialog):
         ManagementDialog.__init__(self, parent)
         self.project = project
         self.setLayout(QVBoxLayout(self))
-    def addManagementWidget(self, viewClass, modelClass):
-        self.view = viewClass(self, modelClass(self))
+    def addManagementWidget(self, viewClass):
+        self.view = viewClass(self)
         self.view.model().setProject(self.project)
         self.view.model().reload()
         self.view.currentDatasetChanged.connect(self.onCurrentDatasetChanged)
