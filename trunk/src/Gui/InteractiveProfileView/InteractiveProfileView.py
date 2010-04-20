@@ -14,12 +14,13 @@ from CustomSymbolLegend import *
 from SedimentStructureLegend import *
 
 from ProfileHeaderItem import *
+from InteractiveProfileScene import *
 from BedItem import *
 
 class InteractiveProfileView(QGraphicsView):
-    def __init__(self, parent, modelClass):
+    def __init__(self, parent):
         QGraphicsView.__init__(self, parent)
-        self.setScene(modelClass(self))
+        self.setScene(InteractiveProfileScene(self))
         self.scene().enableViews.connect(self.onEnableMe)
         self.scene().disableViews.connect(self.onDisableMe)
     def onDisableMe(self):

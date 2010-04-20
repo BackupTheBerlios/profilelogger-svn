@@ -17,8 +17,6 @@ class BeddingTypeInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().beddingTypeModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.beddingTypeW.selectDataset(data.beddingType)
@@ -38,9 +36,10 @@ class BeddingTypeInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addBeddingTypeEditor(self):
         self.beddingTypeL = self.createMultiLineLabel(self.tr("&Bedding Type"))
-        self.beddingTypeW = BeddingTypeItemView(self.contentW, QApplication.instance().beddingTypeModel)
+        self.beddingTypeW = BeddingTypeItemView(self.contentW)
         self.beddingTypeL.setBuddy(self.beddingTypeW)
         self.addLabelWidgetPair(self.beddingTypeL, self.beddingTypeW)
+        self.beddingTypeW.setProject(self.data.bed.profile.project)
     def onBeddingTypeChange(self, l):
         self.data.beddingType = l
         self.updateName()

@@ -17,8 +17,6 @@ class ColorInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().colorModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.colorW.selectDataset(data.color)
@@ -38,9 +36,10 @@ class ColorInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addColorEditor(self):
         self.colorL = self.createMultiLineLabel(self.tr("&Color"))
-        self.colorW = ColorItemView(self.contentW, QApplication.instance().colorModel)
+        self.colorW = ColorItemView(self.contentW)
         self.colorL.setBuddy(self.colorW)
         self.addLabelWidgetPair(self.colorL, self.colorW)
+        self.colorW.setProject(self.data.bed.profile.project)
     def onColorChange(self, l):
         self.data.color = l
         self.updateName()

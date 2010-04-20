@@ -31,10 +31,10 @@ class LithologyEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
         self.data.description = unicode(txt)
     def addGrainSizeSelector(self):
         self.grainSizeL = self.createMultiLineLabel(self.tr("&Default Grain Size"))
-        self.grainSizeW = GrainSizeItemView(self, QApplication.instance().grainSizeModel)
+        self.grainSizeW = GrainSizeItemView(self)
         self.grainSizeL.setBuddy(self.grainSizeW)
         self.addLabelWidgetPair(self.grainSizeL, self.grainSizeW)
         self.grainSizeW.currentDatasetChanged.connect(self.onGrainSizeChange)
-        QApplication.instance().grainSizeModel.reload()
+        self.grainSizeW.reload()
     def onGrainSizeChange(self, grainSize):
         self.data.defaultGrainSize = grainSize

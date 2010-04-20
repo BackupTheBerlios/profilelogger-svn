@@ -17,8 +17,6 @@ class CustomSymbolInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().customSymbolModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.customSymbolW.selectDataset(data.customSymbol)
@@ -38,9 +36,10 @@ class CustomSymbolInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addCustomSymbolEditor(self):
         self.customSymbolL = self.createMultiLineLabel(self.tr("&Custom Symbol"))
-        self.customSymbolW = CustomSymbolItemView(self.contentW, QApplication.instance().customSymbolModel)
+        self.customSymbolW = CustomSymbolItemView(self.contentW)
         self.customSymbolL.setBuddy(self.customSymbolW)
         self.addLabelWidgetPair(self.customSymbolL, self.customSymbolW)
+        self.customSymbolW.setProject(self.data.bed.profile.project)
     def onCustomSymbolChange(self, l):
         self.data.customSymbol = l
         self.updateName()

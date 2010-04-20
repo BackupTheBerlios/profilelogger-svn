@@ -44,6 +44,7 @@ class DataSelectionComboBox(ComboBox):
             self.insertItem(idx, i.name)
             self.data[idx] = i
             idx += 1
+        self.setEnabled(True)
     def onIndexActivation(self, idx):
         if idx == -1:
             self.currentDatasetChanged.emit(None)
@@ -52,3 +53,16 @@ class DataSelectionComboBox(ComboBox):
             self.currentDatasetChanged.emit(None)
             return
         self.currentDatasetChanged.emit(self.data[idx])
+    def selectDataset(self, ds):
+        if ds is None:
+            print self.__class__.__name__,": selection of None requested"
+            return
+        if ds not in self.data.values():
+            print self.__class__.__name__,": dataset ",ds," not in list"
+            return
+        for idx,dataset in self.data.iteritems():
+            if dataset == ds:
+                self.setCurrentIndex(idx)
+                return
+    def reload(self):
+        self.onReload()

@@ -17,8 +17,6 @@ class OutcropTypeInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().outcropTypeModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.outcropTypeW.selectDataset(data.outcropType)
@@ -38,9 +36,10 @@ class OutcropTypeInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addOutcropTypeEditor(self):
         self.outcropTypeL = self.createMultiLineLabel(self.tr("&Outcrop Type"))
-        self.outcropTypeW = OutcropTypeItemView(self.contentW, QApplication.instance().outcropTypeModel)
+        self.outcropTypeW = OutcropTypeItemView(self.contentW)
         self.outcropTypeL.setBuddy(self.outcropTypeW)
         self.addLabelWidgetPair(self.outcropTypeL, self.outcropTypeW)
+        self.outcropTypeW.setProject(self.data.bed.profile.project)
     def onOutcropTypeChange(self, l):
         self.data.outcropType = l
         self.updateName()

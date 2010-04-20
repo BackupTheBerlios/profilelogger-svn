@@ -37,5 +37,5 @@ class LithologicalUnitEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
         self.data.lithologicalUnitType = t
     def createCustomWidgets(self):
         self.typeL = self.createOneLineLabel(self.tr("Lithological Unit Type"))
-        self.typeW = LithologicalUnitTypeItemView(self.contentW,
-                                           QApplication.instance().lithologicalUnitTypeModel)
+        self.typeW = LithologicalUnitTypeItemView(self.contentW)
+        self.typeW.reload()

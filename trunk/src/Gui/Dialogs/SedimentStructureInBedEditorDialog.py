@@ -17,8 +17,6 @@ class SedimentStructureInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().sedimentStructureModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.sedimentStructureW.selectDataset(data.sedimentStructure)
@@ -38,9 +36,10 @@ class SedimentStructureInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addSedimentStructureEditor(self):
         self.sedimentStructureL = self.createMultiLineLabel(self.tr("&Sediment Structure"))
-        self.sedimentStructureW = SedimentStructureItemView(self.contentW, QApplication.instance().sedimentStructureModel)
+        self.sedimentStructureW = SedimentStructureItemView(self.contentW)
         self.sedimentStructureL.setBuddy(self.sedimentStructureW)
         self.addLabelWidgetPair(self.sedimentStructureL, self.sedimentStructureW)
+        self.sedimentStructureW.setProject(self.data.bed.profile.project)
     def onSedimentStructureChange(self, l):
         self.data.sedimentStructure = l
         self.updateName()

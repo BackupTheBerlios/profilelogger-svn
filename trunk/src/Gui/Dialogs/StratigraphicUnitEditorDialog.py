@@ -37,5 +37,5 @@ class StratigraphicUnitEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
         self.data.stratigraphicUnitType = t
     def createCustomWidgets(self):
         self.typeL = self.createOneLineLabel(self.tr("Stratigraphic Unit Type"))
-        self.typeW = StratigraphicUnitTypeItemView(self.contentW,
-                                           QApplication.instance().stratigraphicUnitTypeModel)
+        self.typeW = StratigraphicUnitTypeItemView(self.contentW)
+        self.typeW.reload()

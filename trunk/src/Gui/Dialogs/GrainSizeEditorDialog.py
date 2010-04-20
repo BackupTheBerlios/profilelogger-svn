@@ -44,6 +44,8 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.data.percentFromMinimum = v
     def onNameChange(self, txt):
         self.data.name = unicode(txt)
+    def onShortNameChange(self, txt):
+        self.data.shortName = unicode(txt)
     def onDescriptionChange(self, txt):
         self.data.description = unicode(txt)
     def onGrainSizeTypeChange(self, t):
@@ -58,8 +60,7 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.data.maxSizeLengthUnit = u
     def createCustomWidgets(self):
         self.typeL = self.createOneLineLabel(self.tr("Grain Size Type"))
-        self.typeW = GrainSizeTypeItemView(self.contentW,
-                                           QApplication.instance().grainSizeTypeModel)
+        self.typeW = GrainSizeTypeItemView(self.contentW)
 
         self.sizeRangeL = self.createOneLineLabel(self.tr("Size Range"))
         self.sizeRangeW = LengthRangeInputWidget(self.contentW)
@@ -67,6 +68,6 @@ class GrainSizeEditorDialog(DatasetEditorDialog):
         self.percentL = self.createOneLineLabel(self.tr("Show at % from Minimum\nin graphic presentation:"))
         self.percentW = PercentEditorWidget(self.contentW)
     def addShortNameEdit(self):
-        self.shortNameL = self.createOneLineEdit(self.tr("Short Name"))
+        self.shortNameL = self.createOneLineLabel(self.tr("Short Name"))
         self.shortNameW = NameEdit(self.contentW)
         self.addLabelWidgetPair(self.shortNameL, self.shortNameW)

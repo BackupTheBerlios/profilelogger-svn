@@ -1,13 +1,10 @@
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-from Gui.SimpleGraphicProfile.SimpleProfileView import SimpleProfileView
-
-from Gui.InteractiveProfileView.InteractiveProfileView import *
-from Gui.InteractiveProfileView.InteractiveProfileScene import *
-
 from Gui.ToolBars.GlobalToolsToolBar import *
 from Gui.ToolBars.ProjectToolsToolBar import *
+
+from Gui.InteractiveProfileView.InteractiveProfileView import *
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -19,10 +16,8 @@ class MainWindow(QMainWindow):
         QApplication.instance().databaseConnected.connect(self.onDatabaseConnected)
     def setupCentralWidget(self):
         self.setCentralWidget(QTabWidget(self))
-        self.interactiveView = InteractiveProfileView(self.centralWidget(),
-                                                      InteractiveProfileScene)
-        self.centralWidget().addTab(self.interactiveView, 
-                                    self.tr("Interactive View"))
+        self.interactiveView = InteractiveProfileView(self.centralWidget())
+        self.centralWidget().addTab(self.interactiveView, self.tr("Interactive View"))
         self.interactiveView.setEnabled(False)
         self.projectToolsTb.currentProfileChanged.connect(self.interactiveView.scene().onProfileChange)
         self.centralWidget().setEnabled(False)    
@@ -54,9 +49,6 @@ class MainWindow(QMainWindow):
     def onDatabaseConnected(self, msg):
         self.dbStatusW.setText(msg)
         self.centralWidget().setEnabled(True)
-    def setupProfileViewer(self):
-        self.profileViewW = SimpleProfileView(self.centralWidget())
-        self.centralWidget().addTab(self.profileViewW, self.tr("View"))
     def setupToolBar(self):
         self.globalToolsTb = GlobalToolsToolBar(self.tr("Global Tools"), self)
         self.projectToolsTb = ProjectToolsToolBar(self.tr("Project Tools"), self)

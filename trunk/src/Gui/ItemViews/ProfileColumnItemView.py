@@ -9,3 +9,5 @@ class ProfileColumnItemView(DataManagementItemView):
     def __init__(self, parent):
         DataManagementItemView.__init__(self, parent)
         self.configureModel(ProfileColumnItemModel(self))
+    def setProfile(self, profile):
+        self.model().setProfile(profile)

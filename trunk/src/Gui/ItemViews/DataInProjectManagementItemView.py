@@ -13,3 +13,5 @@ class DataInProjectManagementItemView(DataManagementItemView):
         self.setEnabled(True)
     def onDisableViews(self):
         self.setEnabled(False)
+    def setProject(self, project):
+        self.model().setProject(project)

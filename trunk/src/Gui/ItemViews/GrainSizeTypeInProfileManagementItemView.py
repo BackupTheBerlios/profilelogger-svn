@@ -10,3 +10,5 @@ class GrainSizeTypeInProfileManagementItemView(DataInProfileManagementItemView):
         DataInProfileManagementItemView.__init__(self, parent, 
                                                  askForConfirmationBeforeDeleting=False)
         self.configureModel(GrainSizeTypeInProfileItemModel(self))
+    def setProfile(self, profile):
+        self.model().setProfile(profile)

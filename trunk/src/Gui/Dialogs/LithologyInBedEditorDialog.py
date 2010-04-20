@@ -17,8 +17,6 @@ class LithologyInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().lithologyModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.lithologyW.selectDataset(data.lithology)
@@ -38,9 +36,10 @@ class LithologyInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addLithologyEditor(self):
         self.lithologyL = self.createMultiLineLabel(self.tr("&Lithology"))
-        self.lithologyW = LithologyItemView(self.contentW, QApplication.instance().lithologyModel)
+        self.lithologyW = LithologyItemView(self.contentW)
         self.lithologyL.setBuddy(self.lithologyW)
         self.addLabelWidgetPair(self.lithologyL, self.lithologyW)
+        self.lithologyW.setProject(self.data.bed.profile.project)
     def onLithologyChange(self, l):
         self.data.lithology = l
         self.updateName()

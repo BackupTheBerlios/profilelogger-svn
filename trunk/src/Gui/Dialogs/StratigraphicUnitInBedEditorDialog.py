@@ -17,8 +17,6 @@ class StratigraphicUnitInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().stratigraphicUnitModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.stratigraphicUnitW.selectDataset(data.stratigraphicUnit)
@@ -38,9 +36,10 @@ class StratigraphicUnitInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addStratigraphicUnitEditor(self):
         self.stratigraphicUnitL = self.createMultiLineLabel(self.tr("&Stratigraphic Unit"))
-        self.stratigraphicUnitW = StratigraphicUnitItemView(self.contentW, QApplication.instance().stratigraphicUnitModel)
+        self.stratigraphicUnitW = StratigraphicUnitItemView(self.contentW)
         self.stratigraphicUnitL.setBuddy(self.stratigraphicUnitW)
         self.addLabelWidgetPair(self.stratigraphicUnitL, self.stratigraphicUnitW)
+        self.stratigraphicUnitW.setProject(self.data.bed.profile.project)
     def onStratigraphicUnitChange(self, l):
         self.data.stratigraphicUnit = l
         self.updateName()

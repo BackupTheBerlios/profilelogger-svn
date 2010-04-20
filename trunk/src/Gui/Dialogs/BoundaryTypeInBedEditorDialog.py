@@ -17,8 +17,6 @@ class BoundaryTypeInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().boundaryTypeModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.boundaryTypeW.selectDataset(data.boundaryType)
@@ -38,9 +36,10 @@ class BoundaryTypeInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addBoundaryTypeEditor(self):
         self.boundaryTypeL = self.createMultiLineLabel(self.tr("&Boundary Type"))
-        self.boundaryTypeW = BoundaryTypeItemView(self.contentW, QApplication.instance().boundaryTypeModel)
+        self.boundaryTypeW = BoundaryTypeItemView(self.contentW)
         self.boundaryTypeL.setBuddy(self.boundaryTypeW)
         self.addLabelWidgetPair(self.boundaryTypeL, self.boundaryTypeW)
+        self.boundaryTypeW.setProject(self.data.bed.profile.project)
     def onBoundaryTypeChange(self, l):
         self.data.boundaryType = l
         self.updateName()

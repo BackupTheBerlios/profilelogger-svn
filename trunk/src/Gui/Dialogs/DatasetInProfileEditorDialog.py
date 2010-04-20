@@ -13,6 +13,7 @@ class DatasetInProfileEditorDialog(DatasetEditorDialog):
         self.profileL.setBuddy(self.profileW)
         self.addLabelWidgetPair(self.profileL, self.profileW)
         self.profileW.currentDatasetChanged.connect(self.onProfileChange)
-        QApplication.instance().profileModel.reload()
+        self.profileW.setProject(self.data.profile.project)
+        self.profileW.reload()
     def onProfileChange(self, profile):
         self.data.profile = profile

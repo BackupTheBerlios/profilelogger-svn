@@ -14,3 +14,5 @@ class ProfileColumnItemModel(DataManagementItemModel):
                                          ProfileColumnEditorDialog,
                                          ProfileColumn.name)
         self.headerStrings = [self.tr("Profile Columns")]
+    def setProfile(self, profile):
+        pass

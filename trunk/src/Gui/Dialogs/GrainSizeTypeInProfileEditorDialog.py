@@ -23,9 +23,9 @@ class GrainSizeTypeInProfileEditorDialog(DatasetInProfileEditorDialog):
 
     def addGrainSizeTypeSelector(self):
         self.grainSizeTypeL = self.createMultiLineLabel(self.tr("Grain Size Type"))
-        self.grainSizeTypeW = GrainSizeTypeItemView(self,
-                                                    QApplication.instance().grainSizeTypeModel)
+        self.grainSizeTypeW = GrainSizeTypeItemView(self)
         self.addLabelWidgetPair(self.grainSizeTypeL, self.grainSizeTypeW)
         self.grainSizeTypeW.currentDatasetChanged.connect(self.onGrainSizeTypeChange)
+        self.grainSizeTypeW.reload()
     def onGrainSizeTypeChange(self, s):
         self.data.grainSizeType = s

@@ -12,6 +12,8 @@ from Gui.Widgets.IntLineEdit import *
 class ProfileEditorDialog(DatasetInProjectEditorDialog):
     def __init__(self, parent, data):
         DatasetInProjectEditorDialog.__init__(self, parent, data)
+        print "big: ",self.data.bigMarksDistanceValue," ",self.data.bigMarksDistanceLengthUnit
+        print "small: ",self.data.smallMarksDistanceValue," ",self.data.smallMarksDistanceLengthUnit
         self.addContentPanel(self.tr("Profile"))
         self.addIdDisplay()
         self.addProjectSelector()
@@ -26,8 +28,12 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.addDescriptionEdit()
         self.addButtons()
 
+        print "setting: ",self.data.bigMarksDistanceLengthUnit
+        self.grainSizesW.reload()
+        self.columnsW.reload()
+
         self.idW.setValue(self.data.id)
-        self.projectW.selectDataset(data.project)
+        self.projectW.selectDataset(self.data.project)
         self.nameW.setValue(unicode(self.data.name))
         self.scaleW.setValue(self.data.scale)
         self.bigMarksW.setValue(self.data.bigMarksDistanceValue, self.data.bigMarksDistanceLengthUnit)
@@ -57,7 +63,7 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
     def onScaleChange(self, v):
         self.data.scale = v
     def addLegendColumnsEditor(self):
-        self.legendColumnsL = self.createOneLineLabel(self.tr("LegendColumns 1:"))
+        self.legendColumnsL = self.createOneLineLabel(self.tr("Legend Columns:"))
         self.legendColumnsW = IntLineEdit(self.contentW)
         self.addLabelWidgetPair(self.legendColumnsL, self.legendColumnsW)
         self.legendColumnsW.valueChanged.connect(self.onLegendColumnsChange)
@@ -69,14 +75,12 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
         self.data.startHeightLengthUnit = u
     def addGrainSizesEditor(self):
         self.grainSizesL = self.createMultiLineLabel(self.tr("Grain Sizes Types"))
-        self.grainSizesW = GrainSizeTypeInProfileManagementItemView(self,
-                                                                    QApplication.instance().grainSizeTypeInProfileModel)
+        self.grainSizesW = GrainSizeTypeInProfileManagementItemView(self)
         self.addLabelWidgetPair(self.grainSizesL, self.grainSizesW)
         self.grainSizesW.model().setProfile(self.data)
     def addColumnEditor(self):
         self.columnsL = self.createMultiLineLabel(self.tr("Columns"))
-        self.columnsW = ColumnInProfileItemView(self,
-                                                ColumnInProfileItemModel(self))
+        self.columnsW = ColumnInProfileItemView(self)
         self.addLabelWidgetPair(self.columnsL, self.columnsW)
         self.columnsW.model().setProfile(self.data)
     def addBigMarksEditor(self):
@@ -88,7 +92,8 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
     def onBigMarksDistanceValueChange(self, v):
         self.data.bigMarksDistanceValue = v
     def onBigMarksDistanceLenghtUnitChange(self, u):
-        self.data.bigMarksDistanceLenghtUnit = u
+        self.data.bigMarksDistanceLengthUnit = u
+        print self.data.bigMarksDistanceLengthUnit
     def addSmallMarksEditor(self):
         self.smallMarksL = self.createOneLineLabel(self.tr("Small Marks Distance"))
         self.smallMarksW = LengthInputWidget(self.contentW)
@@ -98,4 +103,5 @@ class ProfileEditorDialog(DatasetInProjectEditorDialog):
     def onSmallMarksDistanceValueChange(self, v):
         self.data.smallMarksDistanceValue = v
     def onSmallMarksDistanceLenghtUnitChange(self, u):
-        self.data.smallMarksDistanceLenghtUnit = u
+        self.data.smallMarksDistanceLengthUnit = u
+        print self.data.smallMarksDistanceLengthUnit

@@ -75,9 +75,6 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.contentW.layout().addWidget(self.saveBedW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
         self.saveBedW.clicked.connect(self.onSaveRequest)
-    def addDetailPage(self, page, title):
-        self.stackW.addWidget(page)
-        self.pageSelectorW.addItem(title)
     def onPageSelectionChange(self, name):
         if name is None:
             return
@@ -131,10 +128,14 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
 
         self.detailPages = dict()
         for k,v in self.detailPageMap.iteritems():
-            self.detailPages[k] = v[1](self.detailsW, v[2])
+            print "adding: ",v[1].__name__,": ",unicode(v[0])
+            self.detailPages[k] = v[1](self.detailsW)
             self.addDetailPage(self.detailPages[k], v[0])
 
         self.detailsW.setEnabled(False)
+    def addDetailPage(self, page, title):
+        self.stackW.addWidget(page)
+        self.pageSelectorW.addItem(title)
     def onSaveRequest(self):
         if self.save():
             self.enableDetailsWidget()
@@ -148,9 +149,9 @@ class BedEditorDialog(DatasetInProfileEditorDialog):
         self.detailsW.setEnabled(isEnabled)
         if isEnabled:
             for k,v in self.detailPageMap.iteritems():
-                v[2].setBed(self.data)
+                self.detailPages[k].setBed(self.data)
         else:
             for k,v in self.detailPageMap.iteritems():
-                v[2].setBed(None)
+                self.detailPages[k].setBed(None)
     def validate(self):
         return self.data.hasValidHeight() and self.data.hasNumber()

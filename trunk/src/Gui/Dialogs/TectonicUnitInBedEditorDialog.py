@@ -17,8 +17,6 @@ class TectonicUnitInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().tectonicUnitModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.tectonicUnitW.selectDataset(data.tectonicUnit)
@@ -38,9 +36,10 @@ class TectonicUnitInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addTectonicUnitEditor(self):
         self.tectonicUnitL = self.createMultiLineLabel(self.tr("&Tectonic Unit"))
-        self.tectonicUnitW = TectonicUnitItemView(self.contentW, QApplication.instance().tectonicUnitModel)
+        self.tectonicUnitW = TectonicUnitItemView(self.contentW)
         self.tectonicUnitL.setBuddy(self.tectonicUnitW)
         self.addLabelWidgetPair(self.tectonicUnitL, self.tectonicUnitW)
+        self.tectonicUnitW.setProject(self.data.bed.profile.project)
     def onTectonicUnitChange(self, l):
         self.data.tectonicUnit = l
         self.updateName()

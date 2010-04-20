@@ -38,10 +38,11 @@ class GeologicalMeasurementInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addGeologicalMeasurementTypeEditor(self):
         self.geologicalMeasurementTypeL = self.createMultiLineLabel(self.tr("Measurement &Type"))
-        self.geologicalMeasurementTypeW = GeologicalMeasurementTypeItemView(self.contentW, QApplication.instance().geologicalMeasurementTypeModel)
+        self.geologicalMeasurementTypeW = GeologicalMeasurementTypeItemView(self.contentW)
         self.geologicalMeasurementTypeL.setBuddy(self.geologicalMeasurementTypeW)
         self.addLabelWidgetPair(self.geologicalMeasurementTypeL, self.geologicalMeasurementTypeW)
         self.geologicalMeasurementTypeW.currentDatasetChanged.connect(self.onGeologicalMeasurementTypeChange)
+        self.geologicalMeasurementTypeW.reload()
     def onGeologicalMeasurementTypeChange(self, t):
         self.data.geologicalMeasurementType = t
         self.updateName()

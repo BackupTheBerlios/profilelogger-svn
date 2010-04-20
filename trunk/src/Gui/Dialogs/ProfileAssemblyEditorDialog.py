@@ -18,6 +18,7 @@ class ProfileAssemblyEditorDialog(DatasetInProjectEditorDialog):
         self.addButtons()
 
         self.idW.setValue(self.data.id)
+        self.projectW.reload()
         self.projectW.selectDataset(data.project)
         self.nameW.setValue(unicode(self.data.name))
         self.descriptionW.setValue(unicode(self.data.description))
@@ -41,7 +42,7 @@ class ProfileAssemblyEditorDialog(DatasetInProjectEditorDialog):
         self.saveProfileAssemblyW.clicked.connect(self.onSaveRequest)
     def addDetailsWidget(self):
         self.detailsW = QTabWidget(self.contentW)
-        self.profileInProfileAssemblyW = ProfileInProfileAssemblyItemView(self.detailsW, QApplication.instance().profileInProfileAssemblyModel)
+        self.profileInProfileAssemblyW = ProfileInProfileAssemblyItemView(self.detailsW)
         self.detailsW.addTab(self.profileInProfileAssemblyW, self.tr("Profiles"))
         self.contentW.layout().addWidget(self.detailsW, self.currentContentRow, self.widgetCol)
         self.currentContentRow += 1
@@ -58,6 +59,6 @@ class ProfileAssemblyEditorDialog(DatasetInProjectEditorDialog):
     def setDetailsWidgetStatus(self, isEnabled):
         self.detailsW.setEnabled(isEnabled)
         if isEnabled:
-            QApplication.instance().profileInProfileAssemblyModel.setProfileAssembly(self.data)
+            self.profileInProfileAssemblyW.setProfileAssembly(self.data)
         else:
-            QApplication.instance().profileInProfileAssemblyModel.setProfileAssembly(None)
+            self.profileInProfileAssemblyW.setProfileAssembly(None)

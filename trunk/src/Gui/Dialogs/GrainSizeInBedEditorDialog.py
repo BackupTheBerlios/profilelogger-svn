@@ -36,9 +36,10 @@ class GrainSizeInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addGrainSizeEditor(self):
         self.grainSizeL = self.createMultiLineLabel(self.tr("&Grain Size"))
-        self.grainSizeW = GrainSizeItemView(self.contentW, QApplication.instance().grainSizeModel)
+        self.grainSizeW = GrainSizeItemView(self.contentW)
         self.grainSizeL.setBuddy(self.grainSizeW)
         self.addLabelWidgetPair(self.grainSizeL, self.grainSizeW)
+        self.grainSizeW.reload()
     def onGrainSizeChange(self, l):
         self.data.grainSize = l
         self.updateName()

@@ -17,8 +17,6 @@ class FossilInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().fossilModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.fossilW.selectDataset(data.fossil)
@@ -38,9 +36,10 @@ class FossilInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addFossilEditor(self):
         self.fossilL = self.createMultiLineLabel(self.tr("&Fossil"))
-        self.fossilW = FossilItemView(self.contentW, QApplication.instance().fossilModel)
+        self.fossilW = FossilItemView(self.contentW)
         self.fossilL.setBuddy(self.fossilW)
         self.addLabelWidgetPair(self.fossilL, self.fossilW)
+        self.fossilW.setProject(self.data.bed.profile.project)
     def onFossilChange(self, l):
         self.data.fossil = l
         self.updateName()

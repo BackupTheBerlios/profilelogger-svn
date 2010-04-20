@@ -9,12 +9,10 @@ class DatasetInProfileAssemblyEditorDialog(DatasetEditorDialog):
         DatasetEditorDialog.__init__(self, parent, data)
     def addProfileAssemblySelector(self):
         self.profileAssemblyL = self.createMultiLineLabel(self.tr("Profile &Assembly"))
-        self.profileAssemblyW = ProfileAssemblyItemView(self.contentW, 
-                                                        QApplication.instance().profileAssemblyModel)
+        self.profileAssemblyW = ProfileAssemblyItemView(self.contentW)
         self.profileAssemblyL.setBuddy(self.profileAssemblyW)
         self.addLabelWidgetPair(self.profileAssemblyL, self.profileAssemblyW)
         self.profileAssemblyW.currentDatasetChanged.connect(self.onProfileAssemblyChange)
-        QApplication.instance().profileAssemblyModel.reload()
     def onProfileAssemblyChange(self, profileAssembly):
         self.data.profileAssembly = profileAssembly
         self.updateName()

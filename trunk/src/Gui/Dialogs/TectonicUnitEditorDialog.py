@@ -37,5 +37,5 @@ class TectonicUnitEditorDialog(DatasetWithSvgItemInProjectEditorDialog):
         self.data.tectonicUnitType = t
     def createCustomWidgets(self):
         self.typeL = self.createOneLineLabel(self.tr("Tectonic Unit Type"))
-        self.typeW = TectonicUnitTypeItemView(self.contentW,
-                                           QApplication.instance().tectonicUnitTypeModel)
+        self.typeW = TectonicUnitTypeItemView(self.contentW)
+        self.typeW.reload()

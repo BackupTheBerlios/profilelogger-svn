@@ -9,11 +9,10 @@ class DatasetInProjectEditorDialog(DatasetEditorDialog):
         DatasetEditorDialog.__init__(self, parent, data)
     def addProjectSelector(self):
         self.projectL = self.createMultiLineLabel(self.tr("&Project"))
-        self.projectW = ProjectItemView(self.contentW, 
-                                        QApplication.instance().projectModel)
+        self.projectW = ProjectItemView(self.contentW)
         self.projectL.setBuddy(self.projectW)
         self.addLabelWidgetPair(self.projectL, self.projectW)
         self.projectW.currentDatasetChanged.connect(self.onProjectChange)
-        QApplication.instance().projectModel.reload()
+        self.projectW.reload()
     def onProjectChange(self, project):
         self.data.project = project

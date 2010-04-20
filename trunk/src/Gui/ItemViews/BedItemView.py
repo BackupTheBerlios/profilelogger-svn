@@ -9,3 +9,5 @@ class BedItemView(DataInProfileManagementItemView):
     def __init__(self, parent):
         DataInProfileManagementItemView.__init__(self, parent)
         self.configureModel(BedItemModel(self))
+    def setProfile(self, profile):
+        self.onProfileChange(profile)

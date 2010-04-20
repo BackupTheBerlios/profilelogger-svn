@@ -33,6 +33,8 @@ class DataManagementItemView(TreeView):
         self.deleteRequest.connect(self.model().onDeleteRequest)
         self.model().enableViews.connect(self.onEnableViews)
         self.model().disableViews.connect(self.onDisableViews)
+    def reload(self):
+        self.reloadRequest.emit()
     def onReloaded(self):
         self.sortByColumn(0, Qt.AscendingOrder)
     def onDatabaseConnected(self):

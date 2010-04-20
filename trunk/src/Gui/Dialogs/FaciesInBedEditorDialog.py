@@ -17,8 +17,6 @@ class FaciesInBedEditorDialog(DatasetInBedEditorDialog):
         self.addButtons()
         self.nameW.setEnabled(False)
 
-        QApplication.instance().faciesModel.setProject(self.data.bed.profile.project)
-
         self.idW.setValue(self.data.id)
         self.nameW.setValue(self.data.name)
         self.faciesW.selectDataset(data.facies)
@@ -38,9 +36,10 @@ class FaciesInBedEditorDialog(DatasetInBedEditorDialog):
         self.data.description = unicode(txt)
     def addFaciesEditor(self):
         self.faciesL = self.createMultiLineLabel(self.tr("&Facies"))
-        self.faciesW = FaciesItemView(self.contentW, QApplication.instance().faciesModel)
+        self.faciesW = FaciesItemView(self.contentW)
         self.faciesL.setBuddy(self.faciesW)
         self.addLabelWidgetPair(self.faciesL, self.faciesW)
+        self.faciesW.setProject(self.data.bed.profile.project)
     def onFaciesChange(self, l):
         self.data.facies = l
         self.updateName()

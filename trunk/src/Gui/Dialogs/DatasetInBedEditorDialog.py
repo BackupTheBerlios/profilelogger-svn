@@ -10,12 +10,10 @@ class DatasetInBedEditorDialog(DatasetEditorDialog):
         DatasetEditorDialog.__init__(self, parent, data)
     def addBedSelector(self):
         self.bedL = self.createMultiLineLabel(self.tr("&Bed"))
-        self.bedW = BedItemView(self.contentW, 
-                                        QApplication.instance().bedModel)
+        self.bedW = BedItemView(self.contentW)
         self.bedL.setBuddy(self.bedW)
         self.addLabelWidgetPair(self.bedL, self.bedW)
         self.bedW.currentDatasetChanged.connect(self.onBedChange)
-        QApplication.instance().bedModel.reload()
     def onBedChange(self, bed):
         self.data.bed = bed
     def addPercentEditor(self):

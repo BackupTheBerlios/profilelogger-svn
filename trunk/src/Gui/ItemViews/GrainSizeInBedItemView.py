@@ -8,4 +8,4 @@ from Gui.ItemModels.GrainSizeInBedItemModel import *
 class GrainSizeInBedItemView(DataInBedManagementItemView):
     def __init__(self, parent):
         DataInBedManagementItemView.__init__(self, parent)
-        sef.configureModel(GrainSizeInBedItemModel(self))
+        self.configureModel(GrainSizeInBedItemModel(self))

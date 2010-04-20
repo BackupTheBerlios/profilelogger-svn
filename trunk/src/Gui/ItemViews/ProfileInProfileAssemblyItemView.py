@@ -9,3 +9,5 @@ class ProfileInProfileAssemblyItemView(DataInProfileAssemblyManagementItemView):
     def __init__(self, parent):
         DataInProfileAssemblyManagementItemView.__init__(self, parent)
         self.configureModel(ProfileInProfileAssemblyItemModel(self))
+    def setProfileAssembly(self, assembly):
+        self.model().setProfileAssembly(assembly)

@@ -779,7 +779,7 @@ class Database:
                 'colsInLegend': self.tables['profiles'].c.cols_in_legend,
                 'bigMarksDistanceValue': self.tables['profiles'].c.big_marks_distance_value,
                 'bigMarksDistanceLengthUnit': relation(LengthUnit,
-                                               primaryjoin=self.tables['profiles'].c.big_marks_distance_length_unit_id==self.tables['length_units'].c.id),
+                                                       primaryjoin=self.tables['profiles'].c.big_marks_distance_length_unit_id==self.tables['length_units'].c.id),
                 'smallMarksDistanceValue': self.tables['profiles'].c.small_marks_distance_value,
                 'smallMarksDistanceLengthUnit': relation(LengthUnit,
                                                  primaryjoin=self.tables['profiles'].c.small_marks_distance_length_unit_id==self.tables['length_units'].c.id)

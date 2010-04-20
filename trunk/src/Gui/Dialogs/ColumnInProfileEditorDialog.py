@@ -27,8 +27,9 @@ class ColumnInProfileEditorDialog(DatasetInProfileEditorDialog):
         self.positionW.setValue(self.data.position)
     def addProfileColumnSelector(self):
         self.profileColumnL = self.createMultiLineLabel(self.tr("Profile Column"))
-        self.profileColumnW = ProfileColumnItemView(self, ProfileColumnItemModel(self))
+        self.profileColumnW = ProfileColumnItemView(self)
         self.addLabelWidgetPair(self.profileColumnL, self.profileColumnW)
+        self.profileColumnW.setProfile(self.data.profile)
         self.profileColumnW.model().reload()
         self.profileColumnW.currentDatasetChanged.connect(self.onProfileColumnChange)
     def onProfileColumnChange(self, c):

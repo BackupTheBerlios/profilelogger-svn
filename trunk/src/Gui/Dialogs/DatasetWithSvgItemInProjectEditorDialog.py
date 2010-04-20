@@ -10,10 +10,10 @@ class DatasetWithSvgItemInProjectEditorDialog(DatasetInProjectEditorDialog):
         DatasetInProjectEditorDialog.__init__(self, parent, data)
     def addSvgItemSelector(self):
         self.svgItemL = self.createMultiLineLabel(self.tr("&Representation"))
-        self.svgItemW = SVGItemView(self.contentW, 
-                                    QApplication.instance().svgItemModel)
+        self.svgItemW = SVGItemView(self.contentW)
         self.svgItemL.setBuddy(self.svgItemW)
         self.addLabelWidgetPair(self.svgItemL, self.svgItemW)
         self.svgItemW.currentDatasetChanged.connect(self.onSvgItemChange)
+        self.svgItemW.reload()
     def onSvgItemChange(self, itm):
         self.data.svgItem = itm
