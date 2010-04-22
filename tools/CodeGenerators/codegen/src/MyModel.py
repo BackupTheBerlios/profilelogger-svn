@@ -27,14 +27,19 @@ class MyModel(Model):
         self.setupTableBeds(s)
         self.setupTableColors(s)
         self.setupTableColorsInBed(s)
-        self.setupTableColors(s)
-        self.setupTableColorsInBed(s)
+        self.setupTableBeddingTypes(s)
+        self.setupTableBeddingTypesInBed(s)
         self.setupTableFieldBooks(s)
         self.setupTableFieldBookEntries(s)
     def setupTableGraphicPrimitives(self, s):
         t = s.createTable('graphic_primitives', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
         t.createColumn('svg_data', self.dataType('Unicode'), nullable=False, defaultText='')
         t.createColumn('original_path', self.dataType('Unicode'), nullable=False, defaultText='')
+    def setupTableColors(self, s):
+        t = s.createTable('colors', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
+        t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('graphic_primitive_id', nullable=False, referencedColumn=s.table('graphic_primitives').column('id'))
+        t.createUniqueConstraint('u_colors_name', [t.column('name')])
     def setupTableColorsInBed(self, s):
         t = s.createTable('colors_in_beds', hasDescriptionColumn=True)
         t.createColumn('base', self.dataType('Integer'), nullable=False, defaultValue=0)
@@ -43,6 +48,19 @@ class MyModel(Model):
         t.createColumn('color_id', nullable=False, referencedColumn=s.table('colors').column('id'))
         t.createRangeCheckConstraint('chk_colors_in_beds_base_in_range', t.column('base'), 0, 100)
         t.createRangeCheckConstraint('chk_colors_in_beds_top_in_range', t.column('top'), 0, 100)
+    def setupTableBeddingTypes(self, s):
+        t = s.createTable('bedding_types', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
+        t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('graphic_primitive_id', nullable=False, referencedColumn=s.table('graphic_primitives').column('id'))
+        t.createUniqueConstraint('u_bedding_types_name', [t.column('name')])
+    def setupTableBeddingTypesInBed(self, s):
+        t = s.createTable('bedding_types_in_beds', hasDescriptionColumn=True)
+        t.createColumn('base', self.dataType('Integer'), nullable=False, defaultValue=0)
+        t.createColumn('top', self.dataType('Integer'), nullable=False, defaultValue=100)
+        t.createColumn('bed_id', nullable=False, referencedColumn=s.table('beds').column('id'))
+        t.createColumn('bedding_type_id', nullable=False, referencedColumn=s.table('bedding_types').column('id'))
+        t.createRangeCheckConstraint('chk_bedding_types_in_beds_base_in_range', t.column('base'), 0, 100)
+        t.createRangeCheckConstraint('chk_bedding_types_in_beds_top_in_range', t.column('top'), 0, 100)
     def setupTableLengthUnits(self, s):
         t = s.createTable('length_units', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
         t.createColumn('micro_metres', self.dataType('Integer'), nullable=False, defaultValue=0, isUnique=True)
@@ -62,11 +80,6 @@ class MyModel(Model):
         t.createColumn('title', self.dataType('Unicode'), defaultText='new field book', notEmpty=True)
     def setupTableProjects(self, s):
         t = s.createTable('projects', hasNameColumn=True, hasDescriptionColumn=True)
-    def setupTableColors(self, s):
-        t = s.createTable('colors', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
-        t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
-        t.createColumn('graphic_primitive_id', nullable=False, referencedColumn=s.table('graphic_primitives').column('id'))
-        t.createUniqueConstraint('u_colors_name', [t.column('name')])
     def setupTableProfiles(self, s):
         t = s.createTable('profiles', hasNameColumn=True, hasDescriptionColumn=True)
         t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
@@ -78,21 +91,39 @@ class MyModel(Model):
         self.setupGraphicPrimitiveClass(model, classEntity, self.database.schema('data').table('graphic_primitives'))
         self.setupProjectClass(model, classEntity, self.database.schema('data').table('projects'))
         self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'))
+        self.setupColorInBedClass(model, classEntity, self.database.schema('data').table('colors_in_beds'))
+        self.setupBeddingTypeClass(model, classEntity, self.database.schema('data').table('bedding_types'))
+        self.setupBeddingTypeInBedClass(model, classEntity, self.database.schema('data').table('bedding_types_in_beds'))
         self.setupProfileClass(model, classEntity, self.database.schema('data').table('profiles'))
         self.setupFieldBookClass(model, classEntity, self.database.schema('data').table('field_books'))
         self.setupFieldBookEntryClass(model, classEntity, self.database.schema('data').table('field_book_entries'))
         self.setupBedClass(model, classEntity, self.database.schema('data').table('beds'))
-        self.setupColorInBedClass(model, classEntity, self.database.schema('data').table('colors_in_beds'))
     def setupGraphicPrimitiveClass(self, module, baseClass, table):
         c = module.createClass('GraphicPrimitive', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.createField(table.column('svg_data'), 'svgData')
         c.createField(table.column('original_path'), 'originalPath')
+    def setupColorClass(self, module, baseClass, table):
+        c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+        c.createField(table.column('project_id'), 'project', backrefName='colors', relationClass='Project', cascade='all')
+        c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='colors', relationClass='GraphicPrimitive', cascade='all')
+        c.addSortOrder(c.field('name'), ascending=True)
     def setupColorInBedClass(self, module, baseClass, table):
         c = module.createClass('ColorInBed', baseClass, table, createIdField=True, createDescriptionField=True)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('color_id'), 'color', backrefName='beds', relationClass='Color', cascade='all')
+    def setupBeddingTypeClass(self, module, baseClass, table):
+        c = module.createClass('BeddingType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+        c.createField(table.column('project_id'), 'project', backrefName='beddingTypes', relationClass='Project', cascade='all')
+        c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='beddingTypes', relationClass='GraphicPrimitive', cascade='all')
+        c.addSortOrder(c.field('name'), ascending=True)
+    def setupBeddingTypeInBedClass(self, module, baseClass, table):
+        c = module.createClass('BeddingTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+        c.createField(table.column('base'), 'base')
+        c.createField(table.column('top'), 'top')
+        c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
+        c.createField(table.column('bedding_type_id'), 'beddingType', backrefName='beds', relationClass='BeddingType', cascade='all')
     def setupLengthUnitClass(self, module, baseClass, table):
         c = module.createClass('LengthUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.createField(table.column('micro_metres'), 'microMetres')
