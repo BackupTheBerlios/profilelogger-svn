@@ -21,6 +21,8 @@ class TableColumn(Entity):
         self.defaultText = defaultText
         self.primaryKey = primaryKey
         self.referencedColumn = referencedColumn
+        if self.referencedColumn is not None:
+            self.dataType = self.referencedColumn.dataType
         if self.primaryKey:
             self.createPrimaryKey()
         if self.referencedColumn is not None:

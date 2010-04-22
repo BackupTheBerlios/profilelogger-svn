@@ -4,6 +4,7 @@ from PrimaryKey import *
 from UniqueConstraint import *
 from NotEmptyConstraint import *
 from ForeignKey import *
+from RangeCheckConstraint import *
 
 class Table(Entity):
     def __init__(self, schema, name, 
@@ -16,6 +17,7 @@ class Table(Entity):
         self.schema = schema
         self.uniqueConstraints = {}
         self.notEmptyConstraints = {}
+        self.rangeCheckConstraints = {}
         self.foreignKeys = {}
         self.primaryKey=None
         if hasIdColumn:
@@ -30,8 +32,6 @@ class Table(Entity):
                      sequence=None, defaultValue=None, 
                      defaultText=None, primaryKey=False, 
                      referencedColumn=None, notEmpty=False, isUnique=False):
-        if self.columns.keys().count(name) > 0:
-            print "!!! WARN !!! column %s already in table %s" % (name, self.table.name)
         self.columns[name] = TableColumn(self, name, dataType, nullable, 
                                          sequence, defaultValue, defaultText, 
                                          primaryKey, referencedColumn, 
@@ -46,6 +46,12 @@ class Table(Entity):
     def createUniqueConstraint(self, name, columns):
         self.uniqueConstraints[name] = UniqueConstraint(self, name, columns)
         return self.uniqueConstraint(name)
+    def createRangeCheckConstraint(self, name, column, min, max):
+        self.rangeCheckConstraints[name] = RangeCheckConstraint(self,
+                                                                column,
+                                                                name,
+                                                                min,
+                                                                max)
     def uniqueConstraint(self, name):
         return self.uniqueConstraints[name]
     def createNotEmptyConstraint(self, name, columns):

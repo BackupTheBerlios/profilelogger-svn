@@ -20,13 +20,29 @@ class MyModel(Model):
     def setupTablesInProfileLogger(self):
         db = self.createDatabase('profilelogger')
         s = db.createSchema('data')
+        self.setupTableGraphicPrimitives(s)
         self.setupTableProjects(s)
         self.setupTableLengthUnits(s)
         self.setupTableProfiles(s)
         self.setupTableBeds(s)
         self.setupTableColors(s)
+        self.setupTableColorsInBed(s)
+        self.setupTableColors(s)
+        self.setupTableColorsInBed(s)
         self.setupTableFieldBooks(s)
         self.setupTableFieldBookEntries(s)
+    def setupTableGraphicPrimitives(self, s):
+        t = s.createTable('graphic_primitives', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
+        t.createColumn('svg_data', self.dataType('Unicode'), nullable=False, defaultText='')
+        t.createColumn('original_path', self.dataType('Unicode'), nullable=False, defaultText='')
+    def setupTableColorsInBed(self, s):
+        t = s.createTable('colors_in_beds', hasDescriptionColumn=True)
+        t.createColumn('base', self.dataType('Integer'), nullable=False, defaultValue=0)
+        t.createColumn('top', self.dataType('Integer'), nullable=False, defaultValue=100)
+        t.createColumn('bed_id', nullable=False, referencedColumn=s.table('beds').column('id'))
+        t.createColumn('color_id', nullable=False, referencedColumn=s.table('colors').column('id'))
+        t.createRangeCheckConstraint('chk_colors_in_beds_base_in_range', t.column('base'), 0, 100)
+        t.createRangeCheckConstraint('chk_colors_in_beds_top_in_range', t.column('top'), 0, 100)
     def setupTableLengthUnits(self, s):
         t = s.createTable('length_units', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
         t.createColumn('micro_metres', self.dataType('Integer'), nullable=False, defaultValue=0, isUnique=True)
@@ -34,35 +50,49 @@ class MyModel(Model):
         t = s.createTable('beds', hasDescriptionColumn=True)
         t.createColumn('position', self.dataType('Integer'), nullable=False)
         t.createColumn('bed_number', self.dataType('Unicode'), nullable=False, isUnique=True, notEmpty=True)
-        t.createColumn('profile_id', s.table('profiles').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('profile_id', nullable=False, referencedColumn=s.table('projects').column('id'))
         t.createColumn('height', self.dataType('Integer'), nullable=False, defaultValue=0)
-        t.createColumn('height_length_unit_id', s.table('length_units').column('id').dataType, nullable=False, referencedColumn=s.table('length_units').column('id'))
+        t.createColumn('height_length_unit_id', nullable=False, referencedColumn=s.table('length_units').column('id'))
         t.createUniqueConstraint('u_bed_number_in_profile', [t.column('profile_id'), t.column('bed_number'),])
     def setupTableFieldBookEntries(self, s):
         t = s.createTable('field_book_entries')
-        t.createColumn('field_book_id', s.table('field_books').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('field_book_id', nullable=False, referencedColumn=s.table('projects').column('id'))
     def setupTableFieldBooks(self, s):
         t = s.createTable('field_books', hasDescriptionColumn=True)
         t.createColumn('title', self.dataType('Unicode'), defaultText='new field book', notEmpty=True)
     def setupTableProjects(self, s):
         t = s.createTable('projects', hasNameColumn=True, hasDescriptionColumn=True)
     def setupTableColors(self, s):
-        t = s.createTable('colors', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True, )
+        t = s.createTable('colors', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
+        t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('graphic_primitive_id', nullable=False, referencedColumn=s.table('graphic_primitives').column('id'))
         t.createUniqueConstraint('u_colors_name', [t.column('name')])
     def setupTableProfiles(self, s):
         t = s.createTable('profiles', hasNameColumn=True, hasDescriptionColumn=True)
-        t.createColumn('project_id', s.table('projects').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
         t.createUniqueConstraint('u_profile_name_in_project', [t.column('project_id'), t.column('name'),])
     def setupPythonModules(self):
         model = self.createPythonModule('Model')
         classEntity = model.createClass('Entity', None, None)
         self.setupLengthUnitClass(model, classEntity, self.database.schema('data').table('length_units'))
+        self.setupGraphicPrimitiveClass(model, classEntity, self.database.schema('data').table('graphic_primitives'))
         self.setupProjectClass(model, classEntity, self.database.schema('data').table('projects'))
         self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'))
         self.setupProfileClass(model, classEntity, self.database.schema('data').table('profiles'))
         self.setupFieldBookClass(model, classEntity, self.database.schema('data').table('field_books'))
         self.setupFieldBookEntryClass(model, classEntity, self.database.schema('data').table('field_book_entries'))
         self.setupBedClass(model, classEntity, self.database.schema('data').table('beds'))
+        self.setupColorInBedClass(model, classEntity, self.database.schema('data').table('colors_in_beds'))
+    def setupGraphicPrimitiveClass(self, module, baseClass, table):
+        c = module.createClass('GraphicPrimitive', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+        c.createField(table.column('svg_data'), 'svgData')
+        c.createField(table.column('original_path'), 'originalPath')
+    def setupColorInBedClass(self, module, baseClass, table):
+        c = module.createClass('ColorInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+        c.createField(table.column('base'), 'base')
+        c.createField(table.column('top'), 'top')
+        c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
+        c.createField(table.column('color_id'), 'color', backrefName='beds', relationClass='Color', cascade='all')
     def setupLengthUnitClass(self, module, baseClass, table):
         c = module.createClass('LengthUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.createField(table.column('micro_metres'), 'microMetres')
@@ -84,6 +114,8 @@ class MyModel(Model):
         c.addSortOrder(c.field('title'), ascending=True)
     def setupColorClass(self, module, baseClass, table):
         c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+        c.createField(table.column('project_id'), 'project', backrefName='colors', relationClass='Project', cascade='all')
+        c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='colors', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
     def setupProjectClass(self, module, baseClass, table):
         c = module.createClass('Project', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)

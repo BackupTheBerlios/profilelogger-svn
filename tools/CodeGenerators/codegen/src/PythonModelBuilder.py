@@ -192,6 +192,9 @@ class PythonModelBuilder:
                     if len(c.table.notEmptyConstraints) > 0:
                         for uc in c.table.notEmptyConstraints.values():
                             tdef += ", CheckConstraint(\"%s <> ''\", name='%s')" % (uc.column.name, uc.name)
+                    if len(c.table.rangeCheckConstraints) > 0:
+                        for rc in c.table.rangeCheckConstraints.values():
+                            tdef += ", CheckConstraint(\"%s BETWEEN %s and %s\", name='%s')" % (rc.column.name, rc.min, rc.max, rc.name)
                     tdef += ", schema='%s'" % col.table.schema.name
                     tdef += ')'
                     self.appendIndented(i, tdef, buf)
