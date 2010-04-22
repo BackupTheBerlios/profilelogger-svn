@@ -1,11 +1,13 @@
 from PythonEntity import *
 from PythonClass import *
+from PythonFinderClass import *
 
 class PythonModule(PythonEntity):
     def __init__(self, parentModule, name):
         PythonEntity.__init__(self, parentModule, name)
         self.pythonModules = {}
         self.classes = {}
+        self.finderClasses = {}
     def createClass(self, name, parentClass, table, 
                     createIdField=False, 
                     createNameField=False, 
@@ -17,6 +19,15 @@ class PythonModule(PythonEntity):
                                          createDescriptionField=createDescriptionField,
                                          template=template)
         return self.classByName(name)
+    def createFinderClass(self, dataClassName, template, name=None):
+        n = name
+        if n is None:
+            n = '%sFinder' % dataClassName
+        self.finderClasses[n] = PythonFinderClass(self, n,
+                                                  dataClassName, template)
+        return self.finderClassByName(n)
+    def finderClassByName(self, name):
+        return self.finderClasses[name]
     def classByName(self, name):
         return self.classes[name]
     def createPythonModule(self, name):

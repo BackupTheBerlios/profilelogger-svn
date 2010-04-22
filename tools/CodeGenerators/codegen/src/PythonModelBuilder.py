@@ -17,6 +17,11 @@ class PythonModelBuilder:
         return ', '.join(lst)
     def indent(self, level, str):
         return '%s%s' % ('    ' * level, str)
+    def writeToFile(self, fn, data):
+        print data,'\n--- %s' % fn
+        f = open(fn, 'w')
+        f.write(data)
+        f.close()
     def buildClasses(self, path, classes):
         for c in classes:
             tmpl = c.template
@@ -41,12 +46,13 @@ class PythonModelBuilder:
                     i = 2
                 buf.append(self.indent(i, 'self.%s = %s' % (f.fieldName, f.fieldName)))
             tmpl.replaceKeyword('<init_local_variables>', '\n'.join(buf))
-
-            print tmpl.data,'\n---'
-            fn = '%s/%s.py' % (path, c.name)
-            f = open(fn, 'w')
-            f.write(tmpl.data)
-            f.close()
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
+    def buildFinderClasses(self, path, classes):
+        for c in classes:
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.dataClassName)
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
     def makePathToModule(self, path):
         f = open('%s/__init__.py' % path, 'w')
         f.write('# nothing')
@@ -57,6 +63,7 @@ class PythonModelBuilder:
             os.mkdir(p)
             self.makePathToModule(p)
             self.buildClasses(p, m.classes.values())
+            self.buildFinderClasses(p, m.finderClasses.values())
             self.buildModules(p, m.pythonModules.values())
     def build(self, model):
         os.mkdir('generated')

@@ -1,5 +1,5 @@
 """
-Boilerplace comment
+Boilerplate comment
 """
 
 <imports>
