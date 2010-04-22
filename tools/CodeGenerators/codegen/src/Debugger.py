@@ -25,12 +25,13 @@ class Debugger(object):
             for table in schema.tables.values():
                 ret.append('\t\tTable: %s' % table.name)
                 for col in table.columns.values():
-                    ret.append('\t\t\tColumn: %s Type: %s nullable: %s Sequence: %s Default Value: %s, Default Text: "%s" ' % (col.name, 
-                                                                                                                               col.dataType.name, 
-                                                                                                                               col.nullable, 
-                                                                                                                               col.sequence,
-                                                                                                                               col.defaultValue,
-                                                                                                                               col.defaultText))
+                    ret.append('\t\t\tColumn: %s Type: %s nullable: %s Sequence: %s Default Value: %s, Default Text: "%s", Referenced Column: %s' % (col.name, 
+                                                                                                                                                     col.dataType.name, 
+                                                                                                                                                     col.nullable, 
+                                                                                                                                                     col.sequence,
+                                                                                                                                                     col.defaultValue,
+                                                                                                                                                     col.defaultText,
+                                                                                                                                                     col.referencedColumn))
                 ret.append('\t\t\tPrimary Key: %s Column: %s.%s' % (table.primaryKey.name, table.primaryKey.column.table.name, table.primaryKey.column.name))
                 for unique in table.uniqueConstraints.values():
                     cols = ''
