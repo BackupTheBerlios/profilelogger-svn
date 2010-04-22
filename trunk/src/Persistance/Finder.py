@@ -3,7 +3,7 @@ from PyQt4.QtGui import *
 
 class Finder(QObject):
     def __init__(self, parent):
-        pass
+        QObject.__init__(self, parent)
     def getSession(self):
         return QApplication.instance().db.session
     def doFindAll(self, dataClass, orderCol):
