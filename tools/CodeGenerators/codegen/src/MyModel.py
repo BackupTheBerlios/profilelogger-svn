@@ -24,9 +24,13 @@ class MyModel(Model):
         self.setupTableProjects(s)
         self.setupTableLengthUnits(s)
         self.setupTableProfiles(s)
+        self.setupTableProfileColumns(s)
+        self.setupTableProfileColumnsInProfile(s)
         self.setupTableBeds(s)
         self.setupTableColors(s)
         self.setupTableColorsInBed(s)
+        self.setupTableOutcropTypes(s)
+        self.setupTableOutcropTypesInBed(s)
         self.setupTableFacies(s)
         self.setupTableFaciesInBed(s)
         self.setupTableLithologies(s)
@@ -58,6 +62,13 @@ class MyModel(Model):
         self.setupTableCustomSymbolsInBed(s)
         self.setupTableFieldBooks(s)
         self.setupTableFieldBookEntries(s)
+    def setupTableProfileColumns(self, s):
+        t = s.createTable('profile_columns', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
+    def setupTableProfileColumnsInProfile(self, s):
+        t = s.createTable('profile_columns_in_profiles')
+        t.createColumn('profile_id', nullable=False, referencedColumn=s.table('profiles').column('id'))
+        t.createColumn('profile_column_id', nullable=False, referencedColumn=s.table('profile_columns').column('id'))
+        t.createColumn('position', self.dataType('Integer'), nullable=False, defaultValue=0)
     def setupTableGraphicPrimitives(self, s):
         t = s.createTable('graphic_primitives', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
         t.createColumn('svg_data', self.dataType('Unicode'), nullable=False, defaultText='')
@@ -167,6 +178,19 @@ class MyModel(Model):
         t.createColumn('color_id', nullable=False, referencedColumn=s.table('colors').column('id'))
         t.createRangeCheckConstraint('chk_colors_in_beds_base_in_range', t.column('base'), 0, 100)
         t.createRangeCheckConstraint('chk_colors_in_beds_top_in_range', t.column('top'), 0, 100)
+    def setupTableOutcropTypes(self, s):
+        t = s.createTable('outcrop_types', hasNameColumn=True, hasDescriptionColumn=True)
+        t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('graphic_primitive_id', nullable=False, referencedColumn=s.table('graphic_primitives').column('id'))
+        t.createUniqueConstraint('u_outcrop_types_name', [t.column('name'), t.column('project_id'), ])
+    def setupTableOutcropTypesInBed(self, s):
+        t = s.createTable('outcrop_types_in_beds', hasDescriptionColumn=True)
+        t.createColumn('base', self.dataType('Integer'), nullable=False, defaultValue=0)
+        t.createColumn('top', self.dataType('Integer'), nullable=False, defaultValue=100)
+        t.createColumn('bed_id', nullable=False, referencedColumn=s.table('beds').column('id'))
+        t.createColumn('outcrop_type_id', nullable=False, referencedColumn=s.table('outcrop_types').column('id'))
+        t.createRangeCheckConstraint('chk_outcrop_types_in_beds_base_in_range', t.column('base'), 0, 100)
+        t.createRangeCheckConstraint('chk_outcrop_types_in_beds_top_in_range', t.column('top'), 0, 100)
     def setupTableFacies(self, s):
         t = s.createTable('facies', hasNameColumn=True, hasDescriptionColumn=True)
         t.createColumn('project_id', nullable=False, referencedColumn=s.table('projects').column('id'))
@@ -283,6 +307,8 @@ class MyModel(Model):
         t.createUniqueConstraint('u_profile_name_in_project', [t.column('project_id'), t.column('name'),])
     def setupPythonModules(self):
         model = self.createPythonModule('Model')
+        self.setupDataClasses(model)
+    def setupDataClasses(self, model):
         classEntity = model.createClass('Entity', None, None)
         self.setupLengthUnitClass(model, classEntity, self.database.schema('data').table('length_units'))
         self.setupGraphicPrimitiveClass(model, classEntity, self.database.schema('data').table('graphic_primitives'))
@@ -304,6 +330,8 @@ class MyModel(Model):
         self.setupStratigraphicUnitInBedClass(model, classEntity, self.database.schema('data').table('stratigraphic_units_in_beds'))
         self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'))
         self.setupColorInBedClass(model, classEntity, self.database.schema('data').table('colors_in_beds'))
+        self.setupOutcropTypeClass(model, classEntity, self.database.schema('data').table('outcrop_types'))
+        self.setupOutcropTypeInBedClass(model, classEntity, self.database.schema('data').table('outcrop_types_in_beds'))
         self.setupFaciesClass(model, classEntity, self.database.schema('data').table('facies'))
         self.setupFaciesInBedClass(model, classEntity, self.database.schema('data').table('facies_in_beds'))
         self.setupLithologyClass(model, classEntity, self.database.schema('data').table('lithologies'))
@@ -322,6 +350,16 @@ class MyModel(Model):
         self.setupFieldBookClass(model, classEntity, self.database.schema('data').table('field_books'))
         self.setupFieldBookEntryClass(model, classEntity, self.database.schema('data').table('field_book_entries'))
         self.setupBedClass(model, classEntity, self.database.schema('data').table('beds'))
+        self.setupProfileColumnClass(model, classEntity, self.database.schema('data').table('profile_columns'))
+        self.setupProfileColumnInProfileClass(model, classEntity, self.database.schema('data').table('profile_columns_in_profiles'))
+    def setupProfileColumnClass(self, module, baseClass, table):
+        c = module.createClass('ProfileColumn', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupProfileColumnInProfileClass(self, module, baseClass, table):
+        c = module.createClass('ProfileColumnInProfile', baseClass, table)
+        c.createField(table.column('profile_id'), 'profile', backrefName='profileColumns', relationClass='Profile', cascade='all')
+        c.createField(table.column('profile_column_id'), 'profileColumn', backrefName='profile', relationClass='ProfileColumn', cascade='all')
+        c.createField(table.column('position'), 'position')
+        c.addSortOrder(c.field('position'), ascending=True)
     def setupGraphicPrimitiveClass(self, module, baseClass, table):
         c = module.createClass('GraphicPrimitive', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.createField(table.column('svg_data'), 'svgData')
@@ -418,6 +456,17 @@ class MyModel(Model):
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('color_id'), 'color', backrefName='beds', relationClass='Color', cascade='all')
+    def setupOutcropTypeClass(self, module, baseClass, table):
+        c = module.createClass('OutcropType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+        c.createField(table.column('project_id'), 'project', backrefName='outcrop_types', relationClass='Project', cascade='all')
+        c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='outcrop_types', relationClass='GraphicPrimitive', cascade='all')
+        c.addSortOrder(c.field('name'), ascending=True)
+    def setupOutcropTypeInBedClass(self, module, baseClass, table):
+        c = module.createClass('OutcropTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+        c.createField(table.column('base'), 'base')
+        c.createField(table.column('top'), 'top')
+        c.createField(table.column('bed_id'), 'bed', backrefName='outcrop_types', relationClass='Bed', cascade='all')
+        c.createField(table.column('outcrop_type_id'), 'outcrop_type', backrefName='beds', relationClass='OutcropType', cascade='all')
     def setupFaciesClass(self, module, baseClass, table):
         c = module.createClass('Facies', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.createField(table.column('project_id'), 'project', backrefName='facies', relationClass='Project', cascade='all')
