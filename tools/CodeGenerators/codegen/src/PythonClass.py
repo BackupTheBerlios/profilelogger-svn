@@ -4,12 +4,16 @@ from PythonClassSorting import *
 
 class PythonClass(PythonEntity):
     def __init__(self, module, parentClass, name, table, sorting=[], 
-                 createIdField=False, createNameField=False, createDescriptionField=False):
+                 createIdField=False, 
+                 createNameField=False, 
+                 createDescriptionField=False,
+                 template=None):
         PythonEntity.__init__(self, module, name)
         self.parentClass = parentClass
         self.fields = []
         self.table = table
         self.sorting = []
+        self.template = template
         if createIdField:
             self.createIdField()
         if createNameField:
@@ -40,3 +44,5 @@ class PythonClass(PythonEntity):
         self.createField(self.table.column('name'), 'name')
     def createDescriptionField(self):
         self.createField(self.table.column('description'), 'description')
+    def hasTemplate(self):
+        return self.template is not None

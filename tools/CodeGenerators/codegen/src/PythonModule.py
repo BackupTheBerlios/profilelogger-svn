@@ -6,9 +6,16 @@ class PythonModule(PythonEntity):
         PythonEntity.__init__(self, parentModule, name)
         self.pythonModules = {}
         self.classes = {}
-    def createClass(self, name, parentClass, table, createIdField=False, createNameField=False, createDescriptionField=False):
+    def createClass(self, name, parentClass, table, 
+                    createIdField=False, 
+                    createNameField=False, 
+                    createDescriptionField=False, 
+                    template=None):
         self.classes[name] = PythonClass(self, parentClass, name, table, 
-                                         createIdField=createIdField, createNameField=createNameField, createDescriptionField=createDescriptionField)
+                                         createIdField=createIdField, 
+                                         createNameField=createNameField, 
+                                         createDescriptionField=createDescriptionField,
+                                         template=template)
         return self.classByName(name)
     def classByName(self, name):
         return self.classes[name]

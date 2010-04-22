@@ -1,5 +1,6 @@
 from Model import *
 from DataType import *
+from TemplateFile import *
 
 class MyModel(Model):
     def __init__(self):
@@ -307,271 +308,273 @@ class MyModel(Model):
         t.createUniqueConstraint('u_profile_name_in_project', [t.column('project_id'), t.column('name'),])
     def setupPythonModules(self):
         model = self.createPythonModule('Model')
+        gui = self.createPythonModule('Finders')
         self.setupDataClasses(model)
     def setupDataClasses(self, model):
-        classEntity = model.createClass('Entity', None, None)
-        self.setupLengthUnitClass(model, classEntity, self.database.schema('data').table('length_units'))
-        self.setupGraphicPrimitiveClass(model, classEntity, self.database.schema('data').table('graphic_primitives'))
-        self.setupProjectClass(model, classEntity, self.database.schema('data').table('projects'))
-        self.setupTectonicUnitTypeClass(model, classEntity, self.database.schema('data').table('tectonic_unit_types'))
-        self.setupTectonicUnitClass(model, classEntity, self.database.schema('data').table('tectonic_units'))
-        self.setupTectonicUnitInBedClass(model, classEntity, self.database.schema('data').table('tectonic_units_in_beds'))
-        self.setupGrainSizeTypeClass(model, classEntity, self.database.schema('data').table('grain_size_types'))
-        self.setupGrainSizeClass(model, classEntity, self.database.schema('data').table('grain_sizes'))
-        self.setupGrainSizeInBedClass(model, classEntity, self.database.schema('data').table('grain_sizes_in_beds'))
-        self.setupLithologicUnitTypeClass(model, classEntity, self.database.schema('data').table('lithologic_unit_types'))
-        self.setupLithologicUnitClass(model, classEntity, self.database.schema('data').table('lithologic_units'))
-        self.setupLithologicUnitInBedClass(model, classEntity, self.database.schema('data').table('lithologic_units_in_beds'))
-        self.setupSedimentologicUnitTypeClass(model, classEntity, self.database.schema('data').table('sedimentologic_unit_types'))
-        self.setupSedimentologicUnitClass(model, classEntity, self.database.schema('data').table('sedimentologic_units'))
-        self.setupSedimentologicUnitInBedClass(model, classEntity, self.database.schema('data').table('sedimentologic_units_in_beds'))
-        self.setupStratigraphicUnitTypeClass(model, classEntity, self.database.schema('data').table('stratigraphic_unit_types'))
-        self.setupStratigraphicUnitClass(model, classEntity, self.database.schema('data').table('stratigraphic_units'))
-        self.setupStratigraphicUnitInBedClass(model, classEntity, self.database.schema('data').table('stratigraphic_units_in_beds'))
-        self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'))
-        self.setupColorInBedClass(model, classEntity, self.database.schema('data').table('colors_in_beds'))
-        self.setupOutcropTypeClass(model, classEntity, self.database.schema('data').table('outcrop_types'))
-        self.setupOutcropTypeInBedClass(model, classEntity, self.database.schema('data').table('outcrop_types_in_beds'))
-        self.setupFaciesClass(model, classEntity, self.database.schema('data').table('facies'))
-        self.setupFaciesInBedClass(model, classEntity, self.database.schema('data').table('facies_in_beds'))
-        self.setupLithologyClass(model, classEntity, self.database.schema('data').table('lithologies'))
-        self.setupLithologyInBedClass(model, classEntity, self.database.schema('data').table('lithologies_in_beds'))
-        self.setupFossilClass(model, classEntity, self.database.schema('data').table('fossils'))
-        self.setupFossilInBedClass(model, classEntity, self.database.schema('data').table('fossils_in_beds'))
-        self.setupBeddingTypeClass(model, classEntity, self.database.schema('data').table('bedding_types'))
-        self.setupBeddingTypeInBedClass(model, classEntity, self.database.schema('data').table('bedding_types_in_beds'))
-        self.setupBoundaryTypeClass(model, classEntity, self.database.schema('data').table('boundary_types'))
-        self.setupBoundaryTypeInBedClass(model, classEntity, self.database.schema('data').table('boundary_types_in_beds'))
-        self.setupSedimentStructureClass(model, classEntity, self.database.schema('data').table('sediment_structures'))
-        self.setupSedimentStructureInBedClass(model, classEntity, self.database.schema('data').table('sediment_structures_in_beds'))
-        self.setupCustomSymbolClass(model, classEntity, self.database.schema('data').table('custom_symbols'))
-        self.setupCustomSymbolInBedClass(model, classEntity, self.database.schema('data').table('custom_symbols_in_beds'))
-        self.setupProfileClass(model, classEntity, self.database.schema('data').table('profiles'))
-        self.setupFieldBookClass(model, classEntity, self.database.schema('data').table('field_books'))
-        self.setupFieldBookEntryClass(model, classEntity, self.database.schema('data').table('field_book_entries'))
-        self.setupBedClass(model, classEntity, self.database.schema('data').table('beds'))
-        self.setupProfileColumnClass(model, classEntity, self.database.schema('data').table('profile_columns'))
-        self.setupProfileColumnInProfileClass(model, classEntity, self.database.schema('data').table('profile_columns_in_profiles'))
-    def setupProfileColumnClass(self, module, baseClass, table):
-        c = module.createClass('ProfileColumn', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
-    def setupProfileColumnInProfileClass(self, module, baseClass, table):
-        c = module.createClass('ProfileColumnInProfile', baseClass, table)
+        template = TemplateFile('templates/Persistance/Entity.py')
+        classEntity = model.createClass('Entity', None, None, template=template)
+        self.setupLengthUnitClass(model, classEntity, self.database.schema('data').table('length_units'), template)
+        self.setupGraphicPrimitiveClass(model, classEntity, self.database.schema('data').table('graphic_primitives'), template)
+        self.setupProjectClass(model, classEntity, self.database.schema('data').table('projects'), template)
+        self.setupTectonicUnitTypeClass(model, classEntity, self.database.schema('data').table('tectonic_unit_types'), template)
+        self.setupTectonicUnitClass(model, classEntity, self.database.schema('data').table('tectonic_units'), template)
+        self.setupTectonicUnitInBedClass(model, classEntity, self.database.schema('data').table('tectonic_units_in_beds'), template)
+        self.setupGrainSizeTypeClass(model, classEntity, self.database.schema('data').table('grain_size_types'), template)
+        self.setupGrainSizeClass(model, classEntity, self.database.schema('data').table('grain_sizes'), template)
+        self.setupGrainSizeInBedClass(model, classEntity, self.database.schema('data').table('grain_sizes_in_beds'), template)
+        self.setupLithologicUnitTypeClass(model, classEntity, self.database.schema('data').table('lithologic_unit_types'), template)
+        self.setupLithologicUnitClass(model, classEntity, self.database.schema('data').table('lithologic_units'), template)
+        self.setupLithologicUnitInBedClass(model, classEntity, self.database.schema('data').table('lithologic_units_in_beds'), template)
+        self.setupSedimentologicUnitTypeClass(model, classEntity, self.database.schema('data').table('sedimentologic_unit_types'), template)
+        self.setupSedimentologicUnitClass(model, classEntity, self.database.schema('data').table('sedimentologic_units'), template)
+        self.setupSedimentologicUnitInBedClass(model, classEntity, self.database.schema('data').table('sedimentologic_units_in_beds'), template)
+        self.setupStratigraphicUnitTypeClass(model, classEntity, self.database.schema('data').table('stratigraphic_unit_types'), template)
+        self.setupStratigraphicUnitClass(model, classEntity, self.database.schema('data').table('stratigraphic_units'), template)
+        self.setupStratigraphicUnitInBedClass(model, classEntity, self.database.schema('data').table('stratigraphic_units_in_beds'), template)
+        self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'), template)
+        self.setupColorInBedClass(model, classEntity, self.database.schema('data').table('colors_in_beds'), template)
+        self.setupOutcropTypeClass(model, classEntity, self.database.schema('data').table('outcrop_types'), template)
+        self.setupOutcropTypeInBedClass(model, classEntity, self.database.schema('data').table('outcrop_types_in_beds'), template)
+        self.setupFaciesClass(model, classEntity, self.database.schema('data').table('facies'), template)
+        self.setupFaciesInBedClass(model, classEntity, self.database.schema('data').table('facies_in_beds'), template)
+        self.setupLithologyClass(model, classEntity, self.database.schema('data').table('lithologies'), template)
+        self.setupLithologyInBedClass(model, classEntity, self.database.schema('data').table('lithologies_in_beds'), template)
+        self.setupFossilClass(model, classEntity, self.database.schema('data').table('fossils'), template)
+        self.setupFossilInBedClass(model, classEntity, self.database.schema('data').table('fossils_in_beds'), template)
+        self.setupBeddingTypeClass(model, classEntity, self.database.schema('data').table('bedding_types'), template)
+        self.setupBeddingTypeInBedClass(model, classEntity, self.database.schema('data').table('bedding_types_in_beds'), template)
+        self.setupBoundaryTypeClass(model, classEntity, self.database.schema('data').table('boundary_types'), template)
+        self.setupBoundaryTypeInBedClass(model, classEntity, self.database.schema('data').table('boundary_types_in_beds'), template)
+        self.setupSedimentStructureClass(model, classEntity, self.database.schema('data').table('sediment_structures'), template)
+        self.setupSedimentStructureInBedClass(model, classEntity, self.database.schema('data').table('sediment_structures_in_beds'), template)
+        self.setupCustomSymbolClass(model, classEntity, self.database.schema('data').table('custom_symbols'), template)
+        self.setupCustomSymbolInBedClass(model, classEntity, self.database.schema('data').table('custom_symbols_in_beds'), template)
+        self.setupProfileClass(model, classEntity, self.database.schema('data').table('profiles'), template)
+        self.setupFieldBookClass(model, classEntity, self.database.schema('data').table('field_books'), template)
+        self.setupFieldBookEntryClass(model, classEntity, self.database.schema('data').table('field_book_entries'), template)
+        self.setupBedClass(model, classEntity, self.database.schema('data').table('beds'), template)
+        self.setupProfileColumnClass(model, classEntity, self.database.schema('data').table('profile_columns'), template)
+        self.setupProfileColumnInProfileClass(model, classEntity, self.database.schema('data').table('profile_columns_in_profiles'), template)
+    def setupProfileColumnClass(self, module, baseClass, table, template):
+        c = module.createClass('ProfileColumn', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
+    def setupProfileColumnInProfileClass(self, module, baseClass, table, template):
+        c = module.createClass('ProfileColumnInProfile', baseClass, table, template=template)
         c.createField(table.column('profile_id'), 'profile', backrefName='profileColumns', relationClass='Profile', cascade='all')
         c.createField(table.column('profile_column_id'), 'profileColumn', backrefName='profile', relationClass='ProfileColumn', cascade='all')
         c.createField(table.column('position'), 'position')
         c.addSortOrder(c.field('position'), ascending=True)
-    def setupGraphicPrimitiveClass(self, module, baseClass, table):
-        c = module.createClass('GraphicPrimitive', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupGraphicPrimitiveClass(self, module, baseClass, table, template):
+        c = module.createClass('GraphicPrimitive', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('svg_data'), 'svgData')
         c.createField(table.column('original_path'), 'originalPath')
-    def setupTectonicUnitTypeClass(self, module, baseClass, table):
-        c = module.createClass('TectonicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupTectonicUnitTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('TectonicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='tectonic_unit_types', relationClass='Project', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupTectonicUnitClass(self, module, baseClass, table):
-        c = module.createClass('TectonicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupTectonicUnitClass(self, module, baseClass, table, template):
+        c = module.createClass('TectonicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='tectonic_units', relationClass='Project', cascade='all')
         c.createField(table.column('tectonic_unit_type_id'), 'tectonicUnitType', backrefName='tectonicUnits', relationClass='TectonicUnitType', cascade='all')                  
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='tectonicUnits', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupTectonicUnitInBedClass(self, module, baseClass, table):
-        c = module.createClass('TectonicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupTectonicUnitInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('TectonicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='tectonic_units', relationClass='Bed', cascade='all')
         c.createField(table.column('tectonic_unit_id'), 'tectonic_unit', backrefName='beds', relationClass='TectonicUnit', cascade='all')
-    def setupGrainSizeTypeClass(self, module, baseClass, table):
-        c = module.createClass('GrainSizeType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupGrainSizeTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('GrainSizeType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='grain_size_types', relationClass='Project', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupGrainSizeClass(self, module, baseClass, table):
-        c = module.createClass('GrainSize', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupGrainSizeClass(self, module, baseClass, table, template):
+        c = module.createClass('GrainSize', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='grain_sizes', relationClass='Project', cascade='all')
         c.createField(table.column('grain_size_type_id'), 'grainSizeType', backrefName='grainSizes', relationClass='GrainSizeType', cascade='all')                  
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='grainSizes', relationClass='GraphicPrimitive', cascade='all')
         c.createField(table.column('percent_from_max'), 'percentFromMax')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupGrainSizeInBedClass(self, module, baseClass, table):
-        c = module.createClass('GrainSizeInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupGrainSizeInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('GrainSizeInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='grain_sizes', relationClass='Bed', cascade='all')
         c.createField(table.column('grain_size_id'), 'grain_size', backrefName='beds', relationClass='GrainSize', cascade='all')
-    def setupSedimentologicUnitTypeClass(self, module, baseClass, table):
-        c = module.createClass('SedimentologicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupSedimentologicUnitTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('SedimentologicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='sedimentologic_unit_types', relationClass='Project', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupSedimentologicUnitClass(self, module, baseClass, table):
-        c = module.createClass('SedimentologicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupSedimentologicUnitClass(self, module, baseClass, table, template):
+        c = module.createClass('SedimentologicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='sedimentologic_units', relationClass='Project', cascade='all')
         c.createField(table.column('sedimentologic_unit_type_id'), 'sedimentologicUnitType', backrefName='sedimentologicUnits', relationClass='SedimentologicUnitType', cascade='all')                  
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='sedimentologicUnits', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupSedimentologicUnitInBedClass(self, module, baseClass, table):
-        c = module.createClass('SedimentologicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupSedimentologicUnitInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('SedimentologicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='sedimentologic_units', relationClass='Bed', cascade='all')
         c.createField(table.column('sedimentologic_unit_id'), 'sedimentologic_unit', backrefName='beds', relationClass='SedimentologicUnit', cascade='all')
-    def setupStratigraphicUnitTypeClass(self, module, baseClass, table):
-        c = module.createClass('StratigraphicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupStratigraphicUnitTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('StratigraphicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='stratigraphic_unit_types', relationClass='Project', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupStratigraphicUnitClass(self, module, baseClass, table):
-        c = module.createClass('StratigraphicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupStratigraphicUnitClass(self, module, baseClass, table, template):
+        c = module.createClass('StratigraphicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='stratigraphic_units', relationClass='Project', cascade='all')
         c.createField(table.column('stratigraphic_unit_type_id'), 'stratigraphicUnitType', backrefName='stratigraphicUnits', relationClass='StratigraphicUnitType', cascade='all')                  
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='stratigraphicUnits', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupStratigraphicUnitInBedClass(self, module, baseClass, table):
-        c = module.createClass('StratigraphicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupStratigraphicUnitInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('StratigraphicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='stratigraphic_units', relationClass='Bed', cascade='all')
         c.createField(table.column('stratigraphic_unit_id'), 'stratigraphic_unit', backrefName='beds', relationClass='StratigraphicUnit', cascade='all')
-    def setupLithologicUnitTypeClass(self, module, baseClass, table):
-        c = module.createClass('LithologicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupLithologicUnitTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('LithologicUnitType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='lithologic_unit_types', relationClass='Project', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupLithologicUnitClass(self, module, baseClass, table):
-        c = module.createClass('LithologicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupLithologicUnitClass(self, module, baseClass, table, template):
+        c = module.createClass('LithologicUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='lithologic_units', relationClass='Project', cascade='all')
         c.createField(table.column('lithologic_unit_type_id'), 'lithologicUnitType', backrefName='lithologicUnits', relationClass='LithologicUnitType', cascade='all')                  
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='lithologicUnits', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupLithologicUnitInBedClass(self, module, baseClass, table):
-        c = module.createClass('LithologicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupLithologicUnitInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('LithologicUnitInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='lithologic_units', relationClass='Bed', cascade='all')
         c.createField(table.column('lithologic_unit_id'), 'lithologic_unit', backrefName='beds', relationClass='LithologicUnit', cascade='all')
-    def setupColorClass(self, module, baseClass, table):
-        c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupColorClass(self, module, baseClass, table, template):
+        c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='colors', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='colors', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupColorInBedClass(self, module, baseClass, table):
-        c = module.createClass('ColorInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupColorInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('ColorInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('color_id'), 'color', backrefName='beds', relationClass='Color', cascade='all')
-    def setupOutcropTypeClass(self, module, baseClass, table):
-        c = module.createClass('OutcropType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupOutcropTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('OutcropType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='outcrop_types', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='outcrop_types', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupOutcropTypeInBedClass(self, module, baseClass, table):
-        c = module.createClass('OutcropTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupOutcropTypeInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('OutcropTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='outcrop_types', relationClass='Bed', cascade='all')
         c.createField(table.column('outcrop_type_id'), 'outcrop_type', backrefName='beds', relationClass='OutcropType', cascade='all')
-    def setupFaciesClass(self, module, baseClass, table):
-        c = module.createClass('Facies', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupFaciesClass(self, module, baseClass, table, template):
+        c = module.createClass('Facies', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='facies', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='facies', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupFaciesInBedClass(self, module, baseClass, table):
-        c = module.createClass('FaciesInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupFaciesInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('FaciesInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='facies', relationClass='Bed', cascade='all')
         c.createField(table.column('facies_id'), 'facies', backrefName='beds', relationClass='Facies', cascade='all')
-    def setupLithologyClass(self, module, baseClass, table):
-        c = module.createClass('Lithology', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupLithologyClass(self, module, baseClass, table, template):
+        c = module.createClass('Lithology', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='lithologies', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='lithologies', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupLithologyInBedClass(self, module, baseClass, table):
-        c = module.createClass('LithologyInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupLithologyInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('LithologyInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='lithologies', relationClass='Bed', cascade='all')
         c.createField(table.column('lithology_id'), 'lithology', backrefName='beds', relationClass='Lithology', cascade='all')
-    def setupFossilClass(self, module, baseClass, table):
-        c = module.createClass('Fossil', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupFossilClass(self, module, baseClass, table, template):
+        c = module.createClass('Fossil', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='fossils', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='fossils', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupFossilInBedClass(self, module, baseClass, table):
-        c = module.createClass('FossilInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupFossilInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('FossilInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='fossils', relationClass='Bed', cascade='all')
         c.createField(table.column('fossil_id'), 'fossil', backrefName='beds', relationClass='Fossil', cascade='all')
-    def setupBeddingTypeClass(self, module, baseClass, table):
-        c = module.createClass('BeddingType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupBeddingTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('BeddingType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='beddingTypes', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='beddingTypes', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupBeddingTypeInBedClass(self, module, baseClass, table):
-        c = module.createClass('BeddingTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupBeddingTypeInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('BeddingTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('bedding_type_id'), 'beddingType', backrefName='beds', relationClass='BeddingType', cascade='all')
-    def setupBoundaryTypeClass(self, module, baseClass, table):
-        c = module.createClass('BoundaryType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupBoundaryTypeClass(self, module, baseClass, table, template):
+        c = module.createClass('BoundaryType', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='boundaryTypes', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='boundaryTypes', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupBoundaryTypeInBedClass(self, module, baseClass, table):
-        c = module.createClass('BoundaryTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupBoundaryTypeInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('BoundaryTypeInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('boundary_type_id'), 'boundaryType', backrefName='beds', relationClass='BoundaryType', cascade='all')
-    def setupSedimentStructureClass(self, module, baseClass, table):
-        c = module.createClass('SedimentStructure', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupSedimentStructureClass(self, module, baseClass, table, template):
+        c = module.createClass('SedimentStructure', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='sedimentStructures', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='sedimentStructures', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupSedimentStructureInBedClass(self, module, baseClass, table):
-        c = module.createClass('SedimentStructureInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupSedimentStructureInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('SedimentStructureInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('sediment_structure_id'), 'sedimentStructure', backrefName='beds', relationClass='SedimentStructure', cascade='all')
-    def setupCustomSymbolClass(self, module, baseClass, table):
-        c = module.createClass('CustomSymbol', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupCustomSymbolClass(self, module, baseClass, table, template):
+        c = module.createClass('CustomSymbol', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='customSymbols', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='customSymbols', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupCustomSymbolInBedClass(self, module, baseClass, table):
-        c = module.createClass('CustomSymbolInBed', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupCustomSymbolInBedClass(self, module, baseClass, table, template):
+        c = module.createClass('CustomSymbolInBed', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('base'), 'base')
         c.createField(table.column('top'), 'top')
         c.createField(table.column('bed_id'), 'bed', backrefName='colors', relationClass='Bed', cascade='all')
         c.createField(table.column('custom_symbol_id'), 'customSymbol', backrefName='beds', relationClass='CustomSymbol', cascade='all')
-    def setupLengthUnitClass(self, module, baseClass, table):
-        c = module.createClass('LengthUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupLengthUnitClass(self, module, baseClass, table, template):
+        c = module.createClass('LengthUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('micro_metres'), 'microMetres')
-    def setupBedClass(self, module, baseClass, table):
-        c = module.createClass('Bed', baseClass, table)
+    def setupBedClass(self, module, baseClass, table, template):
+        c = module.createClass('Bed', baseClass, table, template=template)
         c.createField(table.column('id'), 'id')
         c.createField(table.column('position'), 'position')
         c.createField(table.column('bed_number'), 'bedNumber')
         c.createField(table.column('profile_id'), 'profile', backrefName='beds', relationClass='Profile', cascade='all')
         c.createField(table.column('height'), 'height')
         c.createField(table.column('height_length_unit_id'), 'heightLenghtUnit', relationClass='LengthUnit', cascade='all')
-    def setupFieldBookEntryClass(self, module, baseClass, table):
-        c = module.createClass('FieldBookEntry', baseClass, table)
+    def setupFieldBookEntryClass(self, module, baseClass, table, template):
+        c = module.createClass('FieldBookEntry', baseClass, table, template=template)
         c.createField(table.column('id'), 'id')
         c.createField(table.column('field_book_id'), 'fieldBook', backrefName='entries', relationClass='FieldBook', cascade='all')
-    def setupFieldBookClass(self, module, baseClass, table):
-        c = module.createClass('FieldBook', baseClass, table, createIdField=True, createDescriptionField=True)
+    def setupFieldBookClass(self, module, baseClass, table, template):
+        c = module.createClass('FieldBook', baseClass, table, createIdField=True, createDescriptionField=True, template=template)
         c.createField(table.column('title'), 'title')
         c.addSortOrder(c.field('title'), ascending=True)
-    def setupColorClass(self, module, baseClass, table):
-        c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupColorClass(self, module, baseClass, table, template):
+        c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='colors', relationClass='Project', cascade='all')
         c.createField(table.column('graphic_primitive_id'), 'graphicPrimitive', backrefName='colors', relationClass='GraphicPrimitive', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupProjectClass(self, module, baseClass, table):
-        c = module.createClass('Project', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupProjectClass(self, module, baseClass, table, template):
+        c = module.createClass('Project', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.addSortOrder(c.field('name'), ascending=True)
-    def setupProfileClass(self, module, baseClass, table):
-        c = module.createClass('Profile', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+    def setupProfileClass(self, module, baseClass, table, template):
+        c = module.createClass('Profile', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True, template=template)
         c.createField(table.column('project_id'), 'project', backrefName='profiles', relationClass='Project', cascade='all')
         c.addSortOrder(c.field('name'), ascending=True)

@@ -4,13 +4,7 @@ class PythonModelBuilder:
     def __init__(self):
         pass
     def makeParameterList(self, cl):
-        fnames = []
-        for f in cl.fields:
-            fnames.append(f.fieldName)
-        print "parameters: ",', '.join(fnames)
-
         lst = []
-        lst.append('self')
         for field in cl.fields:
             param=None
             if field.tableColumn.hasDefaultText():
@@ -25,33 +19,33 @@ class PythonModelBuilder:
         return '%s%s' % ('    ' * level, str)
     def buildClasses(self, path, classes):
         for c in classes:
-            buf = []
-            i = 0
-            buf.append(self.indent(i, '# generated from class definition'))
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.name)
+            tmpl.replaceKeyword('<init_parameters>', self.makeParameterList(c))
+
             if c.hasParentClass():
-                pc = c.parentClass
-                buf.append(self.indent(i, 'from %s import *\n' % pc.name))
-                buf.append(self.indent(i, 'class %s(%s):' % (c.name, pc.name)))
-                i += 1
-                buf.append(self.indent(i, 'def __init__(%s):' % self.makeParameterList(c)))
-                i += 1
-                buf.append(self.indent(i, '%s.__init__(self)' % pc.name))
-                i -= 2
+                tmpl.replaceKeyword('<imports>', 'from %s import *\n' % c.parentClass.name)
+                tmpl.replaceKeyword('<parent_class_name>', c.parentClass.name)
             else:
-                buf.append(self.indent(i, 'class %s(object):' % c.name))
-                i += 1
-                buf.append(self.indent(i, 'def __init__(%s):' % self.makeParameterList(c)))
-                i += 1
-                buf.append(self.indent(i, 'object.__init__(self)'))
-                i -= 2
-            i += 2
+                tmpl.replaceKeyword('<imports>', '')
+                tmpl.replaceKeyword('<parent_class_name>', 'object')
+
+            buf = []
+            isFirst = True
             for f in c.fields:
+                i = 0
+                if isFirst:
+                    isFirst = False
+                else:
+                    i = 2
                 buf.append(self.indent(i, 'self.%s = %s' % (f.fieldName, f.fieldName)))
-            i -= 2
-            print '\n'.join(buf),'\n---'
+            tmpl.replaceKeyword('<init_local_variables>', '\n'.join(buf))
+
+            print tmpl.data,'\n---'
             fn = '%s/%s.py' % (path, c.name)
             f = open(fn, 'w')
-            f.write('\n'.join(buf))
+            f.write(tmpl.data)
             f.close()
     def makePathToModule(self, path):
         f = open('%s/__init__.py' % path, 'w')
