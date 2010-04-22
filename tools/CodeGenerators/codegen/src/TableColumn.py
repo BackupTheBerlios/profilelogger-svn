@@ -6,7 +6,12 @@ from NotEmptyConstraint import *
 from UniqueConstraint import *
 
 class TableColumn(Entity):
-    def __init__(self, table, name, type=None, nullable=False, sequence=None, defaultValue=None, defaultText=None, primaryKey=False, referencedColumn=None, notEmpty=False, isUnique=False):
+    def __init__(self, table, name, 
+                 type=None, nullable=False, sequence=None, 
+                 defaultValue=None, defaultText=None, 
+                 primaryKey=False, 
+                 referencedColumn=None, 
+                 notEmpty=False, isUnique=False):
         Entity.__init__(self, name)
         self.table = table
         self.dataType = type
@@ -24,6 +29,8 @@ class TableColumn(Entity):
             self.createNotEmptyConstraint()
         if isUnique:
             self.createUniqueConstraint()
+    def __str__(self):
+        return '%s.%s' % (self.table, self.name)
     def hasSequence(self):
         return self.sequence is not None
     def hasDefaultValue(self):
