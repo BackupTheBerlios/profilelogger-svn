@@ -1,3 +1,6 @@
+status: clean
+	rm -rf `find . -type f -name "*.pyc"`
+	svn status
 first: run
 run: clean 
 	python src/mbuilder.py

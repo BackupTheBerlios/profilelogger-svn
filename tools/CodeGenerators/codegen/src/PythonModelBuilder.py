@@ -4,18 +4,22 @@ class PythonModelBuilder:
     def __init__(self):
         pass
     def makeParameterList(self, cl):
+        fnames = []
+        for f in cl.fields:
+            fnames.append(f.fieldName)
+        print "parameters: ",', '.join(fnames)
+
         lst = []
         lst.append('self')
         for field in cl.fields:
+            param=None
             if field.tableColumn.hasDefaultText():
-                lst.append("%s='%s'" % (field.fieldName, field.tableColumn.defaultText))
+                param = "%s='%s'" % (field.fieldName, field.tableColumn.defaultText)
             elif field.tableColumn.hasDefaultValue():
-                lst.append("%s=%s" % (field.fieldName, field.tableColumn.defaultValue))
-            elif field.tableColumn.nullable:
-                lst.append('%s=None' % field.fieldName)
-            else:
-                lst.append(field.fieldName)
-
+                param = "%s=%s" % (field.fieldName, field.tableColumn.defaultValue)
+            if param is None:
+                param = '%s=None' % field.fieldName
+            lst.append(param)
         return ', '.join(lst)
     def indent(self, level, str):
         return '%s%s' % ('    ' * level, str)

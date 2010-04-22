@@ -3,12 +3,19 @@ from PythonField import *
 from PythonClassSorting import *
 
 class PythonClass(PythonEntity):
-    def __init__(self, module, parentClass, name, table, sorting=[]):
+    def __init__(self, module, parentClass, name, table, sorting=[], 
+                 createIdField=False, createNameField=False, createDescriptionField=False):
         PythonEntity.__init__(self, module, name)
         self.parentClass = parentClass
         self.fields = []
         self.table = table
         self.sorting = []
+        if createIdField:
+            self.createIdField()
+        if createNameField:
+            self.createNameField()
+        if createDescriptionField:
+            self.createDescriptionField()
     def field(self, name):
         for f in self.fields:
             if f.fieldName == name:
@@ -27,3 +34,9 @@ class PythonClass(PythonEntity):
         self.fields.append(PythonField(self, tableColumn, propertyName, backrefName, relationClass, cascade))
     def hasParentClass(self):
         return self.parentClass is not None
+    def createIdField(self):
+        self.createField(self.table.column('id'), 'id')
+    def createNameField(self):
+        self.createField(self.table.column('name'), 'name')
+    def createDescriptionField(self):
+        self.createField(self.table.column('description'), 'description')

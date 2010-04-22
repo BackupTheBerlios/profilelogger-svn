@@ -6,7 +6,11 @@ from NotEmptyConstraint import *
 from ForeignKey import *
 
 class Table(Entity):
-    def __init__(self, schema, name):
+    def __init__(self, schema, name, 
+                 hasIdColumn=True, 
+                 hasNameColumn=False, 
+                 nameColumnIsUnique=False, 
+                 hasDescriptionColumn=False):
         Entity.__init__(self, name)
         self.columns = {}
         self.schema = schema
@@ -14,8 +18,24 @@ class Table(Entity):
         self.notEmptyConstraints = {}
         self.foreignKeys = {}
         self.primaryKey=None
-    def createColumn(self, name, dataType=None, nullable=False, sequence=None, defaultValue=None, defaultText=None, primaryKey=False, referencedColumn=None, notEmpty=False, isUnique=False):
-        self.columns[name] = TableColumn(self, name, dataType, nullable, sequence, defaultValue, defaultText, primaryKey, referencedColumn, notEmpty, isUnique)
+        if hasIdColumn:
+            self.createIdColumn('seq_%s' % self.name)
+        if hasNameColumn:
+            self.createNameColumn()
+        if nameColumnIsUnique:
+            self.createUniqueConstraintOnNameColumn()
+        if hasDescriptionColumn:
+            self.createDescriptionColumn()
+    def createColumn(self, name, dataType=None, nullable=False, 
+                     sequence=None, defaultValue=None, 
+                     defaultText=None, primaryKey=False, 
+                     referencedColumn=None, notEmpty=False, isUnique=False):
+        if self.columns.keys().count(name) > 0:
+            print "!!! WARN !!! column %s already in table %s" % (name, self.table.name)
+        self.columns[name] = TableColumn(self, name, dataType, nullable, 
+                                         sequence, defaultValue, defaultText, 
+                                         primaryKey, referencedColumn, 
+                                         notEmpty, isUnique)
         return self.column(name)
     def column(self, name):
         return self.columns[name]
@@ -38,3 +58,14 @@ class Table(Entity):
         return self.foreignKey(name)
     def foreignKey(self, name):
         return self.foreignKeys[name]
+    def createIdColumn(self, sequenceName):
+        self.createColumn('id', self.schema.database.model.dataType('Integer'), sequence=self.schema.createSequence(sequenceName), primaryKey=True, nullable=False)
+    def createNameColumn(self):
+        self.createColumn('name', self.schema.database.model.dataType('Unicode'), 
+                          nullable=False, 
+                          notEmpty=True, 
+                          defaultText='new item')
+    def createUniqueConstraintOnNameColumn(self):
+        self.createUniqueConstraint('u_%s_name' % self.name, [self.column('name'),])
+    def createDescriptionColumn(self):
+        self.createColumn('description', self.schema.database.model.dataType('Unicode'), nullable=False, defaultText='')

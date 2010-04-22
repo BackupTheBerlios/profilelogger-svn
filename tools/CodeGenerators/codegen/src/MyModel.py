@@ -21,51 +21,70 @@ class MyModel(Model):
         db = self.createDatabase('profilelogger')
         s = db.createSchema('data')
         self.setupTableProjects(s)
+        self.setupTableLengthUnits(s)
         self.setupTableProfiles(s)
+        self.setupTableBeds(s)
         self.setupTableColors(s)
+        self.setupTableFieldBooks(s)
+        self.setupTableFieldBookEntries(s)
+    def setupTableLengthUnits(self, s):
+        t = s.createTable('length_units', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True)
+        t.createColumn('micro_metres', self.dataType('Integer'), nullable=False, defaultValue=0, isUnique=True)
+    def setupTableBeds(self, s):
+        t = s.createTable('beds', hasDescriptionColumn=True)
+        t.createColumn('position', self.dataType('Integer'), nullable=False)
+        t.createColumn('bed_number', self.dataType('Unicode'), nullable=False, isUnique=True, notEmpty=True)
+        t.createColumn('profile_id', s.table('profiles').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createUniqueConstraint('u_bed_number_in_profile', [t.column('profile_id'), t.column('bed_number'),])
+    def setupTableFieldBookEntries(self, s):
+        t = s.createTable('field_book_entries')
+        t.createColumn('field_book_id', s.table('field_books').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
+    def setupTableFieldBooks(self, s):
+        t = s.createTable('field_books', hasDescriptionColumn=True)
+        t.createColumn('title', self.dataType('Unicode'), defaultText='new field book', notEmpty=True)
     def setupTableProjects(self, s):
-        t = s.createTable('projects')
-        t.createColumn('id', self.dataType('Integer'), sequence=s.createSequence('seq_projects'), primaryKey=True)
-        t.createColumn('name', self.dataType('Unicode'), defaultText='new project', notEmpty=True, isUnique=True)
-        t.createColumn('description', self.dataType('Unicode'), defaultText='')
-
-
+        t = s.createTable('projects', hasNameColumn=True, hasDescriptionColumn=True)
     def setupTableColors(self, s):
-        t = s.createTable('colors')
-        t.createColumn('id', self.dataType('Integer'), sequence=s.createSequence('seq_colors'), primaryKey=True)
-        t.createColumn('name', self.dataType('Unicode'), defaultText='new color', notEmpty=True, isUnique=True)
-        t.createColumn('description', self.dataType('Unicode'), defaultText='')
+        t = s.createTable('colors', hasNameColumn=True, nameColumnIsUnique=True, hasDescriptionColumn=True, )
         t.createUniqueConstraint('u_colors_name', [t.column('name')])
     def setupTableProfiles(self, s):
-        t = s.createTable('profiles')
-        t.createColumn('id', self.dataType('Integer'), sequence=s.createSequence('seq_profiles'), primaryKey=True)
+        t = s.createTable('profiles', hasNameColumn=True, hasDescriptionColumn=True)
         t.createColumn('project_id', s.table('projects').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
-        t.createColumn('name', self.dataType('Unicode'), nullable=False, defaultText='new profile', notEmpty=True)
-        t.createColumn('description', self.dataType('Unicode'), defaultText='')
         t.createUniqueConstraint('u_profile_name_in_project', [t.column('project_id'), t.column('name'),])
     def setupPythonModules(self):
         model = self.createPythonModule('Model')
         classEntity = model.createClass('Entity', None, None)
-        self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'))
+        self.setupLengthUnitClass(model, classEntity, self.database.schema('data').table('length_units'))
         self.setupProjectClass(model, classEntity, self.database.schema('data').table('projects'))
+        self.setupColorClass(model, classEntity, self.database.schema('data').table('colors'))
         self.setupProfileClass(model, classEntity, self.database.schema('data').table('profiles'))
+        self.setupFieldBookClass(model, classEntity, self.database.schema('data').table('field_books'))
+        self.setupFieldBookEntryClass(model, classEntity, self.database.schema('data').table('field_book_entries'))
+        self.setupBedClass(model, classEntity, self.database.schema('data').table('beds'))
+    def setupLengthUnitClass(self, module, baseClass, table):
+        c = module.createClass('LengthUnit', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
+        c.createField(table.column('micro_metres'), 'microMetres')
+    def setupBedClass(self, module, baseClass, table):
+        c = module.createClass('Bed', baseClass, table)
+        c.createField(table.column('id'), 'id')
+        c.createField(table.column('position'), 'position')
+        c.createField(table.column('bed_number'), 'bedNumber')
+        c.createField(table.column('profile_id'), 'profile', backrefName='beds', relationClass='Profile', cascade='all')
+    def setupFieldBookEntryClass(self, module, baseClass, table):
+        c = module.createClass('FieldBookEntry', baseClass, table)
+        c.createField(table.column('id'), 'id')
+        c.createField(table.column('field_book_id'), 'fieldBook', backrefName='entries', relationClass='FieldBook', cascade='all')
+    def setupFieldBookClass(self, module, baseClass, table):
+        c = module.createClass('FieldBook', baseClass, table, createIdField=True, createDescriptionField=True)
+        c.createField(table.column('title'), 'title')
+        c.addSortOrder(c.field('title'), ascending=True)
     def setupColorClass(self, module, baseClass, table):
-        c = module.createClass('Color', baseClass, table)
-        c.createField(table.column('id'), 'id')
-        c.createField(table.column('name'), 'name')
-        c.createField(table.column('description'), 'description')
+        c = module.createClass('Color', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.addSortOrder(c.field('name'), ascending=True)
-
     def setupProjectClass(self, module, baseClass, table):
-        c = module.createClass('Project', baseClass, table)
-        c.createField(table.column('id'), 'id')
-        c.createField(table.column('name'), 'name')
-        c.createField(table.column('description'), 'description')
+        c = module.createClass('Project', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.addSortOrder(c.field('name'), ascending=True)
     def setupProfileClass(self, module, baseClass, table):
-        c = module.createClass('Profile', baseClass, table)
+        c = module.createClass('Profile', baseClass, table, createIdField=True, createNameField=True, createDescriptionField=True)
         c.createField(table.column('project_id'), 'project', backrefName='profiles', relationClass='Project', cascade='all')
-        c.createField(table.column('id'), 'id')
-        c.createField(table.column('name'), 'name')
-        c.createField(table.column('description'), 'description')
         c.addSortOrder(c.field('name'), ascending=True)
