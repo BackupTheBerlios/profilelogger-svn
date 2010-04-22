@@ -35,6 +35,8 @@ class MyModel(Model):
         t.createColumn('position', self.dataType('Integer'), nullable=False)
         t.createColumn('bed_number', self.dataType('Unicode'), nullable=False, isUnique=True, notEmpty=True)
         t.createColumn('profile_id', s.table('profiles').column('id').dataType, nullable=False, referencedColumn=s.table('projects').column('id'))
+        t.createColumn('height', self.dataType('Integer'), nullable=False, defaultValue=0)
+        t.createColumn('height_length_unit_id', s.table('length_units').column('id').dataType, nullable=False, referencedColumn=s.table('length_units').column('id'))
         t.createUniqueConstraint('u_bed_number_in_profile', [t.column('profile_id'), t.column('bed_number'),])
     def setupTableFieldBookEntries(self, s):
         t = s.createTable('field_book_entries')
@@ -70,6 +72,8 @@ class MyModel(Model):
         c.createField(table.column('position'), 'position')
         c.createField(table.column('bed_number'), 'bedNumber')
         c.createField(table.column('profile_id'), 'profile', backrefName='beds', relationClass='Profile', cascade='all')
+        c.createField(table.column('height'), 'height')
+        c.createField(table.column('height_length_unit_id'), 'heightLenghtUnit', relationClass='LengthUnit', cascade='all')
     def setupFieldBookEntryClass(self, module, baseClass, table):
         c = module.createClass('FieldBookEntry', baseClass, table)
         c.createField(table.column('id'), 'id')
