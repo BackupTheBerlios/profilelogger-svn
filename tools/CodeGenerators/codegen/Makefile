@@ -6,12 +6,12 @@ run:
 	python src/mbuilder.py
 gen: run copy-templates
 copy-templates:
-	cp templates/Persistance/ConnectionData.py generated/Persistance/
-	cp templates/Finders/Finder.py generated/Finders
-	cp templates/Finders/InProjectFinderBase.py generated/Finders
-	cp templates/Finders/InProfileFinderBase.py generated/Finders
-	cp templates/Finders/InBedFinderBase.py generated/Finders
-	cp templates/Finders/InFieldBookFinderBase.py generated/Finders
+	cp templates/Logic/Persistance/ConnectionData.py generated/Logic/Persistance/
+	cp templates/Logic/Finders/Finder.py generated/Logic/Finders
+	cp templates/Logic/Finders/InProjectFinderBase.py generated/Logic/Finders
+	cp templates/Logic/Finders/InProfileFinderBase.py generated/Logic/Finders
+	cp templates/Logic/Finders/InBedFinderBase.py generated/Logic/Finders
+	cp templates/Logic/Finders/InFieldBookFinderBase.py generated/Logic/Finders
 	cp templates/runTest.py generated
 clean:
 	rm -rf generated

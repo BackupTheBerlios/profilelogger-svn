@@ -40,3 +40,8 @@ class PythonModule(PythonEntity):
             return '%s.%s' % (self.parent.__str__(), self.name)
         else:
             return self.name
+    def fullName(self):
+        if self.hasParent():
+            return '%s.%s' % (self.parent.fullName(), self.name)
+        return self.name
+   

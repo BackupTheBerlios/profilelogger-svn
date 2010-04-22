@@ -27,7 +27,7 @@ def run():
     d.debug(m)
 
     pyModelBuilder = PythonModelBuilder()
-    pyModelBuilder.build(m)
+    pyModelBuilder.build(m, m.pythonDataClasses)
 
 if '__main__' == __name__:
     run()

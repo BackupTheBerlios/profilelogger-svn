@@ -5,3 +5,5 @@ class PythonEntity(object):
         self.name = name
         self.setter = setter
         self.getter = getter
+    def hasParent(self):
+        return self.parent is not None
