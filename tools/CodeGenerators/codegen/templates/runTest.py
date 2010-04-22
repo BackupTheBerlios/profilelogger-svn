@@ -1,5 +1,5 @@
-from Persistance.Database import *
-from Persistance.ConnectionData import *
+from Logic.Persistance.Database import *
+from Logic.Persistance.ConnectionData import *
 
 def run():
   db = Database()
