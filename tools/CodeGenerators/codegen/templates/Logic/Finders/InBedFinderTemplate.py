@@ -2,14 +2,14 @@
 Boilderplate comment.
 """
 
-from Finder import *
+from InBedFinderBase import *
 
-from Model.InBed import *
+from Model.<class_name> import *
 
-class InBedFinder(Finder):
+class <class_name>Finder(InBedFinderBase):
     def __init__(self, parent):
-        Finder.__init__(self, parent)
-    def doFindAllInBed(self, dataClass, orderCol, bed):
+        InBedFinderBase.__init__(self, parent)
+    def findAll(self, bed):
         if bed is None:
             return None
-        return self.getSession().query(dataClass).filter(dataClass.bed == bed).all()
+        return self.doFindAllInBed(<class_name>, bed)
