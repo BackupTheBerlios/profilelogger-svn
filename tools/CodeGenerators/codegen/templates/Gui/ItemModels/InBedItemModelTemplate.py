@@ -1,4 +1,4 @@
-from InBedManagementItemModel import *
+from InBedItemModel import *
 
 from PyQt4.QtGui import *
 
@@ -10,11 +10,11 @@ class <class_name>Item(StandardItem):
         StandardItem.__init__(self, entity)
         self.showData()
 
-class <class_name>ItemModel(InBedManagementItemModel):
+class <class_name>ItemModel(InBedItemModel):
     def __init__(self, parent):
-        InBedManagementItemModel.__init__(self, parent,
-                                          <class_name>,
-                                          <class_name>Item,
-                                          <class_name>EditorDialog,
-                                          <class_name>Finder)
+        InBedItemModel.__init__(self, parent,
+                                <class_name>,
+                                <class_name>Item,
+                                <class_name>EditorDialog,
+                                <class_name>Finder)
         self.headerStrings = [<header_strings>]

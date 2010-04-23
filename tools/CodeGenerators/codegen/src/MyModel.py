@@ -376,10 +376,10 @@ class MyModel(Model):
 
     def setupItemModelModule(self, module):
         globalTmpl = TemplateFile('templates/Gui/ItemModels/GlobalItemModelTemplate.py')
-        inProjectTmpl = TemplateFile('templates/Gui/ItemModels/InProjectManagementItemModelTemplate.py')
-        inProfileTmpl = TemplateFile('templates/Gui/ItemModels/InProfileManagementItemModelTemplate.py')
-        inBedTmpl = TemplateFile('templates/Gui/ItemModels/InBedManagementItemModelTemplate.py')
-        inFieldBookTmpl = TemplateFile('templates/Gui/ItemModels/InFieldBookManagementItemModelTemplate.py')
+        inProjectTmpl = TemplateFile('templates/Gui/ItemModels/InProjectItemModelTemplate.py')
+        inProfileTmpl = TemplateFile('templates/Gui/ItemModels/InProfileItemModelTemplate.py')
+        inBedTmpl = TemplateFile('templates/Gui/ItemModels/InBedItemModelTemplate.py')
+        inFieldBookTmpl = TemplateFile('templates/Gui/ItemModels/InFieldBookItemModelTemplate.py')
 
         module.createItemModelClass('GraphicPrimitive', globalTmpl, headerStrings=['Graphic Primitives', ])
         module.createItemModelClass('Project', globalTmpl, headerStrings=['Projects',])
@@ -530,11 +530,11 @@ class MyModel(Model):
         module.createComboBoxClass('FieldBookEntry', inFieldBookTmpl)
 
     def setupFinderClasses(self, module):
-        globalTmpl = TemplateFile('templates/Logic/Finders/GlobalFinder.py')
-        inProjectTmpl = TemplateFile('templates/Logic/Finders/InProjectFinder.py')
-        inProfileTmpl = TemplateFile('templates/Logic/Finders/InProfileFinder.py')
-        inBedTmpl = TemplateFile('templates/Logic/Finders/InBedFinder.py')
-        inFieldBookTmpl = TemplateFile('templates/Logic/Finders/InFieldBookFinder.py')
+        globalTmpl = TemplateFile('templates/Logic/Finders/GlobalFinderTemplate.py')
+        inProjectTmpl = TemplateFile('templates/Logic/Finders/InProjectFinderTemplate.py')
+        inProfileTmpl = TemplateFile('templates/Logic/Finders/InProfileFinderTemplate.py')
+        inBedTmpl = TemplateFile('templates/Logic/Finders/InBedFinderTemplate.py')
+        inFieldBookTmpl = TemplateFile('templates/Logic/Finders/InFieldBookFinderTemplate.py')
 
         module.createFinderClass('GraphicPrimitive', globalTmpl)
         module.createFinderClass('Project', globalTmpl)

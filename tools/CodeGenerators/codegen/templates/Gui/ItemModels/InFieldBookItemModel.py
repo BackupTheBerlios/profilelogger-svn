@@ -3,7 +3,7 @@ from ManagementItemModel import *
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-class InFieldBookManagementItemModel(ManagementItemModel):
+class InFieldBookItemModel(ManagementItemModel):
     enableViews = pyqtSignal()
     disableViews = pyqtSignal()
     reloaded = pyqtSignal()

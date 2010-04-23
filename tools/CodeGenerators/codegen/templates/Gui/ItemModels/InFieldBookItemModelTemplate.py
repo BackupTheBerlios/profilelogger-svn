@@ -1,4 +1,4 @@
-from InFieldBookManagementItemModel import *
+from InFieldBookItemModel import *
 
 from PyQt4.QtGui import *
 
@@ -10,11 +10,11 @@ class <class_name>Item(StandardItem):
         StandardItem.__init__(self, entity)
         self.showData()
 
-class <class_name>ItemModel(InFieldBookManagementItemModel):
+class <class_name>ItemModel(InFieldBookItemModel):
     def __init__(self, parent):
-        InFieldBookManagementItemModel.__init__(self, parent,
-                                                <class_name>,
-                                                <class_name>Item,
-                                                <class_name>EditorDialog,
-                                                <class_name>Finder)
+        InFieldBookItemModel.__init__(self, parent,
+                                      <class_name>,
+                                      <class_name>Item,
+                                      <class_name>EditorDialog,
+                                      <class_name>Finder)
         self.headerStrings = [<header_strings>]

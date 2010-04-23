@@ -1,4 +1,4 @@
-from InProfileManagementItemModel import *
+from InProfileItemModel import *
 
 from PyQt4.QtGui import *
 
@@ -10,11 +10,11 @@ class <class_name>Item(StandardItem):
         StandardItem.__init__(self, entity)
         self.showData()
 
-class <class_name>ItemModel(InProfileManagementItemModel):
+class <class_name>ItemModel(InProfileItemModel):
     def __init__(self, parent):
-        InProfileManagementItemModel.__init__(self, parent,
-                                              <class_name>,
-                                              <class_name>Item,
-                                              <class_name>EditorDialog,
-                                              <class_name>Finder)
+        InProfileItemModel.__init__(self, parent,
+                                    <class_name>,
+                                    <class_name>Item,
+                                    <class_name>EditorDialog,
+                                    <class_name>Finder)
         self.headerStrings = [<header_strings>]
