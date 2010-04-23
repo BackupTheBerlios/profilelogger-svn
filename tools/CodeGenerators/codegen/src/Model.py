@@ -12,6 +12,7 @@ class Model(Entity):
         self.comoboBoxModule = None
         self.itemModelModule = None
         self.treeViewModule = None
+        self.editorDialogModule=None
     def createDatabase(self, name):
         self.database = Database(self, name)
         return self.database
@@ -40,3 +41,9 @@ class Model(Entity):
     def createManagementDialogClasses(self, module, classNameTemplateHeaderList):
         for i in classNameTemplateHeaderList:
             module.createManagementDialogClass(i[0], i[1], header=i[2])
+    def createEditorDialogClasses(self, module, classNameTemplatePairs):
+        for i in classNameTemplatePairs:
+            module.createEditorDialogClass(i[0], i[1])
+    def createEditorDialogClasses(self, module, classNameTemplatePairs):
+        for i in classNameTemplatePairs:
+            module.createEditorDialogClass(i[0], i[1])

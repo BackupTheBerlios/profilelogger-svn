@@ -53,6 +53,12 @@ class PythonModelBuilder:
             tmpl.loadFile()
             tmpl.replaceKeyword('<class_name>', c.dataClassName)
             self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
+    def buildEditorDialogClasses(self, path, classes):
+        for c in classes:
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.dataClassName)
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
     def buildItemModelClasses(self, path, classes):
         for c in classes:
             tmpl = c.template
@@ -98,6 +104,7 @@ class PythonModelBuilder:
             self.buildItemModelClasses(p, m.itemModelClasses.values())
             self.buildTreeViewClasses(p, m.treeViewClasses.values())
             self.buildManagementDialogClasses(p, m.managementDialogClasses.values())
+            self.buildEditorDialogClasses(p, m.editorDialogClasses.values())
             self.buildModules(p, m.pythonModules.values())
     def build(self, model, 
               persistanceModule, 

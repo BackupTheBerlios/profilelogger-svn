@@ -316,12 +316,61 @@ class MyModel(Model):
         self.itemModelModule = gui.createPythonModule('ItemModels')
         self.treeViewModule = gui.createPythonModule('TreeViews')
         self.managementDialogModule = gui.createPythonModule('ManagementDialogs')
+        self.editorDialogModule = gui.createPythonModule('EditorDialogs')
         self.setupDataClasses(self.pythonDataModule)
-        self.setupFinderClasses(finders)
-        self.setupComboBoxClasses(self.comboBoxModule)
+        self.setupFinderModule(finders)
+        self.setupComboBoxModule(self.comboBoxModule)
         self.setupItemModelModule(self.itemModelModule)
         self.setupTreeViewModule(self.treeViewModule)
         self.setupManagementDialogModule(self.managementDialogModule)
+        self.setupEditorDialogModule(self.editorDialogModule)
+    def setupEditorDialogModule(self, module):
+        globalTmpl = TemplateFile('templates/Gui/EditorDialogs/EditorDialogTemplate.py')
+        self.createEditorDialogClasses(module, [['GraphicPrimitive', globalTmpl, ],
+                                                ['Project', globalTmpl, ],
+                                                ['LengthUnit', globalTmpl, ],
+                                                ['Profile', globalTmpl, ],
+                                                ['ProfileColumn', globalTmpl, ],
+                                                ['ProfileColumnInProfile', globalTmpl, ],
+                                                ['Bed', globalTmpl, ],
+                                                ['Color', globalTmpl, ],
+                                                ['ColorGlobal', globalTmpl, ],
+                                                ['OutcropType', globalTmpl, ],
+                                                ['OutcropTypeGlobal', globalTmpl, ],
+                                                ['Facies', globalTmpl, ],
+                                                ['FaciesGlobal', globalTmpl, ],
+                                                ['Lithology', globalTmpl, ],
+                                                ['LithologyGlobal', globalTmpl, ],
+                                                ['TectonicUnitType', globalTmpl, ],
+                                                ['TectonicUnit', globalTmpl, ],
+                                                ['TectonicUnitGlobal', globalTmpl, ],
+                                                ['GrainSizeType', globalTmpl, ],
+                                                ['GrainSize', globalTmpl, ],
+                                                ['GrainSizeGlobal', globalTmpl, ],
+                                                ['LithologicUnitType', globalTmpl, ],
+                                                ['LithologicUnit', globalTmpl, ],
+                                                ['LithologicUnitGlobal', globalTmpl, ],
+                                                ['SedimentologicUnitType', globalTmpl, ],
+                                                ['SedimentologicUnit', globalTmpl, ],
+                                                ['SedimentologicUnitGlobal', globalTmpl, ],
+                                                ['StratigraphicUnitType', globalTmpl, ],
+                                                ['StratigraphicUnit', globalTmpl, ],
+                                                ['StratigraphicUnitGlobal', globalTmpl, ],
+                                                ['Fossil', globalTmpl, ],
+                                                ['FossilGlobal', globalTmpl, ],
+                                                ['BeddingType', globalTmpl, ],
+                                                ['BeddingTypeGlobal', globalTmpl, ],
+                                                ['BoundaryType', globalTmpl, ],
+                                                ['BoundaryTypeGlobal', globalTmpl, ],
+                                                ['SedimentStructure', globalTmpl, ],
+                                                ['SedimentStructureGlobal', globalTmpl, ],
+                                                ['CustomSymbol', globalTmpl, ],
+                                                ['CustomSymbolGlobal', globalTmpl, ],
+                                                ['BeddingType', globalTmpl, ],
+                                                ['BeddingTypeGlobal', globalTmpl, ],
+                                                ['FieldBook', globalTmpl, ],
+                                                ['FieldBookEntry', globalTmpl, ],])
+
     def setupManagementDialogModule(self, module):
         globalTmpl = TemplateFile('templates/Gui/ManagementDialogs/GlobalManagementDialogTemplate.py')
         inProjectTmpl = TemplateFile('templates/Gui/ManagementDialogs/InProjectManagementDialogTemplate.py')
@@ -333,7 +382,7 @@ class MyModel(Model):
                                                     ['LengthUnit', globalTmpl, 'Length Units', ],        
                                                     ['FieldBook', globalTmpl, 'Field Books', ],
                                                     ['Profile', inProjectTmpl, 'Profiles', ],
-                                                    ['Bed', inProjectTmpl, 'Beds', ],
+                                                    ['Bed', inProfileTmpl, 'Beds', ],
                                                     ['Color', inProjectTmpl, 'Colors', ],
                                                     ['OutcropType', inProjectTmpl, 'Outcrop Types', ],
                                                     ['Facies', inProjectTmpl, 'Facies', ],
@@ -384,7 +433,7 @@ class MyModel(Model):
                                                    ['LengthUnit', globalTmpl, ['Length Units', ], ],        
                                                    ['FieldBook', globalTmpl, ['Field Books', ], ],
                                                    ['Profile', inProjectTmpl, ['Profiles', ], ],
-                                                   ['Bed', inProjectTmpl, ['Beds', ], ],
+                                                   ['Bed', inProfileTmpl, ['Beds', ], ],
                                                    ['Color', inProjectTmpl, ['Colors', ], ],
                                                    ['OutcropType', inProjectTmpl, ['Outcrop Types', ], ],
                                                    ['Facies', inProjectTmpl, ['Facies', ], ],
@@ -435,7 +484,7 @@ class MyModel(Model):
                                             ['LengthUnit', globalTmpl, ],        
                                             ['FieldBook', globalTmpl, ],
                                             ['Profile', inProjectTmpl, ],
-                                            ['Bed', inProjectTmpl, ],
+                                            ['Bed', inProfileTmpl, ],
                                             ['Color', inProjectTmpl, ],
                                             ['OutcropType', inProjectTmpl, ],
                                             ['Facies', inProjectTmpl, ],
@@ -474,7 +523,7 @@ class MyModel(Model):
                                             ['CustomSymbolInBed', inBedTmpl, ],
                                             ['BeddingTypeInBed', inBedTmpl, ],
                                             ['FieldBookEntry', inFieldBookTmpl, ],])
-    def setupComboBoxClasses(self, module):
+    def setupComboBoxModule(self, module):
         globalTmpl = TemplateFile('templates/Gui/ComboBoxes/GlobalComboBoxTemplate.py')
         inProjectTmpl = TemplateFile('templates/Gui/ComboBoxes/InProjectComboBoxTemplate.py')
         inProfileTmpl = TemplateFile('templates/Gui/ComboBoxes/InProfileComboBoxTemplate.py')
@@ -524,7 +573,7 @@ class MyModel(Model):
                                             ['CustomSymbolInBed', inBedTmpl, ],
                                             ['BeddingTypeInBed', inBedTmpl, ],
                                             ['FieldBookEntry', inFieldBookTmpl, ],])
-    def setupFinderClasses(self, module):
+    def setupFinderModule(self, module):
         globalTmpl = TemplateFile('templates/Logic/Finders/GlobalFinderTemplate.py')
         inProjectTmpl = TemplateFile('templates/Logic/Finders/InProjectFinderTemplate.py')
         inProfileTmpl = TemplateFile('templates/Logic/Finders/InProfileFinderTemplate.py')
