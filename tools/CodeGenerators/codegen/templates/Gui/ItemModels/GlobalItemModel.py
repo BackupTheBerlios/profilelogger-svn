@@ -7,11 +7,11 @@ class GlobalItem(StandardItem):
         StandardItem.__init__(self, entity)
         self.showData()
 
-class GlobalItemModel(DataManagementItemModel):
+class GlobalItemModel(ManagementItemModel):
     def __init__(self, parent):
-        DataManagementItemModel.__init__(self, parent,
-                                         Global,
-                                         GlobalItem,
-                                         GlobalEditorDialog,
-                                         GlobalFinder)
+        ManagementItemModel.__init__(self, parent,
+                                     Global,
+                                     GlobalItem,
+                                     GlobalEditorDialog,
+                                     GlobalFinder)
         self.headerStrings = []
