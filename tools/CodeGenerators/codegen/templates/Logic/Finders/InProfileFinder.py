@@ -2,14 +2,14 @@
 Boilderplate comment.
 """
 
-from InProfileFinderBase import *
+from Finder import *
 
-from Model.<class_name> import *
+from Model.InProfile import *
 
-class <class_name>Finder(InProfileFinderBase):
+class InProfileFinder(Finder):
     def __init__(self, parent):
-        InProfileFinderBase.__init__(self, parent)
-    def findAll(self, profile):
+        Finder.__init__(self, parent)
+    def doFindAllInProfile(self, dataClass, orderCol, profile):
         if profile is None:
             return None
-        return self.doFindAllInProfile(<class_name>, profile)
+        return self.getSession().query(dataClass).filter(dataClass.profile == profile).all()
