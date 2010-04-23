@@ -53,6 +53,29 @@ class PythonModelBuilder:
             tmpl.loadFile()
             tmpl.replaceKeyword('<class_name>', c.dataClassName)
             self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
+    def buildItemModelClasses(self, path, classes):
+        for c in classes:
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.dataClassName)
+            headers = []
+            for hs in c.headerStrings:
+                headers.append("self.tr('%s')" % hs)
+            tmpl.replaceKeyword('<header_strings>', ', '.join(headers))
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
+    def buildManagementDialogClasses(self, path, classes):
+        for c in classes:
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.dataClassName)
+            tmpl.replaceKeyword('<header>', "'%s'" % c.header)
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
+    def buildTreeViewClasses(self, path, classes):
+        for c in classes:
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.dataClassName)
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
     def buildComboBoxClasses(self, path, classes):
         for c in classes:
             tmpl = c.template
@@ -72,8 +95,15 @@ class PythonModelBuilder:
             self.buildClasses(p, m.classes.values())
             self.buildFinderClasses(p, m.finderClasses.values())
             self.buildComboBoxClasses(p, m.comboBoxClasses.values())
+            self.buildItemModelClasses(p, m.itemModelClasses.values())
+            self.buildTreeViewClasses(p, m.treeViewClasses.values())
+            self.buildManagementDialogClasses(p, m.managementDialogClasses.values())
             self.buildModules(p, m.pythonModules.values())
-    def build(self, model, persistanceModule, comboBoxModule):
+    def build(self, model, 
+              persistanceModule, 
+              comboBoxModule,
+              itemModelModule,
+              treeViewModule):
         self.buildModules('generated', model.pythonModules.values())
         self.setupSqlAlchemy('generated/Logic/Persistance', persistanceModule)
     def setupSqlAlchemy(self, path, module):

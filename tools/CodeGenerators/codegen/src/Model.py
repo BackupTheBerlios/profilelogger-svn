@@ -10,6 +10,8 @@ class Model(Entity):
         self.pythonModules = {}
         self.pythonDataModule = None
         self.comoboBoxModule = None
+        self.itemModelModule = None
+        self.treeViewModule = None
     def createDatabase(self, name):
         self.database = Database(self, name)
         return self.database
