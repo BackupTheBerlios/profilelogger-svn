@@ -328,52 +328,50 @@ class MyModel(Model):
         inProfileTmpl = TemplateFile('templates/Gui/ManagementDialogs/InProfileManagementDialogTemplate.py')
         inBedTmpl = TemplateFile('templates/Gui/ManagementDialogs/InBedManagementDialogTemplate.py')
         inFieldBookTmpl = TemplateFile('templates/Gui/ManagementDialogs/InFieldBookManagementDialogTemplate.py')
-
-        module.createManagementDialogClass('GraphicPrimitive', globalTmpl, header='Graphic Primitives')
-        module.createManagementDialogClass('Project', globalTmpl, header='Projects')
-        module.createManagementDialogClass('LengthUnit', globalTmpl, header='Length Units')        
-        module.createManagementDialogClass('FieldBook', globalTmpl, header='Field Books')
-        module.createManagementDialogClass('Profile', inProjectTmpl, header='Profiles')
-        module.createManagementDialogClass('Bed', inProjectTmpl, header='Beds')
-        module.createManagementDialogClass('Color', inProjectTmpl, header='Colors')
-        module.createManagementDialogClass('OutcropType', inProjectTmpl, header='Outcrop Types')
-        module.createManagementDialogClass('Facies', inProjectTmpl, header='Facies')
-        module.createManagementDialogClass('Lithology', inProjectTmpl, header='Lithologies')
-        module.createManagementDialogClass('TectonicUnitType', inProjectTmpl, header='Tectonic Unit Types')
-        module.createManagementDialogClass('TectonicUnit', inProjectTmpl, header='Tectonic Units')
-        module.createManagementDialogClass('GrainSizeType', inProjectTmpl, header='Grain Size Types')
-        module.createManagementDialogClass('GrainSize', inProjectTmpl, header='Grain Sizes')
-        module.createManagementDialogClass('LithologicUnitType', inProjectTmpl, header='Lithological Unit Types')
-        module.createManagementDialogClass('LithologicUnit', inProjectTmpl, header='Lithological Units')
-        module.createManagementDialogClass('SedimentologicUnitType', inProjectTmpl, header='Sedimentologic Unit Types')
-        module.createManagementDialogClass('SedimentologicUnit', inProjectTmpl, header='Sedimentologic Units')
-        module.createManagementDialogClass('StratigraphicUnitType', inProjectTmpl, header='Stratigraphic Unit Types')
-        module.createManagementDialogClass('StratigraphicUnit', inProjectTmpl, header='Stratigraphic Units')
-        module.createManagementDialogClass('Fossil', inProjectTmpl, header='Fossils')
-        module.createManagementDialogClass('BeddingType', inProjectTmpl, header='Bedding Types')
-        module.createManagementDialogClass('BoundaryType', inProjectTmpl, header='Boundary Types')
-        module.createManagementDialogClass('SedimentStructure', inProjectTmpl, header='Sediment Structures')
-        module.createManagementDialogClass('CustomSymbol', inProjectTmpl, header='Custom Symbols')
-        module.createManagementDialogClass('BeddingType', inProjectTmpl, header='Bedding Types')
-        module.createManagementDialogClass('ProfileColumn', inProfileTmpl, header='Profile Columns')
-        module.createManagementDialogClass('ProfileColumnInProfile', inProfileTmpl, header='Profile Column In Profile')
-        module.createManagementDialogClass('ColorInBed', inBedTmpl, header='Colors')
-        module.createManagementDialogClass('OutcropTypeInBed', inBedTmpl, header='Outcrop Types')
-        module.createManagementDialogClass('FaciesInBed', inBedTmpl, header='Facies')
-        module.createManagementDialogClass('LithologyInBed', inBedTmpl, header='Lithologies')
-        module.createManagementDialogClass('TectonicUnitInBed', inBedTmpl, header='Tectonic Units')
-        module.createManagementDialogClass('GrainSizeInBed', inBedTmpl, header='Grain Sizes')
-        module.createManagementDialogClass('LithologicUnitInBed', inBedTmpl, header='Lithologic Units')
-        module.createManagementDialogClass('SedimentologicUnitInBed', inBedTmpl, header='Sedimentologic Units')
-        module.createManagementDialogClass('StratigraphicUnitInBed', inBedTmpl, header='Stratigraphic Units')
-        module.createManagementDialogClass('FossilInBed', inBedTmpl, header='Fossils')
-        module.createManagementDialogClass('BeddingTypeInBed', inBedTmpl, header='Bedding Types')
-        module.createManagementDialogClass('BoundaryTypeInBed', inBedTmpl, header='Boundary Types')
-        module.createManagementDialogClass('SedimentStructureInBed', inBedTmpl, header='Sediment Structures')
-        module.createManagementDialogClass('CustomSymbolInBed', inBedTmpl, header='Custom Symbols')
-        module.createManagementDialogClass('BeddingTypeInBed', inBedTmpl, header='Bedding Types')
-        module.createManagementDialogClass('FieldBookEntry', inFieldBookTmpl, header='Field Book Entry')
-
+        self.createManagementDialogClasses(module, [['GraphicPrimitive', globalTmpl, 'Graphic Primitives', ],
+                                                    ['Project', globalTmpl, 'Projects', ],
+                                                    ['LengthUnit', globalTmpl, 'Length Units', ],        
+                                                    ['FieldBook', globalTmpl, 'Field Books', ],
+                                                    ['Profile', inProjectTmpl, 'Profiles', ],
+                                                    ['Bed', inProjectTmpl, 'Beds', ],
+                                                    ['Color', inProjectTmpl, 'Colors', ],
+                                                    ['OutcropType', inProjectTmpl, 'Outcrop Types', ],
+                                                    ['Facies', inProjectTmpl, 'Facies', ],
+                                                    ['Lithology', inProjectTmpl, 'Lithologies', ],
+                                                    ['TectonicUnitType', inProjectTmpl, 'Tectonic Unit Types', ],
+                                                    ['TectonicUnit', inProjectTmpl, 'Tectonic Units', ],
+                                                    ['GrainSizeType', inProjectTmpl, 'Grain Size Types', ],
+                                                    ['GrainSize', inProjectTmpl, 'Grain Sizes', ],
+                                                    ['LithologicUnitType', inProjectTmpl, 'Lithological Unit Types', ],
+                                                    ['LithologicUnit', inProjectTmpl, 'Lithological Units', ],
+                                                    ['SedimentologicUnitType', inProjectTmpl, 'Sedimentologic Unit Types', ],
+                                                    ['SedimentologicUnit', inProjectTmpl, 'Sedimentologic Units', ],
+                                                    ['StratigraphicUnitType', inProjectTmpl, 'Stratigraphic Unit Types', ],
+                                                    ['StratigraphicUnit', inProjectTmpl, 'Stratigraphic Units', ],
+                                                    ['Fossil', inProjectTmpl, 'Fossils', ],
+                                                    ['BeddingType', inProjectTmpl, 'Bedding Types', ],
+                                                    ['BoundaryType', inProjectTmpl, 'Boundary Types', ],
+                                                    ['SedimentStructure', inProjectTmpl, 'Sediment Structures', ],
+                                                    ['CustomSymbol', inProjectTmpl, 'Custom Symbols', ],
+                                                    ['BeddingType', inProjectTmpl, 'Bedding Types', ],
+                                                    ['ProfileColumn', inProfileTmpl, 'Profile Columns', ],
+                                                    ['ProfileColumnInProfile', inProfileTmpl, 'Profile Column In Profile', ],
+                                                    ['ColorInBed', inBedTmpl, 'Colors', ],
+                                                    ['OutcropTypeInBed', inBedTmpl, 'Outcrop Types', ],
+                                                    ['FaciesInBed', inBedTmpl, 'Facies', ],
+                                                    ['LithologyInBed', inBedTmpl, 'Lithologies', ],
+                                                    ['TectonicUnitInBed', inBedTmpl, 'Tectonic Units', ],
+                                                    ['GrainSizeInBed', inBedTmpl, 'Grain Sizes', ],
+                                                    ['LithologicUnitInBed', inBedTmpl, 'Lithologic Units', ],
+                                                    ['SedimentologicUnitInBed', inBedTmpl, 'Sedimentologic Units', ],
+                                                    ['StratigraphicUnitInBed', inBedTmpl, 'Stratigraphic Units', ],
+                                                    ['FossilInBed', inBedTmpl, 'Fossils', ],
+                                                    ['BeddingTypeInBed', inBedTmpl, 'Bedding Types', ],
+                                                    ['BoundaryTypeInBed', inBedTmpl, 'Boundary Types', ],
+                                                    ['SedimentStructureInBed', inBedTmpl, 'Sediment Structures', ],
+                                                    ['CustomSymbolInBed', inBedTmpl, 'Custom Symbols', ],
+                                                    ['BeddingTypeInBed', inBedTmpl, 'Bedding Types', ],
+                                                    ['FieldBookEntry', inFieldBookTmpl, 'Field Book Entry', ],])
     def setupItemModelModule(self, module):
         globalTmpl = TemplateFile('templates/Gui/ItemModels/GlobalItemModelTemplate.py')
         inProjectTmpl = TemplateFile('templates/Gui/ItemModels/InProjectItemModelTemplate.py')
@@ -381,50 +379,50 @@ class MyModel(Model):
         inBedTmpl = TemplateFile('templates/Gui/ItemModels/InBedItemModelTemplate.py')
         inFieldBookTmpl = TemplateFile('templates/Gui/ItemModels/InFieldBookItemModelTemplate.py')
 
-        module.createItemModelClass('GraphicPrimitive', globalTmpl, headerStrings=['Graphic Primitives', ])
-        module.createItemModelClass('Project', globalTmpl, headerStrings=['Projects',])
-        module.createItemModelClass('LengthUnit', globalTmpl, headerStrings=['Length Units', ])        
-        module.createItemModelClass('FieldBook', globalTmpl, headerStrings=['Field Books', ])
-        module.createItemModelClass('Profile', inProjectTmpl, headerStrings=['Profiles', ])
-        module.createItemModelClass('Bed', inProjectTmpl, headerStrings=['Beds', ])
-        module.createItemModelClass('Color', inProjectTmpl, headerStrings=['Colors', ])
-        module.createItemModelClass('OutcropType', inProjectTmpl, headerStrings=['Outcrop Types', ])
-        module.createItemModelClass('Facies', inProjectTmpl, headerStrings=['Facies', ])
-        module.createItemModelClass('Lithology', inProjectTmpl, headerStrings=['Lithologies', ])
-        module.createItemModelClass('TectonicUnitType', inProjectTmpl, headerStrings=['Tectonic Unit Types', ])
-        module.createItemModelClass('TectonicUnit', inProjectTmpl, headerStrings=['Tectonic Units', ])
-        module.createItemModelClass('GrainSizeType', inProjectTmpl, headerStrings=['Grain Size Types', ])
-        module.createItemModelClass('GrainSize', inProjectTmpl, headerStrings=['Grain Sizes', ])
-        module.createItemModelClass('LithologicUnitType', inProjectTmpl, headerStrings=['Lithological Unit Types', ])
-        module.createItemModelClass('LithologicUnit', inProjectTmpl, headerStrings=['Lithological Units', ])
-        module.createItemModelClass('SedimentologicUnitType', inProjectTmpl, headerStrings=['Sedimentologic Unit Types', ])
-        module.createItemModelClass('SedimentologicUnit', inProjectTmpl, headerStrings=['Sedimentologic Units', ])
-        module.createItemModelClass('StratigraphicUnitType', inProjectTmpl, headerStrings=['Stratigraphic Unit Types', ])
-        module.createItemModelClass('StratigraphicUnit', inProjectTmpl, headerStrings=['Stratigraphic Units', ])
-        module.createItemModelClass('Fossil', inProjectTmpl, headerStrings=['Fossils', ])
-        module.createItemModelClass('BeddingType', inProjectTmpl, headerStrings=['Bedding Types', ])
-        module.createItemModelClass('BoundaryType', inProjectTmpl, headerStrings=['Boundary Types', ])
-        module.createItemModelClass('SedimentStructure', inProjectTmpl, headerStrings=['Sediment Structures', ])
-        module.createItemModelClass('CustomSymbol', inProjectTmpl, headerStrings=['Custom Symbols', ])
-        module.createItemModelClass('BeddingType', inProjectTmpl, headerStrings=['Bedding Types', ])
-        module.createItemModelClass('ProfileColumn', inProfileTmpl, headerStrings=['Profile Columns', ])
-        module.createItemModelClass('ProfileColumnInProfile', inProfileTmpl, headerStrings=['Profile Column In Profile', ])
-        module.createItemModelClass('ColorInBed', inBedTmpl, headerStrings=['Colors', ])
-        module.createItemModelClass('OutcropTypeInBed', inBedTmpl, headerStrings=['Outcrop Types', ])
-        module.createItemModelClass('FaciesInBed', inBedTmpl, headerStrings=['Facies', ])
-        module.createItemModelClass('LithologyInBed', inBedTmpl, headerStrings=['Lithologies', ])
-        module.createItemModelClass('TectonicUnitInBed', inBedTmpl, headerStrings=['Tectonic Units', ])
-        module.createItemModelClass('GrainSizeInBed', inBedTmpl, headerStrings=['Grain Sizes', ])
-        module.createItemModelClass('LithologicUnitInBed', inBedTmpl, headerStrings=['Lithologic Units', ])
-        module.createItemModelClass('SedimentologicUnitInBed', inBedTmpl, headerStrings=['Sedimentologic Units', ])
-        module.createItemModelClass('StratigraphicUnitInBed', inBedTmpl, headerStrings=['Stratigraphic Units', ])
-        module.createItemModelClass('FossilInBed', inBedTmpl, headerStrings=['Fossils', ])
-        module.createItemModelClass('BeddingTypeInBed', inBedTmpl, headerStrings=['Bedding Types', ])
-        module.createItemModelClass('BoundaryTypeInBed', inBedTmpl, headerStrings=['Boundary Types', ])
-        module.createItemModelClass('SedimentStructureInBed', inBedTmpl, headerStrings=['Sediment Structures', ])
-        module.createItemModelClass('CustomSymbolInBed', inBedTmpl, headerStrings=['Custom Symbols', ])
-        module.createItemModelClass('BeddingTypeInBed', inBedTmpl, headerStrings=['Bedding Types', ])
-        module.createItemModelClass('FieldBookEntry', inFieldBookTmpl, headerStrings=['Field Book Entry', ])
+        self.createItemModelClasses(module, [['GraphicPrimitive', globalTmpl, ['Graphic Primitives', ], ],
+                                                   ['Project', globalTmpl, ['Projects',], ],
+                                                   ['LengthUnit', globalTmpl, ['Length Units', ], ],        
+                                                   ['FieldBook', globalTmpl, ['Field Books', ], ],
+                                                   ['Profile', inProjectTmpl, ['Profiles', ], ],
+                                                   ['Bed', inProjectTmpl, ['Beds', ], ],
+                                                   ['Color', inProjectTmpl, ['Colors', ], ],
+                                                   ['OutcropType', inProjectTmpl, ['Outcrop Types', ], ],
+                                                   ['Facies', inProjectTmpl, ['Facies', ], ],
+                                                   ['Lithology', inProjectTmpl, ['Lithologies', ], ],
+                                                   ['TectonicUnitType', inProjectTmpl, ['Tectonic Unit Types', ], ],
+                                                   ['TectonicUnit', inProjectTmpl, ['Tectonic Units', ], ],
+                                                   ['GrainSizeType', inProjectTmpl, ['Grain Size Types', ], ],
+                                                   ['GrainSize', inProjectTmpl, ['Grain Sizes', ], ],
+                                                   ['LithologicUnitType', inProjectTmpl, ['Lithological Unit Types', ], ],
+                                                   ['LithologicUnit', inProjectTmpl, ['Lithological Units', ], ],
+                                                   ['SedimentologicUnitType', inProjectTmpl, ['Sedimentologic Unit Types', ], ],
+                                                   ['SedimentologicUnit', inProjectTmpl, ['Sedimentologic Units', ], ],
+                                                   ['StratigraphicUnitType', inProjectTmpl, ['Stratigraphic Unit Types', ], ],
+                                                   ['StratigraphicUnit', inProjectTmpl, ['Stratigraphic Units', ], ],
+                                                   ['Fossil', inProjectTmpl, ['Fossils', ], ],
+                                                   ['BeddingType', inProjectTmpl, ['Bedding Types', ], ],
+                                                   ['BoundaryType', inProjectTmpl, ['Boundary Types', ], ],
+                                                   ['SedimentStructure', inProjectTmpl, ['Sediment Structures', ], ],
+                                                   ['CustomSymbol', inProjectTmpl, ['Custom Symbols', ], ],
+                                                   ['BeddingType', inProjectTmpl, ['Bedding Types', ], ],
+                                                   ['ProfileColumn', inProfileTmpl, ['Profile Columns', ], ],
+                                                   ['ProfileColumnInProfile', inProfileTmpl, ['Profile Column In Profile', ], ],
+                                                   ['ColorInBed', inBedTmpl, ['Colors', ], ],
+                                                   ['OutcropTypeInBed', inBedTmpl, ['Outcrop Types', ], ],
+                                                   ['FaciesInBed', inBedTmpl, ['Facies', ], ],
+                                                   ['LithologyInBed', inBedTmpl, ['Lithologies', ], ],
+                                                   ['TectonicUnitInBed', inBedTmpl, ['Tectonic Units', ], ],
+                                                   ['GrainSizeInBed', inBedTmpl, ['Grain Sizes', ], ],
+                                                   ['LithologicUnitInBed', inBedTmpl, ['Lithologic Units', ], ],
+                                                   ['SedimentologicUnitInBed', inBedTmpl, ['Sedimentologic Units', ], ],
+                                                   ['StratigraphicUnitInBed', inBedTmpl, ['Stratigraphic Units', ], ],
+                                                   ['FossilInBed', inBedTmpl, ['Fossils', ], ],
+                                                   ['BeddingTypeInBed', inBedTmpl, ['Bedding Types', ], ],
+                                                   ['BoundaryTypeInBed', inBedTmpl, ['Boundary Types', ], ],
+                                                   ['SedimentStructureInBed', inBedTmpl, ['Sediment Structures', ], ],
+                                                   ['CustomSymbolInBed', inBedTmpl, ['Custom Symbols', ], ],
+                                                   ['BeddingTypeInBed', inBedTmpl, ['Bedding Types', ], ],
+                                                   ['FieldBookEntry', inFieldBookTmpl, ['Field Book Entry', ], ],])
 
     def setupTreeViewModule(self, module):
         globalTmpl = TemplateFile('templates/Gui/TreeViews/GlobalTreeViewTemplate.py')
@@ -432,154 +430,150 @@ class MyModel(Model):
         inProfileTmpl = TemplateFile('templates/Gui/TreeViews/InProfileManagementTreeViewTemplate.py')
         inBedTmpl = TemplateFile('templates/Gui/TreeViews/InBedManagementTreeViewTemplate.py')
         inFieldBookTmpl = TemplateFile('templates/Gui/TreeViews/InFieldBookManagementTreeViewTemplate.py')
-
-        module.createTreeViewClass('GraphicPrimitive', globalTmpl)
-        module.createTreeViewClass('Project', globalTmpl)
-        module.createTreeViewClass('LengthUnit', globalTmpl)        
-        module.createTreeViewClass('FieldBook', globalTmpl)
-        module.createTreeViewClass('Profile', inProjectTmpl)
-        module.createTreeViewClass('Bed', inProjectTmpl)
-        module.createTreeViewClass('Color', inProjectTmpl)
-        module.createTreeViewClass('OutcropType', inProjectTmpl)
-        module.createTreeViewClass('Facies', inProjectTmpl)
-        module.createTreeViewClass('Lithology', inProjectTmpl)
-        module.createTreeViewClass('TectonicUnitType', inProjectTmpl)
-        module.createTreeViewClass('TectonicUnit', inProjectTmpl)
-        module.createTreeViewClass('GrainSizeType', inProjectTmpl)
-        module.createTreeViewClass('GrainSize', inProjectTmpl)
-        module.createTreeViewClass('LithologicUnitType', inProjectTmpl)
-        module.createTreeViewClass('LithologicUnit', inProjectTmpl)
-        module.createTreeViewClass('SedimentologicUnitType', inProjectTmpl)
-        module.createTreeViewClass('SedimentologicUnit', inProjectTmpl)
-        module.createTreeViewClass('StratigraphicUnitType', inProjectTmpl)
-        module.createTreeViewClass('StratigraphicUnit', inProjectTmpl)
-        module.createTreeViewClass('Fossil', inProjectTmpl)
-        module.createTreeViewClass('BeddingType', inProjectTmpl)
-        module.createTreeViewClass('BoundaryType', inProjectTmpl)
-        module.createTreeViewClass('SedimentStructure', inProjectTmpl)
-        module.createTreeViewClass('CustomSymbol', inProjectTmpl)
-        module.createTreeViewClass('BeddingType', inProjectTmpl)
-        module.createTreeViewClass('ProfileColumn', inProfileTmpl)
-        module.createTreeViewClass('ProfileColumnInProfile', inProfileTmpl)
-        module.createTreeViewClass('ColorInBed', inBedTmpl)
-        module.createTreeViewClass('OutcropTypeInBed', inBedTmpl)
-        module.createTreeViewClass('FaciesInBed', inBedTmpl)
-        module.createTreeViewClass('LithologyInBed', inBedTmpl)
-        module.createTreeViewClass('TectonicUnitInBed', inBedTmpl)
-        module.createTreeViewClass('GrainSizeInBed', inBedTmpl)
-        module.createTreeViewClass('LithologicUnitInBed', inBedTmpl)
-        module.createTreeViewClass('SedimentologicUnitInBed', inBedTmpl)
-        module.createTreeViewClass('StratigraphicUnitInBed', inBedTmpl)
-        module.createTreeViewClass('FossilInBed', inBedTmpl)
-        module.createTreeViewClass('BeddingTypeInBed', inBedTmpl)
-        module.createTreeViewClass('BoundaryTypeInBed', inBedTmpl)
-        module.createTreeViewClass('SedimentStructureInBed', inBedTmpl)
-        module.createTreeViewClass('CustomSymbolInBed', inBedTmpl)
-        module.createTreeViewClass('BeddingTypeInBed', inBedTmpl)
-        module.createTreeViewClass('FieldBookEntry', inFieldBookTmpl)
+        self.createTreeViewClasses(module, [['GraphicPrimitive', globalTmpl, ],
+                                            ['Project', globalTmpl, ],
+                                            ['LengthUnit', globalTmpl, ],        
+                                            ['FieldBook', globalTmpl, ],
+                                            ['Profile', inProjectTmpl, ],
+                                            ['Bed', inProjectTmpl, ],
+                                            ['Color', inProjectTmpl, ],
+                                            ['OutcropType', inProjectTmpl, ],
+                                            ['Facies', inProjectTmpl, ],
+                                            ['Lithology', inProjectTmpl, ],
+                                            ['TectonicUnitType', inProjectTmpl, ],
+                                            ['TectonicUnit', inProjectTmpl, ],
+                                            ['GrainSizeType', inProjectTmpl, ],
+                                            ['GrainSize', inProjectTmpl, ],
+                                            ['LithologicUnitType', inProjectTmpl, ],
+                                            ['LithologicUnit', inProjectTmpl, ],
+                                            ['SedimentologicUnitType', inProjectTmpl, ],
+                                            ['SedimentologicUnit', inProjectTmpl, ],
+                                            ['StratigraphicUnitType', inProjectTmpl, ],
+                                            ['StratigraphicUnit', inProjectTmpl, ],
+                                            ['Fossil', inProjectTmpl, ],
+                                            ['BeddingType', inProjectTmpl, ],
+                                            ['BoundaryType', inProjectTmpl, ],
+                                            ['SedimentStructure', inProjectTmpl, ],
+                                            ['CustomSymbol', inProjectTmpl, ],
+                                            ['BeddingType', inProjectTmpl, ],
+                                            ['ProfileColumn', inProfileTmpl, ],
+                                            ['ProfileColumnInProfile', inProfileTmpl, ],
+                                            ['ColorInBed', inBedTmpl, ],
+                                            ['OutcropTypeInBed', inBedTmpl, ],
+                                            ['FaciesInBed', inBedTmpl, ],
+                                            ['LithologyInBed', inBedTmpl, ],
+                                            ['TectonicUnitInBed', inBedTmpl, ],
+                                            ['GrainSizeInBed', inBedTmpl, ],
+                                            ['LithologicUnitInBed', inBedTmpl, ],
+                                            ['SedimentologicUnitInBed', inBedTmpl, ],
+                                            ['StratigraphicUnitInBed', inBedTmpl, ],
+                                            ['FossilInBed', inBedTmpl, ],
+                                            ['BeddingTypeInBed', inBedTmpl, ],
+                                            ['BoundaryTypeInBed', inBedTmpl, ],
+                                            ['SedimentStructureInBed', inBedTmpl, ],
+                                            ['CustomSymbolInBed', inBedTmpl, ],
+                                            ['BeddingTypeInBed', inBedTmpl, ],
+                                            ['FieldBookEntry', inFieldBookTmpl, ],])
     def setupComboBoxClasses(self, module):
         globalTmpl = TemplateFile('templates/Gui/ComboBoxes/GlobalComboBoxTemplate.py')
         inProjectTmpl = TemplateFile('templates/Gui/ComboBoxes/InProjectComboBoxTemplate.py')
         inProfileTmpl = TemplateFile('templates/Gui/ComboBoxes/InProfileComboBoxTemplate.py')
         inBedTmpl = TemplateFile('templates/Gui/ComboBoxes/InBedComboBoxTemplate.py')
         inFieldBookTmpl = TemplateFile('templates/Gui/ComboBoxes/InFieldBookComboBoxTemplate.py')
-        
-        module.createComboBoxClass('GraphicPrimitive', globalTmpl)
-        module.createComboBoxClass('Project', globalTmpl)
-        module.createComboBoxClass('LengthUnit', globalTmpl)        
-        module.createComboBoxClass('FieldBook', globalTmpl)
-        module.createComboBoxClass('Profile', inProjectTmpl)
-        module.createComboBoxClass('Bed', inProjectTmpl)
-        module.createComboBoxClass('Color', inProjectTmpl)
-        module.createComboBoxClass('OutcropType', inProjectTmpl)
-        module.createComboBoxClass('Facies', inProjectTmpl)
-        module.createComboBoxClass('Lithology', inProjectTmpl)
-        module.createComboBoxClass('TectonicUnitType', inProjectTmpl)
-        module.createComboBoxClass('TectonicUnit', inProjectTmpl)
-        module.createComboBoxClass('GrainSizeType', inProjectTmpl)
-        module.createComboBoxClass('GrainSize', inProjectTmpl)
-        module.createComboBoxClass('LithologicUnitType', inProjectTmpl)
-        module.createComboBoxClass('LithologicUnit', inProjectTmpl)
-        module.createComboBoxClass('SedimentologicUnitType', inProjectTmpl)
-        module.createComboBoxClass('SedimentologicUnit', inProjectTmpl)
-        module.createComboBoxClass('StratigraphicUnitType', inProjectTmpl)
-        module.createComboBoxClass('StratigraphicUnit', inProjectTmpl)
-        module.createComboBoxClass('Fossil', inProjectTmpl)
-        module.createComboBoxClass('BeddingType', inProjectTmpl)
-        module.createComboBoxClass('BoundaryType', inProjectTmpl)
-        module.createComboBoxClass('SedimentStructure', inProjectTmpl)
-        module.createComboBoxClass('CustomSymbol', inProjectTmpl)
-        module.createComboBoxClass('BeddingType', inProjectTmpl)
-        module.createComboBoxClass('ProfileColumn', inProfileTmpl)
-        module.createComboBoxClass('ProfileColumnInProfile', inProfileTmpl)
-        module.createComboBoxClass('ColorInBed', inBedTmpl)
-        module.createComboBoxClass('OutcropTypeInBed', inBedTmpl)
-        module.createComboBoxClass('FaciesInBed', inBedTmpl)
-        module.createComboBoxClass('LithologyInBed', inBedTmpl)
-        module.createComboBoxClass('TectonicUnitInBed', inBedTmpl)
-        module.createComboBoxClass('GrainSizeInBed', inBedTmpl)
-        module.createComboBoxClass('LithologicUnitInBed', inBedTmpl)
-        module.createComboBoxClass('SedimentologicUnitInBed', inBedTmpl)
-        module.createComboBoxClass('StratigraphicUnitInBed', inBedTmpl)
-        module.createComboBoxClass('FossilInBed', inBedTmpl)
-        module.createComboBoxClass('BeddingTypeInBed', inBedTmpl)
-        module.createComboBoxClass('BoundaryTypeInBed', inBedTmpl)
-        module.createComboBoxClass('SedimentStructureInBed', inBedTmpl)
-        module.createComboBoxClass('CustomSymbolInBed', inBedTmpl)
-        module.createComboBoxClass('BeddingTypeInBed', inBedTmpl)
-        module.createComboBoxClass('FieldBookEntry', inFieldBookTmpl)
-
+        self.createComboBoxClasses(module, [['GraphicPrimitive', globalTmpl, ],
+                                            ['Project', globalTmpl, ],
+                                            ['LengthUnit', globalTmpl, ],        
+                                            ['FieldBook', globalTmpl, ],
+                                            ['Profile', inProjectTmpl, ],
+                                            ['Bed', inProfileTmpl, ],
+                                            ['Color', inProjectTmpl, ],
+                                            ['OutcropType', inProjectTmpl, ],
+                                            ['Facies', inProjectTmpl, ],
+                                            ['Lithology', inProjectTmpl, ],
+                                            ['TectonicUnitType', inProjectTmpl, ],
+                                            ['TectonicUnit', inProjectTmpl, ],
+                                            ['GrainSizeType', inProjectTmpl, ],
+                                            ['GrainSize', inProjectTmpl, ],
+                                            ['LithologicUnitType', inProjectTmpl, ],
+                                            ['LithologicUnit', inProjectTmpl, ],
+                                            ['SedimentologicUnitType', inProjectTmpl, ],
+                                            ['SedimentologicUnit', inProjectTmpl, ],
+                                            ['StratigraphicUnitType', inProjectTmpl, ],
+                                            ['StratigraphicUnit', inProjectTmpl, ],
+                                            ['Fossil', inProjectTmpl, ],
+                                            ['BeddingType', inProjectTmpl, ],
+                                            ['BoundaryType', inProjectTmpl, ],
+                                            ['SedimentStructure', inProjectTmpl, ],
+                                            ['CustomSymbol', inProjectTmpl, ],
+                                            ['BeddingType', inProjectTmpl, ],
+                                            ['ProfileColumn', inProfileTmpl, ],
+                                            ['ProfileColumnInProfile', inProfileTmpl, ],
+                                            ['ColorInBed', inBedTmpl, ],
+                                            ['OutcropTypeInBed', inBedTmpl, ],
+                                            ['FaciesInBed', inBedTmpl, ],
+                                            ['LithologyInBed', inBedTmpl, ],
+                                            ['TectonicUnitInBed', inBedTmpl, ],
+                                            ['GrainSizeInBed', inBedTmpl, ],
+                                            ['LithologicUnitInBed', inBedTmpl, ],
+                                            ['SedimentologicUnitInBed', inBedTmpl, ],
+                                            ['StratigraphicUnitInBed', inBedTmpl, ],
+                                            ['FossilInBed', inBedTmpl, ],
+                                            ['BeddingTypeInBed', inBedTmpl, ],
+                                            ['BoundaryTypeInBed', inBedTmpl, ],
+                                            ['SedimentStructureInBed', inBedTmpl, ],
+                                            ['CustomSymbolInBed', inBedTmpl, ],
+                                            ['BeddingTypeInBed', inBedTmpl, ],
+                                            ['FieldBookEntry', inFieldBookTmpl, ],])
     def setupFinderClasses(self, module):
         globalTmpl = TemplateFile('templates/Logic/Finders/GlobalFinderTemplate.py')
         inProjectTmpl = TemplateFile('templates/Logic/Finders/InProjectFinderTemplate.py')
         inProfileTmpl = TemplateFile('templates/Logic/Finders/InProfileFinderTemplate.py')
         inBedTmpl = TemplateFile('templates/Logic/Finders/InBedFinderTemplate.py')
         inFieldBookTmpl = TemplateFile('templates/Logic/Finders/InFieldBookFinderTemplate.py')
-
-        module.createFinderClass('GraphicPrimitive', globalTmpl)
-        module.createFinderClass('Project', globalTmpl)
-        module.createFinderClass('LengthUnit', globalTmpl)        
-        module.createFinderClass('Profile', inProjectTmpl)
-        module.createFinderClass('ProfileColumn', inProfileTmpl)
-        module.createFinderClass('ProfileColumnInProfile', inProfileTmpl)
-        module.createFinderClass('Bed', inProjectTmpl)
-        module.createFinderClass('Color', inProjectTmpl)
-        module.createFinderClass('ColorInBed', inBedTmpl)
-        module.createFinderClass('OutcropType', inProjectTmpl)
-        module.createFinderClass('OutcropTypeInBed', inBedTmpl)
-        module.createFinderClass('Facies', inProjectTmpl)
-        module.createFinderClass('FaciesInBed', inBedTmpl)
-        module.createFinderClass('Lithology', inProjectTmpl)
-        module.createFinderClass('LithologyInBed', inBedTmpl)
-        module.createFinderClass('TectonicUnitType', inProjectTmpl)
-        module.createFinderClass('TectonicUnit', inProjectTmpl)
-        module.createFinderClass('TectonicUnitInBed', inBedTmpl)
-        module.createFinderClass('GrainSizeType', inProjectTmpl)
-        module.createFinderClass('GrainSize', inProjectTmpl)
-        module.createFinderClass('GrainSizeInBed', inBedTmpl)
-        module.createFinderClass('LithologicUnitType', inProjectTmpl)
-        module.createFinderClass('LithologicUnit', inProjectTmpl)
-        module.createFinderClass('LithologicUnitInBed', inBedTmpl)
-        module.createFinderClass('SedimentologicUnitType', inProjectTmpl)
-        module.createFinderClass('SedimentologicUnit', inProjectTmpl)
-        module.createFinderClass('SedimentologicUnitInBed', inBedTmpl)
-        module.createFinderClass('StratigraphicUnitType', inProjectTmpl)
-        module.createFinderClass('StratigraphicUnit', inProjectTmpl)
-        module.createFinderClass('StratigraphicUnitInBed', inBedTmpl)
-        module.createFinderClass('Fossil', inProjectTmpl)
-        module.createFinderClass('FossilInBed', inBedTmpl)
-        module.createFinderClass('BeddingType', inProjectTmpl)
-        module.createFinderClass('BeddingTypeInBed', inBedTmpl)
-        module.createFinderClass('BoundaryType', inProjectTmpl)
-        module.createFinderClass('BoundaryTypeInBed', inBedTmpl)
-        module.createFinderClass('SedimentStructure', inProjectTmpl)
-        module.createFinderClass('SedimentStructureInBed', inBedTmpl)
-        module.createFinderClass('CustomSymbol', inProjectTmpl)
-        module.createFinderClass('CustomSymbolInBed', inBedTmpl)
-        module.createFinderClass('BeddingType', inProjectTmpl)
-        module.createFinderClass('BeddingTypeInBed', inBedTmpl)
-        module.createFinderClass('FieldBook', globalTmpl)
-        module.createFinderClass('FieldBookEntry', inFieldBookTmpl)
+        self.createFinderClasses(module, [['GraphicPrimitive', globalTmpl, ],
+                                          ['Project', globalTmpl, ],
+                                          ['LengthUnit', globalTmpl, ],
+                                          ['Profile', inProjectTmpl, ],
+                                          ['ProfileColumn', inProfileTmpl, ],
+                                          ['ProfileColumnInProfile', inProfileTmpl, ],
+                                          ['Bed', inProfileTmpl, ],
+                                          ['Color', inProjectTmpl, ],
+                                          ['ColorInBed', inBedTmpl, ],
+                                          ['OutcropType', inProjectTmpl, ],
+                                          ['OutcropTypeInBed', inBedTmpl, ],
+                                          ['Facies', inProjectTmpl, ],
+                                          ['FaciesInBed', inBedTmpl, ],
+                                          ['Lithology', inProjectTmpl, ],
+                                          ['LithologyInBed', inBedTmpl, ],
+                                          ['TectonicUnitType', inProjectTmpl, ],
+                                          ['TectonicUnit', inProjectTmpl, ],
+                                          ['TectonicUnitInBed', inBedTmpl, ],
+                                          ['GrainSizeType', inProjectTmpl, ],
+                                          ['GrainSize', inProjectTmpl, ],
+                                          ['GrainSizeInBed', inBedTmpl, ],
+                                          ['LithologicUnitType', inProjectTmpl, ],
+                                          ['LithologicUnit', inProjectTmpl, ],
+                                          ['LithologicUnitInBed', inBedTmpl, ],
+                                          ['SedimentologicUnitType', inProjectTmpl, ],
+                                          ['SedimentologicUnit', inProjectTmpl, ],
+                                          ['SedimentologicUnitInBed', inBedTmpl, ],
+                                          ['StratigraphicUnitType', inProjectTmpl, ],
+                                          ['StratigraphicUnit', inProjectTmpl, ],
+                                          ['StratigraphicUnitInBed', inBedTmpl, ],
+                                          ['Fossil', inProjectTmpl, ],
+                                          ['FossilInBed', inBedTmpl, ],
+                                          ['BeddingType', inProjectTmpl, ],
+                                          ['BeddingTypeInBed', inBedTmpl, ],
+                                          ['BoundaryType', inProjectTmpl, ],
+                                          ['BoundaryTypeInBed', inBedTmpl, ],
+                                          ['SedimentStructure', inProjectTmpl, ],
+                                          ['SedimentStructureInBed', inBedTmpl, ],
+                                          ['CustomSymbol', inProjectTmpl, ],
+                                          ['CustomSymbolInBed', inBedTmpl, ],
+                                          ['BeddingType', inProjectTmpl, ],
+                                          ['BeddingTypeInBed', inBedTmpl, ],
+                                          ['FieldBook', globalTmpl, ],
+                                          ['FieldBookEntry', inFieldBookTmpl, ],])
     def setupDataClasses(self, module):
         template = TemplateFile('templates/Logic/Persistance/Entity.py')
         classEntity = module.createClass('Entity', None, None, template=template)

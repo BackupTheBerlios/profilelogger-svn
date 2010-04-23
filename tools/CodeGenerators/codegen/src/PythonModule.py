@@ -82,5 +82,4 @@ class PythonModule(PythonEntity):
     def fullName(self):
         if self.hasParent():
             return '%s.%s' % (self.parent.fullName(), self.name)
-        return self.name
-   
+        return self.name   

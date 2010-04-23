@@ -25,3 +25,18 @@ class Model(Entity):
         return self.pythonModule(name)
     def pythonModule(self, name):
         return self.pythonModules[name]
+    def createComboBoxClasses(self, module, classNameTemplatePairs):
+        for i in classNameTemplatePairs:
+            module.createComboBoxClass(i[0], i[1])
+    def createFinderClasses(self, module, classNameTemplatePairs):
+        for i in classNameTemplatePairs:
+            module.createFinderClass(i[0], i[1])
+    def createTreeViewClasses(self, module, classNameTemplatePairs):
+        for i in classNameTemplatePairs:
+            module.createTreeViewClass(i[0], i[1])
+    def createItemModelClasses(self, module, classNameTemplateHeadersList):
+        for i in classNameTemplateHeadersList:
+            module.createItemModelClass(i[0], i[1], headerStrings=i[2])
+    def createManagementDialogClasses(self, module, classNameTemplateHeaderList):
+        for i in classNameTemplateHeaderList:
+            module.createManagementDialogClass(i[0], i[1], header=i[2])
