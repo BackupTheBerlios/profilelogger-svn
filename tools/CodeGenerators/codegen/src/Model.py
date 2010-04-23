@@ -9,6 +9,7 @@ class Model(Entity):
         self.dataTypes = {}
         self.pythonModules = {}
         self.pythonDataClasses = None
+        self.comoboBoxModule = None
     def createDatabase(self, name):
         self.database = Database(self, name)
         return self.database

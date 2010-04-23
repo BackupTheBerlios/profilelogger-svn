@@ -27,7 +27,9 @@ def run():
     d.debug(m)
 
     pyModelBuilder = PythonModelBuilder()
-    pyModelBuilder.build(m, m.pythonDataClasses)
+    pyModelBuilder.build(m, 
+                         persistanceModule=m.pythonDataClasses,
+                         comboBoxModule=m.comboBoxModule)
 
 if '__main__' == __name__:
     run()

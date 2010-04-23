@@ -53,6 +53,12 @@ class PythonModelBuilder:
             tmpl.loadFile()
             tmpl.replaceKeyword('<class_name>', c.dataClassName)
             self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
+    def buildComboBoxClasses(self, path, classes):
+        for c in classes:
+            tmpl = c.template
+            tmpl.loadFile()
+            tmpl.replaceKeyword('<class_name>', c.dataClassName)
+            self.writeToFile('%s/%s.py' % (path, c.name), tmpl.data)
     def makePathToModule(self, path):
         f = open('%s/__init__.py' % path, 'w')
         f.write('# nothing')
@@ -65,8 +71,9 @@ class PythonModelBuilder:
                 self.makePathToModule(p)
             self.buildClasses(p, m.classes.values())
             self.buildFinderClasses(p, m.finderClasses.values())
+            self.buildComboBoxClasses(p, m.comboBoxClasses.values())
             self.buildModules(p, m.pythonModules.values())
-    def build(self, model, persistanceModule):
+    def build(self, model, persistanceModule, comboBoxModule):
         self.buildModules('generated', model.pythonModules.values())
         self.setupSqlAlchemy('generated/Logic/Persistance', persistanceModule)
     def setupSqlAlchemy(self, path, module):

@@ -1,6 +1,7 @@
 from PythonEntity import *
 from PythonClass import *
 from PythonFinderClass import *
+from PythonComboBoxClass import *
 
 class PythonModule(PythonEntity):
     def __init__(self, parentModule, name):
@@ -8,6 +9,7 @@ class PythonModule(PythonEntity):
         self.pythonModules = {}
         self.classes = {}
         self.finderClasses = {}
+        self.comboBoxClasses = {}
     def createClass(self, name, parentClass, table, 
                     createIdField=False, 
                     createNameField=False, 
@@ -23,9 +25,16 @@ class PythonModule(PythonEntity):
         n = name
         if n is None:
             n = '%sFinder' % dataClassName
-        self.finderClasses[n] = PythonFinderClass(self, n,
-                                                  dataClassName, template)
+        self.finderClasses[n] = PythonFinderClass(self, n, dataClassName, template)
         return self.finderClassByName(n)
+    def createComboBoxClass(self, dataClassName, template, name=None):
+        n = name
+        if n is None:
+            n = '%sComboBox' % dataClassName
+        self.comboBoxClasses[n] = PythonComboBoxClass(self, n, dataClassName, template)
+        return self.comboBoxClassByName(n)
+    def comboBoxClassByName(self, name):
+        return self.comboBoxClasses[name]
     def finderClassByName(self, name):
         return self.finderClasses[name]
     def classByName(self, name):
