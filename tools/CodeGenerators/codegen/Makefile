@@ -48,8 +48,13 @@ clean:
 	rm -rf src/*.pyc
 test: clean run copy-templates initdb
 	python generated/runTest.py
+refresh-project: clean run copy-templates
+	rm -rf app/src/generated
+	cp -Rv generated app/src
 initdb: drop-schema create-schema
 drop-schema:
 	/usr/local/postgres/bin/psql -h 192.168.196.137 -d codegen -U jolo -c "DROP SCHEMA DATA CASCADE"
 create-schema:
 	/usr/local/postgres/bin/psql -h 192.168.196.137 -d codegen -U jolo -c "CREATE SCHEMA DATA"
+run-test-app:
+	python app/src/app.py
